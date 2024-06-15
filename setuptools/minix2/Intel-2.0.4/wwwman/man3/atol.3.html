@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>atof(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>atof(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     atof, atoi, atol - convert ASCII to numbers
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdlib.h&gt;</B>
+
+     <B>double</B> <B>atof(const</B> <B>char</B> <B>*</B><I>nptr</I><B>)</B>
+     <B>int</B> <B>atoi(const</B> <B>char</B> <B>*</B><I>nptr</I><B>)</B>
+     <B>long</B> <B>atol(const</B> <B>char</B> <B>*</B><I>nptr</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     These functions convert a string pointed to by <I>nptr</I> to floating, integer,
+     and  long  integer  representation  respectively.  The first unrecognized
+     character ends the string.
+
+     <B>Atof</B> recognizes an optional string of spaces, then an optional sign, then
+     a  string  of  digits  optionally  containing  a  decimal  point, then an
+     optional `e' or `E' followed by an optionally signed integer.
+
+     <B>Atoi</B> and <B>atol</B> recognize an optional string of spaces,  then  an  optional
+     sign, then a string of digits.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/strtol.3.html">strtol(3)</A></B>, <B><A HREF="../man3/strtod.3.html">strtod(3)</A></B>, <B><A HREF="../man3/scanf.3.html">scanf(3)</A></B>.
+
+<B>BUGS</B>
+     There are no provisions for overflow.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

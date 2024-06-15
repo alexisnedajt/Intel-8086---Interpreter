@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>chown(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>chown(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     chown - change owner
+
+<B>SYNOPSIS</B>
+     <B>chown</B> <B>[-R</B>] <I>owner</I>[:<I>group</I>] <I>file</I> ...
+
+<B>OPTIONS</B>
+
+     <B>-R</B>   Change directory hierarchies
+
+<B>EXAMPLES</B>
+
+     <B>chown</B> <B>ast</B> <B>file1</B> <B>file2</B>
+                         # Make <I>ast</I> the owner of the files
+
+     <B>chown</B> <B>-R</B> <B>ast:other</B> <B>dir</B>
+                         # Change the owner and group of all files in dir
+
+<B>DESCRIPTION</B>
+
+     The owner field (and optionally  group  field)  of  the  named  files  is
+     changed  to <I>owner</I> (i.e., login name specified) and <I>group</I> . Alternatively,
+     a decimal uid(gid) may be specified instead of a  user  name.   Only  the
+     superuser may execute this command.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/chgrp.1.html">chgrp(1)</A></B>, <B><A HREF="../man1/chmod.1.html">chmod(1)</A></B>, <B><A HREF="../man1/ls.1.html">ls(1)</A></B>, <B><A HREF="../man2/chown.2.html">chown(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

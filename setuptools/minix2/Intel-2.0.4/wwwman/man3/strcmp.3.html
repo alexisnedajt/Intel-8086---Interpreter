@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>string(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>string(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     string,  strcat,  strncat,  strcmp,  strncmp,  strcpy,  strncpy,  strlen,
+     strchr,  strrchr,  strerror,  memcmp,  memcpy,  memmove,  memchr, memset,
+     index, rindex - string operations
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;string.h&gt;</B>
+
+     <B>char</B> <B>*strcat(char</B> <B>*</B><I>s1</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>s2</I><B>)</B>
+     <B>char</B> <B>*strncat(char</B> <B>*</B><I>s1</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>s2</I><B>,</B> <B>size_t</B> <I>n</I><B>)</B>
+     <B>int</B> <B>strcmp(const</B> <B>char</B> <B>*</B><I>s1</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>s2</I><B>)</B>
+     <B>int</B> <B>strncmp(const</B> <B>char</B> <B>*</B><I>s1</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>s2</I><B>,</B> <B>size_t</B> <I>n</I><B>)</B>
+     <B>char</B> <B>*strcpy(char</B> <B>*</B><I>s1</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>s2</I><B>)</B>
+     <B>char</B> <B>*strncpy(char</B> <B>*</B><I>s1</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>s2</I><B>,</B> <B>size_t</B> <I>n</I><B>)</B>
+     <B>size_t</B> <B>strlen(const</B> <B>char</B> <B>*</B><I>s</I><B>)</B>
+     <B>char</B> <B>*strchr(const</B> <B>char</B> <B>*</B><I>s</I><B>,</B> <B>int</B> <I>c</I><B>)</B>
+     <B>char</B> <B>*strrchr(const</B> <B>char</B> <B>*</B><I>s</I><B>,</B> <B>int</B> <I>c</I><B>)</B>
+     <B>char</B> <B>*strerror(int</B> <I>errnum</I><B>)</B>
+     <B>int</B> <B>memcmp(const</B> <B>void</B> <B>*</B><I>s1</I><B>,</B> <B>const</B> <B>void</B> <B>*</B><I>s2</I><B>,</B> <B>size_t</B> <I>n</I><B>)</B>
+     <B>void</B> <B>*memcpy(void</B> <B>*</B><I>s1</I><B>,</B> <B>const</B> <B>void</B> <B>*</B><I>s2</I><B>,</B> <B>size_t</B> <I>n</I><B>)</B>
+     <B>void</B> <B>*memmove(void</B> <B>*</B><I>s1</I><B>,</B> <B>const</B> <B>void</B> <B>*</B><I>s2</I><B>,</B> <B>size_t</B> <I>n</I><B>)</B>
+     <B>void</B> <B>*memchr(const</B> <B>void</B> <B>*</B><I>s</I><B>,</B> <B>int</B> <I>c</I><B>,</B> <B>size_t</B> <I>n</I><B>)</B>
+     <B>void</B> <B>*memset(void</B> <B>*</B><I>s</I><B>,</B> <B>int</B> <I>c</I><B>,</B> <B>size_t</B> <I>n</I><B>)</B>
+     <B>char</B> <B>*index(const</B> <B>char</B> <B>*</B><I>s</I><B>,</B> <B>int</B> <I>c</I><B>)</B>
+     <B>char</B> <B>*rindex(const</B> <B>char</B> <B>*</B><I>s</I><B>,</B> <B>int</B> <I>c</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     These functions operate on null-terminated strings.  They  do  not  check
+     for overflow of any receiving string.
+
+     <B>Strcat</B> appends a copy of string <I>s2</I> to the  end  of  string  <I>s1</I>.   <B>Strncat</B>
+     copies  at  most  <I>n</I>  characters.   Both  return  a  pointer  to the null-
+     terminated result.
+
+     <B>Strcmp</B> compares its arguments and returns an integer greater than,  equal
+     to,  or  less  than 0, according as <I>s1</I> is lexicographically greater than,
+     equal to, or less than <I>s2</I>.  <B>Strncmp</B> makes the same comparison  but  looks
+     at at most <I>n</I> characters.
+
+     <B>Strcpy</B> copies string <I>s2</I> to <I>s1</I>, stopping after the null character has been
+     moved.   <B>Strncpy</B>  copies exactly <I>n</I> characters, truncating or null-padding
+     <I>s2</I>; the target may not be null-terminated if the length of  <I>s2</I>  is  <I>n</I>  or
+     more.  Both return <I>s1</I>.
+
+     <B>Strlen</B> returns the number of non-null characters in <I>s</I>.
+
+     <B>Strchr</B> (<B>strrchr</B>) returns a pointer to  the  first  (last)  occurrence  of
+     character <I>c</I> in string <I>s</I>, or null if <I>c</I> does not occur in the string.
+
+
+     <B>Strerror</B> returns the error string for the system call error <I>errnum</I>.   See
+     <B><A HREF="../man2/intro.2.html">intro(2)</A></B>.
+
+     <B>Memcmp</B> is like <B>strcmp</B> except that the strings are memory blocks of length
+     <I>n</I>.  Null characters are treated as ordinary characters.
+
+     <B>Memcpy</B> copies <I>n</I> bytes from the location pointed to by <I>s2</I> to <I>s1</I>.   <B>Memmove</B>
+     is  like  memcpy,  except  that  it  can  handle  overlap between the two
+     strings.  Both functions return <I>s1</I>.
+
+     <B>Memchr</B> returns a pointer to the first occurrence of character <I>c</I> in string
+     <I>s</I>, or null if <I>c</I> does not occur in the string.
+
+     <B>Memset</B> sets <I>n</I> bytes to <I>c</I> starting at location <I>s</I>.  It returns <I>s</I>.
+
+     <B>Index</B> and <B>rindex</B> are obsolete versions of <B>strchr</B> and <B>strrchr</B>.   New  code
+     should avoid using them.
+
+<B>NOTES</B>
+     Characters are compared as <B>unsigned</B> <B>char</B>, whether <B>char</B> itself  is  signed
+     or not.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

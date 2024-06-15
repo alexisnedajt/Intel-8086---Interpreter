@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>adduser(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>adduser(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     adduser - add a new user to the system
+
+<B>SYNOPSIS</B>
+     <B>adduser</B> <I>user</I> <I>group</I> <I>home</I>-<I>dir</I>
+
+<B>EXAMPLES</B>
+
+     <B>adduser</B> <B>ast</B> <B>other</B> <B>/usr/ast</B>
+                         # How user ast could be added
+
+     <B>adduser</B> <B>bin</B> <B>operator</B> <B>/usr/src</B>
+                         # How user bin could be added
+
+<B>DESCRIPTION</B>
+
+     <I>Adduser</I> adds  a  new  user  to  the  system  by  making  new  entries  in
+     <B>/etc/passwd</B>  and  <B>/etc/shadow</B>  for  the  new  user,  creating  a new home
+     directory, and copying  the  contents  of  the  template  home  directory
+     <B>/usr/ast</B>  into  it.   The user-id of this new user will be the first free
+     number not less than 10.  The password is initially empty, the full  name
+     must  be  set,  and the shell is the Bourne Shell, <B>/bin/sh</B> <B>.</B> Use <I>passwd</I> ,
+     <I>chfn</I> , and <I>chsh</I> to change.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/login.1.html">login(1)</A></B>, <B><A HREF="../man1/passwd.1.html">passwd(1)</A></B>, <B><A HREF="../man5/passwd.5.html">passwd(5)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

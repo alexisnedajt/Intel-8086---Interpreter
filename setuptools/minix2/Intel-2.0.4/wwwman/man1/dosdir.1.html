@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>dosdir(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>dosdir(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     dosdir - list an MS-DOS directory [IBM]
+
+<B>SYNOPSIS</B>
+     <B>dosdir</B> [<B>-lr</B>] <I>drive</I>
+
+<B>OPTIONS</B>
+
+     <B>-l</B>   Long listing
+
+     <B>-r</B>   Recursively descend and print subdirectories
+
+<B>EXAMPLES</B>
+
+     <B>dosdir</B> <B>-l</B> <B>A</B>         # List root directory on drive A
+
+     <B>dosdir</B> <B>-r</B> <B>C</B> <B>x/y</B>     # Recursively list directory <I>x</I>/<I>y</I>
+
+     <B>dosdir</B> <B>-r</B> <B>fd1</B>       # List device /<I>dev</I>/<I>fd1</I>
+
+<B>DESCRIPTION</B>
+
+     <I>Dosdir</I> reads standard IBM PC diskettes or hard disk partitions in  MS-DOS
+     format  and  lists  their  contents  on standard output.  Directory names
+     should contain slashes to separate components, even  though  MS-DOS  uses
+     backslashes.   The names <I>dosdir</I> , <I>dosread</I> , and <I>doswrite</I> are all links to
+     the same program.  The program sees which function to perform  by  seeing
+     how  it  was  called.   A  drive  code  of  <I>A</I>  causes  the program to use
+     /<I>dev</I>/<I>dosA</I>, for example, a link to /<I>dev</I>/<I>fd0</I>.  Similarly, to have hard disk
+     partition 1 be DOS drive C, /<I>dev</I>/<I>dosC</I> could be a link to /<I>dev</I>/<I>hd1</I>, and so
+     on for other drive codes.  A normal device name may also be used  instead
+     of a drive code.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

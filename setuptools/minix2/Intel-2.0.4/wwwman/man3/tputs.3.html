@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>termcap(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>termcap(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     termcap, tgetent, tgetnum, tgetflag, tgetstr,  tgoto,  tputs  -  terminal
+     independent operation routines
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;termcap.h&gt;</B>
+
+     <B>int</B> <B>tgetent(char</B> <B>*</B><I>bp</I><B>,</B> <B>char</B> <B>*</B><I>name</I><B>)</B>
+     <B>int</B> <B>tgetflag(char</B> <B>*</B><I>id</I><B>)</B>
+     <B>int</B> <B>tgetnum(char</B> <B>*</B><I>id</I><B>)</B>
+     <B>char</B> <B>*tgetstr(char</B> <B>*</B><I>id</I><B>,</B> <B>char</B> <B>**</B><I>area</I><B>)</B>
+     <B>char</B> <B>*tgoto(char</B> <B>*</B><I>cm</I><B>,</B> <B>int</B> <I>destcol</I><B>,</B> <B>int</B> <I>destline</I><B>)</B>
+     <B>int</B> <B>tputs(char</B> <B>*</B><I>cp</I><B>,</B> <B>int</B> <I>affcnt</I><B>,</B> <B>void</B> <B>(*</B><I>outc</I><B>)(int))</B>
+
+<B>DESCRIPTION</B>
+     These functions extract and use capabilities from the terminal capability
+     data  base <B><A HREF="../man5/termcap.5.html">termcap(5)</A></B>.  These are low level routines; see <B><A HREF="../man3/curses.3.html">curses(3)</A></B> for a
+     higher level package.
+
+     <B>Tgetent</B> extracts the entry for terminal <I>name</I> into the buffer at  <I>bp</I>.   <I>Bp</I>
+     should  be  a  character buffer of size 1024 and must be retained through
+     all subsequent calls to <B>tgetnum</B>, <B>tgetflag</B>, and <B>tgetstr</B>.  <B>Tgetent</B>  returns
+     -1  if  it  cannot find a termcap file, 0 if the terminal name given does
+     not have an entry, and 1 if all goes well.
+
+     <B>Tgetent</B> uses the following recipe to find  the  termcap  file  and  entry
+     <I>name</I>:
+
+          if $TERMCAP is itself a termcap entry for <I>name</I>
+          then
+               use $TERMCAP
+          elif $TERMCAP names a file
+          then
+               use entry <I>name</I> found in that file
+          elif this is Minix-vmd
+          then
+               if $TERMPATH is defined
+               then
+                    search the termcap files named in $TERMPATH for the  first
+                    occurance of a <I>name</I> entry and use that entry
+               else
+                    the path <B>$HOME/.termcap:/etc/termcap:/usr/etc/termcap"</B>  is
+                    searched for entry <I>name</I>
+               fi
+          fi
+
+     <B>Tgetnum</B> gets the numeric value of capability <I>id</I>, returning -1 if  is  not
+     given  for  the terminal.  <B>Tgetflag</B> returns 1 if the specified capability
+     is present in the terminal's entry, 0 if it is not.  <B>Tgetstr</B> returns  the
+     string  value  of the capability <I>id</I>, places it in the buffer at <I>area</I>, and
+     advances the <I>area</I> pointer.  It decodes the abbreviations for  this  field
+     described  in  <B><A HREF="../man5/termcap.5.html">termcap(5)</A></B>,  except  for  cursor  addressing  and  padding
+     information.  <B>Tgetstr</B> returns NULL if the capability was not found.
+
+     <B>Tgoto</B> returns a cursor addressing string decoded from <I>cm</I> to go to  column
+     <I>destcol</I> in line <I>destline</I>.  It uses the external variables <B>UP</B> (from the <B>up</B>
+     capability) and <B>BC</B> (if <B>bc</B> is given rather than <B>bs</B>) if necessary to  avoid
+     placing  <B>\n</B>, <B>^D</B> or <B>^@</B> in the returned string.  (Programs which call tgoto
+     should be sure to turn off the XTABS bit(s), since <B>tgoto</B> may now output a
+     tab.   Note  that programs using termcap should in general turn off XTABS
+     anyway since some terminals use  CTRL-I  for  other  functions,  such  as
+     nondestructive space.)  If a <B>%</B> sequence is given which is not understood,
+     then <B>tgoto</B> returns "OOPS".
+
+     <B>Tputs</B> decodes the leading padding information of the  string  <I>cp</I>;  <I>affcnt</I>
+     gives  the number of lines affected by the operation, or 1 if this is not
+     applicable, <I>outc</I> is a routine which is  called  with  each  character  in
+     turn.   The  external  variable <B>ospeed</B> should contain the output speed of
+     the terminal as encoded by <B><A HREF="../man3/stty.3.html">stty(3)</A></B>.   The  external  variable  <B>PC</B>  should
+     contain  a  pad  character  to be used (from the <B>pc</B> capability) if a null
+     (<B>^@</B>) is inappropriate.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/curses.3.html">curses(3)</A></B>, <B><A HREF="../man5/termcap.5.html">termcap(5)</A></B>.
+
+<B>AUTHOR</B>
+     William Joy
+
+<B>NOTES</B>
+     The Minix implementation does not support any of the external  variables,
+     only  the  functions  calls.   The Minix-vmd termcap does support it all,
+     although noone in his right mind meddles with those variables.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

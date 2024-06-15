@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>su(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>su(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     su - temporary become superuser or another user
+
+<B>SYNOPSIS</B>
+     <B>su</B> [<B>-</B>[<B>e</B>]] [<I>user</I> [<I>shell</I>-<I>arguments</I> ...]]
+
+<B>DESCRIPTION</B>
+     <B>Su</B> can be used to temporarily run a  shell  under  the  identity  of  the
+     superuser or another user.  Unless the caller is a member of the operator
+     group, one is prompted for the password of the  user-to-be.   Calls  that
+     need  a  password  are  logged, whether they succeed or not.  The default
+     user is <B>root</B>.  Further arguments are handed to the shell.  By default the
+     shell  started is the shell of the invoker, and the environment is passed
+     on as is.
+
+     The activities of <B>su</B> are logged through <B><A HREF="../man3/syslog.3.html">syslog(3)</A></B> under Minix-vmd.
+
+<B>OPTIONS</B>
+
+     <B>-</B>    Constructs a new environment consisting of the <B>PATH</B>, <B>USER</B>,  <B>LOGNAME</B>,
+          <B>HOME</B>,  <B>SHELL</B>,  <B>TERM</B>,  <B>TERMCAP</B>, and <B>TZ</B> variables.  The environment is
+          the same as on a normal login, except that <B>TERM</B>, <B>TERMCAP</B> and <B>TZ</B>  are
+          copied  from  the  current  environment if set.  The current working
+          directory is changed to the user home directory, the  shell  of  the
+          user-to-be  is  run,  and  it  is started as a login shell, with the
+          first character a minus sign.
+
+     <B>-e</B>   Like above, but the shell is started normally, not as a login shell.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/sh.1.html">sh(1)</A></B>, <B><A HREF="../man1/login.1.html">login(1)</A></B>, <B><A HREF="../man3/syslog.3.html">syslog(3)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot &lt;kjb@cs.vu.nl&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

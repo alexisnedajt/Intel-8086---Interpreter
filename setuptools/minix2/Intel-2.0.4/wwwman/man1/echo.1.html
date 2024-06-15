@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>echo(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>echo(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     echo - produce message in a shell script
+
+<B>SYNOPSIS</B>
+     <B>echo</B> [ <B>-n</B> | <B>-e</B> ] <I>args</I>...
+
+<B>DESCRIPTION</B>
+     <I>Echo</I> prints its arguments on the standard output,  separated  by  spaces.
+     Unless  the  <B>-n</B>  option  is  present,  a  newline is output following the
+     arguments.  The <B>-e</B> option causes  <I>echo</I>  to  treat  the  escape  sequences
+     specially,  as  described  in  the  following paragraph.  Only one of the
+     options <B>-n</B> and <B>-e</B> may be given.
+
+     If any of the following sequences of  characters  is  encountered  during
+     output,  the  sequence  is  not output.  Instead, the specified action is
+     performed:
+
+     <B>\b</B>   A backspace character is output.
+
+     <B>\c</B>   Subsequent output is suppressed.  This is normally used at  the  end
+          of  the  last  argument  to  suppress the trailing newline that <I>echo</I>
+          would otherwise output.
+
+     <B>\f</B>   Output a form feed.
+
+     <B>\n</B>   Output a newline character.
+
+     <B>\r</B>   Output a carriage return.
+
+     <B>\t</B>   Output a (horizontal) tab character.
+
+     <B>\v</B>   Output a vertical tab.
+
+     <B>\0</B><I>digits</I>
+          Output the character whose value is given by zero to  three  digits.
+          If there are zero digits, a nul character is output.
+
+     <B>\\</B>   Output a backslash.
+
+<B>HINTS</B>
+     Remember that backslash is special to the shell and needs to be  escaped.
+     To output a message to standard error, say
+
+                 echo message &gt;&amp;2
+
+<B>BUGS</B>
+     The octal character  escape  mechanism  (\0<I>digits</I>)  differs  from  the  C
+     language mechanism.
+
+
+<B>AUTHOR</B>
+     Kenneth Almquist.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

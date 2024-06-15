@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>qsort(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>qsort(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     qsort - quicker sort
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;stdlib.h&gt;</B>
+
+     <B>void</B> <B>qsort(void</B> <B>*</B><I>base</I><B>,</B> <B>size_t</B> <I>nel</I><B>,</B> <B>size_t</B> <I>width</I><B>,</B> <B>int</B> <B>(*</B><I>compar</I><B>)(const</B> <B>void</B>
+           <B>*,</B> <B>const</B> <B>void</B> <B>*))</B>
+
+<B>DESCRIPTION</B>
+     <B>Qsort</B> is an implementation of  the  quicker-sort  algorithm.   The  first
+     argument  is  a pointer to the base of the data; the second is the number
+     of elements; the third is the width of an element in bytes; the  last  is
+     the  name of the comparison routine to be called with two arguments which
+     are pointers to the elements being compared.  The routine must return  an
+     integer  less  than,  equal  to, or greater than 0 according as the first
+     argument is to be considered less than, equal to,  or  greater  than  the
+     second.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/sort.1.html">sort(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

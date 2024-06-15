@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>ar(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>ar(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ar, aal - archivers
+
+<B>SYNOPSIS</B>
+     <B>ar</B> [<B>dmpqrtx</B>][<B>abciluv</B>] [<I>posname</I>] <I>archive</I> [<I>file</I> ...]
+     <B>aal</B> [<B>dpqrtx</B>][<B>clv</B>] <I>archive</I> [<I>file</I> ...]
+
+<B>EXAMPLES</B>
+
+     <B>ar</B> <B>r</B> <B>libc.a</B> <B>sort.s</B>  # Replace <I>sort</I>.s in <I>libc</I>.<I>a</I>
+
+     <B>ar</B> <B>rb</B> <B>a.s</B> <B>libc.a</B> <B>b.s</B>
+                         # Insert <I>b</I>.<I>s</I> before <I>a</I>.<I>s</I> in <I>libc</I>.<I>a</I>
+
+<B>DESCRIPTION</B>
+
+     <I>Ar</I> allows groups of files to be put together into a single  archive.   It
+     is  normally  used for libraries of compiled procedures.  <I>Aal</I> is like <I>ar</I>,
+     but is to be used with the ACK compiler.  The following keys are allowed:
+
+        <B>d</B>: Delete. <I>Ar</I> will delete the named members.
+        <B>m</B>: Move named files. <I>Ar</I> expects <I>a</I>, <I>b</I>, or <I>i</I> to be specified.
+        <B>p</B>: Print the named files (list them on <I>stdout</I>)
+        <B>q</B>: Quickly append to the end of the archive file.
+        <B>r</B>: Replace (append when not in archive).
+        <B>t</B>: Print the archive's table of contents.
+        <B>x</B>: Extract
+
+     <B>The</B> <B>keys</B> <B>may</B> <B>optionally</B> <B>concatencated</B> <B>with</B> <B>one</B> <B>or</B> <B>more</B> <B>of</B> <B>the</B> <B>following</B>:
+
+        <B>a</B>: After <I>posname</I>
+        <B>b</B>: Before <I>posname</I>
+        <B>c</B>: Create  (suppresses creation message)
+        <B>i</B>: Before <I>posname</I>
+        <B>l</B>: Local temporary file for work instead of /<I>tmp</I>/<I>ar</I>.$$$$$
+        <B>u</B>: Replace only if dated later than member in archive
+        <B>v</B>: Verbose
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/anm.1.html">anm(1)</A></B>, <B><A HREF="../man1/asize.1.html">asize(1)</A></B>, <B><A HREF="../man1/nm.1.html">nm(1)</A></B>, <B><A HREF="../man1/size.1.html">size(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

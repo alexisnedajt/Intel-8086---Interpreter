@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>hostaddr(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>hostaddr(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     hostaddr - show ethernet address, IP address or hostname
+
+<B>SYNOPSIS</B>
+     <B>hostaddr</B> [<B>-eiah</B>] [<B>-E</B> <I>eth</I>-<I>device</I>] [<B>-I</B> <I>ip</I>-<I>device</I>]
+
+<B>DESCRIPTION</B>
+     Without any of the <B>-eia</B> options, <B>hostaddr</B> shows the ethernet address,  IP
+     address  and  hostname  of the local host on one line in the given order.
+     With options only the wanted fields are shown, still in the  same  order,
+     not in option order.
+
+<B>OPTIONS</B>
+
+     <B>-e</B>   Show the ethernet address.
+
+     <B>-i</B>   Show the IP address.
+
+     <B>-a</B>   Show the fully qualified hostname.  The IP address is  shown  if  it
+          can't be translated to a host name.  This usually indicates that the
+          DNS reverse address translation tables are incomplete  or  that  the
+          name daemon couldn't be contacted.
+
+     <B>-h</B>   Set the hostname of the machine if  the  caller  is  the  superuser.
+          (Used at boot time by the network initialization scripts.)
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man8/ifconfig.8.html">ifconfig(8)</A></B>, <B><A HREF="../man8/dhcpd.8.html">dhcpd(8)</A></B>, <B><A HREF="../man8/nonamed.8.html">nonamed(8)</A></B>, <B><A HREF="../man8/inet.8.html">inet(8)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

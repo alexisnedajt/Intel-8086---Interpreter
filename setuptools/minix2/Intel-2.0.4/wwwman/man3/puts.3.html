@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>puts(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>puts(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     puts, fputs - put a string on a stream
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdio.h&gt;</B>
+
+     <B>int</B> <B>puts(char</B> <B>*</B><I>s</I><B>)</B>
+     <B>int</B> <B>fputs(char</B> <B>*</B><I>s</I><B>,</B> <B>FILE</B> <B>*</B><I>stream</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Puts</B> copies the null-terminated string <I>s</I> to the  standard  output  stream
+     <B>stdout</B> and appends a newline character.
+
+     <B>Fputs</B> copies the null-terminated string <I>s</I> to the named output <I>stream</I>.
+
+     Neither routine copies the terminal null character.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/fopen.3.html">fopen(3)</A></B>, <B><A HREF="../man3/gets.3.html">gets(3)</A></B>, <B><A HREF="../man3/putc.3.html">putc(3)</A></B>, <B><A HREF="../man3/printf.3.html">printf(3)</A></B>, <B><A HREF="../man3/ferror.3.html">ferror(3)</A></B>, <B><A HREF="../man3/fread.3.html">fread(3)</A></B>.
+
+<B>BUGS</B>
+     <B>Puts</B> appends a newline, <B>fputs</B> does not,  all  in  the  name  of  backward
+     compatibility.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

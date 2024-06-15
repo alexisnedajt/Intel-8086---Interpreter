@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>ps(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>ps(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ps - process status
+
+<B>SYNOPSIS</B>
+     <B>ps</B> [<B>-alxU</B>] [<B>kernel</B> <B>mm</B> <B>fs</B>]
+
+<B>OPTIONS</B>
+
+     <B>-a</B>   Print all processes with controlling terminals
+
+     <B>-l</B>   Give long listing
+
+     <B>-x</B>   Include processes without a terminal
+
+<B>EXAMPLES</B>
+
+     <B>ps</B> <B>-axl</B>             # Print all processes and tasks in long format
+
+<B>DESCRIPTION</B>
+
+     <I>Ps</I> prints the status of active processes.  Normally only the caller's own
+     processes  are  listed in short format (the PID, TTY, TIME and CMD fields
+     as explained below).  The long listing contains:
+
+       F   Kernel flags:
+                 001: free slot
+                 002: no memory map
+                 004: sending;
+                 010: receiving
+                 020: inform on pending signals
+                 040: pending signals
+                 100: being traced.
+
+       S
+           State:
+                 R: runnable
+                 W: waiting (on a message)
+                 S: sleeping (i.e.,suspended on MM or FS)
+                 Z: zombie
+                 T: stopped
+
+       UID, PID, PPID, PGRP
+           The user, process, parent process and process group ID's.
+
+       SZ
+           Size of the process in kilobytes.
+
+       RECV
+           Process/task on which a receiving process is waiting or sleeping.
+
+       TTY
+           Controlling tty for the process.
+
+       TIME
+           Process' cumulative (user + system) execution time.
+
+       CMD Command line arguments of the process.
+
+     The files /<I>dev</I>/{<I>mem</I>,<I>kmem</I>} are used to read the system tables and  command
+     line  arguments  from.   Terminal  names in /<I>dev</I> are used to generate the
+     mnemonic names in the TTY column, so <I>ps</I> is independent of terminal naming
+     conventions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

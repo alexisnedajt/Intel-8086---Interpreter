@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>ifconfig(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>ifconfig(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ifconfig - configure a TCP/IP device
+
+<B>SYNOPSIS</B>
+     <B>ifconfig</B> [<B>-I</B> <I>ip</I>-<I>device</I>] [<B>-h</B> <I>ipaddr</I>] [<B>-n</B> <I>netmask</I>] [<B>-m</B> <I>mtu</I>] [<B>-iva</B>]
+
+<B>DESCRIPTION</B>
+     <B>Ifconfig</B> initializes a  TCP/IP  device  setting  the  IP  address  and/or
+     netmask.   It  will report the address and netmask set.  This command may
+     be used if the system has not been configured properly yet.  It  is  only
+     used  at boot time to set a fixed address for a system without a physical
+     ethernet.  Normally the <B>inet</B> task will find it out  by  itself  from  the
+     RARP server.
+
+<B>OPTIONS</B>
+
+     <B>-h</B>   The decimal TCP/IP address to set.
+
+     <B>-n</B>   The netmask to set.
+
+     <B>-m</B>   The mtu to set.  (Minix-vmd only.)
+
+     <B>-i</B>   Don't set the IP address  or  netmask  if  already  set.   This  way
+          ifconfig  cannot  interfere  if  the  numbers have been found out by
+          RARP.
+
+     <B>-v</B>   Report IP address and netmask.  This is the default action if  there
+          are no other options.
+
+     <B>-a</B>   Report the IP addresses and netmasks of all configured interfaces.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/hostaddr.1.html">hostaddr(1)</A></B>, <B><A HREF="../man8/rarpd.8.html">rarpd(8)</A></B>, <B><A HREF="../man8/inet.8.html">inet(8)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

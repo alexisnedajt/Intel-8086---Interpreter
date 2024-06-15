@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>dir(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>dir(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     dir - directory layout
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;sys/dir.h&gt;</B>
+
+<B>DESCRIPTION</B>
+     The directories of the V1 and V2 file systems are arrays of the following
+     structure defined in &lt;sys/dir.h&gt;:
+
+     struct direct {
+          ino_t          d_ino;         /* I-node number */
+          char           d_name[14];    /* Name of up to 14 characters */
+     };
+
+     The <B>d_ino</B> field is the inode number of the file named by  <B>d_name</B>.   <B>D_ino</B>
+     is  zero  if the directory slot isn't allocated.  This number is the same
+     as <B>st_ino</B> returned by <B><A HREF="../man2/stat.2.html">stat(2)</A></B> unless the entry is mounted on.  <B>D_name</B>  is
+     the  name of up to 14 characters, null-terminated only if less then 14 in
+     length.  Any character other than null or '<B>/</B>' is allowed.
+
+     See <B><A HREF="../man3/directory.3.html">directory(3)</A></B> for a portable  way  to  access  directories,  Minix  is
+     probably the last system with these old V7 format directories.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/directory.3.html">directory(3)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>sort(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>sort(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     sort - sort a file of ASCII lines
+
+<B>SYNOPSIS</B>
+     <B>sort</B> [<B>-bcdfimnru</B>] [<B>-t</B><I>c</I>]  [<B>-o</B> <I>name</I>] [<B>+</B><I>pos1</I>] [<B>-</B><I>pos2</I>] <I>file</I> ...
+
+<B>OPTIONS</B>
+
+     <B>-b</B>   Skip leading blanks when making comparisons
+
+     <B>-c</B>   Check to see if a file is sorted
+
+     <B>-d</B>   Dictionary order: ignore punctuation
+
+     <B>-f</B>   Fold upper case onto lower case
+
+     <B>-i</B>   Ignore nonASCII characters
+
+     <B>-m</B>   Merge presorted files
+
+     <B>-n</B>   Numeric sort order
+
+     <B>-o</B>   Next argument is output file
+
+     <B>-r</B>   Reverse the sort order
+
+     <B>-t</B>   Following character is field separator
+
+     <B>-u</B>   Unique mode (delete duplicate lines)
+
+<B>EXAMPLES</B>
+
+     <B>sort</B> <B>-nr</B> <B>file</B>       # Sort keys numerically, reversed
+
+     <B>sort</B> <B>+2</B> <B>-4</B> <B>file</B>     # Sort using fields 2 and 3 as key
+
+     <B>sort</B> <B>+2</B> <B>-t:</B> <B>-o</B> <B>out</B>  # Field separator is :
+
+     <B>sort</B> <B>+.3</B> <B>-.6</B>        # Characters 3 through 5 form the key
+
+<B>DESCRIPTION</B>
+
+     <I>Sort</I> sorts one or more files.   If  no  files  are  specified,  <I>stdin</I>  is
+     sorted.   Output  is  written on standard output, unless <B>-o</B> is specified.
+     The options <B>+</B><I>pos1</I> <B>-</B><I>pos2</I> use only fields <I>pos1</I> up to but not including <I>pos2</I>
+     as  the  sort  key,  where a field is a string of characters delimited by
+     spaces and tabs, unless a different field delimiter is specified with <B>-t</B>.
+     Both  <I>pos1</I>  and <I>pos2</I> have the form <I>m</I>.<I>n</I> where <I>m</I> tells the number of fields
+     and <I>n</I> tells the number of characters.  Either <I>m</I> or <I>n</I> may be omitted.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/comm.1.html">comm(1)</A></B>, <B><A HREF="../man1/grep.1.html">grep(1)</A></B>, <B><A HREF="../man1/uniq.1.html">uniq(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

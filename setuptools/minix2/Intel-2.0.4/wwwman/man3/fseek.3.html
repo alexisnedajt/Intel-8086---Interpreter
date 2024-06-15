@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>fseek(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>fseek(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     fseek, ftell, rewind - reposition a stream
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdio.h&gt;</B>
+
+     <B>int</B> <B>fseek(FILE</B> <B>*</B><I>stream</I><B>,</B> <B>long</B> <I>offset</I><B>,</B> <B>int</B> <I>ptrname</I><B>)</B>
+     <B>long</B> <B>ftell(FILE</B> <B>*</B><I>stream</I><B>)</B>
+     <B>void</B> <B>rewind(FILE</B> <B>*</B><I>stream</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Fseek</B> sets the position of the next input  or  output  operation  on  the
+     <I>stream</I>.  The new position is at the signed distance <I>offset</I> bytes from the
+     beginning, the current position, or the end of  the  file,  according  as
+     <I>ptrname</I> has the value 0, 1, or 2.
+
+     <B>Fseek</B> undoes any effects of <B><A HREF="../man3/ungetc.3.html">ungetc(3)</A></B>.
+
+     <B>Ftell</B> returns the current value of the offset relative to  the  beginning
+     of the file associated with the named <I>stream</I>.  It is measured in bytes on
+     UNIX; on some other systems it is a magic cookie, and the only  foolproof
+     way to obtain an <I>offset</I> for <B>fseek</B>.
+
+     <B>Rewind</B>(<I>stream</I>) is equivalent to <B>fseek</B>(<I>stream</I>, 0L, 0).
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/lseek.2.html">lseek(2)</A></B>, <B><A HREF="../man3/fopen.3.html">fopen(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Fseek</B> returns -1 for improper seeks, otherwise zero.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

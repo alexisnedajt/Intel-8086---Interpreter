@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>uname(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>uname(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     uname - get system info
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/utsname.h&gt;</B>
+
+     <B>int</B> <B>uname(struct</B> <B>utsname</B> <B>*name)</B>
+
+<B>DESCRIPTION</B>
+     <B>Uname()</B> fills a struct utsname with system information.   This  structure
+     is described in &lt;sys/utsname.h&gt; as follows:
+
+     struct utsname {
+         char  sysname[15+1];           /* System name */
+         char  nodename[255+1];         /* Node/Network name */
+         char  release[11+1];           /* O.S. release */
+         char  version[7+1];            /* O.S. version */
+         char  machine[11+1];           /* Machine hardware */
+         char  arch[11+1];              /* Architecture */
+     };
+
+     The strings are always null terminated, and may be of a different  length
+     then shown here.  The first five are required by POSIX, the last is Minix
+     specific.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/uname.1.html">uname(1)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

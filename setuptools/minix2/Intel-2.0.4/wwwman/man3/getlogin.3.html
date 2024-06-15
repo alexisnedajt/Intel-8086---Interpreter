@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>getlogin(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>getlogin(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     getlogin - get login name
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>char</B> <B>*getlogin(void)</B>
+
+<B>DESCRIPTION</B>
+     <B>Getlogin</B> returns a pointer to the login name as found in  <B>/etc/utmp</B>.   It
+     may  be  used in conjunction with <B>getpwnam</B> to locate the correct password
+     file entry when the same user ID is shared by several login names.
+
+     If <B>getlogin</B> is called  within  a  process  that  is  not  attached  to  a
+     terminal,  or  if  there  is  no  entry  in  <B>/etc/utmp</B>  for the process's
+     terminal, <B>getlogin</B> returns a null pointer.  A  reasonable  procedure  for
+     determining  the login name is to first call <B>getlogin</B> and if it fails, to
+     call <B>getpwuid</B>(<B>getuid</B>()).
+
+<B>FILES</B>
+     /etc/utmp
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/getpwent.3.html">getpwent(3)</A></B>, <B><A HREF="../man5/utmp.5.html">utmp(5)</A></B>, <B><A HREF="../man3/ttyslot.3.html">ttyslot(3)</A></B>
+
+<B>DIAGNOSTICS</B>
+     Returns a null pointer if the name cannot be found.
+
+<B>BUGS</B>
+     The return values point to static data whose content  is  overwritten  by
+     each call.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>anm(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>anm(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     anm - print name list
+
+<B>SYNOPSIS</B>
+     <B>anm</B> [<B>-gnoprus</B>] <I>file</I> ...
+
+<B>OPTIONS</B>
+
+     <B>-g</B>   Global symbols only
+
+     <B>-n</B>   Sort numerically
+
+     <B>-o</B>   Prepend the filename to each line
+
+     <B>-p</B>   No sorting----use symbol table order
+
+     <B>-r</B>   Sort in reverse order
+
+     <B>-u</B>   List undefined symbols only
+
+     <B>-s</B>   Sort in section order
+
+<B>EXAMPLES</B>
+
+     <B>anm</B>  <B>-gn</B>  <B>test.o</B>    # Print global symbols in numerical order
+
+<B>DESCRIPTION</B>
+
+     <I>Anm</I> prints the name list (symbol table) of each ACK format object <I>file</I> in
+     the argument list.  If no file name is given, <I>a</I>.<I>out</I> is used.  Each symbol
+     name is preceded by its value, a section indicator and a type  indicator.
+     The section indicators are:
+
+        <B>U</B>  Undefined symbol
+        <B>A</B>  Absolute symbol
+        <B>-</B>  Other symbol
+
+     The type indicators are:
+
+        <B>F</B>  Filename
+        <B>M</B>  Module name
+        <B>S</B>  Section name
+        <B>E</B>  External (global) symbol
+        <B>-</B>  Local symbol
+
+     The output is sorted alphabetically, unless otherwise specified.   Notice
+     that  <I>anm</I>  can  only  be used on ACK format object files (that is: .<I>o</I> and
+     .<I>out</I> files). If you want to get the name list of  an  executable  program
+     use <I>nm</I> instead.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/asize.1.html">asize(1)</A></B>, <B><A HREF="../man1/nm.1.html">nm(1)</A></B>, <B><A HREF="../man1/ar.1.html">ar(1)</A></B>, <B><A HREF="../man1/size.1.html">size(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

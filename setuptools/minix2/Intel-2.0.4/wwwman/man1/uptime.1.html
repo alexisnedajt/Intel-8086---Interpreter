@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>last(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>last(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     last, uptime - display recent on-line session records, show uptime
+
+<B>SYNOPSIS</B>
+     <B>last</B> [<B>-f</B> <I>file</I>] [<B>-r</B>] [<B>-</B><I>n</I>] [<I>name</I>] [<I>tty</I>] ...
+     <B>uptime</B>
+
+<B>OPTIONS</B>
+
+     <B>-f</B>   Use <I>file</I> instead of /usr/adm/wtmp
+
+     <B>-r</B>   Search backwards only to last reboot
+
+     <B>-u</B>   Print uptime since last reboot
+
+     <B>-</B><I>n</I>   Print a maximum of <I>n</I> lines
+
+<B>EXAMPLES</B>
+
+     <B>last</B> <B>reboot</B>         # When was the system last rebooted?
+
+     <B>last</B> <B>ast</B>            # When was the last login for ast?
+
+     <B>last</B> <B>-10</B> <B>tty00</B> <B>tty01</B>
+                         # Display last 10 logins on tty00 or tty01
+
+     <B>uptime</B>              # Display uptime (likewise <B>last</B> <B>-u</B>)
+
+<B>DESCRIPTION</B>
+
+     <I>Last</I> Searches backward through the login administration file (default  is
+     /<I>usr</I>/<I>adm</I>/<I>wtmp</I>),  printing  information about previous logins and reboots.
+     During a long search, the SIGQUIT signal (CTRL-\) causes <I>last</I> to  display
+     how far back it has gone; it then continues.
+
+     <I>Uptime</I>, an alias for <I>last</I> -<I>u</I>, displays the time  the  system  is  running
+     since the last reboot.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/who.1.html">who(1)</A></B>, <B><A HREF="../man5/utmp.5.html">utmp(5)</A></B>.
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,262 @@
+<HTML>
+<HEAD>
+<TITLE>expr(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>expr(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     expr, test, [ - evaluate expressions
+
+<B>SYNOPSIS</B>
+     <B>expr</B> <I>expression</I>
+     <B>test</B> <I>expression</I>
+     <B>[</B> <I>expression</I> <B>]</B>
+
+<B>DESCRIPTION</B>
+     <B>Expr</B> evaluates the expression and prints the result.  <B>Test</B> evaluates  the
+     expression  without  printing the result.  The ``['' command is a synonym
+     for <B>test</B>; when invoked under this name the last argument to <B>expr</B> must  be
+     a ``]'', which is deleted and not considered part of the expression.
+
+     Three data types may occur  in  the  <I>expression</I>:   string,  integer,  and
+     boolean.  The rules for conversion are as follows:
+
+     <I>string</I>-&gt;<I>integer</I>         Done via <B><A HREF="../man3/atoi.3.html">atoi(3)</A></B>.
+     <I>integer</I>-&gt;<I>string</I>         Convert to decimal representation.
+     <I>string</I>-&gt;<I>boolean</I>         "" -&gt; false, everything else to true.
+     <I>boolean</I>-&gt;<I>string</I>         false -&gt; "", true -&gt; "true".
+     <I>integer</I>-&gt;<I>boolean</I>        0 -&gt; false, everything else to true.
+     <I>boolean</I>-&gt;<I>integer</I>        false -&gt; 0, true -&gt; 1.
+
+     Any argument to <B>expr</B> which is not a legal operator is treated as a string
+     operand of type <B>string</B>.
+
+     As a special case, if <I>expression</I> is omitted, the result is false.
+
+     We now list the operators.  The syntax
+
+             <I>integer</I> <B>op</B> <I>integer</I> -&gt; <I>boolean</I> <B>(3)</B>
+
+     means that <B>op</B> is a binary operator which takes operands of  type  <I>integer</I>
+     and  produces  a  result  of  type  <I>boolean</I>.   The ``(3)'' means that the
+     priority of <B>op</B>  is  3.   Operands  are  automatically  converted  to  the
+     appropriate  type.   The type <I>any</I> is used for operator that take operands
+     of any type.
+
+     <I>any</I> <B>-o</B> <I>any</I> -&gt; <I>any</I>  (1)
+           Returns the value of the left hand operand if the left hand operand
+           would yield <B>true</B> if converted to type <B>boolean</B>, and the value of the
+           right hand operand otherwise.  The right hand operand is  evaluated
+           only if necessary.  ``|'' is a synonym for ``-o''.
+
+     <I>any</I> <B>-a</B> <I>any</I> -&gt; <I>any</I>  (2)
+           Returns the value of the left hand operand if the left hand operand
+           would  yield  <B>false</B>  if converted to type <B>boolean</B>, and the value of
+           the right hand  operand  otherwise.   The  right  hand  operand  is
+           evaluated only if necessary.  ``&amp;'' is a synonym for ``-a''.
+
+     ! <I>boolean</I> -&gt; <I>boolean</I>  (3)
+           Returns true if the operand is false, and false if the  operand  is
+           true.
+
+     <I>string</I> <B>=</B> <I>string</I> -&gt; <I>boolean</I>  (4)
+           True if the two strings are equal.
+
+     <I>string</I> <B>!=</B> <I>string</I> -&gt; <I>boolean</I>  (4)
+           True if the two strings are not equal.
+
+     <I>integer</I> <B>-eq</B> <I>integer</I> -&gt; <I>boolean</I>  (4)
+           True if the two operands are equal.
+
+     <I>integer</I> <B>-ne</B> <I>integer</I> -&gt; <I>boolean</I>  (4)
+           True if the two operands are not equal.
+
+     <I>integer</I> <B>-gt</B> <I>integer</I> -&gt; <I>boolean</I>  (4)
+           True if the first operand is greater than the second one.
+
+     <I>integer</I> <B>-lt</B> <I>integer</I> -&gt; <I>boolean</I>  (4)
+           True if the first operand is less than the second one.
+
+     <I>integer</I> <B>-ge</B> <I>integer</I> -&gt; <I>boolean</I>  (4)
+           True if the first operand is greater than or equal  to  the  second
+           one.
+
+     <I>integer</I> <B>-le</B> <I>integer</I> -&gt; <I>boolean</I>  (4)
+           True if the first operand is less than or equal to the second one.
+
+     <I>integer</I> <B>+</B> <I>integer</I> -&gt; <I>integer</I>  (5)
+           Add two integers.
+
+     <I>integer</I> <B>-</B> <I>integer</I> -&gt; <I>integer</I>  (5)
+           Subtract two integers.
+
+     <I>integer</I> <B>*</B> <I>integer</I> -&gt; <I>integer</I>  (6)
+           Multiply two integers.  ``*'' is  special  to  the  shell,  so  you
+           generally have to write this operator as ``\*''.
+
+     <I>integer</I> <B>/</B> <I>integer</I> -&gt; <I>integer</I>  (6)
+           Divide two integers.
+
+     <I>integer</I> <B>%</B> <I>integer</I> -&gt; <I>integer</I>  (6)
+           Returns the remainder when the first  operand  is  divided  by  the
+           second one.
+
+     <I>string</I> <B>:</B> <I>string</I> -&gt; <I>integer</I> <I>or</I> <I>string</I>  (7)
+           The second operand is interpreted as a regular  expression  (as  in
+           the System V <B>ed</B> program).  This operator attempts to match part (or
+           all) of the first operand with the regular expression.   The  match
+           must start at the beginning of the first operand.  If  the  regular
+           expression  contains  \( \) pairs, then the result of this operator
+           is the string which is matched by the  regular  expression  between
+           these  pairs,  or the null string if no match occurred.  Otherwise,
+           the result is the number  of  characters  matched  by  the  regular
+           expression, or zero if no no match occurred.
+
+     -n <I>string</I> -&gt; <I>integer</I>  (8)
+           Returns the number of characters in the string.
+
+     -z <I>string</I> -&gt; <I>boolean</I>  (8)
+           Returns true if the string contains zero characters.
+
+     -t <I>integer</I> -&gt; <I>boolean</I>  (8)
+           Returns true if the specified file descriptor is associated with  a
+           tty.
+
+     The remaining operators all deal  with  files.   Except  as  noted,  they
+     return false if the specified file does not exist.  The ones dealing with
+     permission use the effective user and group ids of the shell.
+
+     -r <I>string</I> -&gt; <I>boolean</I>  (8)
+           True if you have read permission on the file.
+
+     -w <I>string</I> -&gt; <I>boolean</I>  (8)
+           True if you have write permission on the file.
+
+     -x <I>string</I> -&gt; <I>boolean</I>  (8)
+           True if you have execute permission on the file.
+
+     -f <I>string</I> -&gt; <I>boolean</I>  (8)
+           True if the file is a regular file.
+
+     -d <I>string</I> -&gt; <I>boolean</I>  (8)
+           True if the file is a directory.
+
+     -c <I>string</I> -&gt; <I>boolean</I>  (8)
+           True if the file is a character special file.
+
+     -b <I>string</I> -&gt; <I>boolean</I>  (8)
+           True if the file is a block special file.
+
+     -p <I>string</I> -&gt; <I>boolean</I>  (8)
+           True if the file is a named pipe (i.e. a fifo).
+
+     -u <I>string</I> -&gt; <I>boolean</I>  (8)
+           True if the file is setuid.
+
+
+
+     -g <I>string</I> -&gt; <I>boolean</I>  (8)
+           True if the file is setgid.
+
+     -k <I>string</I> -&gt; <I>boolean</I>  (8)
+           True if the file has the sticky bit set.
+
+     -s <I>string</I> -&gt; <I>integer</I> <I>or</I> <I>boolean</I>  (8)
+           Returns the size of the file, or 0 if the file does not exist.
+
+     -h <I>string</I> -&gt; <I>boolean</I>  (8)
+           True if the file is a symlink.  This is the only file test operator
+           that does not follow symlinks, all others do.  So ``-d'' and ``-h''
+           are both true on a symlink pointing to a directory.   ``-L''  is  a
+           synonym for ``-h''.
+
+<B>EXIT</B> <B>CODE</B>
+     0 if the result of <I>expression</I> would be <B>true</B> if the result were  converted
+     to <B>boolean</B>.
+     1 if the result of <I>expression</I> would be <B>false</B> if the result were converted
+     to <B>boolean</B>.
+     2 if <I>expression</I> is syntactically incorrect.
+
+<B>EXAMPLES</B>
+
+     filesize=`expr -s file`
+           Sets the shell variable <I>filesize</I> to the size of <I>file</I>.
+
+     if [ -s file ]; then command; fi
+           Execute <I>command</I> if <I>file</I> exists and is not empty.
+
+     x=`expr "$x" : '.\{4\}\(.\{0,3\}\)'`
+           Sets <I>x</I> to the substring of <I>x</I> beginning after the  fourth  character
+           of  <I>x</I>  and  continuing for three characters or until the end of the
+           string, whichever comes first.
+
+     x=`expr X"$x" : X'.\{4\}\(.\{0,3\}\)'`
+           This example is the same as the previous one, but it uses a leading
+           ``X''  to  make  things  work  when  the  value  of <I>x</I> looks like an
+           operator.
+
+<B>BUGS</B>
+     The  relational  operators  of  the  System  V  <B>expr</B>  command   are   not
+     implemented.
+
+     Certain features of this version of <B>expr</B> are not present in System V,  so
+     care should be used when writing portable code.
+
+
+
+
+<B>COPYRIGHT</B>
+     Kenneth Almquist.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

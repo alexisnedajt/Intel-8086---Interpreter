@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>cmp(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>cmp(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     cmp - compare two files
+
+<B>SYNOPSIS</B>
+     <B>cmp</B> [<B>-ls</B>] <I>file1</I> <I>file2</I>
+
+<B>OPTIONS</B>
+
+     <B>-l</B>   Loud mode. Print bytes that differ (in octal)
+
+     <B>-s</B>   Silent mode.  Print nothing, just return exit status
+
+<B>EXAMPLES</B>
+
+     <B>cmp</B> <B>file1</B> <B>file2</B>     # Tell whether the files are the same
+
+     <B>cmp</B> <B>-l</B> <B>file1</B> <B>file2</B>  # Print all corresponding bytes that differ
+
+<B>DESCRIPTION</B>
+
+     Two files are  compared.   If  they  are  identical,  exit  status  0  is
+     returned.   If  they  differ,  exit  status  1 is returned.  If the files
+     cannot be opened, exit  status  2  is  returned.   If  one  of  the  file
+     arguments is -, then <I>stdin</I> is compared to the other file.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/comm.1.html">comm(1)</A></B>, <B><A HREF="../man1/diff.1.html">diff(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

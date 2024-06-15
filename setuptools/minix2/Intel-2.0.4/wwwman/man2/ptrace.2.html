@@ -1,0 +1,162 @@
+<HTML>
+<HEAD>
+<TITLE>ptrace(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>ptrace(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ptrace - process trace
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;sys/signal.h&gt;</B>
+     <B>#include</B> <B>&lt;sys/ptrace.h&gt;</B>
+
+     <B>int</B> <B>ptrace(int</B> <I>request</I><B>,</B> <B>pid_t</B> <I>pid</I><B>,</B> <B>long</B> <I>addr</I><B>,</B> <B>long</B> <I>data</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Note:</B> <B>This</B> <B>manual</B> <B>page</B> <B>has</B> <B>no</B>  <B>relation</B>  <B>to</B>  <B>Minix.</B>   <B>Someone</B>  <B>who</B>  <B>knows</B>
+     <B>ptrace()</B> <B>has</B> <B>to</B> <B>check,</B> <B>or</B> <B>rewrite,</B> <B>this</B> <B>page.</B>  <B>(kjb)</B>
+
+     <B>Ptrace</B> provides a means  by  which  a  parent  process  may  control  the
+     execution of a child process, and examine and change its core image.  Its
+     primary use is for the implementation of breakpoint debugging.  There are
+     four  arguments  whose  interpretation  depends  on  a  <I>request</I> argument.
+     Generally, <I>pid</I> is the process ID of the traced process, which must  be  a
+     child  (no  more  distant  descendant) of the tracing process.  A process
+     being traced behaves normally until it  encounters  some  signal  whether
+     internally  generated  like "illegal instruction" or externally generated
+     like "interrupt".  See  <B><A HREF="../man2/sigaction.2.html">sigaction(2)</A></B>  for  the  list.   Then  the  traced
+     process  enters  a  stopped state and its parent is notified via <B><A HREF="../man2/wait.2.html">wait(2)</A></B>.
+     When the child is in the stopped state, its core image  can  be  examined
+     and  modified  using <B>ptrace</B>.  If desired, another <B>ptrace</B> request can then
+     cause the child either to terminate or to continue, possibly ignoring the
+     signal.
+
+     The value of the <I>request</I> argument determines the precise  action  of  the
+     call:
+
+     PT_TRACE_ME
+         This request is the only one used by the child process;  it  declares
+         that  the  process  is  to  be  traced  by its parent.  All the other
+         arguments are ignored.  Peculiar results will  ensue  if  the  parent
+         does not expect to trace the child.
+
+     PT_READ_I, PT_READ_D
+         The word in the child process's address space at  <I>addr</I>  is  returned.
+         If  I  and  D  space  are  separated (e.g. historically on a pdp-11),
+         request PT_READ_I indicates I space, PT_READ_D D space.  <I>Addr</I> must be
+         even on some machines.  The child must be stopped.  The input <I>data</I> is
+         ignored.
+
+     PT_READ_U
+         The word of the system's per-process data area corresponding to  <I>addr</I>
+         is  returned.   <I>Addr</I> must be even on some machines and less than 512.
+         This space contains the registers and  other  information  about  the
+         process; its layout corresponds to the <I>user</I> structure in the system.
+
+     PT_WRITE_I, PT_WRITE_D
+         The given <I>data</I> is written at the word in the process's address  space
+         corresponding  to  <I>addr</I>,  which  must  be  even on some machines.  No
+         useful value is returned.  If I and D space  are  separated,  request
+         PT_WRITE_I  indicates I space, PT_WRITE_D D space.  Attempts to write
+         in pure procedure fail if another process is executing the same file.
+
+     PT_WRITE_U
+         The process's system data is written, as  it  is  read  with  request
+         PT_READ_U.   Only  a  few  locations can be written in this way:  the
+         general registers, the  floating  point  status  and  registers,  and
+         certain bits of the processor status word.
+
+     PT_CONTINUE
+         The <I>data</I> argument is  taken  as  a  signal  number  and  the  child's
+         execution  continues  at  location  <I>addr</I>  as  if it had incurred that
+         signal.  Normally the signal number will be either 0 to indicate that
+         the  signal  that  caused  the  stop should be ignored, or that value
+         fetched out of the process's image indicating which signal caused the
+         stop.   If  <I>addr</I>  is  (int *)1 then execution continues from where it
+         stopped.
+
+     PT_KILL
+         The traced process terminates.
+
+     PT_STEP
+         Execution continues as in request PT_CONTINUE; however,  as  soon  as
+         possible after execution of at least one instruction, execution stops
+         again.  The signal number from the stop is SIGTRAP.  (On  the  VAX-11
+         the  T-bit  is  used  and just one instruction is executed.)  This is
+         part of the mechanism for implementing breakpoints.
+
+     As indicated, these calls (except for request PT_TRACE_ME)  can  be  used
+     only  when  the  subject  process  has stopped.  The <B>wait</B> call is used to
+     determine when a process stops; in such a case the  "termination"  status
+     returned  by  <B>wait</B>  has  the  value 0177 to indicate stoppage rather than
+     genuine termination.
+
+     To forestall possible fraud, <B>ptrace</B> inhibits  the  set-user-id  and  set-
+     group-id  facilities  on subsequent <B><A HREF="../man2/execve.2.html">execve(2)</A></B> calls.  If a traced process
+     calls <B>execve</B>, it will stop before executing the first instruction of  the
+     new image showing signal SIGTRAP.
+
+     On a  VAX-11,  "word"  also  means  a  32-bit  integer,  but  the  "even"
+     restriction does not apply.
+
+
+
+
+
+<B>RETURN</B> <B>VALUE</B>
+     A 0 value is returned if the call succeeds.  If the call fails then a  -1
+     is returned and the global variable <I>errno</I> is set to indicate the error.
+
+<B>ERRORS</B>
+
+     [EIO]          The request code is invalid.
+
+     [ESRCH]        The specified process does not exist.
+
+     [EIO]          The given signal number is invalid.
+
+     [EIO]          The specified address is out of bounds.
+
+     [EPERM]        The specified process cannot be traced.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/wait.2.html">wait(2)</A></B>, <B><A HREF="../man2/sigaction.2.html">sigaction(2)</A></B>, <B><A HREF="../man1/mdb.1.html">mdb(1)</A></B>.
+
+<B>BUGS</B>
+     <B>Ptrace</B> is unique and arcane; it should be replaced with  a  special  file
+     that  can  be  opened  and read and written.  The control functions could
+     then be implemented with <B><A HREF="../man2/ioctl.2.html">ioctl(2)</A></B> calls on  this  file.   This  would  be
+     simpler to understand and have much higher performance.
+
+     The request PT_TRACE_ME call should be able to specify signals  that  are
+     to  be  treated normally and not cause a stop.  In this way, for example,
+     programs with simulated floating point (which use  "illegal  instruction"
+     signals at a very high rate) could be efficiently debugged.
+
+     The error indication, -1, is a legitimate  function  value;  <B>errno</B>,  (see
+     <B><A HREF="../man2/intro.2.html">intro(2)</A></B>), can be used to disambiguate.
+
+     It should be possible to stop a process on occurrence of a  system  call;
+     in this way a completely controlled environment could be provided.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

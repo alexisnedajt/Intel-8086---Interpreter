@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>ungetc(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>ungetc(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ungetc - push character back into input stream
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdio.h&gt;</B>
+
+     <B>int</B> <B>ungetc(int</B> <I>c</I><B>,</B> <B>FILE</B> <B>*</B><I>stream</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Ungetc</B> pushes the character <I>c</I> back on an input  stream.   That  character
+     will be returned by the next <B>getc</B> call on that stream.  <B>Ungetc</B> returns <I>c</I>.
+
+     One character of pushback is guaranteed provided something has been  read
+     from  the  stream  and the stream is actually buffered.  Attempts to push
+     EOF are rejected.
+
+     <B><A HREF="../man3/Fseek.3.html">Fseek(3)</A></B> erases all memory of pushed back characters.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/getc.3.html">getc(3)</A></B>, <B><A HREF="../man3/setbuf.3.html">setbuf(3)</A></B>, <B><A HREF="../man3/fseek.3.html">fseek(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Ungetc</B> returns <B>EOF</B> if it can't push a character back.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,112 @@
+<HTML>
+<HEAD>
+<TITLE>install(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>install(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     install - install files
+
+<B>SYNOPSIS</B>
+     <B>install</B> [<B>-lcsz</B><I>N</I>] [<B>-o</B> <I>owner</I>] [<B>-g</B> <I>group</I>] [<B>-m</B> <I>mode</I>] [<B>-S</B> <I>stack</I>] [<I>file1</I>] <I>file2</I>
+     <B>install</B> [<B>-lcsz</B><I>N</I>] [<B>-o</B> <I>owner</I>] [<B>-g</B> <I>group</I>] [<B>-m</B> <I>mode</I>] [<B>-S</B> <I>stack</I>] <I>file</I> ... <I>dir</I>
+     <B>install</B> <B>-d</B> [<B>-o</B> <I>owner</I>] [<B>-g</B> <I>group</I>] [<B>-m</B> <I>mode</I>] <I>directory</I>
+
+<B>DESCRIPTION</B>
+     <B>Install</B> puts executables, manual pages, and library files in their proper
+     place  in  the bin, man, and lib directories.  The first two forms of the
+     command are like <B><A HREF="../man1/cp.1.html">cp(1)</A></B> copying either one  file  to  another  or  copying
+     several files to a directory.  The "<B>-d</B>" form is like <B><A HREF="../man1/mkdir.1.html">mkdir(1)</A></B> with the <B>-p</B>
+     flag.  <I>File1</I> may be omitted if neither <B>-l</B> nor <B>-c</B> is given to  change  the
+     attributes of <I>file2</I>.
+
+     Attributes are always copied from the source file,  use  the  options  to
+     change.   Note  that  the  source  file's attributes are changed with the
+     destination file if they are linked.  So copy the file if you  change  it
+     in  a  way  that  makes it read-only.  You would otherwise not be able to
+     compile a command again.
+
+<B>OPTIONS</B>
+
+     <B>-l</B>   Link the destination to the source file instead of copying it.  This
+          is  done  to either save space on a file system with both the source
+          and the bin directories on it, or to install synonyms to a command.
+
+     <B>-c</B>   Copy the source file to  its  proper  place.   This  option  is  the
+          default if <B>-l</B> is not given.  With <B>-l</B>, the file is copied if the link
+          fails.
+
+     <B>-s</B>   Strip the destination  file  of  its  symbol  table,  <I>if</I>  it  is  an
+          executable,  and  <I>if</I>  it  is actually copied.  It has no effect on a
+          link or a non-executable.
+
+     <B>-z</B>   Compress the executable using <B><A HREF="../man1/compress.1.html">compress(1)</A></B> and prepend a header  line
+          that calls <B><A HREF="../man1/zexec.1.html">zexec(1)</A></B> to decompress and execute the binary.  This will
+          on average save 40% disk space at the expense of  a  slower  startup
+          time.  Like <B>-s</B> the file must be actually copied for the flag to have
+          effect.
+
+     <B>-</B><I>N</I>   Use <B>gzip</B> <B>-</B><I>N</I> to compress the binary.  You may see  up  to  60%  space
+          savings,  but  it  will  take much longer.  <I>N</I> is a digit from 1 to 9
+          telling the compression effort, see <B><A HREF="../man1/gzip.1.html">gzip(1)</A></B>.
+
+     <B>-d</B>   Make a directory, usually to install files in a  separate  directory
+          in a library.  Intermediate directories in the path are created with
+          the same attributes as the final directory.  Only the attributes  of
+          the final directory are set if the directory exists.
+
+     <B>-o</B> <I>owner</I>
+          Set the owner of the target.  This only works if the invoker is  the
+          super-user,  or  if  <B>install</B> is run setuid root and the invoker is a
+          member of group zero.  If <B>-o</B> is omitted then the ownership is copied
+          from the source file, or set to the id of the invoker if a directory
+          is made.
+
+     <B>-g</B> <I>group</I>
+          Like <B>-o</B>, but for the group ownership of the target.
+
+     <B>-m</B> <I>mode</I>
+          <I>Mode</I> is an octal number that specifies the mode  the  target  should
+          get.   The  default  is  the  source  file's  mode with a <B>chmod</B> <B>a+rX</B>
+          applied to it, or 755 for a new directory.  Implies <B>-o</B> <B>0</B>, or <B>-g</B> <B>0</B> if
+          a file is to be set-uid or set-gid and the invoker has permission to
+          change ownership.  This trick allows a group  0  member  to  install
+          third  party  software,  even  though  it expects to be installed by
+          root.
+
+     <B>-S</B> <I>stack</I>
+          Sets the maximum amount of heap + stack that an executable may  have
+          when   running.   The  argument  is  a  C-style  decimal,  octal  or
+          hexadecimal number, optionally followed by the multipliers <B>m</B>, <B>k</B>,  <B>w</B>,
+          and  <B>b</B>  for mega (1024*1024), kilo (1024), "word" (2 or 4), and byte
+          (1).  Uppercase <B>M</B> is also accepted for  those  who  know  what  S.I.
+          means.   The  compilers  use  <B>-S</B> <B>32kw</B> by default, that translates to
+          64kb for an 8086, and 128kb for other architectures.  This option is
+          ignored on a non-executable.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/ln.1.html">ln(1)</A></B>,  <B><A HREF="../man1/cp.1.html">cp(1)</A></B>,  <B><A HREF="../man1/strip.1.html">strip(1)</A></B>,  <B><A HREF="../man1/compress.1.html">compress(1)</A></B>,  <B><A HREF="../man1/gzip.1.html">gzip(1)</A></B>,   <B><A HREF="../man1/zexec.1.html">zexec(1)</A></B>,   <B><A HREF="../man8/chown.8.html">chown(8)</A></B>,
+     <B><A HREF="../man1/chgrp.1.html">chgrp(1)</A></B>, <B><A HREF="../man1/chmod.1.html">chmod(1)</A></B>, <B><A HREF="../man1/chmem.1.html">chmem(1)</A></B>, <B><A HREF="../man1/mkdir.1.html">mkdir(1)</A></B>.
+
+<B>BUGS</B>
+     Uppercase <B>K</B>, <B>W</B>, and <B>B</B> are also accepted for those  who  don't  know  what
+     S.I. means.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

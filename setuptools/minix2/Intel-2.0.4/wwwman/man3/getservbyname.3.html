@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>getservent(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>getservent(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     getservent, getservbyport, getservbyname, setservent,  endservent  -  get
+     service entry
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;netdb.h&gt;</B>
+
+     <B>struct</B> <B>servent</B> <B>*getservent()</B>
+
+     <B>struct</B> <B>servent</B> <B>*getservbyname(name,</B> <B>proto)</B> <B>char</B> <B>*name,</B> <B>*proto;</B>
+
+     <B>struct</B> <B>servent</B> <B>*getservbyport(port,</B> <B>proto)</B> <B>int</B> <B>port;</B> <B>char</B> <B>*proto;</B>
+
+     <B>setservent(stayopen)</B> <B>int</B> <B>stayopen</B>
+
+     <B>endservent()</B>
+
+<B>DESCRIPTION</B>
+     <I>Getservent</I>, <I>getservbyname</I>, and <I>getservbyport</I> each return a pointer to  an
+     object with the following structure containing the broken-out fields of a
+     line in the network services data base, /<I>etc</I>/<I>services</I>.
+
+     struct  servent {
+             char    *s_name; /* official name of service */
+             char    **s_aliases; /* alias list */
+             int     s_port;         /* port service resides at */
+             char    *s_proto; /* protocol to use */
+     };
+
+     The members of this structure are:
+
+     s_name     The official name of the service.
+
+     s_aliases  A zero terminated list of alternate names for the service.
+
+     s_port     The port number at which the service  resides.   Port  numbers
+                are returned in network byte order.
+
+     s_proto    The name of the protocol to use when contacting the service.
+
+     <I>Getservent</I> reads  the  next  line  of  the  file,  opening  the  file  if
+     necessary.
+
+     <I>Setservent</I> opens and rewinds the file.  If the <I>stayopen</I> flag is non-zero,
+     the  net data base will not be closed after each call to <I>getservbyname</I> or
+     <I>getservbyport</I>.
+
+     <I>Endservent</I> closes the file.
+
+
+     <I>Getservbyname</I> and <I>getservbyport</I> sequentially search from the beginning of
+     the file until a matching protocol name or port number is found, or until
+     EOF is encountered.  If a protocol  name  is  also  supplied  (non-NULL),
+     searches must also match the protocol.
+
+<B>FILES</B>
+     /etc/services
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/getprotoent.3.html">getprotoent(3)</A></B>, <B><A HREF="../man5/services.5.html">services(5)</A></B>
+
+<B>DIAGNOSTICS</B>
+     Null pointer (0) returned on EOF or error.
+
+<B>BUGS</B>
+     All information is contained in a static area so it must be copied if  it
+     is  to  be  saved.  Expecting port numbers to fit in a 32 bit quantity is
+     probably naive.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

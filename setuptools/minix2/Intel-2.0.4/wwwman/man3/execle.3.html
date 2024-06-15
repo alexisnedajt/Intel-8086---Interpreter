@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>execl(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>execl(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     execl, execv, execle, execlp, execvp, exec, environ - execute a file
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>int</B> <B>execl(const</B> <B>char</B> <B>*</B><I>name</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>arg0</I><B>,</B> <B>...,</B> <B>(char</B> <B>*)</B> <B>NULL)</B>
+     <B>int</B> <B>execv(const</B> <B>char</B> <B>*</B><I>name</I><B>,</B> <B>char</B> <B>*const</B> <I>argv</I><B>[])</B>
+     <B>int</B> <B>execle(const</B> <B>char</B> <B>*</B><I>name</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>arg0</I><B>,</B> <B>...,</B> <B>(char</B> <B>*)</B>  <B>NULL,</B>  <B>char</B>
+           <B>*const</B> <I>envp</I><B>[])</B>
+     <B>int</B> <B>execlp(const</B> <B>char</B> <B>*</B><I>name</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>arg0</I><B>,</B> <B>...,</B> <B>(char</B> <B>*)</B> <B>NULL)</B>
+     <B>int</B> <B>execvp(const</B> <B>char</B> <B>*</B><I>name</I><B>,</B> <B>char</B> <B>*const</B> <I>argv</I><B>[])</B>
+
+     <B>extern</B> <B>char</B> <B>*const</B> <B>*environ;</B>
+
+<B>DESCRIPTION</B>
+     These routines provide various interfaces  to  the  <B>execve</B>  system  call.
+     Refer  to  <B><A HREF="../man2/execve.2.html">execve(2)</A></B>  for  a  description of their properties; only brief
+     descriptions are provided here.
+
+     <B>Exec</B> in all its forms overlays the calling process with the  named  file,
+     then  transfers  to the entry point of the core image of the file.  There
+     can be no return from a successful exec; the calling core image is lost.
+
+     The <I>name</I> argument is a pointer to the name of the file  to  be  executed.
+     The   pointers  <I>arg</I>[<I>0</I>],  <I>arg</I>[<I>1</I>]  ...   address  null-terminated  strings.
+     Conventionally <I>arg</I>[<I>0</I>] is the name of the file.
+
+     Two interfaces are available.  <B>execl</B> is useful when  a  known  file  with
+     known arguments is being called; the arguments to <B>execl</B> are the character
+     strings constituting the file and the arguments; the  first  argument  is
+     conventionally the same as the file name (or its last component).  A null
+     pointer argument must end the  argument  list.   (Note  that  the  <B>execl*</B>
+     functions  are  variable argument functions.  This means that the type of
+     the arguments beyond <I>arg0</I> is not checked.  So the null  pointer  requires
+     an explicit cast to type <B>(char</B> <B>*)</B> if not of that type already.)
+
+     The <B>execv</B> version is useful when the number of arguments  is  unknown  in
+     advance;  the  arguments to <B>execv</B> are the name of the file to be executed
+     and a vector of strings containing  the  arguments.   The  last  argument
+     string must be followed by a null pointer.
+
+     When a C program is executed, it is called as follows:
+
+          <B>int</B> <B>main(int</B> <I>argc</I><B>,</B> <B>char</B> <B>*const</B> <I>argv</I><B>[],</B> <B>char</B> <B>*const</B> <I>envp</I><B>[]);</B>
+
+          <B>exit(main(</B><I>argc</I><B>,</B> <I>argv</I><B>,</B> <I>envp</I><B>));</B>
+
+
+
+     where <I>argc</I> is the argument count  and  <I>argv</I>  is  an  array  of  character
+     pointers   to   the   arguments   themselves.    As  indicated,  <I>argc</I>  is
+     conventionally at least one and the first member of the array points to a
+     string containing the name of the file.
+
+     <I>Argv</I> is directly usable in another <B>execv</B> because <I>argv</I>[<I>argc</I>] is 0.
+
+     <I>Envp</I> is a pointer to an array of strings that constitute the  <I>environment</I>
+     of  the  process.   Each  string  consists of a name, an "=", and a null-
+     terminated value.  The array of pointers is terminated by a null pointer.
+     The  shell  <B><A HREF="../man1/sh.1.html">sh(1)</A></B>  passes  an  environment  entry  for  each global shell
+     variable defined when the program is called.   See  <B><A HREF="../man7/environ.7.html">environ(7)</A></B>  for  some
+     conventionally  used  names.   The  C run-time start-off routine places a
+     copy of <I>envp</I> in the global cell <B>environ</B>, which is used by <B>execv</B> and <B>execl</B>
+     to  pass  the  environment  to  any  subprograms  executed by the current
+     program.
+
+     <B>Execlp</B> and <B>execvp</B> are called with the same arguments as <B>execl</B> and  <B>execv</B>,
+     but  duplicate the shell's actions in searching for an executable file in
+     a  list  of  directories.   The  directory  list  is  obtained  from  the
+     environment variable <B>PATH</B>.  Under standard Minix, if a file is found that
+     is executable, but does not have the proper executable header then it  is
+     assumed  to  be  a  shell  script.   <B>Execlp</B> and <B>execvp</B> execute <B>/bin/sh</B> to
+     interpret the script.  Under Minix-vmd this does  not  happen,  a  script
+     must  begin with <B>#!</B> and the full path name of the interpreter if it is to
+     be an executable script.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/execve.2.html">execve(2)</A></B>, <B><A HREF="../man2/fork.2.html">fork(2)</A></B>, <B><A HREF="../man7/environ.7.html">environ(7)</A></B>, <B><A HREF="../man1/sh.1.html">sh(1)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     If the file cannot be found, if it is not  executable,  if  it  does  not
+     start  with  a  valid  magic  number (see <B><A HREF="../man5/a.out.5.html">a.out(5)</A></B>), if maximum memory is
+     exceeded,  or  if  the  arguments  require  too  much  space,  a   return
+     constitutes  the  diagnostic;  the return value is -1 and <B>errno</B> is set as
+     for <B>execve</B>.  Even for the  super-user,  at  least  one  of  the  execute-
+     permission bits must be set for a file to be executed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

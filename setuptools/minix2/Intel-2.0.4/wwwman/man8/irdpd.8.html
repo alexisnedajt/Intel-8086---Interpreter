@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>irdpd(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>irdpd(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     irdpd - internet router discovery protocol daemon
+
+<B>SYNOPSIS</B>
+     <B>irdpd</B> [<B>-bd</B>] [<B>-U</B> <I>udp</I>-<I>device</I>] [<B>-I</B> <I>ip</I>-<I>device</I>] [<B>-o</B> <I>priority</I>-<I>offset</I>]
+
+<B>DESCRIPTION</B>
+     <B>Irdpd</B> looks for routers.  This should be a simple task, but some  routers
+     are  hard  to  find  because  they  do not implement the router discovery
+     protocol.  This daemon collects information that routers do send out  and
+     makes it available.
+
+     At startup <B>irdpd</B> sends out several  router  solicitation  broadcasts.   A
+     good router should respond to this with a router advertisement.
+
+     If a router advertisement arrives then no more  solicitations  are  sent.
+     The  TCP/IP  server  has  filled its routing table with the info from the
+     advertisement, so it now has at least one router.  If  the  advertisement
+     is  sent  by a genuine router (the sender is in the table) then the <B>irdpd</B>
+     daemon goes dormant for the time the advert is valid.  Routers  send  new
+     adverts periodically, keeping the daemon silent.
+
+     Otherwise  <B>irdpd</B>  will  listen  for  RIP  (Router  Information  Protocol)
+     packets.   These  packets  are  sent  between routers to exchange routing
+     information.  <B>Irdpd</B> uses this information to build a routing table.
+
+     Every now and then a router advertisement is sent to the  local  host  to
+     give it router information build from the RIP packets.
+
+<B>OPTIONS</B>
+
+     <B>-b</B>   Broadcast advertisements instead of sending them to the  local  host
+          only.   This  may  be  used to keep (non-Minix) hosts alive on a net
+          without adverts.
+
+     <B>-d</B>   Debug mode, tell where info is coming from and  where  it  is  sent.
+          Debugging can also be turned on at runtime by sending signal <B>SIGUSR1</B>
+          or turned off with <B>SIGUSR2</B>.
+
+     <B>-o</B> <I>priority</I>-<I>offset</I>
+          Offset used to make the gateway's  preferences  collected  from  RIP
+          packets  look  worse than those found in genuine router adverts.  By
+          default <B>-1024</B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man8/inet.8.html">inet(8)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>, <B><A HREF="../man8/dhcpd.8.html">dhcpd(8)</A></B>, <B><A HREF="../man8/inetd.8.html">inetd(8)</A></B>, <B><A HREF="../man8/nonamed.8.html">nonamed(8)</A></B>.
+
+
+
+
+<B>BUGS</B>
+     This daemon has gone out of favour thanks to <B>dhcpd</B>, that also does router
+     solicitations among other things.
+
+     Under standard Minix this daemon can't listen to both IRDP and RIP at the
+     same  time,  so  it  starts out with IRDP.  It switches over to RIP if it
+     can't find a router, or if it threatens to lose its router.  It does  not
+     switch back.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

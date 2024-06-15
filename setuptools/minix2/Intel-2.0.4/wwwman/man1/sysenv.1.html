@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>sysenv(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>sysenv(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     sysenv - request system boot parameter
+
+<B>SYNOPSIS</B>
+     <B>sysenv</B> [<I>boot</I>-<I>variable</I>] ...
+
+<B>DESCRIPTION</B>
+     <B>Sysenv</B> requests the value of one or more  boot  variables.   For  example
+     <B>sysenv memory</B>  returns  the  list of free memory at system startup.  Note
+     that some parameters have undergone "device translation"  from  a  device
+     name to a decimal device number.
+
+     If no variable names are  given  then  the  entire  boot  environment  is
+     listed.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/svrctl.2.html">svrctl(2)</A></B>, <B><A HREF="../man8/monitor.8.html">monitor(8)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     Exit code 0 with the variable's value printed to standard output  if  all
+     requested  variables  exist  in  the boot environment, exit code 1 on any
+     weird error, exit code 2 if one of the variables is  not  set,  and  exit
+     code 3 if both kind of errors occurred.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

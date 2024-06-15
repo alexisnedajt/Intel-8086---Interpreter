@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>setsid(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>setsid(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     setsid, getpgrp - create process group, get process group id
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>pid_t</B> <B>setsid(void)</B>
+     <B>pid_t</B> <B>getpgrp(void)</B>
+
+<B>DESCRIPTION</B>
+     <B>Setsid()</B> creates a new session if the calling process is  not  already  a
+     session  leader.  The calling process becomes the session leader of a new
+     process group and the process group ID of this new process group will  be
+     equal  to the process ID of the new session leader.  The process group ID
+     is inherited on a <B><A HREF="../man2/fork.2.html">fork(2)</A></B>.
+
+     <B>Getpgrp()</B> returns the process group ID of the calling process.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/kill.2.html">kill(2)</A></B>, <B><A HREF="../man3/termios.3.html">termios(3)</A></B>, <B><A HREF="../man4/tty.4.html">tty(4)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Setsid()</B> returns the new process group ID on success, or  -1  with  <B>errno</B>
+     set to <B>EPERM</B> if the process is already a session leader.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>spell(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>spell(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     spell - print all words in a file not present in the dictionary
+
+<B>SYNOPSIS</B>
+     <B>spell</B> <I>file</I>
+
+<B>EXAMPLES</B>
+
+     <B>spell</B> <B>document</B>      # Print the spelling errors on <I>stdout</I>
+
+<B>DESCRIPTION</B>
+
+     <I>Spell</I> is the MINIX spelling checker. It is actually a short shell script.
+     First,  the  program  <I>prep</I>  strips off the <I>roff</I>, <I>nroff</I>, and <I>troff</I> control
+     lines, and the punctuation, and lists  each  word  on  a  separate  line.
+     These  words  are  then sorted.  The resulting output is then compared to
+     the dictionary.  Words present  in  the  file  but  not  present  in  the
+     dictionary   are   listed.    The   dictionary   must   be   located   in
+     /<I>usr</I>/<I>lib</I>/<I>dict</I>/<I>words</I>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/nroff.1.html">nroff(1)</A></B>, <B><A HREF="../man1/prep.1.html">prep(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>tget(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>tget(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     tget - get termcap values
+
+<B>SYNOPSIS</B>
+     <B>tget</B> [<B>-flag</B> <I>id</I>] [<B>-num</B> <I>id</I>] [<B>-str</B> <I>id</I>] [<B>-goto</B> <I>col</I> <I>line</I>] [[<B>-echo</B>] <I>string</I>]
+
+<B>DESCRIPTION</B>
+     <B>Tget</B> allows shell scripts access to  the  <B><A HREF="../man3/termcap.3.html">termcap(3)</A></B>  functions.   Flags,
+     numbers  and  strings  can be queried from the termcap database under the
+     entry denoted by the environment variable <B>$TERM</B>.
+
+<B>OPTIONS</B>
+
+     <B>-flag</B> <I>id</I>
+          Set the exit status to zero if  the  flag  <I>id</I>  is  set.   All  other
+          options  except  <B>-echo</B>  set the exit status to <I>id</I> being available or
+          not.  The last option sets the final exit code.
+
+     <B>-num</B> <I>id</I>
+          Print the value of the numeric variable <I>id</I>.
+
+     <B>-str</B> <I>id</I>
+          Print the value of the string variable <I>id</I>.
+
+     <B>-goto</B> <I>col</I> <I>line</I>
+          Generates instructions to go to the given column and line if the  <B>cm</B>
+          capability exists.
+
+     <B>-echo</B> <I>string</I>
+          Prints <I>string</I>.  Any other argument that does not start with  a  dash
+          is also printed.
+
+<B>EXAMPLE</B>
+     Try this:  <B>tget</B> <B>-str</B> <B>so</B> <B>'Reverse</B> <B>Video'</B> <B>-str</B> <B>se</B>
+
+<B>ENVIRONMENT</B>
+
+     <B>TERM</B>           Terminal type.
+
+     <B>TERMCAP</B>        Path    to    the    termcap    database,    by    default
+                    /etc/termcap:/usr/etc/termcap.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/termcap.3.html">termcap(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Tget</B> will fail immediately with a  descriptive  message  if  the  termcap
+     entry can't be found.
+
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

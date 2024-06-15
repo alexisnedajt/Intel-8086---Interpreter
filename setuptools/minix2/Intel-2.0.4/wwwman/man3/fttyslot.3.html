@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>ttyslot(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>ttyslot(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ttyslot, fttyslot - utmp slot number
+
+<B>SYNOPSIS</B>
+     <B>#define</B> <B>_MINIX_SOURCE</B> <B>1</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>int</B> <B>ttyslot(void)</B>
+     <B>int</B> <B>fttyslot(int</B> <I>fd</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Ttyslot()</B> returns the index of the login terminal in the <B>utmp</B>  file.   It
+     tries <B>fttyslot()</B> on file descriptors <B>0,</B> <B>1,</B> and <B>2</B> to find the index.
+
+     <B>Fttyslot()</B> returns the utmp index of the terminal  associated  with  file
+     descriptor  <I>fd</I>.   First  it  tries  to  map  <I>fd</I>  to  a terminal name with
+     <B><A HREF="../man3/ttyname.3.html">ttyname(3)</A></B>, then it searches the <B><A HREF="../man5/ttytab.5.html">ttytab(5)</A></B> database with the <B><A HREF="../man3/getttyent.3.html">getttyent(3)</A></B>
+     function  for this terminal.  This means that the utmp slot number is the
+     same as the ttytab entry number counting from 1.  The value 0 is returned
+     if no slot number can be found for a file descriptor.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/ttyname.3.html">ttyname(3)</A></B>, <B><A HREF="../man3/getttyent.3.html">getttyent(3)</A></B>, <B><A HREF="../man5/utmp.5.html">utmp(5)</A></B>, <B><A HREF="../man5/ttytab.5.html">ttytab(5)</A></B>, <B><A HREF="../man8/init.8.html">init(8)</A></B>.
+
+<B>NOTES</B>
+     Since 0 is used as an error return this means that the first entry in the
+     utmp file is not used.
+
+     <B>Ttyslot()</B> is often found in a UNIX implementation,  <B>fttyslot()</B>  is  Minix
+     specific.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

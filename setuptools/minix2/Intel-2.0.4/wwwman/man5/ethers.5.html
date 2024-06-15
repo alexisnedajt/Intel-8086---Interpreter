@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>ethers(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>ethers(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ethers - ethernet address to hostname database
+
+<B>SYNOPSIS</B>
+     <B>/etc/ethers</B>
+
+<B>DESCRIPTION</B>
+     The ethers database translates ethernet addresses to hostnames for use by
+     the RARP daemon (see <B><A HREF="../man8/rarpd.8.html">rarpd(8)</A></B>.)  <B>/etc/ethers</B> may look like this:
+
+          0:0:c0:a:77:23      flotsam
+          0:0:c0:a:68:ce      jetsam
+
+     The six octet ethernet numbers must be entered as shown  above,  the  hex
+     constants  must  use  lowercase  letters  and may not have leading zeros.
+     Comments are marked with '#'.
+
+     See <B><A HREF="../man8/rarpd.8.html">rarpd(8)</A></B> on why you shouldn't list Sun hosts in this file.
+
+<B>FILES</B>
+
+     /etc/ethers    Ethernet addresses database.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man5/hosts.5.html">hosts(5)</A></B>, <B><A HREF="../man8/rarpd.8.html">rarpd(8)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

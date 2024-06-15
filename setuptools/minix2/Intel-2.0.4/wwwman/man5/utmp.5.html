@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>utmp(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>utmp(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     utmp, wtmp - logged in users, login and logout history
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;utmp.h&gt;</B>
+
+<B>DESCRIPTION</B>
+     The files <B>/etc/utmp</B> and <B>/usr/adm/wtmp</B> respectively contain the  currently
+     logged in users, and the history of logins and logouts.
+
+     Each file is an array of the following structure defined in &lt;utmp.h&gt;:
+
+     struct utmp {
+          char           ut_user[8];    /* user name */
+          char           ut_line[12];   /* terminal name */
+          char           ut_host[16];   /* host name, when remote */
+          time_t         ut_time;       /* login/logout time */
+     };
+
+     #define ut_name ut_user /* for compatibility with other systems */
+
+     The structure contains more fields than those listed, but they  are  only
+     of  interest  to  <B>init</B>  and  <B>login</B>.   Note  that  the  <B>ut_name</B> field is a
+     compatibility alias for <B>ut_user</B>, it is actually better to use it.
+
+     A login entry is completely specified.  A logout entry has a null  string
+     for  <B>ut_name</B>.  A shutdown or reboot entry has an <B>ut_line</B> field containing
+     a "~" (tilde).  The <B>ut_name</B> field is usually the name of the program that
+     did  the  shutdown,  or "reboot" at reboot.  This is a bit confusing, but
+     note that there should always be two such entries.  If you see  just  one
+     entry then the system has crashed, if you see two entries then the system
+     was properly shut down and later rebooted.
+
+<B>FILES</B>
+
+     <B>/etc/utmp</B>                Currently logged in users.
+
+     <B>/usr/adm/wtmp</B>            History of logins and logouts.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/who.1.html">who(1)</A></B>, <B><A HREF="../man3/ttyslot.3.html">ttyslot(3)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

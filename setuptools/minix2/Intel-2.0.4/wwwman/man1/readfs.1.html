@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>readfs(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>readfs(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     readfs - read a MINIX file system
+
+<B>SYNOPSIS</B>
+     <B>readfs</B> [<B>-il</B>] <I>block</I>_<I>special</I> [<I>dir</I>]
+
+<B>OPTIONS</B>
+
+     <B>-i</B>   Give information about the file, but do not extract files
+
+     <B>-l</B>   List the files extracted on standard output
+
+<B>EXAMPLES</B>
+
+     <B>readfs</B> <B>-l</B> <B>/dev/fd0</B>  # List contents of diskette
+
+<B>DESCRIPTION</B>
+
+     <I>Readfs</I> reads a diskette containing a MINIX file system.  It  can  extract
+     all  the  files  from  it,  give  a  listing of them, or both.  The files
+     extracted can be put in  a  user-specified  directory  (default:  current
+     directory).    If   subdirectories  are  needed,  they  will  be  created
+     automatically.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/mkproto.1.html">mkproto(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

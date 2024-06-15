@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>ttyname(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>ttyname(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ttyname - file descriptor to terminal device name
+
+<B>SYNOPSIS</B>
+     <B>#define</B> <B>_POSIX_SOURCE</B> <B>1</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>char</B> <B>*ttyname(int</B> <I>fd</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Ttyname</B> searches through the <B>/dev</B> directory for the terminal device  file
+     that  is  associated  with  file descriptor <I>fd</I>.  It returns the full path
+     name of the terminal file if found, NULL is returned otherwise.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/ttyslot.3.html">ttyslot(3)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

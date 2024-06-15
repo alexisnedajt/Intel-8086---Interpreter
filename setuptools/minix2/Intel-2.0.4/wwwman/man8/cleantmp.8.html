@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>cleantmp(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>cleantmp(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     cleantmp - clean out a tmp dir
+
+<B>SYNOPSIS</B>
+     <B>cleantmp</B> [<B>-d</B>[<I>level</I>]] [<B>-i</B> <I>file</I>] ...  <B>-</B><I>days</I>|<B>-f</B> [<I>directory</I> ...]
+
+<B>DESCRIPTION</B>
+     <B>Cleantmp</B> removes all files in each of the  given  directories  and  their
+     subdirectories  that  have  not  been  accessed for at least '<I>days</I>' days.
+     Empty subdirectories are removed if their modified times  are  more  than
+     '<I>days</I>'  days  old.   <B>Cleantmp</B>  looks at days as humans do, i.e. they last
+     from midnight to midnight.  Meaning that <B>cleantmp</B>  <B>-1</B>  <B>/tmp</B>  removes  all
+     files  that  were not touched after midnight last night. This may be very
+     helpful, because in many cases that big  file  that  clogs  up  <B>/tmp</B>  was
+     created yesterday, but less than 24 hours ago.
+
+     The 'days' flag may be replaced by <B>-f</B>  causing  <B>cleantmp</B>  to  remove  all
+     files  in the directory no matter what age.  Specifying zero days doesn't
+     work, because it is assumed to be a mistake.
+
+     <B>Cleantmp</B> knows that files and directories that have a name starting  with
+     a  '.'  are special and will not delete them or files within them if they
+     are not at least 14 days old.
+
+<B>OPTIONS</B>
+
+     <B>-d</B>[<I>level</I>]]
+          Set the debug level to <I>level</I> (by default 1).  Normally  only  errors
+          are  reported.   Debug  level  1 lists the actions taken on standard
+          error, level 2 also prints the file times used, and  level  3  makes
+          <B>cleantmp</B> playact, i.e. nothing is really removed.
+
+     <B>-i</B> <I>file</I>
+          One or more <B>-i</B> options name files to  be  ignored.   Files  are  not
+          removed  if  they  are  in  the  list  of  ignored files by either a
+          directory entry match, or a full pathname  match.   This  option  is
+          useful  to keep things like named pipes that some longlived programs
+          foolishly put in temporary directories.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/find.1.html">find(1)</A></B>.
+
+<B>BUGS</B>
+     Don't use '<B>cleantmp</B> <B>-1</B>' shortly after midnight.
+
+     It would be nice if one could delete files that are, say, 2 hours old.
+
+
+
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

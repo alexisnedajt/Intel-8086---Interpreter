@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>mail(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>mail(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     mail - send and receive electronic mail
+
+<B>SYNOPSIS</B>
+     <B>mail</B> [<B>-epqr</B>] [<B>-f</B> <I>file</I>]
+     <B>mail</B> [<B>-dtv</B>] [<B>-s</B> <I>subject</I>] <I>user</I> [...]
+
+<B>OPTIONS</B>
+
+     <B>-e</B>   Exit with status TRUE or FALSE to  indicate  if  there  is  mail  in
+          mailbox
+
+     <B>-p</B>   Print all mail and then exit
+
+     <B>-q</B>   Quit program if SIGINT received
+
+     <B>-r</B>   Reverse print order, i.e., print oldest first
+
+     <B>-f</B>   Use <I>file</I> instead of /<I>usr</I>/<I>spool</I>/<I>mail</I>/<I>user</I> as mailbox
+
+     <B>-d</B>   Force use of the shell variable <I>MAILER</I>
+
+     <B>-t</B>   Show distribution list as Dist: header in message
+
+     <B>-v</B>   Verbose mode (passed on to <I>MAILER</I>)
+
+     <B>-s</B>   Use Subject: <I>subject</I>
+
+<B>EXAMPLES</B>
+
+     <B>mail</B> <B>ast</B>            # Send a message to <I>ast</I>
+
+     <B>mail</B>                # Read your mail
+
+     <B>cat</B> <B>mail.cdiff</B> <B>|</B> <B>mail</B> <B>-s</B> <B>''Here's</B> <B>the</B> <B>diff!''</B> <B>asw</B>
+                         # Pipe program output to mail with a subject line
+
+     <B>mail</B> <B>-f</B> <B>/usr/spool/mail/asw</B>
+                         # How root can read asw's mail
+
+<B>DESCRIPTION</B>
+
+     <I>Mail</I> is an extremely simple electronic mail program.  It can be  used  to
+     send  or  receive  email  on  a  single  MINIX  system,  in which case it
+     functions as user agent and local delivery agent. If the flag  <I>MAILER</I>  is
+     defined  in  <I>mail</I>.<I>c</I>,  it can also call a transport agent to handle remote
+     mail as well.  No such agent is supplied with MINIX.
+
+
+
+     When  called  by  <I>user</I>  with  no  arguments,  it  examines  the   mailbox
+     /<I>usr</I>/<I>spool</I>/<I>mail</I>/<I>user</I>,  prints one message (depending on the <B>-r</B> flag), and
+     waits for one of the following commands:
+
+        &lt;newline&gt;   Go to the next message
+        -           Print the previous message
+        !command    Fork off a shell and execute <I>command</I>
+        CTRL-D      Update the mailbox and quit (same as q)
+        d           Delete the current message and go to the next one
+        q           Update the mailbox and quit (same as CTRL-D)
+        p           Print the current message again
+        s [<I>file</I>]    Save message in the named file
+        x           Exit without updating the mailbox
+
+     To send mail, the program  is  called  with  the  name  of  one  or  more
+     recipients  as  arguments.   The mail is sent, along with a postmark line
+     containing the date.   For  local  delivery,  a  file  named  after  each
+     recipient  in  the directory /<I>usr</I>/<I>spool</I>/<I>mail</I> must be writable. If a spool
+     file does not exist for a recipient it will be created.
+
+     If the directory /<I>usr</I>/<I>spool</I>/<I>mail</I> does not exist then the mail  is  dumped
+     on  the console, so that system programs have a way to notify a user on a
+     system that does not have a mail spool.
+
+     The received mail contains a To: header showing the recipient.  If  there
+     are  multiple  recipients  and  the <B>-t</B> option is specified each recipient
+     will also see a Dist: header line showing the other recipients.
+
+     The <B>-s</B> option allows a subject to  be  specified.  The  subject  must  be
+     quoted if it contains spaces. If no subject is specified the mail will be
+     delivered with Subject: No subject.
+
+<B>NOTES</B>
+     The <B>-s</B> option was added to make this simple mail program consistent  with
+     mail programs found in other *nix variants.  Many programs, including the
+     version of cron distributed with Minix releases 2.0.3 and  later,  report
+     their  outcome  by  piping  output to the mail program in order to send a
+     mail message to root in lieu of writing a log file.  Such programs  often
+     expect the mail program to accept a subject line using this option.
+
+<B>BUGS</B>
+     If an  external  <I>MAILER</I>  is  used  it  is  likely  the  conditional  code
+     supporting this will need some editing to be made to work correctly.
+
+<B>AUTHOR</B>
+     The original mail program for Minix was written by Peter B. Housel.   The
+     -e and -t options were added by C. W. Rose. The -s option was added by A.
+     S. Woodhull. This man page revised by ASW 2003-07-18.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

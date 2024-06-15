@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>ferror(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>ferror(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ferror, feof, clearerr, fileno - stream status inquiries
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdio.h&gt;</B>
+
+     <B>int</B> <B>feof(FILE</B> <B>*</B><I>stream</I><B>)</B>
+     <B>int</B> <B>ferror(FILE</B> <B>*</B><I>stream</I><B>)</B>
+     <B>int</B> <B>clearerr(FILE</B> <B>*</B><I>stream</I><B>)</B>
+     <B>int</B> <B>fileno(FILE</B> <B>*</B><I>stream</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Feof</B> returns non-zero when end of file is read on the named input <I>stream</I>,
+     otherwise  zero.   Unless cleared by <B>clearerr</B>, the end-of-file indication
+     lasts until the stream is closed.
+
+     <B>Ferror</B> returns non-zero when an error has occurred reading or writing the
+     named  <I>stream</I>,  otherwise  zero.   Unless  cleared by <B>clearerr</B>, the error
+     indication lasts until the stream is closed.
+
+     <B>Clearerr</B> resets the error and end-of-file indicators on the named <I>stream</I>.
+
+     <B>Fileno</B> returns the integer file descriptor associated  with  the  <I>stream</I>,
+     see <B><A HREF="../man2/open.2.html">open(2)</A></B>.
+
+     Currently all of these functions are implemented as macros;  they  cannot
+     be redeclared.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/fopen.3.html">fopen(3)</A></B>, <B><A HREF="../man2/open.2.html">open(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

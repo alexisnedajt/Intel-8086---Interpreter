@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>strings(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>strings(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     strings - print all the strings in a binary file
+
+<B>SYNOPSIS</B>
+     <B>strings</B> [<B>-</B>] [<B>-o</B>] [<B>-</B><I>n</I>] <I>file</I> ...
+
+<B>OPTIONS</B>
+
+     <B>-</B>    search whole file, not just data seg
+
+     <B>-o</B>   Print octal offset of each string
+
+     <B>-</B><I>n</I>   <I>n</I> is minimum length string (default = 4)
+
+<B>EXAMPLES</B>
+
+     <B>strings</B> <B>-5</B> <B>a.out</B>    # Print the strings &gt; 4 chars in <I>a</I>.<I>out</I>
+
+     <B>strings</B> <B>-</B> <B>/bin/sh</B>   # Search entire shell file (text and data)
+
+<B>DESCRIPTION</B>
+
+     <I>Strings</I> looks for sequences of ASCII characters followed by a zero  byte.
+     These  are  usually  strings.   This  program  is  typically used to help
+     identify unknown binary programs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

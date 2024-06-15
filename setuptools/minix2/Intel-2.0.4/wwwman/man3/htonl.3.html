@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>hton(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>hton(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     hton, htons, htonl, ntohs, ntohl - host to network byte order conversion
+
+<B>SYNOPSIS</B>
+     <B>#define</B> <B>_MINIX_SOURCE</B> <B>1</B>
+     <B>#include</B> <B>&lt;stddef.h&gt;</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+
+     <B>#include</B> <B>&lt;net/hton.h&gt;</B>
+
+     <B>u16_t</B> <B>htons(u16_t</B> <I>host</I>_<I>word</I><B>)</B>
+     <B>u32_t</B> <B>htonl(u32_t</B> <I>host</I>_<I>dword</I><B>)</B>
+     <B>u16_t</B> <B>ntohs(u16_t</B> <I>network</I>_<I>word</I><B>)</B>
+     <B>u32_t</B> <B>ntohl(u32_t</B> <I>network</I>_<I>dword</I><B>)</B>
+     <B>u16_t</B> <B>HTONS(u16_t</B> <I>host</I>_<I>word</I><B>)</B>
+     <B>u32_t</B> <B>HTONL(u32_t</B> <I>host</I>_<I>dword</I><B>)</B>
+     <B>u16_t</B> <B>NTOHS(u16_t</B> <I>network</I>_<I>word</I><B>)</B>
+     <B>u32_t</B> <B>NTOHL(u32_t</B> <I>network</I>_<I>dword</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     These macros convert 16-bit and 32-bit quantities to and from the network
+     byte  order  used by the TCP/IP protocols.  The function of the macros is
+     encoded in their name.  <B>H</B> means host byte order,  <B>n</B>  means  network  byte
+     order,  <B>s</B>  means  a  16-bit quantity and <B>l</B> means a 32-bit quantity.  Thus
+     <B>htons</B> converts a 16-bit quantity from host byte  order  to  network  byte
+     order.   The difference between the lower case and upper case variants is
+     that the lower case variants evaluate the argument at most once  and  the
+     upper case variants can be used for constant folding.  That is,
+
+          htonl(f(x))
+
+     will call f(x) at most once and
+
+          HTONS(0x10)
+
+     will be equivalent to 0x10 on  a  big-endian  machine  and  0x1000  on  a
+     little-endian machine.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man4/ip.4.html">ip(4)</A></B>.
+
+<B>AUTHOR</B>
+     Philip Homburg (philip@cs.vu.nl)
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

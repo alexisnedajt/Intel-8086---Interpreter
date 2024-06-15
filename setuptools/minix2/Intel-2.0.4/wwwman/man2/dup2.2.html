@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>dup(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>dup(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     dup, dup2 - duplicate a descriptor
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>int</B> <B>dup(int</B> <I>oldd</I><B>)</B>
+     <B>int</B> <B>dup2(int</B> <I>oldd</I><B>,</B> <B>int</B> <I>newd</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Dup</B> duplicates an existing descriptor.  The argument <I>oldd</I> is a small non-
+     negative  integer  index  in the per-process descriptor table.  The value
+     must be less than OPEN_MAX, the size of the table.   The  new  descriptor
+     returned  by  the  call,  let's  name  it  <I>newd</I>,  is  the lowest numbered
+     descriptor that is not currently in use by the process.
+
+     The object referenced by the  descriptor  does  not  distinguish  between
+     references  using  <I>oldd</I>  and  <I>newd</I> in any way.  Thus if <I>newd</I> and <I>oldd</I> are
+     duplicate references to an open  file,  <B><A HREF="../man2/read.2.html">read(2)</A></B>,  <B><A HREF="../man2/write.2.html">write(2)</A></B>  and  <B><A HREF="../man2/lseek.2.html">lseek(2)</A></B>
+     calls  all  move  a  single  pointer into the file, and append mode, non-
+     blocking  I/O  and  asynchronous  I/O  options  are  shared  between  the
+     references.   If a separate pointer into the file is desired, a different
+     object reference to the file must be obtained by  issuing  an  additional
+     <B><A HREF="../man2/open.2.html">open(2)</A></B>  call.   The  close-on-exec  flag  on  the new file descriptor is
+     unset.
+
+     In the second form of the call, the value of <I>newd</I> desired  is  specified.
+     If this descriptor is already in use, the descriptor is first deallocated
+     as if a <B><A HREF="../man2/close.2.html">close(2)</A></B> call had been done first.  <I>Newd</I>  is  not  closed  if  it
+     equals <I>oldd</I>.
+
+<B>RETURN</B> <B>VALUE</B>
+     The value -1 is returned if an error occurs in either call.  The external
+     variable <B>errno</B> indicates the cause of the error.
+
+<B>ERRORS</B>
+     <B>Dup</B> and <B>dup2</B> fail if:
+
+     [EBADF]        <I>Oldd</I> or <I>newd</I> is not a valid active descriptor
+
+     [EMFILE]       Too many descriptors are active.
+
+<B>NOTES</B>
+     <B>Dup</B> and <B>dup2</B> are now implemented using the <B>F_DUPFD</B> function of  <B><A HREF="../man2/fcntl.2.html">fcntl(2)</A></B>,
+     although  the  old  system  call  interfaces  still  exist to support old
+     programs.
+
+
+
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/open.2.html">open(2)</A></B>, <B><A HREF="../man2/close.2.html">close(2)</A></B>, <B><A HREF="../man2/fcntl.2.html">fcntl(2)</A></B>, <B><A HREF="../man2/pipe.2.html">pipe(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

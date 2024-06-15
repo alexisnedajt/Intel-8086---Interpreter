@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>eject(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>eject(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     eject - eject removable media
+
+<B>SYNOPSIS</B>
+     <B>eject</B> <I>device</I>
+
+<B>DESCRIPTION</B>
+     <B>Eject</B> tells a device to eject removable media, usually a  floppy  or  CD-
+     ROM.   <B>Eject</B>  invokes  the <B>DIOCEJECT</B> ioctl on the device.  The media will
+     then be ejected, or allowed to be removed.  The call  will  fail  if  the
+     device is still in use.
+
+     Tapes can't be unloaded with this command, use <B>mt</B> <B>offline</B> instead.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/mt.1.html">mt(1)</A></B>, <B><A HREF="../man4/hd.4.html">hd(4)</A></B>, <B><A HREF="../man4/sd.4.html">sd(4)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

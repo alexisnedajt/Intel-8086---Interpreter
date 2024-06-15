@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>postmort(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>postmort(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     postmort - perform post-mortem on PC Minix core files
+
+<B>SYNOPSIS</B>
+     <B>postmort</B> [<B>-dpt</B>] <B>-c</B> <I>corefile</I> <B>-s</B> <I>symbfile</I>
+
+<B>OPTIONS</B>
+
+     <B>-c</B>   Use the named corefile
+
+     <B>-d</B>   Dump all text symbols and segment data
+
+     <B>-p</B>   Display the kernel process table
+
+     <B>-s</B>   Use the named symbol file
+
+     <B>-t</B>   Display a stack backtrace
+
+<B>EXAMPLES</B>
+
+     <B>postmort</B>            # display the data from the file 'core'
+
+<B>DESCRIPTION</B>
+
+     <I>Postmort</I> does a simple static analysis  of  a  PC  Minix  core  file;  By
+     default,  it  looks  for the file 'core' in the local directory and loads
+     that for analysis; it also searches for the  file  'symbol.out',  and  if
+     that  fails 'a.out', expecting them to contain symbol information for the
+     core file.  It is not a fatal error if the symbol files don't exist.
+
+     The stack backtrace is slightly tricky, and may  go  on  longer  than  is
+     really  justified, since there's no easy way for it to know when to stop.
+     Treat its results with caution.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

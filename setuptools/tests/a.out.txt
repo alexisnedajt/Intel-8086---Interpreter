@@ -1,0 +1,80 @@
+0000: 55            push bp 
+0001: 89e5          mov bp, sp
+0003: b80600        mov ax, 0006
+0006: 50            push ax 
+0007: b80000        mov ax, 0000
+000a: 50            push ax 
+000b: b80100        mov ax, 0001
+000e: 50            push ax 
+000f: e80600        call 0018
+0012: 83c406        add sp, 6
+0015: e98900        jmp 00a1
+0018: e90100        jmp 001c
+001b: 005589        add [di-77], dl
+001e: e583          in ax, 83
+0020: ec            in al, dx
+0021: 188b5604      sbb [bp+di+456], cl
+0025: 8956ec        mov [bp-14], dx
+0028: 8b5608        mov dx, [bp+8]
+002b: 8956ee        mov [bp-12], dx
+002e: 8b5606        mov dx, [bp+6]
+0031: 8956f2        mov [bp-e], dx
+0034: 8d46e8        lea ax, [bp-18]
+0037: 50            push ax 
+0038: b80400        mov ax, 0004
+003b: 50            push ax 
+003c: b80100        mov ax, 0001
+003f: 50            push ax 
+0040: e80600        call 0049
+0043: 83c406        add sp, 6
+0046: e95800        jmp 00a1
+0049: 55            push bp 
+004a: 89e5          mov bp, sp
+004c: 56            push si 
+004d: 57            push di 
+004e: 8b7608        mov si, [bp+8]
+0051: 8b5606        mov dx, [bp+6]
+0054: 895402        mov [si+2], dx
+0057: 56            push si 
+0058: ff7604        push [bp+4] 
+005b: e82f00        call 008d
+005e: 5b            pop bx 
+005f: 5b            pop bx 
+0060: 89c7          mov di, ax
+0062: 09ff          or di, di
+0064: 7403          je 0069
+0066: 897c02        mov [si+2], di
+0069: 837c0200      cmp [si+2], 0
+006d: 7d0e          jnl 007d
+006f: 8b5402        mov dx, [si+2]
+0072: f7da          neg dx 
+0074: 89160800      mov [0008], dx
+0078: b8ffff        mov ax, ffff
+007b: eb03          jmp short 0080
+007d: 8b4402        mov ax, [si+2]
+0080: e91c00        jmp 009f
+0083: b90100        mov cx, 0001
+0086: eb0a          jmp short 0092
+0088: b90200        mov cx, 0002
+008b: eb05          jmp short 0092
+008d: b90300        mov cx, 0003
+0090: eb00          jmp short 0092
+0092: 55            push bp 
+0093: 89e5          mov bp, sp
+0095: 8b4604        mov ax, [bp+4]
+0098: 8b5e06        mov bx, [bp+6]
+009b: cd20          int 20
+009d: 5d            pop bp 
+009e: c3            ret 
+009f: 5f            pop di 
+00a0: 5e            pop si 
+00a1: 89ec          mov sp, bp
+00a3: 5d            pop bp 
+00a4: c3            ret 
+00a5: 5e            pop si 
+00a6: 5f            pop di 
+00a7: ebf8          jmp short 00a1
+00a9: 0000          add [bx+si], al
+00ab: 0000          add [bx+si], al
+00ad: 0000          add [bx+si], al
+00af: 00            (undefined)

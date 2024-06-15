@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>fread(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>fread(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     fread, fwrite - buffered binary input/output
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;stdio.h&gt;</B>
+
+     <B>size_t</B> <B>fread(void</B> <B>*</B><I>ptr</I><B>,</B> <B>size_t</B> <I>itemsize</I><B>,</B> <B>size_t</B> <I>nitems</I><B>,</B> <B>FILE</B> <B>*</B><I>stream</I><B>)</B>
+     <B>size_t</B> <B>fwrite(void</B> <B>*</B><I>ptr</I><B>,</B> <B>size_t</B> <I>itemsize</I><B>,</B> <B>size_t</B> <I>nitems</I><B>,</B> <B>FILE</B> <B>*</B><I>stream</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Fread</B> reads, into a block beginning at <I>ptr</I>, <I>nitems</I> of data of the type of
+     *<I>ptr</I>  from  the  named  input  <I>stream</I>.   It  returns  the number of items
+     actually read.
+
+     If <I>stream</I> is <B>stdin</B> and the standard output is  line  buffered,  then  any
+     partial output line will be flushed before any call to <B><A HREF="../man2/read.2.html">read(2)</A></B> to satisfy
+     the <B>fread</B>.
+
+     <B>Fwrite</B> appends at most <I>nitems</I> of data of the type of  *<I>ptr</I>  beginning  at
+     <I>ptr</I>  to the named output <I>stream</I>.  It returns the number of items actually
+     written.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/read.2.html">read(2)</A></B>,  <B><A HREF="../man2/write.2.html">write(2)</A></B>,  <B><A HREF="../man3/fopen.3.html">fopen(3)</A></B>,  <B><A HREF="../man3/getc.3.html">getc(3)</A></B>,   <B><A HREF="../man3/putc.3.html">putc(3)</A></B>,   <B><A HREF="../man3/gets.3.html">gets(3)</A></B>,   <B><A HREF="../man3/puts.3.html">puts(3)</A></B>,
+     <B><A HREF="../man3/printf.3.html">printf(3)</A></B>, <B><A HREF="../man3/scanf.3.html">scanf(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Fread</B> and <B>fwrite</B> return 0 upon end of file or error.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

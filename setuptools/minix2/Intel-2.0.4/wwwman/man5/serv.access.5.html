@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>serv.access(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>serv.access(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     serv.access - Internet service access list
+
+<B>SYNOPSIS</B>
+     <B>/etc/serv.access</B>
+
+<B>DESCRIPTION</B>
+     The <B>serv.access</B> file contains a list  of  rules  that  guide  the  access
+     checks  made  by  the  <B><A HREF="../man3/servxcheck.3.html">servxcheck(3)</A></B>  function.   The file is a text file
+     containing entries that look as follows:
+
+          <I>service1</I> <I>service2</I> ...<B>:</B>  <I>check1</I> <I>check2</I> ...<B>;</B>
+
+     Each of the service names is a service name from the <B>/etc/services</B>  file.
+     The  same  names  are used in the <B>/etc/inetd.conf</B> configuration file that
+     guides <B><A HREF="../man8/inetd.8.html">inetd(8)</A></B>.
+
+     The checks may look as follows:
+
+     <B>+</B>
+     <B>-</B>
+          Allow all, or allow none.  Used to explicitly set the initial state.
+
+     <B>+</B><I>name</I>
+          Grant access to one of the services if the host name of  the  remote
+          system matches <B>name</B>.
+
+     <B>-</B><I>name</I>
+          Deny access to one of the services if the host name  of  the  remote
+          system matches <B>name</B>.
+
+     <B>+</B><I>ipaddr</I>
+     <B>-</B><I>ipaddr</I>
+     <B>+</B><I>netaddr</I><B>/</B><I>len</I>
+     <B>-</B><I>netaddr</I><B>/</B><I>len</I>
+          Grants or denies access to a remote host with IP address <I>ipaddr</I>,  or
+          the remote host whose IP address is within the network <I>netaddr</I>.  <I>Len</I>
+          tells the number of bits used for the network address, i.e. the  top
+          <I>len</I> bits of the network address must equal the host address.
+
+     <B>log</B>
+          This is not a check, but a flag that instruct  <B>servxcheck()</B>  to  log
+          the  result  of  the  access  check  whether  it  succeeds or not to
+          <B>/usr/adm/log</B>.  By default only failure is logged.
+
+     The first "+" or "-" access check sets the  tone.   Read  it  as  "access
+     denied  unless  +...",  or "access granted unless -...".  An access check
+     will therefore almost always start with a "+" check.  To make the initial
+     state  clear  you can start with a lone "+" or "-".  Checks are done from
+     left to right.  A check that doesn't match does not change  the  outcome.
+     A check that can't change the outcome is skipped.
+
+     Both the service and the host names  may  contain  the  <B>*</B>  wildcard  that
+     matches  any  number  of characters including none.  Letters are compared
+     ignoring case.  A service name may appear in more than one  rule,  but  a
+     service mentioned explicitly is not matched by wildcard patterns in later
+     rules.
+
+     A check for a hostname causes <B>servxcheck()</B> to do a reverse lookup on  the
+     IP address of the remote host to find its name.  This name is then looked
+     up to find the host's IP address(es).  If those  lookups  fail  then  all
+     <B>-</B><I>name</I> checks cause access to be denied, and no <B>+</B><I>name</I> check grants access.
+     The DNS lookup failures may be a misconfiguration, but could  indicate  a
+     break-in attempt from a badly maintained host.  You can use a simple "+*"
+     in an otherwise empty list to just deny misconfigured hosts.
+
+     An IP or network address check is simply done  on  the  remote  hosts  IP
+     address.   Such  a  check  has  no  overhead, but a <B>log</B> flag will cause a
+     reverse lookup anyway.
+
+     Comments start with "#" and continue until end of line.
+
+<B>EXAMPLES</B>
+     Example access file on a machine that offers most services only to  hosts
+     within  the  cs.vu.nl  domain, and news (nntp) only to two machines and a
+     specific network.
+
+          # Service                 # Access list
+          login shell:              +*.cs.vu.nl log;
+          telnet pop smtp finger:   + log;
+          nntp:                     +flotsam.cs.vu.nl +jetsam.cs.vu.nl
+                                         +172.16.102.0/24 log;
+          *:                        +*.cs.vu.nl;
+
+     More paranoid example that limits all services by default, but allows ftp
+     and http to the world:
+
+          # Service                 # Access list
+          ftp http:                 +;
+          smtp finger:              + log;
+          nntp:                     +flotsam.cs.vu.nl +jetsam.cs.vu.nl
+                                         +172.16.102.0/24 log;
+          *:                        +*.cs.vu.nl log;
+
+     (Note that the last rule doesn't match  any  of  the  services  mentioned
+     explicitly earlier.)
+
+
+
+
+<B>FILES</B>
+
+     <B>/etc/serv.access</B>         The service access check file.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/servxcheck.3.html">servxcheck(3)</A></B>, <B><A HREF="../man5/services.5.html">services(5)</A></B>, <B><A HREF="../man5/inetd.conf.5.html">inetd.conf(5)</A></B>.
+
+<B>NOTES</B>
+     It may be wise not to put checks on telnet.   It  is  reasonably  secure,
+     since  it  always requires a password, and your only way in if things are
+     seriously hosed.
+
+<B>BUGS</B>
+     IP and DNS based access checks will  stop  most  crackers,  but  not  the
+     really  determined ones.  Luckily Minix is sufficiently strange to thwart
+     the well known cracking schemes.  But don't ever allow yourself  to  feel
+     secure.
+
+<B>AUTHOR</B>
+     Kees J. Bot &lt;kjb@cs.vu.nl&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

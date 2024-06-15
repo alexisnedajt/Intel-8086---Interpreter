@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>resolv.conf(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>resolv.conf(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     resolv.conf - Domain Name System resolver configuration
+
+<B>SYNOPSIS</B>
+     <B>/etc/resolv.conf</B>
+
+<B>DESCRIPTION</B>
+     The <B>/etc/resolv.conf</B> is used to configure  how  the  host  will  use  the
+     Domain  Name System to resolve hostnames to IP addresses.  It may contain
+     these two lines:
+
+          nameserver     <I>IP</I>-<I>address</I>
+          domain         <I>domain</I>-<I>name</I>
+
+     The nameserver entry tells the IP address of the  host  to  use  for  DNS
+     queries.  If it is set to 127.0.0.1 (which is the default) then the local
+     name daemon is used that may use the  <B>/etc/hosts</B>  database  to  translate
+     host names.  You normally only need a nameserver entry if the name server
+     is at the other side of a router.  The default <B>nonamed</B> name server  can't
+     look beyond the local network.
+
+     The domain  entry  tells  the  default  domain  to  use  for  unqualified
+     hostnames.   This  entry is usually not given in which case the domain of
+     the local host is used.
+
+     The long version of this story can be found in <B><A HREF="../man5/resolver.5.html">resolver(5)</A></B>.
+
+<B>FILES</B>
+
+     /etc/resolv.conf    DNS resolver configuration file.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man5/resolver.5.html">resolver(5)</A></B>, <B><A HREF="../man5/hosts.5.html">hosts(5)</A></B>, <B><A HREF="../man8/nonamed.8.html">nonamed(8)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>readall(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>readall(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     readall - read a device quickly to check for bad blocks
+
+<B>SYNOPSIS</B>
+     <B>readall</B> [<B>-bt</B>] <I>file</I>
+
+<B>OPTIONS</B>
+
+     <B>-b</B>   Produce shell script on <I>stdout</I> that calls <I>badblocks</I>
+
+     <B>-t</B>   Just print device size
+
+<B>EXAMPLES</B>
+
+     <B>readall</B> <B>/dev/hd0</B>    # Read all of /<I>dev</I>/<I>hd0</I>
+
+     <B>readall</B> <B>-b</B> <B>/dev/hd1</B> <B>&gt;s</B>
+                         # Generate shell script on <I>s</I>
+
+<B>DESCRIPTION</B>
+
+     <I>Readall</I> reads all of the named device in large chunks. It  reports  about
+     blocks  that  it  cannot  read.  Unlike <I>diskcheck</I>, it does not attempt to
+     write on the disk, making it safer to use when one  is  worried  about  a
+     sick  system.   When  the  <B>-b</B> flag is given, the output is a shell script
+     that calls the <I>badblocks</I> program to marked all the bad blocks.   Whenever
+     installing MINIX, it is wise to run <I>readall</I> with the <B>-b</B> flag first on all
+     the hard disks.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man8/badblocks.8.html">badblocks(8)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

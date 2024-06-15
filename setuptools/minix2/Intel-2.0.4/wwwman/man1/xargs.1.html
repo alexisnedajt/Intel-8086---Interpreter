@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>xargs(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>xargs(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     xargs - construct argument list(s) and execute utility.
+
+<B>SYNOPSIS</B>
+     <B>xargs</B> [<B>-ft0</B>] [[<B>-x</B>] <B>-n</B> <I>number</I>] [<B>-s</B> <I>size</I>] [<I>utility</I> [<I>argument</I> ...]]
+
+<B>DESCRIPTION</B>
+     The <B>xargs</B> utility reads space, tab,  newline  and  end-of-file  delimited
+     arguments from the standard input and executes the specified <I>utility</I> with
+     them as arguments.
+
+     The utility and any arguments specified on the command line are given  to
+     the  <I>utility</I>  upon  each  invocation,  followed  by  some  number  of the
+     arguments read from standard input.  The <I>utility</I> is  repeatedly  executed
+     until standard input is exhausted.
+
+     Spaces, tabs and newlines may be embedded in arguments using single (`` '
+     '')  or  double  (``"'')  quotes  or  backslashes (``\'').  Single quotes
+     escape all non-single quote characters, excluding  newlines,  up  to  the
+     matching  single  quote.   Double  quotes  escape  all  non-double  quote
+     characters, excluding newlines, up to the  matching  double  quote.   Any
+     single character, including newlines, may be escaped by a backslash.
+
+     The options are as follows:
+
+     <B>-f</B>   Force <B>xargs</B> to ignore the  exit  status  returned  by  <I>utility</I>.   By
+          default,  <B>xargs</B>  will  exit immediately if <I>utility</I> exits with a non-
+          zero exit status.  This does not include  ignoring  <I>utility</I>  exiting
+          due to a signal or without calling <B><A HREF="../man2/exit.2.html">exit(2)</A></B>.
+
+     <B>-n</B> <I>number</I>
+          Set the maximum number of arguments taken from  standard  input  for
+          each  invocation  of the utility.  An invocation of <I>utility</I> will use
+          less than <I>number</I> standard input arguments if  the  number  of  bytes
+          accumulated  (see the -<I>s</I> option) exceeds the specified <I>size</I> or there
+          are fewer than <I>number</I> arguments remaining for the last invocation of
+          <I>utility</I>.  The current default value for <I>number</I> is 5000.
+
+     <B>-s</B> <I>size</I>
+          Set the maximum number of bytes for the command line length provided
+          to  <I>utility</I>.   The  sum  of  the  length of the utility name and the
+          arguments passed to <I>utility</I> (including  NULL  terminators)  will  be
+          less  than  or  equal to this number.  The current default value for
+          <I>size</I> is ARG_MAX - 2048.
+
+     <B>-t</B>   Echo the command to be executed to standard error immediately before
+          it is executed.
+
+
+
+     <B>-x</B>   Force <B>xargs</B> to terminate immediately if a  command  line  containing
+          <I>number</I>  arguments will not fit in the specified (or default) command
+          line length.
+
+     <B>-0</B>   Read null-byte terminated pathnames from standard input as may  have
+          been  produced  by  the  <B>-print0</B> option of <B><A HREF="../man1/find.1.html">find(1)</A></B>.  This is a Minix
+          specific extension to <B>xargs</B>.
+
+     If no <I>utility</I> is specified, <B><A HREF="../man1/echo.1.html">echo(1)</A></B> is used.
+
+     Undefined behavior may occur if <I>utility</I> reads from the standard input.
+
+     <B>Xargs</B> exits with an exit status of 0 if  no  error  occurs.   If  <I>utility</I>
+     cannot  be  invoked,  is  terminated  by  a  signal or terminates without
+     calling <B><A HREF="../man2/exit.2.html">exit(2)</A></B>, <B>xargs</B> exits with an exit  status  of  127.   If  <I>utility</I>
+     exits  with  an  exit  status  other  than  0, <B>xargs</B> exits with that exit
+     status.  Otherwise, <B>xargs</B> exits with an exit status of 1.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/echo.1.html">echo(1)</A></B>, <B><A HREF="../man1/find.1.html">find(1)</A></B>.
+
+<B>STANDARDS</B>
+     The <B>xargs</B> utility is expected to be POSIX 1003.2 compliant.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

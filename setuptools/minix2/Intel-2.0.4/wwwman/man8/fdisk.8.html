@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>fdisk(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>fdisk(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     fdisk - partition a hard disk [IBM]
+
+<B>SYNOPSIS</B>
+     <B>fdisk</B> [<B>-h</B><I>m</I>] [<B>-s</B><I>n</I>] [<I>file</I>]
+
+<B>OPTIONS</B>
+
+     <B>-h</B>   Number of disk heads is <I>m</I>
+
+     <B>-s</B>   Number of sectors per track is <I>n</I>
+
+<B>EXAMPLES</B>
+
+     <B>fdisk</B> <B>/dev/hd0</B>      # Examine disk partitions
+
+     <B>fdisk</B> <B>-h9</B> <B>/dev/hd0</B>  # Examine disk with 9 heads
+
+<B>DESCRIPTION</B>
+
+     When <I>fdisk</I> starts up, it reads in the partition table  and  displays  it.
+     It then presents a menu to allow the user to modify partitions, store the
+     partition table on a file, or load it from a  file.   Partitions  can  be
+     marked  as MINIX, DOS or other, as well as active or not.  Using <I>fdisk</I> is
+     self-explanatory. However, be aware that repartitioning a disk will cause
+     information  on  it  to  be  lost.  Rebooting  the  system <I>immediately</I> is
+     mandatory after changing partition sizes and parameters.   MINIX,  XENIX,
+     PC-IX,  and  MS-DOS all have different partition numbering schemes.  Thus
+     when using multiple systems on the same disk, be careful.
+
+     Note that MINIX, unlike MS-DOS , cannot  access  the  last  sector  in  a
+     partition  with  an odd number of sectors.  The reason that odd partition
+     sizes do not cause a problem with MS-DOS is that  MS-DOS  allocates  disk
+     space  in units of 512-byte sectors, whereas MINIX uses 1K blocks.  <I>Fdisk</I>
+     has a variety of other features that can be seen by typing <I>h</I>.
+
+     <I>Fdisk</I> normally knows the geometry of the device  by  asking  the  driver.
+     You can use the <B>-h</B> and <B>-s</B> options to override the numbers found.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man8/part.8.html">part(8)</A></B>.
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

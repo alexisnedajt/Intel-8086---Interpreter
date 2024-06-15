@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>stdarg(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>stdarg(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     stdarg - variable argument list
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdarg.h&gt;</B>
+
+     <B>void</B> <B>va_start(va_list</B> <I>ap</I><B>,</B> <I>argtypeN</I> <I>parmN</I><B>)</B>
+     <I>type</I> <B>va_arg(va_list</B> <I>ap</I><B>,</B> <I>type</I><B>)</B>
+     <B>void</B> <B>va_end(va_list</B> <I>ap</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     This set of macros provides a means of writing portable  procedures  that
+     accept  variable argument lists.  Routines having variable argument lists
+     (such as <B><A HREF="../man3/printf.3.html">printf(3)</A></B>) that do not use <B>stdarg</B>  are  inherently  nonportable,
+     since different machines use different argument passing conventions.
+
+     A function that accepts a variable argument list is declared  with  "..."
+     at  the  end  of  its  parameter  list.  It must have at least one normal
+     argument before the "...".  For example:
+
+          int printf(const char *format, ...) { /* code */ }
+          int fprintf(FILE *stream, const char *format, ...) { /* code */ }
+
+     <B>va_list</B> is a type which is used for the variable <I>ap</I> within the body of  a
+     variable argument function which is used to traverse the list.
+
+     <B>va_start</B>(<I>ap</I>, <I>parmN</I>) is called to initialize <I>ap</I> to the  beginning  of  the
+     list.   The  last true parameter of the function, <I>parmN</I>, must be supplied
+     to allow <B>va_start</B> to compute the address of the first variable parameter.
+
+     <B>va_arg</B>(<I>ap</I>, <I>type</I>) will return the next argument in the list pointed to  by
+     <I>ap</I>.   <I>Type</I>  is  the type to which the expected argument will be converted
+     when passed as an argument.
+
+     Different types can be mixed, but it is up to the routine  to  know  what
+     type of argument is expected, since it cannot be determined at runtime.
+
+     <B>va_end</B>(<I>ap</I>) must be used to finish up.
+
+     Multiple  traversals,  each  bracketed  by  <B>va_start</B>  ...   <B>va_end,</B>   are
+     possible.
+
+<B>EXAMPLE</B>
+         <B>#include</B> &lt;stdarg.h&gt;
+
+         execl(<B>const</B> <B>char</B> *path, <B>...</B>)
+         {
+             <B>va_list</B> ap;
+             <B>char</B> *args[100];
+             <B>int</B> argno = 0;
+             <B>va_start</B>(ap, path);
+             <B>while</B> ((args[argno++] = <B>va_arg</B>(ap, <B>char</B> *)) != NULL) {}
+             <B>va_end</B>(ap);
+             <B>return</B> execv(path, args);
+         }
+
+<B>NOTES</B>
+     It is up to the calling routine to determine  how  many  arguments  there
+     are,  since  it  is  not possible to determine this from the stack frame.
+     For example, <B>execl</B> passes a null pointer to signal the end of  the  list.
+     <B>Printf</B>  can  tell  how  many  arguments  are  supposed to be there by the
+     format.
+
+     The macros <B>va_start</B> and <B>va_end</B> may be arbitrarily complex;  for  example,
+     <B>va_start</B>  might  contain  an opening brace, which is closed by a matching
+     brace in <B>va_end</B>.  Thus, they should only be  used  where  they  could  be
+     placed within a single complex statement.
+
+<B>BUGS</B>
+     It is impossible to properly show the macros as C declarations as is done
+     in  the  synopsis.   They  can never be coded as C functions, because all
+     three macros use their arguments  by  address,  and  the  <I>type</I>  field  is
+     certainly impossible.  Just look at them as being part of the C language,
+     like <B>sizeof</B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

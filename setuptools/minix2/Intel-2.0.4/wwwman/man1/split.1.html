@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>split(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>split(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     split - split a large file into several smaller files
+
+<B>SYNOPSIS</B>
+     <B>split</B> [<B>-</B><I>n</I>] [<I>file</I> [<I>prefix</I>]]
+
+<B>OPTIONS</B>
+
+     <B>-</B><I>n</I>   Number of lines per piece (default: 1000)
+
+<B>EXAMPLES</B>
+
+     <B>split</B> <B>-200</B> <B>file</B>     # Split <I>file</I> into pieces of 200 lines each
+
+     <B>split</B> <B>file</B> <B>z</B>        # Split <I>file</I> into <I>zaa</I>, <I>zab</I>, etc.
+
+<B>DESCRIPTION</B>
+
+     <I>Split</I> reads <I>file</I> and writes it out in <I>n</I>-line  pieces.   By  default,  the
+     pieces  are  called  <I>xaa</I>,  <I>xab</I>, etc.  The optional second argument can be
+     used to provide an alternative prefix for the output file names.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/cat.1.html">cat(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

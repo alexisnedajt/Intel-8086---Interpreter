@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>scanf(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>scanf(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     scanf,  fscanf,  sscanf,  vscanf,  vfscanf,  vsscanf  -  formatted  input
+     conversion
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdio.h&gt;</B>
+     <B>#include</B> <B>&lt;stdarg.h&gt;</B>
+
+     <B>int</B> <B>scanf(const</B> <B>char</B> <B>*</B><I>format</I> [<B>,</B> <I>pointer</I>] ...<B>)</B>
+     <B>int</B> <B>fscanf(FILE</B> <B>*</B><I>stream</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>format</I> [<B>,</B> <I>pointer</I>] ...<B>)</B>
+     <B>int</B> <B>sscanf(const</B> <B>char</B> <B>*</B><I>s</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>format</I> [<B>,</B> <I>pointer</I>] ...<B>)</B>
+     <B>int</B> <B>vscanf(const</B> <B>char</B> <B>*</B><I>format</I><B>,</B> <B>va_list</B> <I>args</I><B>)</B>
+     <B>int</B> <B>vfscanf(FILE</B> <B>*</B><I>stream</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>format</I><B>,</B> <B>va_list</B> <I>args</I><B>)</B>
+     <B>int</B> <B>vsscanf(const</B> <B>char</B> <B>*</B><I>s</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>format</I><B>,</B> <B>va_list</B> <I>args</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Scanf</B> reads from the standard input stream <B>stdin</B>.  <B>Fscanf</B> reads from  the
+     named  input  <I>stream</I>.   <B>Sscanf</B>  reads  from the character string <I>s</I>.  Each
+     function reads characters, interprets them according  to  a  format,  and
+     stores the results in its arguments.  Each expects as arguments a control
+     string <I>format</I>, described below, and a set of <I>pointer</I> arguments indicating
+     where the converted input should be stored.
+
+     The <B>v*scanf</B> functions can be used to make functions like the first  three
+     by using the <B><A HREF="../man3/stdarg.3.html">stdarg(3)</A></B> method to process the argument pointers.
+
+     The control string usually contains conversion specifications, which  are
+     used to direct interpretation of input sequences.  The control string may
+     contain:
+
+     1.  Blanks, tabs or newlines, which match optional  white  space  in  the
+         input.
+
+     2.  An ordinary character (not %) which must match the next character  of
+         the input stream.
+
+     3.  Conversion specifications, consisting of the character <B>%</B>, an optional
+         assignment  suppressing  character  <B>*</B>,  an optional numerical maximum
+         field width, and a conversion character.
+
+     A conversion specification directs  the  conversion  of  the  next  input
+     field;   the  result  is  placed  in  the  variable  pointed  to  by  the
+     corresponding argument, unless assignment suppression was indicated by <B>*</B>.
+     An input field is defined as a string of non-space characters; it extends
+     to the  next  inappropriate  character  or  until  the  field  width,  if
+     specified, is exhausted.
+
+     The conversion character indicates the interpretation of the input field;
+     the  corresponding pointer argument must usually be of a restricted type.
+     The following conversion characters are legal:
+     <B>%</B>   a single `%' is expected in the input at this point; no assignment is
+         done.
+
+     <B>d</B>   a decimal integer is expected; the corresponding argument  should  be
+         an integer pointer.
+
+     <B>o</B>   an octal integer is expected; the corresponding argument should be  a
+         integer pointer.
+
+     <B>x</B>   a hexadecimal integer is expected; the corresponding argument  should
+         be an integer pointer.
+
+     <B>s</B>   a character string is expected; the corresponding argument should  be
+         a  character  pointer pointing to an array of characters large enough
+         to accept the string and a terminating `\0',  which  will  be  added.
+         The input field is terminated by a space character or a newline.
+
+     <B>c</B>   a character is expected;  the  corresponding  argument  should  be  a
+         character   pointer.   The  normal  skip  over  space  characters  is
+         suppressed in this case; to read the next  non-space  character,  try
+         `%1s'.   If a field width is given, the corresponding argument should
+         refer to a character array, and the indicated number of characters is
+         read.
+
+     <B>efg</B> a floating point number is expected;  the  next  field  is  converted
+         accordingly  and  stored  through  the  corresponding argument, which
+         should be a pointer to a <B>float</B>.  The input format for floating  point
+         numbers  is an optionally signed string of digits possibly containing
+         a decimal point, followed by an optional exponent field consisting of
+         an E or e followed by an optionally signed integer.
+
+     <B>[</B>   indicates a string not to be delimited by space characters.  The left
+         bracket  is  followed by a set of characters and a right bracket; the
+         characters between the brackets define a set of characters making  up
+         the  string.  If the first character is not circumflex (^), the input
+         field is all characters until the first  character  not  in  the  set
+         between  the  brackets; if the first character after the left bracket
+         is ^, the input field is all characters  until  the  first  character
+         which  is  in  the  remaining set of characters between the brackets.
+         The corresponding argument must point to a character array.
+
+     The conversion characters <B>d</B>, <B>o</B> and <B>x</B> may be capitalized or preceded by  <B>l</B>
+     to  indicate that a pointer to <B>long</B> rather than to <B>int</B> is in the argument
+     list.  Similarly, the conversion characters <B>e</B>, <B>f</B> or <B>g</B> may be  capitalized
+     or  preceded  by  <B>l</B> to indicate a pointer to <B>double</B> rather than to <B>float</B>.
+     The conversion characters <B>d</B>, <B>o</B> and <B>x</B> may be preceded by <B>h</B> to  indicate  a
+     pointer to <B>short</B> rather than to <B>int</B>.
+
+
+
+     The <B>scanf</B>  functions  return  the  number  of  successfully  matched  and
+     assigned  input  items.   This can be used to decide how many input items
+     were found.  The constant <B>EOF</B> is returned upon end of  input;  note  that
+     this  is  different  from  0, which means that no conversion was done; if
+     conversion was intended, it was frustrated by an inappropriate  character
+     in the input.
+
+     For example, the call
+
+               int i; float x; char name[50];
+               scanf("%d%f%s", &amp;i, &amp;x, name);
+
+     with the input line
+
+               25   54.32E-1  thompson
+
+     will assign to <B>i</B> the value 25, <B>x</B> the value 5.432, and <B>name</B>  will  contain
+     `<B>thompson\0</B>' .  Or,
+
+               int i; float x; char name[50];
+               scanf("%2d%f%*d%[1234567890]", &amp;i, &amp;x, name);
+
+     with input
+
+               56789 0123 56a72
+
+     will assign 56 to <B>i</B>, 789.0 to <B>x</B>, skip `0123', and place the string `56\0'
+     in <B>name</B>.  The next call to <B>getchar</B> will return `a'.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/atof.3.html">atof(3)</A></B>, <B><A HREF="../man3/getc.3.html">getc(3)</A></B>, <B><A HREF="../man3/printf.3.html">printf(3)</A></B>, <B><A HREF="../man3/stdarg.3.html">stdarg(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     The <B>scanf</B> functions return <B>EOF</B> on end of input, and  a  short  count  for
+     missing or illegal data items.
+
+<B>BUGS</B>
+     The success of literal matches and suppressed assignments is not directly
+     determinable.
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

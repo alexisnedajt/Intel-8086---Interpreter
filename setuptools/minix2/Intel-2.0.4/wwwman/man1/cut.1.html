@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>cut(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>cut(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     cut - select out columns of a file
+
+<B>SYNOPSIS</B>
+     <B>cut</B> <B>[</B>  <B>-b</B> | <B>-c</B>] <I>list</I> [<I>file</I>...]
+     <B>cut</B> <B>-f</B> <I>list</I> [<B>-d</B> <I>delim</I>] [ <B>-s</B>] [<I>file</I>...]"
+
+<B>OPTIONS</B>
+
+     <B>-b</B>   Cut specified bytes
+
+     <B>-c</B>   Select out specific characters
+
+     <B>-d</B>   Change the column delimiter to <I>delim</I>
+
+     <B>-f</B>   Select out specific fields  that  are  separated  by  the  delimiter
+          character ( see <I>delim</I>)
+
+     <B>-i</B>   Runs of delimiters count as one
+
+     <B>-s</B>   Suppres lines with no delimiter characters, when used  with  the  -f
+          option. Lines with no delimiters are passwd through untouched
+
+<B>EXAMPLES</B>
+
+     <B>cut</B> <B>-f</B> <B>2</B> <B>file</B>       # Extract field 2
+
+     <B>cut</B> <B>-c</B> <B>1-2,5</B> <B>file</B>   # Extract character columns 1, 2, and 5
+
+     <B>cut</B> <B>-c</B> <B>1-5,7-</B> <B>file</B>  # Extract all columns except 6
+
+<B>DESCRIPTION</B>
+
+     <I>Cut</I> extracts one or more fields or columns from a file and writes them on
+     standard  output.   If the <B>-f</B> flag is used, the fields are separated by a
+     delimiter character, normally a tab, but can  be  changed  using  the  <B>-d</B>
+     flag.   If  the  <B>-c</B> flag is used, specific columns can be specified.  The
+     list can be comma or BLANK separated. The <B>-f</B> and <B>-c</B> flags   are  mutually
+     exclusive.   Note: The POSIX1003.2 standard requires the option -b to cut
+     out specific bytes in a file. It is intended for systems with multi  byte
+     characters  (e.g. kanji), since MINIX uses only one byte characters, this
+     option is equivalent to -c. For the same reason, the  option  -n  has  no
+     effect and is not listed in this manual page.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/sed.1.html">sed(1)</A></B>, <B><A HREF="../man9/awk.9.html">awk(9)</A></B>.
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

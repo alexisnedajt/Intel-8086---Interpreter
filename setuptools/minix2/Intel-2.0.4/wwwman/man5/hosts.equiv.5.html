@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>rhosts(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>rhosts(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     rhosts, hosts.equiv - trusted remote users or hosts
+
+<B>SYNOPSIS</B>
+     <B>~</B><I>user</I><B>/.rhosts</B>
+     <B>/etc/hosts.equiv</B>
+
+<B>DESCRIPTION</B>
+     The per user <B>.rhosts</B> and the per system <B>hosts.equiv</B> files can be used  to
+     allow  users  to  use <B>rlogin</B> or <B>rsh</B> without a password.  The remote login
+     services first check the system wide <B>/etc/hosts.equiv</B> file and  then  the
+     <B>~</B><I>user</I><B>/.rhosts</B>  of  the intended user.  Both files contain lines of one of
+     two forms:
+
+          <I>host</I>
+          <I>host</I> <I>ruser</I>
+
+     The first form tells that any user from <I>host</I> is allowed to login to  this
+     system  under  the  same name.  The second form allows <I>ruser</I> from <I>host</I> to
+     login.
+
+     Under Minix <I>host</I> may be a pattern using <B>*</B> as a  wildcard.   One  can  use
+     this,  carefully one may hope, to allow an entire domain to log in.  <I>Host</I>
+     may also be an IP address, or a network specification in CIDR form,  e.g.
+     172.16.102.64/27.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/rlogin.1.html">rlogin(1)</A></B>, <B><A HREF="../man1/rsh.1.html">rsh(1)</A></B>.
+
+<B>NOTES</B>
+     Minix has no restrictions on becoming super-user remotely.  Other systems
+     usually require one to log in as a user and then use <B>su</B> to become root.
+
+     You must use fully qualified hostnames, it is not possible  to  omit  the
+     domain part.
+
+<B>AUTHOR</B>
+     Kees J. Bot &lt;kjb@cs.vu.nl&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

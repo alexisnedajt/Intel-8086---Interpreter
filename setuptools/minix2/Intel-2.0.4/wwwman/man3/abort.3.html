@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>abort(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>abort(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     abort - generate a fault
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdlib.h&gt;</B>
+
+     <B>void</B> <B>abort(void)</B>
+
+<B>DESCRIPTION</B>
+     <B>Abort</B> executes an instruction which is illegal in user mode.  This causes
+     a signal that normally terminates the process with a core dump, which may
+     be used for debugging.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/sigaction.2.html">sigaction(2)</A></B>, <B><A HREF="../man2/exit.2.html">exit(2)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     Usually ``abort - core dumped'' from the shell.
+
+<B>BUGS</B>
+     The abort() function does not flush standard I/O buffers.  Use <B><A HREF="../man3/fflush.3.html">fflush(3)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

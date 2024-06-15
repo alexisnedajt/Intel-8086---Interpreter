@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>rsh(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>rsh(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     rsh - remote shell
+
+<B>SYNOPSIS</B>
+     <B>rsh</B> [<B>-n</B>] [<B>-l</B> <I>username</I>] <I>host</I> [<I>command</I>]
+     <I>host</I> [<B>-n</B>] [<B>-l</B> <I>username</I>] [<I>command</I>]
+
+<B>DESCRIPTION</B>
+     <B>Rsh</B> connects to the specified <I>host</I>, and executes the  specified  <I>command</I>.
+     <B>Rsh</B>  copies its standard input to the remote command, the standard output
+     of the remote command to its standard output, and the standard  error  of
+     the  remote command to its standard error.  Interrupt, quit and terminate
+     signals are propagated to the remote  command;  <B>rsh</B>  normally  terminates
+     when the remote command does.
+
+     The remote username used is the same as your local username,  unless  you
+     specify  a  different  remote  name with the <B>-l</B> option.  This remote name
+     must be equivalent  (in  the  sense  of  <B><A HREF="../man1/rlogin.1.html">rlogin(1)</A></B>)  to  the  originating
+     account; no provision is made for specifying a password with a command.
+
+     If you omit <I>command</I>, then instead of executing a single command, you will
+     be logged in on the remote host using <B><A HREF="../man1/rlogin.1.html">rlogin(1)</A></B>.
+
+     Shell metacharacters which  are  not  quoted  are  interpreted  on  local
+     machine,  while  quoted  metacharacters  are  interpreted  on  the remote
+     machine.  Thus the command
+
+          rsh otherhost cat remotefile &gt;&gt; localfile
+
+     appends the remote file <I>remotefile</I> to the localfile <I>localfile</I>, while
+
+          rsh otherhost cat remotefile "&gt;&gt;" otherremotefile
+
+     appends <I>remotefile</I> to <I>otherremotefile</I>.
+
+<B>OPTIONS</B>
+
+     <B>-l</B> <I>username</I>
+          Specify the remote user name.
+
+     <B>-n</B>   Connect standard input of the remote command to /dev/null.  Do  this
+          if <B>rsh</B> should not inadvertently read from standard input.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/rcp.1.html">rcp(1)</A></B>, <B><A HREF="../man1/rlogin.1.html">rlogin(1)</A></B>, <B><A HREF="../man5/rhosts.5.html">rhosts(5)</A></B>.
+
+
+
+
+
+<B>BUGS</B>
+     You cannot run an interactive  command  (like  <B><A HREF="../man6/rogue.6.html">rogue(6)</A></B>  or  <B><A HREF="../man1/vi.1.html">vi(1)</A></B>);  use
+     <B><A HREF="../man1/rlogin.1.html">rlogin(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

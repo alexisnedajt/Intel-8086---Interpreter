@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>lp(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>lp(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     lp, lpd - copy a file to the line printer
+
+<B>SYNOPSIS</B>
+     <B>lp</B> [<I>file</I> ...]
+
+<B>DESCRIPTION</B>
+     Each file argument to <B>lp</B> is send to  the  line  printer  to  be  printed.
+     Standard  input  is  read  and  printed  if  there  are no arguments.  <B>Lp</B>
+     executes <B>/usr/lib/lpd</B> with each file as input.   <B>Lpd</B>  puts  the  file  in
+     <B>/usr/spool/lpd</B> and starts printing the jobs on <B>/dev/lp</B> unless another <B>lpd</B>
+     is already running.  If <B>lpd</B> finds any character  in  the  input  that  it
+     doesn't  know  how  to  handle  then  it  will print the rest of the file
+     without any special treatment.  This also means that no formfeed is  sent
+     after  the  file  has  been  printed  to  force out the page.  <B>Lpd</B> simply
+     assumes that you know what you are doing.  (dumb, eh?)
+
+     Note: Don't do anything with a file until it is printed, <B>lpd</B> only makes a
+     copy  of a file in the spool directory when it is not world readable.  If
+     it can be read then it is printed directly.
+
+<B>FILES</B>
+
+     <B>/usr/spool/lpd/job</B><I>XXXXX</I>
+                         Information about a job.
+
+     <B>/usr/spool/lpd/tmp</B><I>XXXXX</I>
+                         Associated file to be printed.
+
+     <B>/etc/termcap</B>        The 'lp' entry describes the printer by the "li#" and
+                         "co#"  fields.   By  default 66 lines (li#66), and 80
+                         columns (co#80).
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man4/lp.4.html">lp(4)</A></B>, <B><A HREF="../man5/termcap.5.html">termcap(5)</A></B>, <B><A HREF="../man7/termcap.7.html">termcap(7)</A></B>.
+
+<B>BUGS</B>
+     Not spooling a world readable file may not be such a smart idea.
+
+     A formfeed should be printed and the printer reset after a  job  full  of
+     escape codes, but this may cost paper.
+
+     No banner page.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

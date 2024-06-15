@@ -1,0 +1,112 @@
+<HTML>
+<HEAD>
+<TITLE>rz(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>rz(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     rz - receive a file using the zmodem protocol
+
+<B>SYNOPSIS</B>
+     <B>rz</B> [-<B>abepqvy</B>] [<B>-t</B> <I>timeout</I>]
+
+<B>OPTIONS</B>
+
+     <B>-a</B>   CP/M to UNIX conventions
+
+     <B>-b</B>   Binary file
+
+     <B>-e</B>   Escape for all control characters
+
+     <B>-p</B>   Protect file if it already exists
+
+     <B>-q</B>   Quiet; opposite of verbose
+
+     <B>-t</B>   Set <I>timeout</I> in tenths of a second
+
+     <B>-v</B>   Verbose; opposite of quiet
+
+     <B>-y</B>   Yes, clobber existing files
+
+<B>EXAMPLES</B>
+
+     <B>rz</B> <B>&lt;/dev/tty01</B> <B>&gt;/dev/tty01</B>
+                         # Receive a file
+
+<B>DESCRIPTION</B>
+
+     The XMODEM, YMODEM, and ZMODEM  family  of  file  transfer  programs  are
+     widely  used  on  personal  computers.   MINIX  supports ZMODEM, the most
+     advanced of the set.  The programs <I>sz</I> and <I>rz</I> are  used  for  sending  and
+     receiving, respectively.
+
+     <I>Rz</I> and <I>sz</I> are programs that uses an error correcting protocol to transfer
+     files over a dial-in serial port from a variety of programs running under
+     various operating systems.  <I>Rz</I> (Receive ZMODEM) receives files  with  the
+     ZMODEM  batch  protocol.   Pathnames are supplied by the sending program,
+     and directories are made if necessary (and possible).   The  meanings  of
+     the available options are:
+     <B>-a</B>
+        Convert files to UNIX conventions by stripping  carriage  returns  and
+        all characters beginning with the first Control Z (CP/M end of file).
+     <B>-b</B>
+        Binary (tell it like it is) file transfer override.
+     <B>-c</B>
+        Request 16 bit CRC.  XMODEM file transfers default to 8 bit  checksum.
+        YMODEM and ZMODEM normally use 16 bit CRC.
+
+     <B>-D</B>
+        Output file data to /dev/null; for testing.
+     <B>-e</B>
+        Force sender to escape all control  characters;  normally  XON,  XOFF,
+        DLE, CR-@-CR, and Ctrl-X are escaped.
+     <B>-p</B>
+        Protect: skip file if destination file exists.
+     <B>-q</B>
+        Quiet suppresses verbosity.
+     <B>-t</B>
+        Change timeout tenths of seconds (timeout follows flag).
+     <B>-v</B>
+        Verbose causes a list of file names to be appended to /<I>tmp</I>/<I>rzlog</I>. More
+        v's generate more output.
+     <B>-y</B>
+        Yes, clobber any existing files with the same name.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/sz.1.html">sz(1)</A></B>, <B><A HREF="../man1/term.1.html">term(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

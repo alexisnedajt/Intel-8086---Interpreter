@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>getpwent(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>getpwent(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     getpwent, getpwnam, getpwuid, setpwent, endpwent,  setpwfile  -  password
+     file routines
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;pwd.h&gt;</B>
+
+     <B>struct</B> <B>passwd</B> <B>*getpwent(void)</B>
+     <B>struct</B> <B>passwd</B> <B>*getpwnam(const</B> <B>char</B> <B>*</B><I>name</I><B>)</B>
+     <B>struct</B> <B>passwd</B> <B>*getpwuid(uid_t</B> <I>uid</I><B>)</B>
+     <B>int</B> <B>setpwent(void)</B>
+     <B>void</B> <B>endpwent(void)</B>
+     <B>void</B> <B>setpwfile(const</B> <B>char</B> <B>*</B><I>file</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     These functions are used to obtain information from  the  password  file.
+     They return this information in a <B>struct</B> <B>passwd</B> as defined by &lt;pwd.h&gt;:
+
+     struct passwd {
+         char  *pw_name;      /* login name */
+         char  *pw_passwd;    /* encrypted password */
+         uid_t pw_uid;        /* numeric user id */
+         gid_t pw_gid;        /* numeric group id */
+         char  *pw_gecos;     /* user full name and other info */
+         char  *pw_dir;       /* user's home directory */
+         char  *pw_shell;     /* name of the user's shell */
+     };
+
+     <B>Getpwent()</B> reads the password file entry by entry.  <B>Getpwnam()</B> scans  the
+     entire  password file for the user with the given <I>name</I>.  <B>Getpwuid()</B> looks
+     for the first user with the given <I>uid</I>.   The  <B>setpwent()</B>  and  <B>endpwent()</B>
+     functions  are  used  to  open  and  later close the password file.  With
+     <B>setpwfile()</B> one can specify the  file  to  read  other  than  the  normal
+     password  file.   This  only sets the name, the next <B>setpwent()</B> call will
+     open the file.  Do not touch the file  name  while  it  is  active.   Use
+     <B>setpwfile(NULL)</B> to revert back to the normal password file.
+
+     The usual way to scan the password file is (error checking omitted):
+
+          setpwent();
+          while ((pw = getpwent()) != NULL)
+                  if (appropriate_test(pw)) break;
+          endpwent();
+
+     The <B>pw</B> variable contains the entry  that  is  wanted  if  non-NULL.   The
+     <B>getpwnam()</B>  and  <B>getpwuid()</B> functions are implemented as in this example,
+     with error checking of course.
+
+
+
+     <B>Getpwent()</B> calls <B>setpwent()</B> if this has not yet  been  done.   <B>Setpwent()</B>
+     first  calls  <B>endpwent()</B>  if  the  password  file  is still open.  (Other
+     implementations may simply rewind the file.)
+
+<B>FILES</B>
+
+     <B>/etc/passwd</B>    The password file database.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/cuserid.3.html">cuserid(3)</A></B>, <B><A HREF="../man3/getlogin.3.html">getlogin(3)</A></B>, <B><A HREF="../man3/getgrent.3.html">getgrent(3)</A></B>, <B><A HREF="../man5/passwd.5.html">passwd(5)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Setpwent()</B> has the same return value and error codes as the <B><A HREF="../man2/open.2.html">open(2)</A></B>  call
+     it uses to open the password file.  The <B>get</B><I>xxx</I><B>()</B> functions return NULL on
+     end of file, entry not found, or error.  You can set <B>errno</B> to zero before
+     the call and check it after.
+
+<B>NOTES</B>
+     All <B>get</B><I>xxx</I><B>()</B>  routines  return  a  pointer  to  static  storage  that  is
+     overwritten in each call.
+
+     Only <B>getpwnam()</B> and <B>getpwuid()</B> are defined by POSIX.   The  <B>_MINIX_SOURCE</B>
+     macro  must  be  defined  before  including  &lt;pwd.h&gt;  to  make  the other
+     functions visible.  The  <B>pw_passwd</B>  and  <B>pw_gecos</B>  fields  are  also  not
+     defined  by POSIX, but are always visible.  Portable code cannot reliably
+     detect errors by setting <B>errno</B> to zero.  Under Minix it is better to make
+     a  <B>getpwent()</B> scan if you need to look up several user-id's or names, but
+     portable code had better use several <B>getpwuid()</B> or <B>getpwnam()</B> calls.  The
+     <B>getpwent()</B>  is  usually  available  on  other  systems,  but  may be very
+     expensive.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>tee(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>tee(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     tee - divert stdin to a file
+
+<B>SYNOPSIS</B>
+     <B>tee</B> [<B>-ai</B>] <I>file</I> ...
+
+<B>OPTIONS</B>
+
+     <B>-a</B>   Append to the files, rather than overwriting
+
+     <B>-i</B>   Ignore interrupts
+
+<B>EXAMPLES</B>
+
+     <B>cat</B> <B>file1</B> <B>file2</B> <B>|</B> <B>tee</B> <B>x</B>
+                         # Save and display two files
+
+     <B>pr</B> <B>file</B> <B>|</B> <B>tee</B> <B>x</B> <B>|</B> <B>lp</B>
+                         # Save the output of <I>pr</I> on <I>x</I>
+
+<B>DESCRIPTION</B>
+
+     <I>Tee</I> copies <I>stdin</I> to standard output.  It also makes  copies  on  all  the
+     files listed as arguments.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/cat.1.html">cat(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

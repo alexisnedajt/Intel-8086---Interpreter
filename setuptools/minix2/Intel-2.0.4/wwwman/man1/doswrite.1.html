@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>doswrite(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>doswrite(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     doswrite - write a file onto an MS-DOS diskette [IBM]
+
+<B>SYNOPSIS</B>
+     <B>doswrite</B> [<B>-a</B>] <I>drive</I> <I>file</I>
+
+<B>OPTIONS</B>
+
+     <B>-a</B>   ASCII file
+
+<B>EXAMPLES</B>
+
+     <B>doswrite</B> <B>A</B> <B>x/y</B> <B>&lt;z</B>   # Write file <I>z</I> to disk as <I>x</I>/<I>y</I>
+
+     <B>doswrite</B> <B>-a</B> <B>B</B> <B>f</B>     # Copy <I>stdin</I> to MS-DOS file <I>f</I>
+
+<B>DESCRIPTION</B>
+
+     <I>Doswrite</I> writes its <I>stdin</I> to an MS-DOS file.  The diskette  or  partition
+     must  be  formatted  and  have  an  MS-DOS  file system already in place,
+     including all the directories leading up to the file.  See <B>dosdir</B> on  the
+     use of single letter drive codes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

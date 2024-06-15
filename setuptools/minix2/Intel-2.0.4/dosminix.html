@@ -1,0 +1,47 @@
+<html>
+<head>
+<title> Minix 2.0.4 under DOS </title>
+<base href="http://www.cs.vu.nl/pub/minix/2.0.4/">
+</head>
+<body>
+
+<h1> Minix 2.0.4 under DOS </h1>
+
+The DOSMINIX.ZIP file contains Minix version 2.0.4, a small educational
+UNIX-like system for IBM PC's and compatibles.  This version of the software
+can be run under DOS.  Other variants of Minix can be found at
+<a href="../">http://www.cs.vu.nl/pub/minix/</a>.
+
+<p>
+Unpack the DOSMINIX.ZIP file using one of the popular ZIP utilities, such as
+<a href="http://www.pkware.com/">PKZIP</a> or
+<a href="http://www.winzip.com/">WinZip</a>.
+If running Windows 95 or 98 reboot and hit F8 just when you see the
+"Booting Windows" message.  From the menu that appears choose "Command
+prompt only", or if that doesn't work "Safe mode command prompt only".
+For Windows Me, or Windows 2000 with a FAT file system you need to boot
+your system with a DOS floppy, like a Startup Disk.
+
+<p>
+At the DOS prompt move to the directory containing the Minix files and type:
+
+<pre>
+	<b>boot minix.mnx</b>
+</pre>
+Type '=' and presto, you are running Minix.  The next step is to read
+the installation manual pages,
+<a href="wwwman/man8/usage.8.html">usage(8)</a> and
+<a href="wwwman/man8/dosminix.8.html">dosminix(8)</a>,
+to finish the little details involved with a proper installation of a
+UNIX-like system, such as the host name, the time zone you live in, etc.
+So log in as <b>root</b> (all powerful user) or <b>bin</b> (owner of the
+Minix source) and use the
+<a href="wwwman/man1/man.1.html">man(1)</a>
+command to see the manual pages:
+<pre>
+	<b>man usage</b>
+
+						Kees J. Bot (kjb@cs.vu.nl)
+</pre>
+</body>
+</html>

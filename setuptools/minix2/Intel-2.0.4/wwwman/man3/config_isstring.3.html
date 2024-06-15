@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>configfile(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>configfile(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     configfile, config_read,  config_delete,  config_renewed,  config_length,
+     config_issub, config_isatom, config_isstring - generic configuration file
+     functions
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;configfile.h&gt;</B>
+
+     <B>config_t</B> <B>*config_read(const</B> <B>char</B> <B>*</B><I>file</I><B>,</B> <B>int</B> <I>flags</I><B>,</B> <B>config_t</B> <B>*</B><I>cfg</I><B>)</B>
+     <B>void</B> <B>config_delete(config_t</B> <B>*</B><I>cfg</I><B>)</B>
+     <B>int</B> <B>config_renewed(config_t</B> <B>*</B><I>cfg</I><B>)</B>
+     <B>size_t</B> <B>config_length(config_t</B> <B>*</B><I>cfg</I><B>)</B>
+     <B>int</B> <B>config_issub(config_t</B> <B>*</B><I>cfg</I><B>)</B>
+     <B>int</B> <B>config_isatom(config_t</B> <B>*</B><I>cfg</I><B>)</B>
+     <B>int</B> <B>config_isstring(config_t</B> <B>*</B><I>cfg</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     The <B>configfile</B> routines operate on  a  generic  configuration  file  that
+     follows the syntax described in <B><A HREF="../man5/configfile.5.html">configfile(5)</A></B>.
+
+     The interface presented by the functions above uses  the  following  type
+     and definitions from &lt;configfile.h&gt;:
+
+       typedef const struct config {
+           config_t    *next;   /* Next configuration file thing. */
+           config_t    *list;   /* For a { sublist }. */
+           const char  *file;   /* File and line where this is found. */
+           unsigned    line;
+           int         flags;   /* Special flags. */
+           char        word[];  /* Payload. */
+       } config_t;
+
+       #define CFG_CLONG   0x0001  /* strtol(word, &amp;end, 0) is valid. */
+       #define CFG_OLONG   0x0002  /* strtol(word, &amp;end, 010). */
+       #define CFG_DLONG   0x0004  /* strtol(word, &amp;end, 10). */
+       #define CFG_XLONG   0x0008  /* strtol(word, &amp;end, 0x10). */
+       #define CFG_CULONG  0x0010  /* strtoul(word, &amp;end, 0). */
+       #define CFG_OULONG  0x0020  /* strtoul(word, &amp;end, 010). */
+       #define CFG_DULONG  0x0040  /* strtoul(word, &amp;end, 10). */
+       #define CFG_XULONG  0x0080  /* strtoul(word, &amp;end, 0x10). */
+       #define CFG_STRING  0x0100  /* The word is enclosed in quotes. */
+       #define CFG_SUBLIST 0x0200  /* This is a sublist, so no word. */
+       #define CFG_ESCAPED 0x0400  /* Escapes are still marked with \. */
+
+     In memory a configuration file is represented as a list of <B>config_t</B> cells
+     linked  together  with  the  <B>next</B>  field  ending  with a null pointer.  A
+     sublist between braces is attached to a cell at the  <B>list</B>  field.   Words
+     and  strings  are  put  in the <B>word</B> field, a null terminated string.  The
+     <B>flags</B> field records the type and features of a cell.  The <B>CFG_*LONG</B> flags
+     are  set  if a word is a number according to one of the <B>strtol</B> or <B>strtoul</B>
+     calls.  Purely a number, no quotes or trailing garbage.   The  <B>CFG_STRING</B>
+     flag  is  set  if  the  object  was  enclosed  in  double quotes.  Lastly
+     <B>CFG_SUBLIST</B> tells if the cell is only a pointer to a sublist in braces.
+
+     Characters in a word or string may have been formed  with  the  <B>\</B>  escape
+     character.   They  have  been  parsed  and  expanded,  but the \ is still
+     present if <B>CFG_ESCAPED</B> is set.  The <B>word</B> array may be changed, as long as
+     it doesn't grow longer, so one may remove the \s like this:
+
+          if (cfg-&gt;flags &amp; CFG_ESCAPED) {
+              char *p, *q;
+              p= q= cfg-&gt;word;
+              for (;;) {
+                  if ((*q = *p) == '\\') *q = *++p;
+                  if (*q == 0) break;
+                  p++;
+                  q++;
+              }
+          }
+
+     The low level syntax of a config file is checked when it is read.  If  an
+     error is encountered a message is printed and the program exits with exit
+     code 1.  What the data means is not checked, that should be done  by  the
+     program using the data.  Only the atom <B>include</B> at the beginning of a list
+     is special.  It should be followed by a string.  The string  is  seen  as
+     the  name  of  a file, that is opened, read, and inserted in place of the
+     <B>include</B>.  Unless the name of the file starts  with  a  <B>/</B>,  it  is  sought
+     relative  to  the  directory  the  current file is found in.  Nonexistent
+     files are treated as being empty.
+
+     The <B>file</B> and <B>line</B> fields in each cell tell where the cell was read.
+
+  <B>Functions</B>
+     A configuration file is read with <B>config_read</B>.  The first argument is the
+     file  to  read.   The second is either <B>0</B> or <B>CFG_ESCAPED</B> to tell whether \
+     escapes should be fully expanded without leaving  a  trace,  or  if  they
+     should  still  be  marked  with  a  \  so that the caller knows where the
+     excapes are.  The third argument, <I>cfg</I>, should be a null  pointer  on  the
+     first  call.   If  you want to reread a config file that may have changed
+     then <I>cfg</I> should be what you previously read.
+
+     With <B>config_delete</B> one can free up the memory that has been acquired with
+     <B><A HREF="../man3/malloc.3.html">malloc(3)</A></B> to hold the contents of the configuration file.
+
+     To determine if the contents  of  configuration  file  has  changed  when
+     reread one uses <B>config_renewed</B> after <B>config_read</B>.  It returns a "changed"
+     flag that is set when the configuration file changed and then clears that
+     flag.   It returns true on the very first call.  For the function to work
+     you need to feed the old data  back  into  <B>config_read</B>,  not  delete  and
+     reread.
+     The length of a series of config structures is told by <B>config_length</B>.  It
+     follows the <B>next</B> fields, so a sublist between braces counts as one extra.
+
+     The <B>config_issub</B>, <B>config_isatom</B> and <B>config_isstring</B>  functions  are  just
+     pretty  macros  to test if a cell references a sublist, is a word/string,
+     or is just a string.  <B>CFG_SUBLIST</B> and <B>CFG_STRING</B> tell the same story.
+
+<B>FILES</B>
+
+     <B>*/etc/*.conf</B>    Several files in several <B>etc</B> directories.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man5/configfile.5.html">configfile(5)</A></B>.
+
+<B>NOTES</B>
+     The syntax of a config file puts some constraints on  what  you  find  in
+     memory.   The  top  level list consists entirely of sublist cells.  These
+     point to lists that start with at least an atom, followed  by  a  mix  of
+     atoms  and sublist cells.  These sublists in turn point to a list of only
+     sublist cells (recurse now.)
+
+     The struct config shown above is not exactly proper C to aid readability,
+     read &lt;configfile.h&gt; itself to see why.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

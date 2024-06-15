@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>svc(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>svc(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     svc, ci, co, svclog - shell version control system
+
+<B>SYNOPSIS</B>
+     <B>ci</B> [<B>-lu</B>] <I>file</I>
+     <B>co</B> [<B>-l</B>] [<B>-r</B> <I>rev</I>] <I>file</I>
+     <B>svclog</B> <I>file</I>
+
+<B>OPTIONS</B>
+
+     <B>-l</B>   For <I>ci</I>, checkin, checkout again, and lock file
+
+     <B>-l</B>   For <I>co</I>, checkout file and then lock the archive
+
+     <B>-u</B>   After checking in, do not delete the file
+
+     <B>-r</B>   Check out revision <I>rev</I> instead most recent revision
+
+<B>EXAMPLES</B>
+
+     <B>ci</B> <B>-u</B> <B>file</B>          # Check in <I>file</I>
+
+     <B>co</B> <B>-l</B> <B>file</B>          # Check out <I>file</I> and lock archive
+
+     <B>co</B> <B>-r</B> <B>2</B> <B>file</B>        # Check out version 2
+
+<B>DESCRIPTION</B>
+
+     <I>Svc</I> is the Shell Version Control system, patterned on RCS.  It  maintains
+     a  sequence  of  versions  in  archive files, so that new versions can be
+     checked in (added to the archive), and old versions can  be  checked  out
+     (made available).  To create an archive for <I>file</I>, check it in with the <B>-u</B>
+     flag.  This action will prompt for a  log  message  and  then  create  an
+     archive  called  <I>file</I>,<I>S</I>  in the current directory, or in the subdirectory
+     <I>SVC</I> if it exists. The  file  will  not  be  deleted,  but  will  be  made
+     unwritable.
+
+     To update the file, check it out with the <B>-l</B> flag.  Then modify  it,  and
+     check it back in, giving a new message when prompted.  After this process
+     has been repeated  many  times,  the  archive  will  contain  the  entire
+     history.   Any  version  can  be checked out using the <B>-r</B> flag.  To get a
+     printout of the history, use <I>svclog</I>.
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

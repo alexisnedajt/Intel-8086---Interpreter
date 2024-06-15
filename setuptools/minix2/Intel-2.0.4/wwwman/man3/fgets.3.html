@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>gets(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>gets(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     gets, fgets - get a string from a stream
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdio.h&gt;</B>
+
+     <B>char</B> <B>*gets(char</B> <B>*</B><I>s</I><B>)</B>
+     <B>char</B> <B>*fgets(char</B> <B>*</B><I>s</I><B>,</B> <B>int</B> <I>n</I><B>,</B> <B>FILE</B> <B>*</B><I>stream</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Gets</B> reads a string into <I>s</I> from the standard  input  stream  <B>stdin</B>.   The
+     string  is terminated by a newline character, which is replaced in <I>s</I> by a
+     null character.  <B>Gets</B> returns its argument.
+
+     <B>Fgets</B> reads <I>n</I>-1 characters, or up through a newline character,  whichever
+     comes  first, from the <I>stream</I> into the string <I>s</I>.  The last character read
+     into <I>s</I> is  followed  by  a  null  character.   <B>Fgets</B>  returns  its  first
+     argument.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/puts.3.html">puts(3)</A></B>, <B><A HREF="../man3/getc.3.html">getc(3)</A></B>, <B><A HREF="../man3/scanf.3.html">scanf(3)</A></B>, <B><A HREF="../man3/fread.3.html">fread(3)</A></B>, <B><A HREF="../man3/ferror.3.html">ferror(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Gets</B> and <B>fgets</B> return the constant pointer  <B>NULL</B>  upon  end  of  file  or
+     error.
+
+<B>BUGS</B>
+     <B>Gets</B> deletes a newline, <B>fgets</B> keeps it,  all  in  the  name  of  backward
+     compatibility.
+
+     <B>Gets</B> is not present in the Minix-vmd C library for reasons that should be
+     obvious.  Use <B>fgets</B> instead.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

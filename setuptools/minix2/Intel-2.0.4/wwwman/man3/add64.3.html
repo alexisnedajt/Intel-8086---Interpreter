@@ -1,0 +1,162 @@
+<HTML>
+<HEAD>
+<TITLE>int64(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>int64(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     int64, add64, add64u, add64ul, sub64,  sub64u,  sub64ul,  diff64,  cvu64,
+     cvul64,  cv64u,  cv64ul,  div64u, rem64u, mul64u, cmp64, cmp64u, cmp64ul,
+     ex64lo, ex64hi, make64 - 64 bit disk offset computations
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;minix/u64.h&gt;</B>
+
+     <B>u64_t</B> <B>add64(u64_t</B> <I>i</I><B>,</B> <B>u64_t</B> <I>j</I><B>)</B>
+     <B>u64_t</B> <B>add64u(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <I>j</I><B>)</B>
+     <B>u64_t</B> <B>add64ul(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <B>long</B> <I>j</I><B>)</B>
+     <B>u64_t</B> <B>sub64(u64_t</B> <I>i</I><B>,</B> <B>u64_t</B> <I>j</I><B>)</B>
+     <B>u64_t</B> <B>sub64u(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <I>j</I><B>)</B>
+     <B>u64_t</B> <B>sub64ul(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <B>long</B> <I>j</I><B>)</B>
+     <B>unsigned</B> <B>diff64(u64_t</B> <I>i</I><B>,</B> <B>u64_t</B> <I>j</I><B>)</B>
+     <B>u64_t</B> <B>cvu64(unsigned</B> <I>i</I><B>)</B>
+     <B>u64_t</B> <B>cvul64(unsigned</B> <B>long</B> <I>i</I><B>)</B>
+     <B>unsigned</B> <B>cv64u(u64_t</B> <I>i</I><B>)</B>
+     <B>unsigned</B> <B>long</B> <B>cv64ul(u64_t</B> <I>i</I><B>)</B>
+     <B>unsigned</B> <B>long</B> <B>div64u(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <I>j</I><B>)</B>
+     <B>unsigned</B> <B>rem64u(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <I>j</I><B>)</B>
+     <B>u64_t</B> <B>mul64u(unsigned</B> <B>long</B> <I>i</I><B>,</B> <B>unsigned</B> <I>j</I><B>)</B>
+     <B>int</B> <B>cmp64(u64_t</B> <I>i</I><B>,</B> <B>u64_t</B> <I>j</I><B>)</B>
+     <B>int</B> <B>cmp64u(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <I>j</I><B>)</B>
+     <B>int</B> <B>cmp64ul(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <B>long</B> <I>j</I><B>)</B>
+     <B>unsigned</B> <B>long</B> <B>ex64lo(u64_t</B> <I>i</I><B>)</B>
+     <B>unsigned</B> <B>long</B> <B>ex64hi(u64_t</B> <I>i</I><B>)</B>
+     <B>u64_t</B> <B>make64(unsigned</B> <B>long</B> <I>lo</I><B>,</B> <B>unsigned</B> <B>long</B> <I>hi</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     The <B>int64</B> family of functions allow Minix to handle  disks  of  up  to  4
+     terabytes  using  32  bit  sector  numbers  and  64 bit byte offsets on a
+     machine where the C type <B>long</B> is 32 bits.  The &lt;minix/u64.h&gt; include file
+     defines  a  64 bit data type, <B>u64_t</B>, and a number of functions to operate
+     on them.  Note that these functions are geared towards common disk offset
+     and  block  computations,  and  do  not  provide  a  full  set  of 64 bit
+     operations.  They are:
+
+     <B>u64_t</B> <B>add64(u64_t</B> <I>i</I><B>,</B> <B>u64_t</B> <I>j</I><B>)</B>
+          Add the 64 bit numbers <I>i</I> and <I>j</I> forming a 64 bit result.
+
+     <B>u64_t</B> <B>add64u(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <I>j</I><B>)</B>
+          Add an unsigned <I>j</I> to a 64 bit number <I>i</I> forming a 64 bit result.
+
+     <B>u64_t</B> <B>add64ul(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <B>long</B> <I>j</I><B>)</B>
+          Add an unsigned long <I>j</I> to a 64 bit number <I>i</I> forming a 64 bit result.
+
+     <B>u64_t</B> <B>sub64(u64_t</B> <I>i</I><B>,</B> <B>u64_t</B> <I>j</I><B>)</B>
+          Subtract the 64 bit number <I>j</I> from the 64 bit number <I>i</I> forming  a  64
+          bit result.
+
+     <B>u64_t</B> <B>sub64u(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <I>j</I><B>)</B>
+          Subtract the unsigned <I>j</I> from the 64 bit number <I>i</I> forming  a  64  bit
+          result.
+
+     <B>u64_t</B> <B>sub64ul(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <B>long</B> <I>j</I><B>)</B>
+          Subtract the unsigned long <I>j</I> from the 64 bit number <I>i</I> forming  a  64
+          bit result.
+
+     <B>unsigned</B> <B>diff64(u64_t</B> <I>i</I><B>,</B> <B>u64_t</B> <I>j</I><B>)</B>
+          Subtract the 64 bit number <I>j</I> from the 64 bit  number  <I>i</I>  forming  an
+          unsigned.  Overflow is not checked.
+
+     <B>u64_t</B> <B>cvu64(unsigned</B> <I>i</I><B>)</B>
+          Convert an unsigned to a 64 bit number.
+
+     <B>u64_t</B> <B>cvul64(unsigned</B> <B>long</B> <I>i</I><B>)</B>
+          Convert an unsigned long to a 64 bit number.
+
+     <B>unsigned</B> <B>cv64u(u64_t</B> <I>i</I><B>)</B>
+          Convert a 64 bit number to an unsigned if it fits, otherwise  return
+          <B>UINT_MAX</B>.
+
+     <B>unsigned</B> <B>long</B> <B>cv64ul(u64_t</B> <I>i</I><B>)</B>
+          Convert a 64 bit number to an unsigned long if  it  fits,  otherwise
+          return <B>ULONG_MAX</B>.
+
+     <B>unsigned</B> <B>long</B> <B>div64u(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <I>j</I><B>)</B>
+          Divide the 64 bit number <I>i</I> by the  unsigned  <I>j</I>  giving  an  unsigned
+          long.   Overflow  is  not  checked.   (Typical "byte offset to block
+          number" conversion.)
+
+     <B>unsigned</B> <B>rem64u(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <I>j</I><B>)</B>
+          Compute the remainder of the division of the 64 bit number <I>i</I> by  the
+          unsigned  <I>j</I>  as  an unsigned.  (Typical "byte offset within a block"
+          computation.)
+
+     <B>u64_t</B> <B>mul64u(unsigned</B> <B>long</B> <I>i</I><B>,</B> <B>unsigned</B> <I>j</I><B>)</B>
+          Multiply the unsigned long <I>i</I> by the  unsigned  <I>j</I>  giving  a  64  bit
+          number.  (Typical "block number to byte offset" conversion.)
+
+     <B>int</B> <B>cmp64(u64_t</B> <I>i</I><B>,</B> <B>u64_t</B> <I>j</I><B>)</B>
+          Compare two 64 bit numbers.  Returns <B>-1</B> if <I>i</I> &lt; <I>j</I>, <B>0</B> if <I>i</I> == <I>j</I>, and <B>1</B>
+          if <I>i</I> &gt; <I>j</I>.
+
+     <B>int</B> <B>cmp64u(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <I>j</I><B>)</B>
+          Likewise compare a 64 bit number with an unsigned.
+
+     <B>int</B> <B>cmp64ul(u64_t</B> <I>i</I><B>,</B> <B>unsigned</B> <B>long</B> <I>j</I><B>)</B>
+          Likewise compare a 64 bit number with an unsigned long.
+
+     <B>unsigned</B> <B>long</B> <B>ex64lo(u64_t</B> <I>i</I><B>)</B>
+          Extract the low 32 bits of a 64 bit number.
+
+     <B>unsigned</B> <B>long</B> <B>ex64hi(u64_t</B> <I>i</I><B>)</B>
+          Extract the high 32 bits of a 64 bit number.
+
+     <B>u64_t</B> <B>make64(unsigned</B> <B>long</B> <I>lo</I><B>,</B> <B>unsigned</B> <B>long</B> <I>hi</I><B>)</B>
+          Combine the low and high parts of a  64  bit  number  to  a  64  bit
+          number.   (The  last three functions are used to pass 64 bit numbers
+          in messages within the kernel.  They should not be used for anything
+          else.)
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/fcntl.2.html">fcntl(2)</A></B>, <B><A HREF="../man4/controller.4.html">controller(4)</A></B>.
+
+<B>NOTES</B>
+     With the usual disk block size of 512 bytes the maximum disk size is  512
+     * 4 gigabytes = 2 terabytes.
+
+     Standard Minix only uses 64 bit computations withing the disk drivers, so
+     individual partitions are still limited to 4 gigabytes.  Minix-vmd has 64
+     bit computations also in the file system code.
+
+     Special care must be taken when accessing disk devices.   For  Minix  one
+     may  have to temporarily change the start of the partition to go beyond 4
+     G.  Minix-vmd can go beyond 4 G, but  the  <B>lseek</B>  system  call  is  still
+     limited to a 32 bit offset.  One needs to use
+
+          <B>fcntl(</B><I>fd</I><B>,</B> <B>F_SEEK,</B> <B>u64_t</B> <I>offset</I><B>)</B>
+
+     to seek to a 64 bit position.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

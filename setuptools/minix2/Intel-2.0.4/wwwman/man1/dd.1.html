@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>dd(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>dd(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     dd - convert and copy a file
+
+<B>SYNOPSIS</B>
+     <B>dd</B> [<I>option</I> = <I>value</I>] ...
+
+<B>EXAMPLES</B>
+
+     <B>dd</B> <B>if=/dev/fd0</B> <B>of=/dev/fd1</B>
+                         # Copy disk 0 to disk 1
+
+     <B>dd</B> <B>if=x</B> <B>of=y</B> <B>bs=1w</B> <B>skip=4</B>
+                         # Copy <I>x</I> to <I>y</I>, skipping 4 words
+
+     <B>dd</B> <B>if=x</B> <B>of=y</B> <B>count=3</B>
+                         # Copy three 512-byte blocks
+
+<B>DESCRIPTION</B>
+
+     This command is intended for copying partial files.  The block size, skip
+     count, and number of blocks to copy can be specified.  The options are:
+
+        <B>if</B> = file      - Input file (default is <I>stdin</I>)
+        <B>of</B> = file      - Output file (default is standard output)
+        <B>ibs</B> = n        - Input block size (default 512 bytes)
+        <B>obs</B> = n        - Output block size (default is 512 bytes)
+        <B>bs</B> = n         - Block size; sets <I>ibs</I> and <I>obs</I> (default is 512 bytes)
+        <B>skip</B> = n       - Skip <I>n</I> input blocks before reading
+        <B>seek</B> = n       - Skip <I>n</I> output blocks before writing
+        <B>count</B> = n      - Copy only <I>n</I> input blocks
+        <B>conv</B> <B>=</B> <B>lcase</B>   - Convert upper case letters to lower case
+        <B>conv</B> <B>=</B> <B>ucase</B>   - Convert lower case letters to upper case
+        <B>conv</B> <B>=</B> <B>swab</B>    - Swap every pair of bytes
+        <B>conv</B> <B>=</B> <B>noerror</B> - Ignore errors and just keep going
+        <B>conv</B> <B>=</B> <B>silent</B>  - Suppress statistics (Minix specific flag)
+
+     Where sizes are expected, they are in bytes.  However, the letters <B>w</B>,  <B>b</B>,
+     or  <B>k</B>  may  be appended to the number to indicate words (2 bytes), blocks
+     (512 bytes), or K (1024 bytes), respectively.  When <I>dd</I>  is  finished,  it
+     reports the number of full and partial blocks read and written.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/vol.1.html">vol(1)</A></B>.
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

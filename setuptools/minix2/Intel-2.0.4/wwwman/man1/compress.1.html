@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>compress(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>compress(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     compress, uncompress, zcat - compress a file  using  modified  Lempel-Ziv
+     coding
+
+<B>SYNOPSIS</B>
+     <B>compress</B> [<B>-cdfv</B>] [<I>file</I>] ...
+
+<B>OPTIONS</B>
+
+     <B>-c</B>   Put output on <I>stdout</I> instead of on <I>file</I>.<I>Z</I>
+
+     <B>-d</B>   Decompress instead of compress
+
+     <B>-f</B>   Force output even if there is no saving
+
+     <B>-v</B>   Verbose mode
+
+<B>EXAMPLES</B>
+
+     <B>compress</B> <B>&lt;infile</B> <B>&gt;outfile</B>
+                         # Compress 1 file
+
+     <B>compress</B> <B>x</B> <B>y</B> <B>z</B>      # Compress 3 files to <I>x</I>.<I>Z</I>, <I>y</I>.<I>Z</I>, and <I>z</I>.<I>Z</I>
+
+     <B>compress</B> <B>-d</B> <B>file.Z</B>  # Decompress <I>file</I>.<I>Z</I> to <I>file</I>
+
+<B>DESCRIPTION</B>
+
+     The listed files (or <I>stdin</I>, if none are given) are compressed  using  the
+     Ziv-Lempel  algorithm.   If  the  output  is  smaller than the input, the
+     output is put on <I>file</I>.<I>Z</I> or <I>stdout</I> if no files are listed. If <I>compress</I>  is
+     linked  to  <I>uncompress</I>,  the  latter  is  the same as giving the <B>-d</B> flag.
+     Similarly, a link to <I>zcat</I> decompresses to <I>stdout</I>.  The MINIX  version  of
+     <I>compress</I> uses 13-bit compression.  This means that when compressing files
+     on other systems for transmission to MINIX,  be  sure  that  only  13-bit
+     compression is used.  On many systems, the default is 16-bit (too big).
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/tar.1.html">tar(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>od(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>od(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     od - octal dump
+
+<B>SYNOPSIS</B>
+     <B>od</B> [<B>-bcdhox</B>] [<I>file</I>] [ [<B>+</B>] <I>offset</I> [<B>.</B>][<B>b</B>] ]
+
+<B>OPTIONS</B>
+
+     <B>-b</B>   Dump bytes in octal
+
+     <B>-c</B>   Dump bytes as ASCII characters
+
+     <B>-d</B>   Dump words in decimal
+
+     <B>-h</B>   Print addresses in hex (default is octal)
+
+     <B>-o</B>   Dump words in octal (default)
+
+     <B>-v</B>   Verbose (list duplicate lines)
+
+     <B>-x</B>   Dump words in hex
+
+<B>EXAMPLES</B>
+
+     <B>od</B> <B>-ox</B> <B>file</B>         # Dump <I>file</I> in octal and hex
+
+     <B>od</B> <B>-d</B> <B>file</B> <B>+1000</B>    # Dump <I>file</I> starting at byte 01000
+
+     <B>od</B> <B>-c</B> <B>file</B> <B>+10.b</B>    # Dump <I>file</I> starting at block 10
+
+<B>DESCRIPTION</B>
+
+     <I>Od</I> dumps a file in one or more formats.  If <I>file</I>  is  missing,  <I>stdin</I>  is
+     dumped.   The  <I>offset</I> argument tells <I>od</I> to skip a certain number of bytes
+     or blocks before starting.  The offset is in octal bytes,  unless  it  is
+     followed by a '.' for decimal or <B>b</B> for blocks or both.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

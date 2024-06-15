@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>bsfilt(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>bsfilt(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     bsfilt, colcrt - a colcrt-like backspace filter
+
+<B>SYNOPSIS</B>
+     <B>bsfilt</B> [ <B>-</B> ] [ <B>-U</B> ] [ file ... ]
+
+<B>DESCRIPTION</B>
+     <I>Bsfilt</I> filters backspace sequences from the input <I>file</I>(s) (standard input
+     if  none)  in  an approximation of <B><A HREF="../man1/colcrt.1.html">colcrt(1)</A></B>.  Both the backspace and the
+     character it returns to  are  removed,  unless  they  form  an  underline
+     sequence.   Underline  sequences are treated according to the settings of
+     the <B>-</B> and <B>-U</B> options.
+
+<B>OPTIONS</B>
+
+     <B>-</B>    specifies that no underlining of  any  kind  is  to  be  propagated.
+          Without   this   option   or  the  <B>-U</B>  option,  <I>bsfilt</I>  approximates
+          underlining with minus signs (`-') in following lines.
+
+     <B>-U</B>   specifies that underlining with underscore (`_') and backspace (`b')
+          character sequences is permitted.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/cawf.1.html">cawf(1)</A></B>, <B><A HREF="../man1/colcrt.1.html">colcrt(1)</A></B> and <B><A HREF="../man1/nroff.1.html">nroff(1)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     Diagnostic messages are delivered to the standard error file.
+
+<B>HISTORY</B>
+     Vic Abell of Purdue University wrote <I>bsfilt</I> to have  a  backspace  filter
+     for <B><A HREF="../man1/cawf.1.html">cawf(1)</A></B> that is independent of licensed source code.
+
+<B>BUGS</B>
+     The maximum length of a line that can be underlined with minus  signs  is
+     fixed.
+
+     <I>Bsfilt</I> does not examine the characters that  are  being  overprinted  via
+     backspace  operations.  Thus, overprinting that is intended to form a new
+     character from several different ones is ineffective and  only  the  last
+     character  of  the  sequence is propagated - e. g., ``o^H+'', intended to
+     look like a bullet, is reduced to `+'.
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

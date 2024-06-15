@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>stty(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>stty(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     stty - set terminal parameters
+
+<B>SYNOPSIS</B>
+     <B>stty</B> [<B>-ag]</B>
+
+     <B>stty</B> <I>encoded</I>-<I>form</I>
+
+     <B>stty</B> <I>speed</I> <B>ispeed</B> <I>speed</I> <B>ospeed</B> <I>speed</I> <B>cs5</B> <B>cs6</B> <B>cs7</B> <B>cs8</B> [<B>-</B>]<B>parenb</B>  [<B>-</B>]<B>parodd</B>
+         [<B>-</B>]<B>hupcl</B>  [<B>-</B>]<B>cstopb</B>  [<B>-</B>]<B>cread</B> [<B>-</B>]<B>clocal</B> [<B>-</B>]<B>ignbrk</B> [<B>-</B>]<B>brkint</B> [<B>-</B>]<B>ignpar</B>
+         [<B>-</B>]<B>parmrk</B>  [<B>-</B>]<B>inpck</B>  [<B>-</B>]<B>istrip</B>  [<B>-</B>]<B>inlcr</B>  [<B>-</B>]<B>igncr</B>  [<B>-</B>]<B>icrnl</B>  [<B>-</B>]<B>ixon</B>
+         [<B>-</B>]<B>ixoff</B>   [<B>-</B>]<B>ixany</B>  [<B>-</B>]<B>opost</B>  [<B>-</B>]<B>onlcr</B>  [<B>-</B>]<B>xtabs</B>  [<B>-</B>]<B>onoeot</B>  [<B>-</B>]<B>isig</B>
+         [<B>-</B>]<B>icanon</B> [<B>-</B>]<B>iexten</B> [<B>-</B>]<B>echo</B>  [<B>-</B>]<B>echoe</B>  [<B>-</B>]<B>echok</B>  [<B>-</B>]<B>echonl</B>  [<B>-</B>]<B>noflsh</B>
+         [<B>-</B>]<B>lflusho</B>  <B>eof</B>=<I>c</I>  <B>eol</B>=<I>c</I>  <B>erase</B>=<I>c</I> <B>erase</B>=<I>c</I> <B>intr</B>=<I>c</I> <B>kill</B>=<I>c</I> <B>quit</B>=<I>c</I> <B>susp</B>=<I>c</I>
+         <B>start</B>=<I>c</I> <B>stop</B>=<I>c</I> <B>rprnt</B>=<I>c</I> <B>lnext</B>=<I>c</I> <B>flush</B>=<I>c</I> <B>min</B>=<I>n</I> <B>time</B>=<I>n</I>  <B>rows</B>  <I>n</I>  <B>cols</B>  <I>n</I>
+         <B>xpixels</B>  <I>n</I>  <B>ypixels</B>  <I>n</I> <B>cooked</B> <B>raw</B> [<B>-</B>]<B>evenp</B> [<B>-</B>]<B>parity</B> [<B>-</B>]<B>oddp</B> [<B>-</B>]<B>nl</B> <B>ek</B>
+         <B>sane</B>
+
+<B>DESCRIPTION</B>
+     <B>Stty</B> shows or  changes  the  parameters  of  the  terminal  connected  to
+     standard  input.   <B>Stty</B>  takes  a  myriad  of arguments most of which are
+     mapped directly to the flags and special characters described in  <B><A HREF="../man4/tty.4.html">tty(4)</A></B>,
+     so we won't describe them here.
+
+     <B>Stty</B> has three forms of operation.  First,  without  any  arguments  <B>stty</B>
+     shows  all terminal attributes that are different from the default state.
+     Option <B>-a</B> makes <B>stty</B> print all terminal  attributes,  and  <B>-g</B>  lets  <B>stty</B>
+     print  the  attributes  in  a special encoded form, a simple row of colon
+     separated hexadecimal numbers.
+
+     In the second form of operation <B>stty</B> takes an encoded form as produced by
+     the <B>-g</B> option and sets the terminals attributes to its decoded value.
+
+     In the third form <B>stty</B>  interprets  a  series  of  flags  and  parameters
+     settings  and modifies the terminal attributes accordingly.  Flags can be
+     given as <B>icanon</B> or <B>-icanon</B> for instance, either setting or  clearing  the
+     <B>ICANON</B>  flag.   Special  character  values  can  by  set like <B>intr=^C</B> for
+     example, which sets the interrupt character to CTRL-C.   You  can  either
+     use  a real CTRL-C, or the two characters `^' and `C'.  In any case it is
+     probably necessary to use quotes to guard it from the shell:  <B>intr='^C'</B>.
+
+     A number alone is interpreted as a baud rate setting for both  the  input
+     and output rate.  The input or the output rate can be set separately with
+     use of the <B>ispeed</B> and <B>ospeed</B> prefixes to the number.  The character  size
+     can be set with <B>cs5</B>, <B>cs6</B>, <B>cs7</B> or <B>cs8</B>.
+
+     The <B>MIN</B> and <B>TIME</B> value, the number of rows and columns, and  the  xpixels
+     and  ypixels of the window can also be set using one of the keywords <B>min</B>,
+     <B>time</B>, <B>rows</B>, <B>cols</B>, <B>xpixels</B> or <B>ypixels</B>, followed by a decimal  number  that
+     is the value of the setting.
+     <B>Stty</B> accepts several keywords that are not named by  corresponding  flags
+     or parameters in <B><A HREF="../man4/tty.4.html">tty(4)</A></B>.  They set several attributes at once:
+
+     <B>cooked</B>
+          Same as <B>icrnl</B> <B>ixon</B> <B>opost</B> <B>onlcr</B> <B>isig</B> <B>icanon</B> <B>iexten</B> <B>echo</B>, setting  all
+          the attributes that are needed for line oriented mode.
+
+     <B>raw</B>  Same as <B>-icrnl</B> <B>-ixon</B> <B>-opost</B>  <B>-onlcr</B>  <B>-isig</B>  <B>-icanon</B>  <B>-iexten</B>  <B>-echo</B>,
+          setting all the attributes for a raw data channel.
+
+     <B>evenp</B> <B>parity</B>
+          These synonyms are equal to <B>cs7</B> <B>parenb</B> <B>-parodd</B>, setting the line  to
+          7 bits even parity.
+
+     <B>oddp</B> Same as <B>cs7</B> <B>parenb</B> <B>parodd</B>, setting the line to 7 bits odd parity.
+
+     <B>-parity</B> <B>-evenp</B> <B>-oddp</B>
+          All synonyms for <B>cs8</B> <B>-parenb</B>, setting the line to 8 bits, no parity.
+
+     <B>nl</B>   Same  as  <B>icrnl</B>,  setting  carriage  return  to  line   feed   input
+          translation.
+
+     <B>-nl</B>  Same as <B>-icrnl</B> <B>-inlcr</B> <B>-igncr</B>, disabling any carriage return or  line
+          feed handling.
+
+     <B>ek</B>   Set the <B>ERASE</B> and <B>KILL</B> special characters back to the default.
+
+     <B>sane</B> Set all attributes to the default except things like the line  speed
+          and  parity, because their "sane" value is probably what it is right
+          now.  The default values are compiled into <B>stty</B> from the &lt;termios.h&gt;
+          include file.  Use <B>stty</B> <B>sane;</B> <B>stty</B> <B>-a</B> to know what they are.
+
+<B>FILES</B>
+
+     <B>/etc/ttytab</B>    The <B>init</B> field of this file may contain an <B>stty</B> command to
+                    set  the attributes to match an attached RS232 terminal or
+                    modem.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man4/tty.4.html">tty(4)</A></B>, <B><A HREF="../man5/ttytab.5.html">ttytab(5)</A></B>.
+
+<B>NOTES</B>
+     The <B>cooked</B>, <B>raw</B>, <B>rows</B>, <B>cols</B>,  <B>xpixels</B>  and  <B>ypixels</B>  keywords  are  Minix
+     additions beyond the keywords defined by POSIX.  <B>Rows</B> and <B>cols</B> are common
+     UNIX extensions, however.  There are more Minix specific flags that match
+     the Minix specific attributes described in <B><A HREF="../man4/tty.4.html">tty(4)</A></B>.
+
+
+
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

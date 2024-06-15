@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>pr(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>pr(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     pr - print a file
+
+<B>SYNOPSIS</B>
+     <B>pr</B> [<B>-Mfnt</B>] [<B>-h</B> <I>n</I>]  [<B>-l</B> <I>n</I>]  [<B>-w</B> <I>n</I>] [<B>-</B>columns] [<B>+</B><I>page</I>] [<I>file</I>] ...
+
+<B>OPTIONS</B>
+
+     <B>-M</B>   Use MINIX style line number
+
+     <B>-f</B>   Do not fold long lines
+
+     <B>-h</B>   Take next argument as page header
+
+     <B>-l</B>   Sets page length in lines
+
+     <B>-n</B>   Number the output lines
+
+     <B>-t</B>   Do not print page header or trailer
+
+     <B>-w</B>   Sets line length in characters
+
+<B>EXAMPLES</B>
+
+     <B>pr</B> <B>-w85</B> <B>-l60</B> <B>file</B>   # Use 85 character line, 60 line page
+
+     <B>pr</B> <B>-3</B> <B>file</B>          # List <I>file</I> three columns to a page
+
+     <B>pr</B> <B>+4</B> <B>file</B>          # Start printing with page 4
+
+<B>DESCRIPTION</B>
+
+     <I>Pr</I> formats one or more files for printing.  If no  files  are  specified,
+     <I>stdin</I>  is printed.  Options are provided for setting the width and height
+     of the page, the number of columns to use (default 1), and  the  page  to
+     start with, among others.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/lp.1.html">lp(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

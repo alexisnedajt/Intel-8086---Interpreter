@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>fgrep(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>fgrep(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     fgrep - fixed grep
+
+<B>SYNOPSIS</B>
+     <B>fgrep</B> [<B>-cfhlnsv</B>] [<I>string</I>_<I>file</I>] [<I>string</I>] [<I>file</I>] ...
+
+<B>OPTIONS</B>
+
+     <B>-c</B>   Count matching lines and only print count, not the lines
+
+     <B>-f</B>   Take strings from file named in following argument
+
+     <B>-h</B>   Omit file headers from printout
+
+     <B>-l</B>   List file names once only
+
+     <B>-n</B>   Each line is preceded by its line number
+
+     <B>-s</B>   Status only, no output
+
+     <B>-v</B>   Print only lines not matching
+
+<B>EXAMPLES</B>
+
+     <B>fgrep</B> <B>%</B> <B>prog.c</B>      # Print lines containing % sign
+
+     <B>fgrep</B> <B>-f</B> <B>pattern</B> <B>prog.c</B>
+                         # Take strings from <I>pattern</I>
+
+<B>DESCRIPTION</B>
+
+     <I>Fgrep</I> is essentially the same as grep, except that it only  searches  for
+     lines  containing  literal strings (no wildcard characters).  The pattern
+     may consist of several lines with one string to search on each line.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/cgrep.1.html">cgrep(1)</A></B>, <B><A HREF="../man1/grep.1.html">grep(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

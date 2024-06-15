@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>crontab(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>crontab(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     crontab - User crontab manipulation
+
+<B>SYNOPSIS</B>
+     <B>crontab</B> <B>-c</B> [<I>user</I>] <I>file</I>
+     <B>crontab</B> <B>-l</B> [<I>user</I>]
+     <B>crontab</B> <B>-r</B> [<I>user</I>]
+     <B>crontab</B> <B>-p</B>
+
+<B>DESCRIPTION</B>
+     The <B>crontab</B> program allows users to  manipulate  their  personal  crontab
+     files.   These files are hidden in <B>/usr/spool/crontabs/</B><I>user</I> where <I>user</I> is
+     the login name of a given  user.   The  system  daemon  <B>cron</B>  uses  these
+     crontabs,  among  others, to run tasks that are to be repeated at regular
+     intervals.  See <B><A HREF="../man5/crontab.5.html">crontab(5)</A></B> on what a good crontab file should look like.
+
+     Only the superuser can specify a user name to manipulate the crontab of a
+     given user.  Any other user can only touch their own crontab file.
+
+<B>OPTIONS</B>
+
+     <B>-c</B> [<I>user</I>] <I>file</I>
+          Install <I>file</I> as the crontab file of <I>user</I>.
+
+     <B>-l</B> [<I>user</I>]
+          List the crontab file of <I>user</I> to standard output.
+
+     <B>-r</B> [<I>user</I>]
+          Remove the crontab file of <I>user</I>.
+
+     <B>-p</B>   Tell cron to reload its tables.  Useful for system administrators to
+          signal a change to any of the system crontab files.  Changes made by
+          the <B>crontab</B> program are signalled automatically.   (Mnemonic:  -p  =
+          "ping".)
+
+<B>FILES</B>
+
+     <B>/usr/spool/crontabs/</B><I>user</I>     Per user personal crontab file.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man5/crontab.5.html">crontab(5)</A></B>, <B><A HREF="../man8/cron.8.html">cron(8)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Crontab</B> preparses a new crontab and only installs  it  if  correct.   All
+     errors  are sent to standard error, messages about installing a new table
+     and telling <B>cron</B> to reload are sent to standard output.
+
+
+
+
+<B>BUGS</B>
+     <B>Crontab</B> misses a <B>-e</B> option that other  implementations  of  this  command
+     allow  one  to  edit  the  current crontab and install the result.  Seems
+     quite handy until you try to install a  new  crontab  from  an  automated
+     script.  That's why this command has a <B>-c</B> option that installs a prepared
+     crontab file.  Use
+
+          crontab -l &gt;/tmp/tab
+          ${EDITOR-vi} /tmp/tab
+          crontab -c /tmp/tab
+
+     to get the same effect as <B>crontab</B> <B>-e</B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

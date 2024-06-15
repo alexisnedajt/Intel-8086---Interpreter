@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>pause(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>pause(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     pause - stop until signal
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>int</B> <B>pause(void)</B>
+
+<B>DESCRIPTION</B>
+     <B>Pause</B> never returns normally.  It  is  used  to  give  up  control  while
+     waiting for a signal from <B><A HREF="../man2/kill.2.html">kill(2)</A></B> or the alarm timer, see <B><A HREF="../man2/alarm.2.html">alarm(2)</A></B>.  Upon
+     termination of a signal handler started during a <B>pause,</B>  the  <B>pause</B>  call
+     will return.
+
+<B>RETURN</B> <B>VALUE</B>
+     Always returns -1.
+
+<B>ERRORS</B>
+     <B>Pause</B> always returns:
+
+     [EINTR]        The call was interrupted.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/alarm.2.html">alarm(2)</A></B>, <B><A HREF="../man2/kill.2.html">kill(2)</A></B>, <B><A HREF="../man2/sigsuspend.2.html">sigsuspend(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

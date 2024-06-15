@@ -1,0 +1,312 @@
+<HTML>
+<HEAD>
+<TITLE>telnet(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>telnet(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     telnet - user interface to the TELNET protocol
+
+<B>SYNOPSIS</B>
+     telnet [ <I>host</I> [ <I>port</I> ] ]
+
+<B>DESCRIPTION</B>
+     <I>Telnet</I> is  used  to  communicate  with  another  host  using  the  <B>TELNET</B>
+     protocol.   If  <I>telnet</I>  is  invoked  without arguments, it enters command
+     mode, indicated by its prompt ("telnet&gt;").  In this mode, it accepts  and
+     executes  the commands listed below.  If it is invoked with arguments, it
+     performs an <B>open</B> command (see below) with those arguments.
+
+     Once a connection has been opened, <I>telnet</I>  enters  an  input  mode.   The
+     input mode entered will be either "character at a time" or "line by line"
+     depending on what the remote system supports.
+
+     In "character at a time" mode, most text typed is immediately sent to the
+     remote host for processing.
+
+     In "line by line" mode, all text is echoed locally, and  (normally)  only
+     completed  lines are sent to the remote host.  The "local echo character"
+     (initially "^E") may be used to turn off and  on  the  local  echo  (this
+     would  mostly  be  used  to  enter  passwords  without the password being
+     echoed).
+
+     In either mode, if the <I>localchars</I> toggle is TRUE  (the  default  in  line
+     mode; see below), the user's <I>quit</I>, <I>intr</I>, and <I>flush</I> characters are trapped
+     locally, and sent as <B>TELNET</B> protocol sequences to the remote side.  There
+     are options (see <B>toggle</B> <I>autoflush</I> and <B>toggle</B> <I>autosynch</I> below) which cause
+     this action to flush subsequent output to the terminal (until the  remote
+     host  acknowledges the <B>TELNET</B> sequence) and flush previous terminal input
+     (in the case of <I>quit</I> and <I>intr</I>).
+
+     While connected to a remote host, <I>telnet</I> command mode may be  entered  by
+     typing  the  <I>telnet</I> "escape character" (initially "^]").  When in command
+     mode, the normal terminal editing conventions are available.
+
+     <B>COMMANDS</B>
+
+     The following commands are available.  Only enough  of  each  command  to
+     uniquely  identify  it  need be typed (this is also true for arguments to
+     the <B>mode</B>, <B>set</B>, <B>toggle</B>, and <B>display</B> commands).
+
+     <B>open</B> <I>host</I> [ <I>port</I> ]
+          Open a  connection  to  the  named  host.   If  no  port  number  is
+          specified,  <I>telnet</I>  will  attempt  to contact a <B>TELNET</B> server at the
+          default port.  The host specification may be either a host name (see
+          <B><A HREF="../man5/hosts.5.html">hosts(5)</A></B>)  or  an  Internet  address specified in the "dot notation"
+          (see <B><A HREF="../man3/inet.3n.html">inet(3N)</A></B>).
+
+     <B>close</B>
+          Close a <B>TELNET</B> session and return to command mode.
+
+     <B>quit</B>
+          Close any open <B>TELNET</B> session and exit <I>telnet</I>.  An end of  file  (in
+          command mode) will also close a session and exit.
+
+     <B>z</B>
+          Suspend <I>telnet</I>.  This command only works when the user is using  the
+          <B><A HREF="../man1/csh.1.html">csh(1)</A></B>.
+
+     <B>mode</B> <I>type</I>
+          <I>Type</I> is either <I>line</I> (for "line by  line"  mode)  or  <I>character</I>  (for
+          "character  at  a  time"  mode).   The  remote  host  is  asked  for
+          permission to go into the requested mode.  If  the  remote  host  is
+          capable of entering that mode, the requested mode will be entered.
+
+     <B>status</B>
+          Show the current status of <I>telnet</I>.  This includes the  peer  one  is
+          connected to, as well as the current mode.
+
+     <B>display</B> [ <I>argument</I>... ]
+          Displays all, or some, of the <B>set</B> and <B>toggle</B> values (see below).
+
+     <B>?</B> [ <I>command</I> ]
+          Get help.  With no arguments, <I>telnet</I> prints a help  summary.   If  a
+          command  is  specified,  <I>telnet</I>  will print the help information for
+          just that command.
+
+     <B>send</B> <I>arguments</I>
+          Sends one or more special character sequences to  the  remote  host.
+          The  following  are  the arguments which may be specified (more than
+          one argument may be specified at a time):
+
+     <I>escape</I>
+          Sends the current <I>telnet</I> escape character (initially "^]").
+
+     <I>synch</I>
+          Sends the <B>TELNET</B> <B>SYNCH</B> sequence.  This sequence  causes  the  remote
+          system  to  discard  all  previously typed (but not yet read) input.
+          This sequence is sent as TCP urgent data (and may not  work  if  the
+          remote  system  is  a  4.2 BSD system -- if it doesn't work, a lower
+          case "r" may be echoed on the terminal).
+
+     <I>brk</I>
+          Sends the <B>TELNET</B> <B>BRK</B> (Break) sequence, which may  have  significance
+          to the remote system.
+
+
+
+     <I>ip</I>
+          Sends the <B>TELNET</B> <B>IP</B> (Interrupt Process) sequence, which should cause
+          the remote system to abort the currently running process.
+
+     <I>ao</I>
+          Sends the <B>TELNET</B> <B>AO</B> (Abort Output) sequence, which should cause  the
+          remote  system  to  flush  all  output <B>from</B> the remote system <B>to</B> the
+          user's terminal.
+
+     <I>ayt</I>
+          Sends the <B>TELNET</B> <B>AYT</B> (Are You There) sequence, to which  the  remote
+          system may or may not choose to respond.
+
+     <I>ec</I>
+          Sends the <B>TELNET</B> <B>EC</B> (Erase Character) sequence, which  should  cause
+          the remote system to erase the last character entered.
+
+     <I>el</I>
+          Sends the <B>TELNET</B> <B>EL</B> (Erase Line) sequence, which  should  cause  the
+          remote system to erase the line currently being entered.
+
+     <I>ga</I>
+          Sends the <B>TELNET</B>  <B>GA</B>  (Go  Ahead)  sequence,  which  likely  has  no
+          significance to the remote system.
+
+     <I>nop</I>
+          Sends the <B>TELNET</B> <B>NOP</B> (No OPeration) sequence.
+
+     ?
+          Prints out help information for the <B>send</B> command.
+
+     <B>set</B> <I>argument</I> <I>value</I>
+          Set any one of a number of <I>telnet</I> variables  to  a  specific  value.
+          The  special  value "off" turns off the function associated with the
+          variable.  The values of variables  may  be  interrogated  with  the
+          <B>display</B> command.  The variables which may be specified are:
+
+     <I>echo</I>
+          This is the value (initially "^E") which, when  in  "line  by  line"
+          mode, toggles between doing local echoing of entered characters (for
+          normal processing), and suppressing echoing  of  entered  characters
+          (for entering, say, a password).
+
+     <I>escape</I>
+          This is the <I>telnet</I> escape character (initially  "^[")  which  causes
+          entry into <I>telnet</I> command mode (when connected to a remote system).
+
+     <I>interrupt</I>
+          If <I>telnet</I> is in <I>localchars</I> mode (see <B>toggle</B>  <I>localchars</I>  below)  and
+          the  <I>interrupt</I> character is typed, a <B>TELNET</B> <B>IP</B> sequence (see <B>send</B> <I>ip</I>
+          above) is sent to the  remote  host.   The  initial  value  for  the
+          interrupt character is taken to be the terminal's <B>intr</B> character.
+
+     <I>quit</I>
+          If <I>telnet</I> is in <I>localchars</I> mode (see <B>toggle</B>  <I>localchars</I>  below)  and
+          the  <I>quit</I>  character  is  typed, a <B>TELNET</B> <B>BRK</B> sequence (see <B>send</B> <I>brk</I>
+          above) is sent to the remote host.  The initial value for  the  quit
+          character is taken to be the terminal's <B>quit</B> character.
+
+     <I>flushoutput</I>
+          If <I>telnet</I> is in <I>localchars</I> mode (see <B>toggle</B>  <I>localchars</I>  below)  and
+          the  <I>flushoutput</I>  character is typed, a <B>TELNET</B> <B>AO</B> sequence (see <B>send</B>
+          <I>ao</I> above) is sent to the remote host.  The  initial  value  for  the
+          flush character is taken to be the terminal's <B>flush</B> character.
+
+     <I>erase</I>
+          If <I>telnet</I> is in <I>localchars</I> mode (see <B>toggle</B> <I>localchars</I>  below),  <B>and</B>
+          if <I>telnet</I> is operating in "character at a time" mode, then when this
+          character is typed, a <B>TELNET</B> <B>EC</B> sequence (see <B>send</B> <I>ec</I> above) is sent
+          to  the remote system.  The initial value for the erase character is
+          taken to be the terminal's <B>erase</B> character.
+
+     <I>kill</I>
+          If <I>telnet</I> is in <I>localchars</I> mode (see <B>toggle</B> <I>localchars</I>  below),  <B>and</B>
+          if <I>telnet</I> is operating in "character at a time" mode, then when this
+          character is typed, a <B>TELNET</B> <B>EL</B> sequence (see <B>send</B> <I>el</I> above) is sent
+          to  the  remote system.  The initial value for the kill character is
+          taken to be the terminal's <B>kill</B> character.
+
+     <I>eof</I>
+          If <I>telnet</I> is  operating  in  "line  by  line"  mode,  entering  this
+          character as the first character on a line will cause this character
+          to be sent to the remote system.   The  initial  value  of  the  eof
+          character is taken to be the terminal's <B>eof</B> character.
+
+     <B>toggle</B> <I>arguments</I>...
+          Toggle (between TRUE and  FALSE)  various  flags  that  control  how
+          <I>telnet</I> responds to events.  More than one argument may be specified.
+          The state of these  flags  may  be  interrogated  with  the  <B>display</B>
+          command.  Valid arguments are:
+
+     <I>localchars</I>
+          If this is TRUE, then the <I>flush</I>, <I>interrupt</I>, <I>quit</I>,  <I>erase</I>,  and  <I>kill</I>
+          characters  (see  <B>set</B> above) are recognized locally, and transformed
+          into (hopefully) appropriate <B>TELNET</B> control sequences  (respectively
+          <I>ao</I>,  <I>ip</I>,  <I>brk</I>,  <I>ec</I>,  and <I>el</I>; see <B>send</B> above).  The initial value for
+          this toggle is TRUE in "line by line" mode, and FALSE in  "character
+          at a time" mode.
+
+
+     <I>autoflush</I>
+          If <I>autoflush</I> and <I>localchars</I> are both TRUE, then when the  <I>ao</I>,  <I>intr</I>,
+          or  <I>quit</I>  characters  are  recognized  (and  transformed into <B>TELNET</B>
+          sequences; see <B>set</B> above for details), <I>telnet</I> refuses to display any
+          data  on  the  user's  terminal until the remote system acknowledges
+          (via a <B>TELNET</B> <I>Timing</I> <I>Mark</I> option) that it has processed those <B>TELNET</B>
+          sequences.   The  initial  value  for  this  toggle  is  TRUE if the
+          terminal user had not done an "stty noflsh",  otherwise  FALSE  (see
+          <B><A HREF="../man1/stty.1.html">stty(1)</A></B>).
+
+     <I>autosynch</I>
+          If <I>autosynch</I> and <I>localchars</I> are both TRUE, then when either the <I>intr</I>
+          or  <I>quit</I>  characters is typed (see <B>set</B> above for descriptions of the
+          <I>intr</I> and <I>quit</I> characters), the resulting  <B>TELNET</B>  sequence  sent  is
+          followed  by the <B>TELNET</B> <B>SYNCH</B> sequence.  This procedure <B>should</B> cause
+          the remote system to begin throwing away all previously typed  input
+          until  both  of  the <B>TELNET</B> sequences have been read and acted upon.
+          The initial value of this toggle is FALSE.
+
+     <I>crmod</I>
+          Toggle carriage return  mode.   When  this  mode  is  enabled,  most
+          carriage  return  characters  received  from the remote host will be
+          mapped into a carriage return followed by a line  feed.   This  mode
+          does  not  affect  those  characters  typed  by the user, only those
+          received from the remote host.  This mode is not very useful  unless
+          the  remote  host  only  sends carriage return, but never line feed.
+          The initial value for this toggle is FALSE.
+
+     <I>debug</I>
+          Toggles socket level debugging (useful only to the <I>super</I>user).   The
+          initial value for this toggle is FALSE.
+
+     <I>options</I>
+          Toggles the display of  some  internal  <I>telnet</I>  protocol  processing
+          (having  to  do  with  <B>TELNET</B>  options).  The initial value for this
+          toggle is FALSE.
+
+     <I>netdata</I>
+          Toggles the display of all network  data  (in  hexadecimal  format).
+          The initial value for this toggle is FALSE.
+
+     ?
+          Displays the legal <B>toggle</B> commands.
+
+<B>BUGS</B>
+
+     There is no adequate way for dealing with flow control.
+
+
+
+     On some remote systems, echo has to be turned off manually when in  "line
+     by line" mode.
+
+     There is enough settable state to justify a .<I>telnetrc</I> file.
+
+     No capability for a .<I>telnetrc</I> file is provided.
+
+     In "line by line" mode, the terminal's <I>eof</I> character is  only  recognized
+     (and sent to the remote system) when it is the first character on a line.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

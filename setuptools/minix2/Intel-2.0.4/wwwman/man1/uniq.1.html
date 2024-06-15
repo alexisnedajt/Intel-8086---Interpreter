@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>uniq(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>uniq(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     uniq - delete consecutive identical lines in a file
+
+<B>SYNOPSIS</B>
+     <B>uniq</B> [<B>-cdu</B>] [<B>-</B><I>n</I>] [<B>+</B><I>n</I>] [<I>input</I> [<I>output</I>]]
+
+<B>OPTIONS</B>
+
+     <B>-c</B>   Give count of identical lines in the input
+
+     <B>-d</B>   Only duplicate lines are written to output
+
+     <B>-u</B>   Only unique lines are written to output
+
+     <B>-</B><I>n</I>   Skip the first <I>n</I> columns when matching
+
+     <B>+</B><I>n</I>   Skip the first <I>n</I> fields when matching
+
+<B>EXAMPLES</B>
+
+     <B>uniq</B> <B>+2</B> <B>file</B>        # Ignore first 2 fields when comparing
+
+     <B>uniq</B> <B>-d</B> <B>inf</B> <B>outf</B>    # Write duplicate lines to <I>outf</I>
+
+<B>DESCRIPTION</B>
+
+     <I>Uniq</I> examines a file for consecutive lines that are identical.   All  but
+     duplicate entries are deleted, and the file is written to output.  The +<I>n</I>
+     option skips the first <I>n</I> fields, where a field is defined  as  a  run  of
+     characters  separated  by  white  space.  The -<I>n</I> option skips the first <I>n</I>
+     spaces.  Fields are skipped first.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/sort.1.html">sort(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

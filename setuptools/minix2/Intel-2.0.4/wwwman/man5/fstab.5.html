@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>fstab(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>fstab(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     fstab, mtab - list of file systems to mount, mounted file system table.
+
+<B>SYNOPSIS</B>
+     <B>/etc/fstab</B>
+
+     <B>/etc/mtab</B>
+
+<B>DESCRIPTION</B>
+     <B>/etc/fstab</B> is a table of file system to mount at boot time, <B>/etc/mtab</B>  is
+     a  table  of  currently  mounted  file systems as maintained by <B>mount</B> and
+     <B>umount</B>.
+
+     <B>/etc/fstab</B> is not read by <B>mount</B> as it should be.  It is instead a  simple
+     shell  script  listing  the  two  or  three  devices  that Minix needs to
+     operate:  The device names of the root file system, the swap file  system
+     (optional), and the file system for <B>/usr</B>.
+
+     <B>/etc/mtab</B> contains lines of four fields.  The layout is:
+
+          <B>device</B>    <B>directory</B>    <B>type</B>    <B>options</B>
+
+     These fields may be explained as follows:
+
+     <B>device</B>
+          A block special device.
+
+     <B>directory</B>
+          Mount point.
+
+     <B>type</B>
+          Either <B>1</B>, <B>2</B>, or <B>swap</B>, indicating a V1 or a V2 file system,  or  swap
+          space.
+
+     <B>options</B>
+          Either <B>ro</B>, or <B>rw</B>, indicating a read-only or read-write mounted  file
+          system.
+
+<B>FILES</B>
+
+     <B>/etc/fstab</B>     Shell script naming three important file systems.
+
+     <B>/etc/mtab</B>      List of mounted file systems.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man8/printroot.8.html">printroot(8)</A></B>, <B><A HREF="../man1/mount.1.html">mount(1)</A></B>, <B><A HREF="../man1/fsck.1.html">fsck(1)</A></B>, <B><A HREF="../man1/mkfs.1.html">mkfs(1)</A></B>.
+
+
+
+
+<B>BUGS</B>
+     <B>/etc/fstab</B> is a joke.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>mesg(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>mesg(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     mesg - permit or deny messages
+
+<B>SYNOPSIS</B>
+     <B>mesg</B> [ <B>n</B> ] [ <B>y</B> ]
+
+<B>DESCRIPTION</B>
+     <B>Mesg</B> with argument <B>n</B> forbids messages via <B>write</B> and <B><A HREF="../man1/talk.1.html">talk(1)</A></B>  by  revoking
+     non-user  write  permission on the user's terminal.  <B>Mesg</B> with argument <B>y</B>
+     reinstates permission.  All by itself, <B>mesg</B>  reports  the  current  state
+     without changing it.
+
+<B>FILES</B>
+     /dev/tty*
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/write.1.html">write(1)</A></B>, <B><A HREF="../man1/talk.1.html">talk(1)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     Exit status is 0 if messages are receivable, 1 if not, 2 on error.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

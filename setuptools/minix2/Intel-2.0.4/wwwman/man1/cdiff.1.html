@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>cdiff(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>cdiff(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     cdiff - context diff
+
+<B>SYNOPSIS</B>
+     <B>cdiff</B> [<B>-c</B><I>n</I>] <I>oldfile</I> <I>newfile</I>
+
+<B>OPTIONS</B>
+
+     <B>-c</B>   Provide <I>n</I> lines of context
+
+<B>EXAMPLES</B>
+
+     <B>cdiff</B> <B>old</B> <B>new</B> <B>&gt;f</B>    # Write context diff on <I>f</I>
+
+     <B>cdiff</B> <B>-c1</B> <B>old</B> <B>new</B> <B>&gt;f</B>
+                         # Use only 1 line of context
+
+<B>DESCRIPTION</B>
+
+     <I>Cdiff</I> produces a context diff by  first  running  <I>diff</I>  and  then  adding
+     context.  Some  update  programs,  like  <I>patch</I>,  can use context diffs to
+     update files, even in the presence of other, independent changes.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/cmp.1.html">cmp(1)</A></B>, <B><A HREF="../man1/diff.1.html">diff(1)</A></B>, <B><A HREF="../man1/patch.1.html">patch(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

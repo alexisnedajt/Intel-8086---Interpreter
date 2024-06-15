@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>ioctl(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>ioctl(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ioctl - control device
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;sys/ioctl.h&gt;</B>
+
+     <B>int</B> <B>ioctl(int</B> <I>d</I><B>,</B> <B>int</B> <I>request</I><B>,</B> <B>void</B> <B>*</B><I>argp</I><B>)</B>             <B>(Minix)</B>
+     <B>int</B> <B>ioctl(int</B> <I>d</I><B>,</B> <B>ioreq_t</B> <I>request</I><B>,</B> <B>void</B> <B>*</B><I>argp</I><B>)</B>         <B>(Minix</B>-<B>vmd)</B>
+
+<B>DESCRIPTION</B>
+     <B>Ioctl</B>  performs  a  variety  of  functions  on  open   descriptors.    In
+     particular,  many  operating  characteristics  of character special files
+     (e.g. terminals) may be controlled with <B>ioctl</B> requests.  The writeups  of
+     various devices in section 4 discuss how <B>ioctl</B> applies to them.
+
+     An  ioctl <I>request</I> has encoded in it  whether  the  argument  is  an  "in"
+     parameter or "out" parameter, and the size of the argument <I>argp</I> in bytes.
+     Macros and defines used in specifying an ioctl <I>request</I> are located in the
+     file &lt;<I>sys</I>/<I>ioctl</I>.<I>h</I>&gt;.
+
+<B>RETURN</B> <B>VALUE</B>
+     If an error has occurred, a value of -1 is returned and <B>errno</B> is  set  to
+     indicate the error.
+
+<B>ERRORS</B>
+     <B>Ioctl</B> will fail if one or more of the following are true:
+
+     [EBADF]        <I>D</I> is not a valid descriptor.
+
+     [ENOTTY]       <I>D</I> is not associated with a character special device.
+
+     [ENOTTY]       The specified request does not apply to the kind of object
+                    that the descriptor <I>d</I> references.
+
+     [EINVAL]       <I>Request</I> or <I>argp</I> is not valid.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/execve.2.html">execve(2)</A></B>, <B><A HREF="../man2/fcntl.2.html">fcntl(2)</A></B>, <B><A HREF="../man4/mt.4.html">mt(4)</A></B>, <B><A HREF="../man4/tty.4.html">tty(4)</A></B>, <B><A HREF="../man4/intro.4.html">intro(4)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

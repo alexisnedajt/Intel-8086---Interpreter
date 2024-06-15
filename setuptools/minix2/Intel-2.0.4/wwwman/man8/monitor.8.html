@@ -1,0 +1,412 @@
+<HTML>
+<HEAD>
+<TITLE>monitor(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>monitor(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     monitor, edparams - load and start Minix, modify boot parameters
+
+<B>SYNOPSIS</B>
+     <B>/boot</B>
+     <B>edparams</B> <I>device</I> [<I>command</I> ...]
+     <B>boot.com</B> <I>virdisk</I> [<I>command</I> ...]
+
+<B>DESCRIPTION</B>
+     This text describes the Boot Monitor, a  boot  time  interactive  program
+     designed  not  only to load and start Minix, its most important task, but
+     to also provide an  interface  to  configure  Minix  and  to  boot  other
+     operating systems.
+
+     The monitor is controlled with an environment that is modeled  after  the
+     Bourne  shell.  This environment is filled at startup with default values
+     that depend on the machine the monitor is running on and the  environment
+     settings  saved  into  the boot parameters sector (the second sector on a
+     device).  When the  environment  is  loaded,  the  monitor  executes  the
+     function named <B>main</B>, which by default starts a simple menu.
+
+     The environment can be manipulated at boot time from the monitor  prompt,
+     but  may  also  be  edited  using  <B>edparams</B>  on a given device.  <B>Edparams</B>
+     simulates the monitor as much  as  it  can,  echoing  commands  it  can't
+     execute  between  brackets.  It can also be used in Makefiles and scripts
+     by giving it commands as arguments.
+
+     The DOS version of the monitor, usually named <B>boot.com</B> under  DOS,  boots
+     Minix  from  a "DOS virtual disk".  <B>Boot.com</B> is a simple COM program that
+     interprets a DOS file as a disk, loads a Minix  kernel  from  the  active
+     partition  in  the same way as the BIOS based monitor, and executes it to
+     start Minix.  All the monitor commands function in the same  way,  except
+     for  the <B>boot</B> command, it can only load Minix.  The monitor grabs as much
+     free memory as it can for Minix to work in, as the <B>memory</B> variable shows.
+     Further  details  on  how  to  run  Minix  under DOS, Windows 95, or even
+     Windows NT are written down in <B><A HREF="../man8/dosminix.8.html">dosminix(8)</A></B>.
+
+<B>COMMANDS</B>
+     The monitor is best described by the commands you can  type  to  the  '&gt;'
+     prompt.  This is known as the "monitor mode".  You can enter this mode by
+     hitting the Escape key.  These are the monitor commands:
+
+     <I>name</I> = [<B>device</B>] <I>value</I>
+
+          Set environment variable.
+          Changes the value of <I>name</I> to <I>value</I>.  The optional word <B>device</B>  marks
+          <I>name</I>  as  being  subject to device translation.  (See the section on
+          devices.)  These (name, value) pairs are passed to  the  kernel  who
+          uses  them  to  configure  itself.   These  variables  are passed by
+          default:
+          <B>rootdev</B>
+               This is the device used as your root device.  It is by  default
+               set   to   <B>ram,</B>  which  means  that  the  device  specified  by
+               <B>ramimagedev</B> will be loaded into the RAM disk and used as  root.
+               If you change this variable then a physical device will be used
+               as root, and the RAM disk will be uninitialized  and  have  the
+               size specified by <B>ramsize</B>.
+
+          <B>ramimagedev</B>
+               Describes the device to use  to  initialize  the  RAM  disk  if
+               <B>rootdev</B>  is  set  to  <B>ram</B>.   It's  by default set to <B>bootdev</B>, a
+               special name for the device the monitor booted from.
+
+          <B>ramsize</B>
+               The size of the RAM disk.  If the RAM disk is used for the root
+               file  system  then  the  root  file  system is stretched out to
+               <B>ramsize</B> if possible.
+
+          <B>processor</B>
+               Set by default to <B>86</B>, <B>186</B>, <B>286</B>, <B>386</B>, <B>486</B>, ...  depending on the
+               hardware  you  have.  You can set it to a smaller value to test
+               your kernel in a more limited environment.
+
+          <B>bus</B>
+               The type of system bus, either <B>xt</B>, <B>at</B>  or  <B>mca</B>.   This  answers
+               basic  questions  like: "How many interrupt controllers and how
+               to initialize?"  Or: "Does the keyboard have LEDs?"
+
+          <B>memory</B>
+               List of memory free for use by Minix.  It is a comma  separated
+               list  of <I>base</I>:<I>size</I> pairs denoting the byte offsets and sizes of
+               free  memory  in  hexadecimal.   <B>800:925E0,100000:F00000</B>  is  a
+               typical  example of about 585K starting at 2K, and 15M starting
+               at 1M.  (The first 2K are BIOS parameters and the 53K under the
+               640K boundary is the monitor itself.)  The very last number you
+               can play with if you know what you are doing.  Either  increase
+               it if the monitor has it wrong, or decrease it to test if Minix
+               still runs with less memory then normal.
+
+          <B>video</B>
+               Describes capabilities of the VDU:  <B>mda</B>, <B>cga</B>, <B>ega</B> or <B>vga</B>.
+
+          <B>chrome</B>
+               Either <B>color</B> or <B>mono</B>.
+
+          <B>c0</B>
+               By default <B>at</B> (AT compatibles), <B>bios</B> (XT or PS/2),  or  <B>dosfile</B>
+               (running  under  DOS).   The  <B>c0</B> variable binds a driver to the
+               first controller, i.e. the <B>/dev/c0*</B> devices.  The monitor  sets
+               <B>c0</B>  to a suitable default, so that most machines can find their
+               disk.
+
+          <B>console</B>
+               If set to a hexadecimal value it makes the monitor set the BIOS
+               video  mode  to  this value when Minix is started.  This allows
+               the use of video modes  with  more  rows  or  colums  than  the
+               standard  80x25  mode.   You can use any text mode in the 00-FF
+               range, and VESA extended modes in the 100-FFF range.  Most text
+               modes  use a 9x16 font with 400 scanlines on screen, so you see
+               400/16 = 25 lines.  The text mode can  be  modified  by  adding
+               special  flags  to  the console setting.  Add 2000 to switch to
+               480 scan lines, adding 20% more lines to the screen.  Add  4000
+               to  select  a 9x14 font, so 28 or 34 lines are shown.  Add 8000
+               instead to select an 8x8 font showing 50  or  60  lines.   Each
+               setting  has  drawbacks.   Using  480 scanlines implies a 60 Hz
+               refresh, so  the  screen  may  flicker.   The  8x8  font  looks
+               squashed.  More letters on screen require more memory, so there
+               is less for virtual consoles.  Interesting  modes  to  try  are
+               4003  (80x28),  2003  (80x30), 6003 (80x34), 8003 (80x50), A003
+               (80x60),  109  (132x25),  10A  (132x43),  10B   (132x50),   10C
+               (132x60).   The  109  VESA  mode is often available, and can be
+               modified like mode 3.  Use mode 7 instead of 3 for  monochrome.
+               Which modes and flags work can only be found out by experiment.
+               More parameters may follow the mode number that are of interest
+               to the console driver, see <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+          <B>dosfile</B>-<B>d0</B>
+               Set by the DOS version of  the  monitor  to  the  name  of  the
+               virtual  disk,  i.e.  the <I>virdisk</I> argument as shown above.  The
+               "dosfile" driver will use this as the name of the file  to  use
+               as a disk.
+
+          Two variables are only used by the monitor,  even  though  they  are
+          passed to the kernel too:
+
+          <B>image</B>
+               The name of the file containing the kernel  image,  by  default
+               <B>minix</B>.   If  it  refers  to a directory however then the newest
+               file inside the directory is chosen to  be  the  kernel  image.
+               The  names inside <B>/minix/</B> are best set to the Minix version you
+               are using, which looks good when the monitor prints  its  name.
+               Rules for pretty printing image names:
+
+                    A '/' or '_' is changed to a space.
+
+                    The first letter is changed from lowercase to uppercase.
+
+                    An 'r' if followed by a digit changes to " revision ".
+
+          <B>label</B>
+               If set then only processes marked with this label or without  a
+               label are loaded from the image.
+
+          <B>Installboot</B> <B>-boot</B> will create functions to select images and labels.
+          These functions will set <B>label</B> and <B>image</B> and echo what you selected.
+          The two numbers separated by a colon used as an image name tell  the
+          starting sector and sector count of the image on disk.
+
+     <I>name</I>() <I>command</I>
+          Define function.
+          Functions may be used to bundle a set of commands, so that  you  can
+          easily  boot  Minix  with a different set of parameters then normal.
+          E.g.
+
+               ram() { rootdev=ram; boot }
+
+          will allow you to run Minix with  the  root  device  on  RAM  for  a
+          change,  if you normally use a real device as root.  There are three
+          predefined functions, <B>leader</B>, with default  value  an  <B>echo</B>  command
+          that  shows  the  monitor's startup banner, <B>main</B>, with default value
+          <B>menu</B>, and <B>trailer</B>, with default value  a  command  that  clears  the
+          screen.   The  monitor  executes  <B>leader;main</B> at startup to show the
+          banner message and a menu.  The <B>trailer</B> function  is  executed  just
+          before  Minix is started.  These three functions can be redefined as
+          you please.
+
+     <I>name</I>(<I>key</I>) <I>command</I>
+          Define kernel selecting function.
+          The menu command uses functions like these to add  menu  entries  to
+          select  a  different  kernel  from  a  boot disk.  <B>Installboot</B> <B>-boot</B>
+          produces these functions when the images are labeled.  The label  <B>AT</B>
+          would give:
+
+               AT(a) {label=AT;image=42:626;echo AT kernel selected;menu}
+
+          With the menu option:
+
+               a       Select AT kernel
+
+          Typing <B>a</B> will then execute the <B>AT</B> function above.
+
+     <I>name</I>(<I>key</I>,<I>text</I>) <I>command</I>
+          User defined menu option.
+          This variant may be used to make any menu entry you like:
+
+               dos(d,Boot MS-DOS) boot d0p0
+
+          <I>Text</I> may be anything, even parentheses if they match.
+
+     <I>name</I>
+          Call function.
+          If <I>name</I> is a user defined function then its value  is  expanded  and
+          executed  in  place  of  <I>name</I>.   Try  a  recursive  one  like 'rec()
+          {rec;xx}' one day.  You can see the monitor run out  of  space  with
+          nice messages about using <B><A HREF="../man1/chmem.1.html">chmem(1)</A></B> to increase it's heap.
+
+     <B>boot</B> [<B>-</B><I>opts</I>]
+     <B>boot</B> <I>device</I>
+          Boot Minix or another O.S.
+          Without an argument, <B>boot</B> will load  and  execute  the  Minix  image
+          named  by the <B>image</B> variable.  With options the variable <B>bootopts</B> is
+          first set to <B>-</B><I>opts</I> before Minix is started,  and  unset  when  Minix
+          returns.   With  a  <I>device</I>  argument,  <B>boot</B> loads the boot sector of
+          <I>device</I> into memory and  jumps  to  it,  starting  another  operating
+          system.   You  would  normally use partitions on the first hard disk
+          for this command (d0p[0-3]), using d0 will also work  (choosing  the
+          active  partition).   One  can  also boot devices on the second hard
+          disk (d1, d1p[0-3]) if the bootstrap writer  did  not  hardwire  the
+          disk number to disk 0.
+          Some Operating Systems can only be booted from the active partition,
+          if  you  use a '*', e.g.  <B>boot</B> <B>*d0p2</B>, then partition 2 is first made
+          active.  You'll then need to use
+
+               <B>installboot</B> <B>-m</B> <B>/dev/c0d0</B> <B>/usr/mdec/jumpboot</B> <I>keys</I>
+
+          with  <I>keys</I>  chosen  so  that  Minix  is  booted  at  startup.   (See
+          <B><A HREF="../man8/installboot.8.html">installboot(8)</A></B>.)
+
+     <B>ctty</B> <I>n</I>
+          Copies output to and takes input from serial line <I>n</I>  (0-3)  at  9600
+          baud,  8 bits, no parity.  This allows you to control a Minix system
+          remotely through an RS-232 connection.
+
+     <B>delay</B> [<I>msec</I>]
+          Delay (500 msec default).
+          Fast booting speed was one of the objectives when this  program  was
+          created,  so  a  hard  disk  boot usually takes only a fraction of a
+          second.  If you need some time (to  hit  Escape,  or  stare  at  the
+          numbers) you can use <B>delay</B> to make the monitor pause for a specified
+          number of milliseconds.
+
+     <B>echo</B> <I>word</I> ...
+          Print these words.
+          Used to display messages, like the startup  banner.   Echo  normally
+          prints  the  words  with spaces in between and a newline at the end.
+          Echo understands special '\' escape sequences as follows:
+
+               \       (At the end) Don't print a newline.
+               \n      Print a newline.
+               \v      Print the monitor's version numbers.
+               \c      Clear the screen.
+               \w      Wait until a RETURN is typed
+               \\      Print a backslash.
+
+     <B>ls</B> [<I>directory</I>]
+          List contents of a directory.
+          Useful when looking for kernel images.
+
+     <B>menu</B>
+          Menu driven startup.
+          This command allows you to execute functions defined with a <I>key</I>.  If
+          no  menu  functions  have  been  defined then <B>menu</B> will use this one
+          hidden built-in function:
+
+               *(=,Start Minix) boot
+
+          Kernel selecting functions only add new options to this set, but  if
+          you define a two argument function yourself then the above one is no
+          longer shown, allowing you to customize the menu  completely.   Your
+          first function definition should therefore be one that starts Minix.
+
+          Menu entries are shown in the same order as <B>set</B> shows them.  If  you
+          don't like the order then you have to unset the functions and retype
+          them in the proper order.
+
+          If you  type  a  key  then  a  scheduled  trap  is  killed  and  the
+          appropriate  menu  function  is  executed.  If you need more time to
+          choose then hit the spacebar.  A key not on the menu  also  kills  a
+          trap, but does nothing more.
+
+     <B>save</B>
+          Save environment.
+          This will save all the  environment  variables  and  functions  with
+          nondefault  values to the parameter sector (the second sector on the
+          boot device), so they are automatically set the next time  you  boot
+          the monitor.
+
+     <B>set</B>
+          Show environment.
+          Show the current values of the environment variables and  functions.
+          Default  values  are  shown  between parentheses to distinguish them
+          from values that were explicitly set.
+
+     <B>trap</B> <I>msec</I> <I>function</I>
+          Schedule function.
+          Schedules a function to be executed after <I>msec</I>  milliseconds.   Only
+          the  monitor  mode cannot be interrupted, a scheduled trap is killed
+          when the prompt is printed.  Example:
+
+               main() {trap 10000 boot; menu}
+
+          This gives you 10 seconds to choose a menu option  before  Minix  is
+          booted.
+
+     <B>unset</B> <I>name</I> ...
+          Unset environment variables.
+          Removes the named variables and functions from the environment,  and
+          sets  special  variables back to their default values.  This is also
+          the only way to remove the "device name translation" property from a
+          variable.
+
+     <B>exit</B>
+          Exit the monitor.
+          Reboot the machine, exit to Minix or exit to DOS as appropriate.
+
+     <B>off</B>
+          Turn the PC off.
+          If the PC supports power management  then  turn  it  off,  otherwise
+          print some error messages and do nothing.
+
+     <B>{</B> <I>command</I>; ... <B>}</B>
+          Bundle commands.
+          Treat a number of commands as a single command.  Used  for  function
+          definitions when a function body must contain more than one command.
+
+<B>DEVICES</B>
+     The Minix kernel can't do anything with device names, so they have to  be
+     translated  to device numbers before they are passed to the kernel.  This
+     number is found under the st_rdev field (see <B><A HREF="../man2/stat.2.html">stat(2)</A></B>) of the file on  the
+     boot  file  system.   The  monitor will look for the device file with the
+     working directory set to '/dev'.  If it can't find the device  name  then
+     it will translate names like 'ram', 'fd1', 'c0d1p0', 'c1d0p2s0', and even
+     the obsolete 'hd2a' to what it itself thinks the numbers should be.
+
+     The special name <B>bootdev</B> is translated to the name of the  device  booted
+     from,  like 'fd0', or 'c0d0p1s0', and then searched for in /dev.  <B>Bootdev</B>
+     can only be translated to a device for the first controller, and only  if
+     the  disks  on  that controller are numbered without "gaps".  (The master
+     device on the second IDE channel is always d2 on Minix.   The  BIOS  will
+     call it disk 0, 1, or 2 depending on the number of disks on the first IDE
+     channel.)
+
+     Controller numbers are meaningless to the BIOS, so everything is  assumed
+     to be attached to controller 0.  You can omit <B>c0</B> for device names, and it
+     is best to always omit <B>c0</B> for the <B>boot</B> command, and  to  always  use  the
+     full name for variables passed to Minix.
+
+
+
+
+
+<B>EXTENSIONS</B>
+     A few extensions have been made to this program for kernel hackers.  They
+     may  be triggered by setting bits in the flags word in the kernel startup
+     code (the mpx file.)  The flag bits are:
+
+     0x0001    Call kernel in 386 mode.
+
+     0x0002    Do not make space for the bss areas of processes other than the
+               kernel.
+
+     0x0004    Use the stack size set by <B><A HREF="../man1/chmem.1.html">chmem(1)</A></B>.
+
+     0x0008    Load MM, FS, etc. into extended memory.
+
+     0x0010    No need to patch process sizes into the kernel.
+
+     0x0020    The kernel can return to the monitor on halt or reboot.
+
+     0x0040    Offer generic BIOS support instead of just INT 13 (disk I/O).
+
+     0x0080    Pass memory lists for free and used memory (processes).
+
+     0x0100    Kernel returns monitor code  on  shutdown  in  boot  parameters
+               array.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man4/controller.4.html">controller(4)</A></B>, <B><A HREF="../man8/installboot.8.html">installboot(8)</A></B>, <B><A HREF="../man8/usage.8.html">usage(8)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>, <B><A HREF="../man8/dosminix.8.html">dosminix(8)</A></B>.
+
+<B>BUGS</B>
+     The <B>delay</B> command will hang forever on the original IBM PC (not the XT!).
+     Not that it matters, as everything takes forever on that box.
+
+     By redefining <B>leader</B> one can easily hide the identity of this program.
+
+<B>ACKNOWLEDGMENTS</B>
+     Earl Chew, for the inspiration his ShoeLace package provided,  unless  he
+     wants  to  file  a  "look  and  feel"  suit against me, then I will say I
+     modeled it after the Sun ROM boot monitor, which is also true.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

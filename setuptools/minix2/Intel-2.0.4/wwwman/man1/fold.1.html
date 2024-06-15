@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>fold(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>fold(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     fold - fold long lines
+
+<B>SYNOPSIS</B>
+     <B>fold</B> [<B>-</B><I>n</I>] [<I>file</I>] ...
+
+<B>OPTIONS</B>
+
+     <B>-</B><I>n</I>   How long should the output lines be
+
+<B>EXAMPLES</B>
+
+     <B>fold</B> <B>-60</B>            # Fold <I>stdin</I> to 60 characters
+
+     <B>fold</B> <B>file</B>           # Fold <I>file</I> to 80 characters
+
+<B>DESCRIPTION</B>
+
+     <I>Fold</I> takes copies its input from the named file (or  <I>stdin</I>,  if  none  is
+     specified)  to  standard  output.   However,  lines longer than the given
+     maximum (default 80) are broken into multiple lines of the maximum length
+     by inserting new line characters.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/width.1.html">width(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

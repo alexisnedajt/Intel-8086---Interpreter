@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>sigprocmask(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>sigprocmask(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     sigprocmask - manipulate the signal mask
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;signal.h&gt;</B>
+
+     <B>int</B> <B>sigprocmask(int</B> <I>how</I><B>,</B> <B>const</B> <B>sigset_t</B> <B>*</B><I>set</I><B>,</B> <B>sigset_t</B> <B>*</B><I>oset</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Sigprocmask()</B> examines or manipulates the signal mask.  This mask is  the
+     set  of  signals that are currently blocked.  The <I>how</I> argument determines
+     the action  that  must  be  performed.   In  all  cases  the  signal  set
+     referenced  by  <I>oset</I>, if not <B>NULL</B>, will be used to receive the old signal
+     mask.  The <I>set</I> argument, if not <B>NULL</B>, will be used to set or  modify  the
+     current signal mask.
+
+     <I>How</I> can be one of:
+
+     <B>SIG_BLOCK</B>      Add the signals referenced by <I>set</I> to the mask.
+
+     <B>SIG_UNBLOCK</B>    Remove the signals referenced by <I>set</I> from the mask.
+
+     <B>SIG_SETMASK</B>    Set the signal mask to the set referenced by <I>set</I>.
+
+     The value of <I>how</I> is ignored if <I>set</I> is <B>NULL</B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/sigaction.2.html">sigaction(2)</A></B>, <B><A HREF="../man2/sigpending.2.html">sigpending(2)</A></B>, <B><A HREF="../man2/sigsuspend.2.html">sigsuspend(2)</A></B>, <B><A HREF="../man3/sigset.3.html">sigset(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     Returns <B>0</B> on success and <B>-1</B> on error.  The error code is <B>EFAULT</B> for a bad
+     <I>set</I> or <I>oset</I> address, or <B>EINVAL</B> for a bad <I>how</I> argument.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

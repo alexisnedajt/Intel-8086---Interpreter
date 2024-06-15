@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>MAKEDEV(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>MAKEDEV(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     MAKEDEV, DESCRIBE - make/describe device files
+
+<B>SYNOPSIS</B>
+     <B>MAKEDEV</B> [<B>-n</B>] <I>key</I> ...
+     <B>DESCRIBE</B> [<I>device</I>] ...
+
+<B>DESCRIPTION</B>
+     <B>MAKEDEV</B> may be used to create the device files normally found in the <B>/dev</B>
+     directory.   The  <I>key</I>  arguments  are simply the names of the devices you
+     want.  <B>MAKEDEV</B> knows about all supported devices and will create them  in
+     the  current  directory with the proper owner and mode.  For many devices
+     <B>MAKEDEV</B> will not only create the device you want, but  also  the  devices
+     related  to it that you will probably want too.  Naming one floppy device
+     will create all floppy devices for the same drive for instance.
+
+     Call <B>MAKEDEV</B> without arguments to see a list of keys that it understands.
+     Then use the <B>-n</B> flag to make the script echo the commands it will execute
+     the next time when you call it without that flag.
+
+     The special key <B>std</B> must be given alone to <B>MAKEDEV</B>.  This key will create
+     all standard devices.
+
+     The command <B>DESCRIBE</B> will give you a  one-line  description  of  a  given
+     device.  It will by default list all devices in <B>/dev</B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man4/dev.4.html">dev(4)</A></B>, <B><A HREF="../man8/mknod.8.html">mknod(8)</A></B>.
+
+<B>BUGS</B>
+     <B>MAKEDEV</B>'s eagerness to create devices may cause many "File exists" errors
+     from <B>mknod</B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

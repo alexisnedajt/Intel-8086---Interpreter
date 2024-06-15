@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>reboot(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>reboot(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     reboot - close down the system or reboot
+
+<B>SYNTAX</B>
+     <B>#define</B> <B>_MINIX_SOURCE</B> <B>1</B>
+
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>int</B> <B>reboot(int</B> <I>how</I><B>,</B> <B>...)</B>
+
+<B>DESCRIPTION</B>
+     <B>Reboot()</B> is used to close down the system.  It  allows  several  ways  of
+     shutting down depending on <I>how</I>:
+
+     <B>reboot(RBT_HALT)</B>
+          Halt the system and return to the monitor prompt.
+
+     <B>reboot(RBT_REBOOT)</B>
+          Reboot the system by letting the monitor execute the "boot" command.
+
+     <B>reboot(RBT_PANIC)</B>
+          Cause a system panic.  This is not normally done from user mode, but
+          by servers using the <B>sys_abort()</B> kernel call.
+
+     <B>reboot(RBT_MONITOR</B>, <I>code</I>, <I>length</I><B>)</B>
+          Halt the system and let the monitor execute the given  code  of  the
+          given length.  (<I>code</I> is of type <B>char</B> <B>*</B> and <I>length</I> of type <B>size_t</B>.)
+
+     <B>reboot(RBT_RESET)</B>
+          Reboot the system with a hardware reset.
+
+     <B>Reboot()</B> may only be executed by the super-user.
+
+<B>DIAGNOSTICS</B>
+     If the call succeeds, it never returns.  If  something  went  wrong,  the
+     return value is -1 and an error is indicated by <B>errno</B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man8/shutdown.8.html">shutdown(8)</A></B>, <B><A HREF="../man8/reboot.8.html">reboot(8)</A></B>, <B><A HREF="../man8/halt.8.html">halt(8)</A></B>, <B><A HREF="../man2/sync.2.html">sync(2)</A></B>.
+
+<B>NOTES</B>
+     Minix can not return to the monitor if running in real mode.  This  means
+     that most of the reboot functions will change to a system reset.
+
+<B>AUTHOR</B>
+     Edvard Tuinder (v892231@si.hhs.NL)
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

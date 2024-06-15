@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>oneC_sum(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>oneC_sum(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     oneC_sum - One's complement internet checksum
+
+<B>SYNOPSIS</B>
+     <B>#define</B> <B>_MINIX_SOURCE</B> <B>1</B>
+     <B>#include</B> <B>&lt;stddef.h&gt;</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+
+     <B>#include</B> <B>&lt;net/gen/oneCsum.h&gt;</B>
+
+     <B>u16_t</B> <B>oneC_sum(u16_t</B> <I>prev</I><B>,</B> <B>void</B> <B>*</B><I>data</I><B>,</B> <B>size_t</B> <I>size</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>OneC_sum</B> is used to calculate the one's complement checksum needed for IP
+     network packets.  A good document about the Internet Checksum is RFC-1071
+     (Computing the Internet checksum).
+
+     <B>OneC_sum</B> expects three parameters:
+
+     <I>prev</I>      The checksum of previous blocks of data that are to be included
+               in  the  checksum.  The value of prev in first call to oneC_sum
+               should be 0.
+
+     <I>data</I>      A pointer to the block of data.  The data is interpreted  as  a
+               series  of  16  bit  numbers  in network byte order, but an odd
+               number of bytes is also allowed.
+
+     <I>size</I>      The size of the data in bytes.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man4/ip.4.html">ip(4)</A></B>.
+     <B>RFC</B>-<B>1071</B>
+
+<B>AUTHOR</B>
+     Philip Homburg (philip@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

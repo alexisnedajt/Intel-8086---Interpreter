@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>passwd(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>passwd(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     passwd, chfn, chsh - change a login password, full name or shell
+
+<B>SYNOPSIS</B>
+     <B>passwd</B> [<I>user</I>]
+     <B>chfn</B> [<I>user</I>] <I>fullname</I>
+     <B>chsh</B> [<I>user</I>] <I>shell</I>
+
+<B>EXAMPLES</B>
+
+     <B>passwd</B>              # Change current user's password
+
+     <B>passwd</B> <B>ast</B>          # Change ast's password (super-user only)
+
+     <B>chsh</B> <B>/usr/bin/mail</B>  # For those who only read mail
+
+     <B>chfn</B> <B>'Jane</B> <B>Doe'</B>     # Current user is Jane Doe
+
+<B>DESCRIPTION</B>
+
+     <I>Passwd</I> is used to change your password.  It prompts for the old  and  new
+     passwords.  It asks for the new password twice, to reduce the effect of a
+     typing error.  <I>Chfn</I> changes the full name (GECOS field) in  the  password
+     file.  <I>Chsh</I> changes your login shell.  Do not forget to copy the modified
+     password file back to the root file system, or the changes will  be  lost
+     when the system is rebooted.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/login.1.html">login(1)</A></B>, <B><A HREF="../man1/su.1.html">su(1)</A></B>, <B><A HREF="../man3/crypt.3.html">crypt(3)</A></B>, <B><A HREF="../man3/getpwent.3.html">getpwent(3)</A></B>, <B><A HREF="../man5/passwd.5.html">passwd(5)</A></B>, <B><A HREF="../man8/adduser.8.html">adduser(8)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

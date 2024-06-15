@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>ifdef(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>ifdef(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ifdef - remove #ifdefs from a file
+
+<B>SYNOPSIS</B>
+     <B>ifdef</B> [<B>-t</B>] [<B>-d</B><I>symbol</I>] [<B>-D</B><I>symbol</I>] [<B>-U</B><I>symbol</I>] [<B>-I</B><I>symbol</I>] [file]
+
+<B>OPTIONS</B>
+
+     <B>-D</B>   Define symbol permanently
+
+     <B>-I</B>   Ignore symbol
+
+     <B>-U</B>   Undefine symbol permanently
+
+     <B>-d</B>   Define symbol. It may be #undef'ed later
+
+     <B>-t</B>   Produce a table of the symbols on <I>stdout</I>
+
+<B>EXAMPLES</B>
+
+     <B>ifdef</B> <B>-DUNIX</B> <B>file.c</B> <B>&gt;newfile.c</B>
+                         # Define <I>UNIX</I>
+
+     <B>ifdef</B> <B>-D_MINIX</B> <B>-UDOS</B> <B>&lt;x.c</B> <B>&gt;y.c</B>
+                         # Define
+
+<B>DESCRIPTION</B>
+
+     <I>Ifdef</I> allows conditional code [ #ifdef ... #endif  ]  to  be  selectively
+     removed  from  C  files,  but  at  the  same  time  leaving  all  other C
+     preprocessor commands intact such as #define,  #include  etc.   Input  to
+     <I>ifdef</I>  is either the file named as the last argument, or <I>stdin</I> if no file
+     is named.  Output goes to <I>stdout</I>.
+
+     Symbols may be defined with the <B>-d</B> or <B>-D</B> flags just like <I>cpp</I>, except that
+     the  latter  option  ignores  subsequent #<I>undefs</I>.  It is not permitted to
+     give values to symbols.  Similarly, <B>-U</B> undefines  a  symbol  and  ignores
+     subsequent  #<I>defines</I>s.   Symbols  defined with <B>-I</B> are ignored; any #<I>ifdef</I>
+     using an ignored symbol will be left intact.
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

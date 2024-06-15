@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>repartition(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>repartition(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     repartition - load a partition table
+
+<B>SYNOPSIS</B>
+     <B>repartition</B> <I>device</I> [<I>partition</I>-<I>file</I>]
+
+<B>DESCRIPTION</B>
+     <B>Repartition</B> uploads a new partition table for the partitions  of  <I>device</I>.
+     The  table  is obtained from the first sector of <I>partition</I>-<I>file</I> if given,
+     <I>device</I> otherwise.  <I>Device</I> may refer to  the  whole  drive  or  a  primary
+     partition,  depending  on  whether  you  want  to upload a partition or a
+     subpartition table.  The partitions will be truncated to fit  within  the
+     enclosing device like the disk driver does, unless the numbers are coming
+     from <I>partition</I>-<I>file</I>.
+
+<B>EXAMPLES</B>
+     repartition /dev/hd0
+     repartition /dev/hd4 /etc/hd4.table
+
+     Reload the partition table of  drive  0  setting  /dev/hd[1-4],  and  the
+     subpartition  table  of /dev/hd4 setting /dev/hd4[a-d] using a file.  The
+     latter may be useful if you need more than the 4 subpartitions  a  single
+     Minix partition gives you.
+
+<B>DIAGNOSTICS</B>
+     The new table is printed on standard output.
+
+<B>FILES</B>
+     /dev/hd[0-9]
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man4/hd.4.html">hd(4)</A></B>, <B><A HREF="../man8/part.8.html">part(8)</A></B>.
+
+<B>BUGS</B>
+     The disk must be in use for the changes to stick.  The partition table of
+     an idle disk will be reloaded on the first open.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

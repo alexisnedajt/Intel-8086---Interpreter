@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>umount(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>umount(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     umount - unmount a mounted file system
+
+<B>SYNOPSIS</B>
+     <B>umount</B> [<B>-s</B>] <I>special</I>
+
+<B>OPTIONS</B>
+
+     <B>-s</B>   Unmount swapspace instead of a file system
+
+<B>EXAMPLES</B>
+
+     <B>umount</B> <B>/dev/fd1</B>     # Unmount diskette 1
+
+<B>DESCRIPTION</B>
+
+     A mounted file system is unmounted after the cache has  been  flushed  to
+     disk.   A  diskette should never be removed while it is mounted.  If this
+     happens, and is discovered  before  another  diskette  is  inserted,  the
+     original  one  can  be replaced without harm.  Attempts to unmount a file
+     system holding working directories or open files will be rejected with  a
+     'device busy' message.
+
+     With the <B>-s</B> flag one can unmount swap space.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/mount.1.html">mount(1)</A></B>, <B><A HREF="../man2/umount.2.html">umount(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

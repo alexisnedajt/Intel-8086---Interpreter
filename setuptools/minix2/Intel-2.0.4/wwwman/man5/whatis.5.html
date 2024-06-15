@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>whatis(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>whatis(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     whatis - database of online manual pages
+
+<B>SYNOPSIS</B>
+     <B>/usr/man/*/whatis</B>
+     <B>/usr/man/whatis</B>
+
+<B>DESCRIPTION</B>
+     The <B>whatis</B> file in each manual page directory is a database of titles for
+     manual  pages.   This  database is used by <B><A HREF="../man1/man.1.html">man(1)</A></B> to map titles to manual
+     pages names.  The database is created  by  <B><A HREF="../man1/makewhatis.1.html">makewhatis(1)</A></B>  from  the  NAME
+     sections of the manual pages.
+
+     The NAME secions must be  simple  lines  with  no  troff  fluff  but  one
+     backslash like these two:
+
+          whatis \- database of online manual pages
+          cawf, nroff \- C  version  of  the  nroff-like,  Amazingly  Workable
+          (text) Formatter
+
+     These lines are transformed by <B>makewhatis</B> to  these  two  lines  for  the
+     database:
+
+          cawf, nroff (1) - C version of the  nroff-like,  Amazingly  Workable
+          (text) Formatter
+          whatis (5) - database of online manual pages
+
+     As you can see they are in section number order,  so  that  <B>man</B>  searches
+     them in section order.
+
+     Each entry is just a single line,  restricting  the  NAME  section  to  a
+     single line too with just one dash, and commas and spaces before the dash
+     as you see above.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/man.1.html">man(1)</A></B>, <B><A HREF="../man1/whatis.1.html">whatis(1)</A></B>, <B><A HREF="../man1/makewhatis.1.html">makewhatis(1)</A></B>, <B><A HREF="../man7/man.7.html">man(7)</A></B>.
+
+<B>BUGS</B>
+     It seems to be impossible for many manual page writers to keep  the  NAME
+     section  simple.   They  also  like  to use every font available in their
+     documents.  My simple scripts can't read their NAME sections,  my  simple
+     me can't read their texts.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

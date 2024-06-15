@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>getuid(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>getuid(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     getuid, geteuid - get user identity
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>uid_t</B> <B>getuid(void)</B>
+     <B>uid_t</B> <B>geteuid(void)</B>
+
+<B>DESCRIPTION</B>
+     <B>Getuid</B> returns the real user ID  of  the  current  process,  <B>geteuid</B>  the
+     effective user ID.
+
+     The real user ID identifies the person who is logged in.   The  effective
+     user  ID  gives  the  process  additional permissions during execution of
+     "set-user-ID" mode processes, which use <B>getuid</B>  to  determine  the  real-
+     user-id of the process that invoked them.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/getgid.2.html">getgid(2)</A></B>, <B><A HREF="../man2/setuid.2.html">setuid(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>crypt(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>crypt(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     crypt - one-way password encryption function
+
+<B>SYNOPSIS</B>
+     <B>#define</B> <B>_MINIX_SOURCE</B> <B>1</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>char</B> <B>*crypt(const</B> <B>char</B> <B>*</B><I>key</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>salt</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     The first use of <B>crypt()</B> is to encrypt a password.  Its second use is  to
+     authenticate  a  shadow password.  In both cases <B>crypt()</B> calls <B><A HREF="../man8/pwdauth.8.html">pwdauth(8)</A></B>
+     to do the real work.
+
+     <B>Crypt()</B> encrypts a password if called with a user typed key, and  a  salt
+     whose first two characters are in the set [./0-9A-Za-z].  The result is a
+     character string in the [./0-9A-Za-z] alphabet of  which  the  first  two
+     characters  are  equal  to  the  salt,  and  the  rest  is  the result of
+     encrypting the key and the salt.
+
+     If <B>crypt()</B> is called with a salt that has the form <B>##</B><I>user</I> then the key is
+     encrypted  and  compared  to the encrypted password of <I>user</I> in the shadow
+     password file.  If  they  are  equal  then  <B>crypt()</B>  returns  the  <B>##</B><I>user</I>
+     argument,  if not then some other string is returned.  This trick assures
+     that the normal way to authenticate a password still works:
+
+          if (strcmp(pw-&gt;pw_passwd, crypt(key, pw-&gt;pw_passwd))) ...
+
+     If <I>key</I> is a null string, and the shadow password is a null string or  the
+     salt  is a null string then the result equals <I>salt</I>.  (This is because the
+     caller can't tell if a password field is empty  in  the  shadow  password
+     file.)
+
+     The key and salt are limited to  1024  bytes  total  including  the  null
+     bytes.
+
+<B>FILES</B>
+
+     /usr/lib/pwdauth         The password authentication program
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/getpass.3.html">getpass(3)</A></B>, <B><A HREF="../man3/getpwent.3.html">getpwent(3)</A></B>, <B><A HREF="../man5/passwd.5.html">passwd(5)</A></B>, <B><A HREF="../man8/pwdauth.8.html">pwdauth(8)</A></B>.
+
+<B>NOTES</B>
+     The result of an encryption  is  returned  in  a  static  array  that  is
+     overwritten by each call.  The return value should not be modified.
+
+
+
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

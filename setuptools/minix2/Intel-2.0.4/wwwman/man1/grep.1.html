@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>grep(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>grep(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     grep - search a file for lines containing a given pattern
+
+<B>SYNOPSIS</B>
+     <B>grep</B> [<B>-elnsv</B>] <I>pattern</I> [<I>file</I>] ...
+
+<B>OPTIONS</B>
+
+     <B>-e</B>   <B>-e</B> <I>pattern</I> is the same as <I>pattern</I>
+
+     <B>-c</B>   Print a count of lines matched
+
+     <B>-i</B>   Ignore case
+
+     <B>-l</B>   Print file names, no lines
+
+     <B>-n</B>   Print line numbers
+
+     <B>-s</B>   Status only, no printed output
+
+     <B>-v</B>   Select lines that do not match
+
+<B>EXAMPLES</B>
+
+     <B>grep</B> <B>mouse</B> <B>file</B>     # Find lines in <I>file</I> containing <I>mouse</I>
+
+     <B>grep</B> <B>[0-9]</B> <B>file</B>     # Print lines containing a digit
+
+<B>DESCRIPTION</B>
+
+     <I>Grep</I> searches one or more files (by default, <I>stdin</I>) and selects  out  all
+     the  lines  that match the pattern.  All the regular expressions accepted
+     by <I>ed</I> and <I>mined</I> are allowed.  In addition, + can be used instead of *  to
+     mean 1 or more occurrences, ? can be used to mean 0 or 1 occurrences, and
+     | can be used between two regular expressions to mean either one of them.
+     Parentheses can be used for grouping.  If a match is found, exit status 0
+     is returned.  If no match is found, exit status 1  is  returned.   If  an
+     error is detected, exit status 2 is returned.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/cgrep.1.html">cgrep(1)</A></B>, <B><A HREF="../man1/fgrep.1.html">fgrep(1)</A></B>, <B><A HREF="../man1/sed.1.html">sed(1)</A></B>, <B><A HREF="../man9/awk.9.html">awk(9)</A></B>.
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

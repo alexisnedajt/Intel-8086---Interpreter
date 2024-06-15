@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>close(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>close(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     close - delete a descriptor
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>int</B> <B>close(int</B> <I>d</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     The <B>close</B> call deletes a descriptor from the per-process object reference
+     table.   If  this is the last reference to the underlying object, then it
+     will be deactivated.  For example, on  the  last  close  of  a  file  the
+     current  <I>seek</I> pointer associated with the file is lost; on the last close
+     of a TCP/IP descriptor associated naming information and queued data  are
+     discarded;  on the last close of a file holding an advisory lock the lock
+     is released (see further <B><A HREF="../man2/fcntl.2.html">fcntl(2)</A></B>).
+
+     A close of all of a process's descriptors is automatic on <I>exit</I>, but since
+     there  is  a limit on the number of active descriptors per process, <B>close</B>
+     is necessary for programs that deal with many descriptors.
+
+     When a process forks (see <B><A HREF="../man2/fork.2.html">fork(2)</A></B>), all descriptors  for  the  new  child
+     process  reference  the same objects as they did in the parent before the
+     fork.  If a new process is then to be run using  <B><A HREF="../man2/execve.2.html">execve(2)</A></B>,  the  process
+     would normally inherit these descriptors.  Most of the descriptors can be
+     rearranged with <B><A HREF="../man2/dup2.2.html">dup2(2)</A></B> or  deleted  with  <B>close</B>  before  the  <B>execve</B>  is
+     attempted,  but  if some of these descriptors will still be needed if the
+     <B>execve</B> fails, it is necessary to arrange for them to  be  closed  if  the
+     <B>execve</B>  succeeds.  For this reason, the call ``fcntl(d, F_SETFD, <I>flags</I>)''
+     is provided, that can be used to mark a descriptor  "close  on  exec"  by
+     setting the <B>FD_CLOEXEC</B> flag:
+
+          fcntl(d, F_SETFD, fcntl(d, F_GETFD) | FD_CLOEXEC);
+
+<B>RETURN</B> <B>VALUE</B>
+     Upon successful completion, a value of 0 is returned.  Otherwise, a value
+     of  -1  is  returned  and  the  global  integer  variable <B>errno</B> is set to
+     indicate the error.
+
+<B>ERRORS</B>
+     <B>Close</B> will fail if:
+
+     [EBADF]        <I>D</I> is not an active descriptor.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/open.2.html">open(2)</A></B>, <B><A HREF="../man2/pipe.2.html">pipe(2)</A></B>, <B><A HREF="../man2/execve.2.html">execve(2)</A></B>, <B><A HREF="../man2/fcntl.2.html">fcntl(2)</A></B>.
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>sigsuspend(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>sigsuspend(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     sigsuspend - suspend until signalled
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;signal.h&gt;</B>
+
+     <B>int</B> <B>sigsuspend(const</B> <B>sigset_t</B> <B>*</B><I>set</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Sigsuspend()</B> installs the signal mask referenced by <I>set</I> and suspends  the
+     process  until  signalled.   The  signal  is  handled, the signal mask is
+     restored to the value it  had  before  the  <B>sigsuspend()</B>  call  and  call
+     returns.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/pause.2.html">pause(2)</A></B>, <B><A HREF="../man2/sigaction.2.html">sigaction(2)</A></B>, <B><A HREF="../man2/sigpending.2.html">sigpending(2)</A></B>, <B><A HREF="../man2/sigprocmask.2.html">sigprocmask(2)</A></B>, <B><A HREF="../man3/sigset.3.html">sigset(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Sigsuspend()</B> never returns normally, so it always returns <B>-1</B>.  The  error
+     code  is either <B>EINTR</B> indicating that a signal has arrived, or <B>EFAULT</B> for
+     a bad <I>set</I> address.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

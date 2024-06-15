@@ -1,0 +1,361 @@
+<HTML>
+<HEAD>
+<TITLE>dhcp.conf(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>dhcp.conf(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     dhcp.conf - dynamic host configuration protocol configuration
+
+<B>SYNOPSIS</B>
+     <B>/etc/dhcp.conf</B>
+
+<B>DESCRIPTION</B>
+     The  file  <B>/etc/dhcp.conf</B>  contains  the  configuration  for   the   DHCP
+     client/server  program  <B>dhcpd</B>.   This text is a long summation of all the
+     elements that can be found in this configuration file.  For a more  "just
+     tell me what to do" approach see <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+     The syntax used is that of the common  configuration  file  described  in
+     <B><A HREF="../man5/configfile.5.html">configfile(5)</A></B>.
+
+     To  find  information  for  a  client  we  first  need  its  IP  address.
+     Occasionally  this  IP  address  is  already  known (the special "INFORM"
+     query),  but  normally  we  have  to  make  a  first  pass  through   the
+     configuration  file  for a <B>client</B> entry.  If that fails then we use an IP
+     address from the pool file.  If we now have an IP address then  the  real
+     information gathering can begin.
+
+     The DHCP daemon reads the configuration file from beginning  to  end  and
+     gathers  all  information  that  matches, and information from all macros
+     that are mentioned within the elements that match.  If  we  end  up  with
+     DHCP information that includes at least a netmask definition, and is good
+     for the network the request came in from, then  it  is  returned  to  the
+     client.  If a DHCP tag is specified twice then the last one wins.
+
+     In the description below we use [ and ] to denote optional things, and  |
+     to show a choice between two things.
+
+     Client IDs can be either ordinary Ethernet addresses, that are treated as
+     a seven octet string (01 followed by the Ethernet address), or any random
+     octet string in hexadecimal.
+
+     IP addresses can be simply that, or host names.   These  host  names  are
+     searched in <B>/etc/hosts</B> by <B>dhcpd</B> itself using a domain based prefix match,
+     i.e. you can use "flotsam" for "flotsam.example.com", but not "alpha" for
+     "alphabeta".   Once  the program decides to be a server it will also look
+     up names normally in the DNS.  If a host has more  than  one  IP  address
+     then the address on the network the query was seen on is used.
+
+     Case isn't important in the configuration file,  "client",  "CLIENT"  and
+     "ClIeNt" are all treated the same.
+
+     Some elements may optionally name a macro  or  a  curly  braces  enclosed
+     parameter list of more elements.  If the element matches then the data in
+     the macro body or parameter list is gathered.
+
+     The following elements can be used:
+
+     <B>client</B> <I>client</I>-<I>ID</I> [<B>ip</B>#] <I>host</I> [<I>macro</I>|{<I>params</I>}];
+
+          Defines a client with a given client ID  that  is  to  have  the  IP
+          address  denoted  by  <I>host</I> . On the first pass only the client ID is
+          matched looking for an IP address  that  lies  on  the  network  the
+          request  came  in on.  On the information gathering pass both client
+          ID and IP address must match.  If a machine has  the  same  Ethernet
+          address  on  two or more interfaces then the IP address given out is
+          the one on the same network as the request came in on.  The optional
+          interface  name  (<B>ip</B>#)  must be used if the DHCP daemon is gathering
+          data for itself at boot time to differentiate  interfaces  with  the
+          same  ethernet  addresses.   This  is only necessary under Minix-vmd
+          when ethernets on different VLANs share the same physical  ethernet.
+          The  interface  name  is  only used for a machine's own networks, it
+          ignored on entries for other hosts.
+
+     <B>class</B> <I>class</I>-<I>name</I> ...  <I>macro</I>|{<I>params</I>};
+
+          Includes the macro or parameters  if  one  of  the  class  names  is
+          matched.  A host normally includes a class ID in its request.  Minix
+          and Minix-vmd use "Minix" as the class name.  For Windows the  class
+          ID  starts with "MSFT", and Solaris' starts with "SUNW".  (Use <B>dhcpd</B>
+          <B>-d3</B> to find out what the full IDs are exactly.)  The class names are
+          matched  if  a  <I>class</I>-<I>name</I>  is  a prefix of the class ID sent by the
+          client.
+
+     <B>host</B> <I>host</I>-<I>spec</I> <I>macro</I>|{<I>params</I>};
+
+          Includes the macro or parameters if the IP  address  of  the  client
+          matches  the  host  specification.   This  can either be an ordinary
+          hostname, or a netblock in CIDR notation, e.g.  172.35.0.0/16.   The
+          example  includes all IP addresses whose top 16 bits are the same as
+          the top 16  bits  of  172.35.0.0.   Such  a  netblock  automatically
+          defines  a  netmask  (255.255.0.0  in the example) if no netmask has
+          been specified yet.
+
+     <B>interface</B> <B>ip</B># <I>host</I> [<I>macro</I>|{<I>params</I>}];
+
+          Makes <B>dhcpd</B> set the IP address  of  interface  <B>ip</B>#  (where  #  is  a
+          number) to the IP address denoted by <I>host</I>.  This element should only
+          be used for interfaces that are not true Ethernets, and  so  do  not
+          have  a  unique  Ethernet  address  that  can  be  used for a client
+          element.  If the machine has at least one  true  Ethernet  then  all
+          interface  elements  should be added to the parameter list of a host
+          or client element for that Ethernet interface.  This binds  them  to
+          that  machine  and  allows  a single configuration file to be shared
+          among machines.   Especially  a  server  should  never  have  "free"
+          interface  elements.   The macro or parameters are only evaluated if
+          data is gathered for the given interface.  (Note that they  will  be
+          hidden by a client element for another interface.)
+
+     <B>macro</B> <I>macro</I>-<I>name</I>;
+
+          Include the parameter list of the  macro  named  <I>macro</I>-<I>name</I>  defined
+          elsewhere.   (This means that "host flotsam stuff" is just short for
+          "host flotsam { macro stuff; }".)
+
+     <B>macro</B> <I>macro</I>-<I>name</I> {<I>params</I>};
+
+          Defines a macro with the given parameter list.  Whenever  the  macro
+          is  used the parameter list is substituted instead.  A macro can not
+          be defined within another parameter list.
+
+     <B>option</B> [<B>ip</B>#] <B>server</B>;
+     <B>option</B> [<B>ip</B>#] <B>relay</B> <I>host</I>;
+     <B>option</B> [<B>ip</B>#] <B>possessive</B>;
+     <B>option</B> [<B>ip</B>#] <B>hostname</B> <I>name</I>;
+
+          Makes <B>dhcpd</B> set  special  options  for  the  interface  that  it  is
+          gathering  data  for,  or  the interface denoted by the optional <B>ip</B>#
+          argument.  The options are:
+
+          <B>server</B>
+               Be a DHCP server on the network connected to the interface.
+
+          <B>relay</B> <I>host</I>
+               Be a DHCP relay to the indicated host.
+
+          <B>possessive</B>
+               Do not disable the interface if the DHCP lease expires.  Useful
+               when  the  IP  address given is almost always the same, but the
+               DHCP server of the ISP  is  unreliable.   (Think  twice  before
+               turning this option on.)
+
+          <B>hostname</B> <I>name</I>
+               Use the given name as our hostname in the DHCP  queries.   Some
+               sites key on that bit of information instead of a client ID.
+
+     <B>tag</B> <I>number</I> <I>name</I> <I>type</I> <I>granularity</I> <I>max</I>;
+
+          Defines a DHCP tag for the given tag number and  gives  it  a  name.
+          The  name  can  be  used in the configuration file to set tag values
+          when gathering data.  The <I>type</I> field can be one of  <B>ascii</B>,  <B>boolean</B>,
+          <B>ip</B>,  <B>number</B>  or  <B>octet</B>  to  specify  the type of the tag as a simple
+          string, a boolean, an IP address, a number, or  a  string  of  octet
+          values.   The  <I>granularity</I> field specifies that that number of items
+          must be given or a multiple thereof, unless the type  is  a  number,
+          then  it is the size of the number (1, 2 or 4).  The <I>max</I> field tells
+          the maximum number of items that may be used with the  tag,  with  0
+          meaning "unlimited".
+
+          Three tags, the ones  that  Minix  really  cares  about,  have  been
+          predefined,  and  there are also a few pseudotags predefined for the
+          static fields in a DHCP packet that one may want to set:
+
+               tag ? siaddr ip 1 1;
+               tag ? sname ascii 1 64;
+               tag ? file ascii 1 128;
+               tag 1 netmask ip 1 1;
+               tag 3 gateway ip 1 0;
+               tag 6 DNSserver ip 1 0;
+
+          The file <B>/usr/etc/dhcptags.conf</B> contains  tag  definitions  for  all
+          standard  DHCP  tags.  It is wise to include this file at the top of
+          any DHCP configuration file.
+
+     <B>no</B> <I>tag</I>-<I>name</I>;
+
+          Removes a tag with the given name from the  data  gathered  at  this
+          point.   Useful  if  one  host  is  different  from  all others, for
+          instance if it doesn't need a gateway definition, because it happens
+          to be the gateway.
+
+     <I>ascii</I>-<I>tag</I> <I>string</I>;
+
+          Adds an ASCII tag to the gathered data.  The string can be a  simple
+          word, or a quoted string.
+
+     <I>boolean</I>-<I>tag</I> <B>false</B>|<B>true</B>;
+
+          Set a boolean tag to be false or true.  (Encoded as a octet of value
+          0  or  1.  Note that if you prefer to use 0 or 1 instead of false or
+          true then you can define a boolean tag as a size 1 number instead.)
+
+     <I>ip</I>-<I>tag</I> <I>host</I> ...;
+
+          Sets a tag that needs one or more IP addresses.  The host names  are
+          translated  as usual.  To make it easier to specify netmasks one can
+          use a slash followed by a number, e.g.   <B>netmask</B>  <B>/27</B>,  which  is  a
+          handy alternative for <B>netmask</B> <B>255.255.255.224</B>.
+
+     <I>number</I>-<I>tag</I> <I>number</I> ...;
+
+          Set a number tag.
+
+
+
+
+     <I>octet</I>-<I>tag</I> <I>hexdigits</I>;
+
+          Set an octet string tag.   <I>Hexdigits</I>  is  a  series  of  hexadecimal
+          digits that are two by two used to set the octets.
+
+<B>EXAMPLE</B>
+     As an example the DHCP configuration used by the author of this  document
+     is  included.   His  network at home consists of a number of PCs, an ISDN
+     router named rhone and a PC named saone serving as router/tunnel to/via a
+     cable  ISP.   Both  the  rhone  and the saone connect the home net to the
+     network of the Vrije Universiteit, but the rhone is only  active  if  the
+     cable doesn't work.
+
+     The saone is a DHCP server, and one of the ordinary PCs is a backup  DHCP
+     server.  Both use the same configuration file, which is added below, with
+     extra commentary introduced by <B>##</B> at a deeper indent level:
+
+          <B>include</B> <B>/usr/etc/dhcptags.conf;</B>
+
+                   ## With the help of the tag definitions  we  can  use  tags
+                      like "DHCPlease".
+
+          <B>host</B> <B>130.37.102.64/27</B> <B>{</B>
+                  <B>DNSserver</B> <B>saone</B> <B>darask;</B>
+                  <B>host</B> <B>130.37.102.88/29</B> <B>{</B> <B>DHCPlease</B> <B>259200;</B> <B>}</B>
+          <B>};</B>
+
+                   ## This defines the network 130.37.102.64/27, with  netmask
+                      255.255.255.224  (implicit from the network definition).
+                      The DNS servers for this net are saone  and  darask.   A
+                      smaller subrange of addresses is used as an address pool
+                      on the saone, so a lease of 259200 seconds (3  days)  is
+                      defined.   The netmask is still /27, as set by the outer
+                      network definition.
+
+          <B>host</B> <B>130.37.102.248/30</B> <B>{};</B>
+
+                   ## A network of two addresses for routing tests.
+
+          <B>host</B> <B>saone</B> <B>{</B>
+                  <B>option</B> <B>server;</B>
+                  <B>option</B> <B>ip1</B> <B>possessive;</B>
+                  <B>interface</B> <B>ip2</B> <B>saone</B>-<B>net2;</B>
+                  <B>DNSserver</B> <B>130.37.24.3</B> <B>130.37.24.6;</B>
+          <B>};</B>
+
+                   ## With the network definitions done we turn our  attention
+                      to  the  hosts.   Saone  is  a  DHCP  server on its main
+                      interface.  The second interface (<B>ip1</B>) is  connected  to
+                      the cable modem.  It gets its address from the cableco's
+                      DHCP server, and if that server decides to go deaf  then
+                      the  saone keeps the interface up ("possessive") even if
+                      the lease expires.  The pseudo IP interface <B>ip2</B>  is  set
+                      to  the  IP  address  of  <B>saone</B>-<B>net2</B>,  one  side  of the
+                      encrypted tunnel over the cable to a  Minix-vmd  box  at
+                      the  VU.  The DNS servers specified override the default
+                      setting for the network, naming two external servers  at
+                      the VU that know the world.
+
+          <B>host</B> <B>darask</B> <B>{</B>
+                  <B>option</B> <B>server;</B>
+                  <B>DNSserver</B> <B>saone;</B>
+                  <B>class</B> <B>Minix</B> <B>{</B> <B>DNSserver</B> <B>saone</B> <B>130.37.24.3</B> <B>130.37.24.6;</B> <B>};</B>
+          <B>};</B>
+
+                   ## The darask is also a server, the backup for saone on the
+                      odd  chance  that  it is unavailable.  It uses saone and
+                      the external name servers, but only when it  is  running
+                      Minix.  When running Windows it only uses saone.
+
+          <B>client</B> <B>0:1:1b:a:68:ce</B>           <B>darask;</B>         <B>#</B> <B>NE2000</B>
+          <B>client</B> <B>0:1:1b:a:77:23</B>           <B>burask;</B>         <B>#</B> <B>NE2000</B>
+          <B>#lient</B> <B>0:0:c0:b0:da:64</B>          <B>burask;</B>         <B>#</B> <B>WD8013EWC</B>
+          <B>client</B> <B>8:0:5a:38:b2:f</B>           <B>finiah;</B>         <B>#</B> <B>PCMCIA</B> <B>NE2000</B>
+          <B>client</B> <B>0:0:c0:3a:12:10</B>          <B>bardelask;</B>      <B>#</B> <B>WD8003</B>
+          <B>#lient</B> <B>2:60:8c:ab:8a:6d</B>         <B>bardelask;</B>      <B>#</B> <B>3C503</B>
+          <B>client</B> <B>0:a0:c5:20:9:6d</B>          <B>rhone;</B>
+          <B>client</B> <B>0:1:1b:a:4c:3b</B>           <B>saone;</B>          <B>#</B> <B>NE2000</B>
+          <B>#lient</B> <B>0:0:c0:fb:2:6a</B>           <B>saone</B>-<B>net1;</B>     <B>#</B> <B>WD8013EWC</B>
+
+                   ## Lastly the ethernet  addresses  of  all  the  hosts  are
+                      listed,  so that they can be translated to IP addresses.
+                      The lines that are commented out are for  extra  network
+                      cards  that  are  currently unused.  The last is used to
+                      connect to the cable modem, so it's  only  here  because
+                      it's  nice  to  have  the  ethernet address written down
+                      somewhere.
+
+     The host names shown above are translated by DHCP using this <B>/etc/hosts</B>:
+
+          <B>604800</B>          <B>%ttl</B>
+          <B>2419200</B>         <B>%stale</B>
+
+          <B>130.37.102.65</B>   <B>darask.kjb.upwind.org</B>
+          <B>130.37.102.66</B>   <B>burask.kjb.upwind.org</B>
+          <B>130.37.102.67</B>   <B>finiah.kjb.upwind.org</B>
+          <B>130.37.102.68</B>   <B>bardelask.kjb.upwind.org</B>
+          <B>130.37.102.69</B>   <B>roniah.kjb.upwind.org</B>
+
+          <B>130.37.102.70</B>   <B>saone.kjb.upwind.org</B>
+          <B>130.37.102.2</B>    <B>saone</B>-<B>net2.kjb.upwind.org</B>
+
+          <B>130.37.102.88</B>   <B>rhone.kjb.upwind.org</B>
+          <B>130.37.102.89</B>   <B>dyn89.kjb.upwind.org</B>
+          <B>130.37.102.90</B>   <B>dyn90.kjb.upwind.org</B>
+          <B>130.37.102.91</B>   <B>dyn91.kjb.upwind.org</B>
+          <B>130.37.102.92</B>   <B>dyn92.kjb.upwind.org</B>
+          <B>130.37.102.93</B>   <B>dyn93.kjb.upwind.org</B>
+          <B>130.37.102.94</B>   <B>dyn94.kjb.upwind.org</B>
+
+          <B>130.37.102.249</B>  <B>tst1.kjb.upwind.org</B>
+          <B>130.37.102.250</B>  <B>tst2.kjb.upwind.org</B>
+
+<B>FILES</B>
+
+     <B>/usr/etc/dhcptags.conf</B>
+          A supplied list of standard tag definitions as per RFC-1533.  (Well,
+          the  tag  numbers and their meaning are standard, the names are made
+          up.)
+
+<B>SEE</B> <B>ALSO</B>
+     <B>RFC</B>-<B>2131</B>, <B>RFC</B>-<B>1533</B>, <B><A HREF="../man5/configfile.5.html">configfile(5)</A></B>, <B><A HREF="../man5/hosts.5.html">hosts(5)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>, <B><A HREF="../man8/dhcpd.8.html">dhcpd(8)</A></B>.
+
+<B>NOTES</B>
+     The amount of memory <B>dhcpd</B> needs increases with the size of configuration
+     file.   Minix can handle <B>dhcptags.conf</B> and a modest sized <B>dhcp.conf</B>.  You
+     have to increase the stack size to accommodate more.  (No  problem  under
+     Minix-vmd, of course.)
+
+<B>NOTES</B>
+     Items that are only necessary for a certain host should only be specified
+     for  that  host.   Items for a whole network are best added to a netblock
+     specification.  Use class elements for a certain type of host, and macros
+     for  exceptions.   Try  to limit information as much as possibly to those
+     hosts that need it.  (Don't go  overboard.   A  Minix  machine  won't  be
+     bothered by a few NetBIOS tags.)
+
+<B>BUGS</B>
+     There are a few too many subtle mistakes one can make.
+
+<B>AUTHOR</B>
+     Kees J. Bot &lt;kjb@cs.vu.nl&gt;
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

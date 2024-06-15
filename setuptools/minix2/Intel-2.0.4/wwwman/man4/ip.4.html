@@ -1,0 +1,861 @@
+<HTML>
+<HEAD>
+<TITLE>ip(4)</TITLE>
+</HEAD>
+<BODY>
+<H1>ip(4)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ip,  eth,  psip,  udp,  tcp  -  Internet  Protocol  server  devices   and
+     definitions
+
+<B>DESCRIPTION</B>
+     The <B>ip*</B>, <B>eth*</B>, <B>psip*</B>, <B>tcp*</B>, and <B>udp*</B> devices give access to the  Internet
+     Protocol  (IP)  services  in  Minix.   There  can  be  up to 16 different
+     networks, with 4 network devices each (a network has either an <B>eth*</B> or  a
+     <B>psip*</B>  device, not both.)  The <B>*</B> in the device names is a decimal number,
+     so one may see names from <B>ip0</B> to <B>ip15</B>.  A program scanning  all  networks
+     must  try all 16, and not stop if one in between is missing.  One network
+     is the default network.  Its devices are linked to names without numbers.
+
+     The <B>eth*</B> and <B>psip*</B> devices give direct access to the network  packets  at
+     the  lowest  level.   The  <B>ip*</B>, <B>tcp*</B>, and <B>udp*</B> devices give access to IP,
+     TCP, or UDP services.
+
+     Most programs that use TCP/IP use code like the following to  access  the
+     proper devices:
+
+          if ((tcp_device= getenv("TCP_DEVICE")) == NULL)
+                  tcp_device= "/dev/tcp";
+
+     The low level networking programs such as <B><A HREF="../man8/ifconfig.8.html">ifconfig(8)</A></B> also  have  options
+     to select the device they are working with.  The convention is:
+
+          <B>ETH_DEVICE=</B><I>device</I>
+          <B>-E</B> <I>device</I>
+               Device to use as raw ethernet device  instead  of  the  default
+               /dev/eth.
+
+          <B>PSIP_DEVICE=</B><I>device</I>
+          <B>-P</B> <I>device</I>
+               Pseudo IP device to use instead of <B>/dev/psip</B>.
+
+          <B>IP_DEVICE=</B><I>device</I>
+          <B>-I</B> <I>device</I>
+               IP device to use instead of <B>/dev/ip</B>.
+
+          <B>TCP_DEVICE=</B><I>device</I>
+          <B>-T</B> <I>device</I>
+               TCP device to use instead of <B>/dev/tcp</B>.
+
+          <B>UDP_DEVICE=</B><I>device</I>
+          <B>-U</B> <I>device</I>
+               UDP device to use instead of <B>/dev/udp</B>.
+
+
+
+
+  <B>Programming</B>
+     Access to the IP services is provided using filedescriptors  to  open  IP
+     devices.   These  open IP channels can be configured with <B><A HREF="../man2/ioctl.2.html">ioctl(2)</A></B> calls,
+     and data can be transferred by calls to <B><A HREF="../man2/read.2.html">read(2)</A></B>, and <B><A HREF="../man2/write.2.html">write(2)</A></B>.
+
+  <B>Types</B> <B>(general)</B>
+
+     &lt;sys/types.h&gt;
+          Defines <B>u8_t</B>, <B>u16_t</B>, <B>u32_t</B> and <B>i32_t</B> (and  <B>U8_t</B>,  <B>U16_t</B>,  <B>U32_t</B>  and
+          <B>I32_t</B> for use in prototypes).
+
+  <B>Types</B> <B>(eth)</B>
+
+     &lt;net/gen/ether.h&gt;
+          Defines  struct  ether_addr  (<B>ether_addr_t</B>)  and  <B>ether_type_t</B>   and
+          <B>Ether_type_t</B> for use in prototypes.
+
+     &lt;net/gen/eth_io.h&gt;
+          Defines struct nwio_ethopt (<B>nwio_ethopt_t</B>) and  struct  nwio_ethstat
+          (<B>nwio_ethstat_t</B>)
+
+     &lt;net/gen/eth_hdr.h&gt;
+          Defines struct eth_hdr (<B>eth_hdr_t</B>)
+
+  <B>Types</B> <B>(psip)</B>
+
+     &lt;net/gen/psip_hdr.h&gt;
+          [[[No description available yet.]]]
+
+     &lt;net/gen/psip_io.h&gt;
+          [[[No description available yet.]]]
+
+  <B>Types</B> <B>(ip)</B>
+
+     &lt;net/gen/in.h&gt;
+          Defines <B>ipaddr_t</B>, <B>ipproto_t</B> and struct ip_hdropt (<B>ip_hdropt_t</B>).
+
+     &lt;net/gen/ip_io.h&gt;
+          Defines struct nwio_ipconf  (<B>nwio_ipconf_t</B>)  and  struct  nwio_ipopt
+          (<B>nwio_ipopt_t</B>)
+
+     &lt;net/gen/ip_hdr.h&gt;
+          Defines struct ip_hdr (<B>ip_hdr_t</B>)
+
+     &lt;net/gen/route.h&gt;
+          Defines struct nwio_route (<B>nwio_route_t</B>)
+
+
+
+
+  <B>Types</B> <B>(tcp)</B>
+
+     &lt;net/gen/tcp.h&gt;
+          Defines <B>tcpport_t</B> and <B>Tcpport_t</B> for use in prototypes.
+
+     &lt;net/gen/tcp_io.h&gt;
+          Defines  struct  nwio_tcpconf  (<B>nwio_tcpconf_t</B>),  struct  nwio_tcpcl
+          (<B>nwio_tcpcl_t</B>),   struct   nwio_tcpatt  (<B>nwio_tcpatt_t</B>)  and  struct
+          nwio_tcpopt (<B>nwio_tcpopt_t</B>).
+
+     &lt;net/gen/tcp_hdr.h&gt;
+          Defines   struct   tcp_hdr   (<B>tcp_hdr_t</B>)   and   struct   tcp_hdropt
+          (<B>tcp_hdropt_t</B>).
+
+  <B>Types</B> <B>(udp)</B>
+
+     &lt;net/gen/udp.h&gt;
+          Defines <B>udpport_t</B> and <B>Udpport_t</B> for use in prototypes.
+
+     &lt;net/gen/udp_io.h&gt;
+          Defines struct nwio_udpopt (<B>nwio_udpopt_t</B>).
+
+     &lt;net/gen/udp_hdr.h&gt;
+          Defines   struct   udp_hdr   (<B>udp_hdr_t</B>)   and   struct   udp_io_hdr
+          (<B>udp_io_hdr_t</B>).
+
+  <B>Byte</B> <B>Order</B> <B>Conversion</B>
+     All 16-bit and 32-bit quantities in IP headers must be  in  network  byte
+     order.   The  macros  described  in  <B><A HREF="../man3/hton.3.html">hton(3)</A></B> can be used to convert these
+     values to and from the byte order used by the host machine.
+
+  <B>The</B> <B>Internet</B> <B>Checksum</B>
+     The <B>oneC_sum</B> function (see <B><A HREF="../man3/oneC_sum.3.html">oneC_sum(3)</A></B>) is used to  calculate  the  one's
+     complement checksum needed for IP network packets.
+
+  <B>General</B> <B>Functions</B>
+
+     <I>fd</I> <B>=</B> <B>open(</B><I>tcpip</I>_<I>device</I><B>,</B> <B>O_RDWR)</B>
+
+     This is how one normally  obtains  a  filedescriptor  for  a  new  TCP/IP
+     channel.   <I>tcpip</I>_<I>device</I> names one of the TCP/IP devices.  The channel may
+     be used both to send or to receive data.
+
+     <I>n</I> <B>=</B> <B>read(</B><I>fd</I><B>,</B> <I>buf</I><B>,</B> <I>size</I><B>)</B>
+
+     Receives one packet (low  level  devices)  or  a  number  of  bytes  (TCP
+     stream).   Returns the the number of bytes placed into <I>buf</I>, or returns -1
+     with an error code placed into <B>errno</B>.
+
+
+     <I>n</I> <B>=</B> <B>write(</B><I>fd</I><B>,</B> <I>buf</I><B>,</B> <I>size</I><B>)</B>
+
+     Sends one packet (low level devices) or a number of bytes  (TCP  stream).
+     Returns  <I>size</I>  or  -1  with the error code placed into <B>errno</B>.  The TCP/IP
+     <B>read</B> and <B>write</B> functions behave like reads and writes on  pipes  when  it
+     comes to signals.
+
+  <B>ETH</B> <B>Functions</B>
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOGETHSTAT,</B> <B>&amp;struct</B> <B>nwio_ethstat)</B>
+
+     The <B>NWIOGETHSTAT</B> ioctl returns the Ethernet address and  some  statistics
+     of  the Ethernet server of the channel <I>fd</I>.  The result is returned in the
+     nwio_ethstat  structure.   The  <B>struct</B>   <B>nwio_ethstat</B>   is   defined   in
+     &lt;net/gen/eth_io.h&gt;:
+
+          typedef struct nwio_ethstat
+          {
+                  ether_addr_t nwes_addr;
+                  eth_stat_t nwes_stat;
+          } nwio_ethstat_t;
+
+          typedef struct eth_stat
+          {
+              unsigned long ets_recvErr,  /* # receive errors */
+                  ets_sendErr,            /* # send error */
+                  ets_OVW,                /* # buffer overwrite warnings,
+                                             (packets arrive faster than
+                                              can be processed) */
+                  ets_CRCerr,             /* # crc errors of read */
+                  ets_frameAll,           /* # frames not aligned (# bits
+                                             not a multiple of 8) */
+                  ets_missedP,            /* # packets missed due to too
+                                             slow packet processing */
+                  ets_packetR,            /* # packets received */
+                  ets_packetT,            /* # packets transmitted */
+                  ets_transDef,           /* # transmission deferred (there
+                                             was a transmission of an
+                                             other station in progress */
+                  ets_collision,          /* # collisions */
+                  ets_transAb,            /* # transmissions aborted due
+                                             to excessive collisions */
+                  ets_carrSense,          /* # carrier sense lost */
+                  ets_fifoUnder,          /* # fifo underruns (processor
+                                             is too busy) */
+                  ets_fifoOver,           /* # fifo overruns (processor is
+                                             too busy) */
+                  ets_CDheartbeat,        /* # times unable to transmit
+                                             collision signal */
+                  ets_OWC;                /* # times out of window
+                                             collision */
+          } eth_stat_t;
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOSETHOPT,</B> <B>&amp;struct</B> <B>nwio_ethopt)</B>
+
+     Before an Ethernet channel can  be  used  to  send  or  receive  Ethernet
+     packets,  it  has  to  be  configured  using  the <B>NWIOSETHOPT</B> ioctl.  The
+     structure <B>nwio_ethopt</B> is defined in &lt;net/gen/eth_io.h&gt;:
+
+          typedef struct nwio_ethopt
+          {
+                  u32_t nweo_flags;
+                  ether_addr_t nweo_multi, nweo_rem;
+                  ether_type_t nweo_type;
+          } nwio_ethopt_t;
+
+          #define NWEO_NOFLAGS    0x0000L
+          #define NWEO_ACC_MASK   0x0003L
+          #       define NWEO_EXCL        0x00000001L
+          #       define NWEO_SHARED      0x00000002L
+          #       define NWEO_COPY        0x00000003L
+          #define NWEO_LOC_MASK   0x0010L
+          #       define NWEO_EN_LOC      0x00000010L
+          #       define NWEO_DI_LOC      0x00100000L
+          #define NWEO_BROAD_MASK 0x0020L
+          #       define NWEO_EN_BROAD    0x00000020L
+          #       define NWEO_DI_BROAD    0x00200000L
+          #define NWEO_MULTI_MASK 0x0040L
+          #       define NWEO_EN_MULTI    0x00000040L
+          #       define NWEO_DI_MULTI    0x00400000L
+          #define NWEO_PROMISC_MASK 0x0080L
+          #       define NWEO_EN_PROMISC  0x00000080L
+          #       define NWEO_DI_PROMISC  0x00800000L
+          #define NWEO_REM_MASK   0x0100L
+          #       define NWEO_REMSPEC     0x00000100L
+          #       define NWEO_REMANY      0x01000000L
+          #define NWEO_TYPE_MASK  0x0200L
+          #       define NWEO_TYPESPEC    0x00000200L
+          #       define NWEO_TYPEANY     0x02000000L
+          #define NWEO_RW_MASK    0x1000L
+          #       define NWEO_RWDATONLY   0x00001000L
+          #       define NWEO_RWDATALL    0x10000000L
+
+     The configuration is divided in a  number  of  section  (covered  by  the
+     xx_MASK  macros).  Options can be set in the <B>nweo_flags</B> field.  The first
+     section (<B>NWEO_ACC_MASK</B>) controls the access to a certain Ethernet  packet
+     type.   If  <B>NWEO_EXCL</B>  is selected then this is the only channel that can
+     send or receive Ethernet packets of the selected type.  If <B>NWEO_SHARED</B> is
+     selected  then  multiple  channels (which all have to select <B>NWEO_SHARED</B>)
+     can use the same Ethernet type, they all can send  packets  but  incoming
+     packets will be delivered to at  most  one  of  them.   If  <B>NWEO_COPY</B>  is
+     selected then multiple channels have access to the same Ethernet type and
+     all receive a copy of an incoming packet.
+
+     The  <B>NWEO_LOC_MASK</B>  flags  control  the  delivery  of  packets   with   a
+     destination  address  equal  to  the Ethernet address of the machine.  If
+     <B>NWEO_EN_LOC</B> is selected then these packets will  be  delivered  and  with
+     <B>NWEO_DI_LOC</B> they will be discarded.
+
+     <B>NWEO_BROAD_MASK</B>, <B>NWEO_MULTI_MASK</B>, and <B>NWEO_PROMISC_MASK</B> do  the  same  to
+     broadcast  packets,  multicast  packets  and  promiscuous mode packets as
+     <B>NWEO_LOC_MASK</B> does for local packets.  Except that the precise  multicast
+     address is taken from the <B>nweo_multi</B> field.
+
+     The <B>NWEO_REM_MASK</B> flags control whether communication  is  restricted  to
+     single  destination or not.  <B>NWEO_REMSPEC</B> restricts sending and receiving
+     of packets to the single remote computer specified in the <B>nweo_rem</B> field.
+     <B>NWEO_REMANY</B> allows sending to and receiving from any remote computer.
+
+     <B>NWEO_TYPESPEC</B> restricts sending and receiving  of  packets  to  the  type
+     specified  in <B>nweo_type</B>.  The type has to be in network byte order (using
+     <B><A HREF="../man3/hton.3.html">hton(3)</A></B>).  <B>NWEO_TYPEANY</B> allows any type.
+
+     If the Ethernet header is completely specified by  the  <B>nweo_flags</B>  i.e.,
+     all   of   <B>NWEO_EN_LOC</B>,  <B>NWEO_DI_BROAD</B>,  <B>NWEO_DI_MULTI</B>,  <B>NWEO_DI_PROMISC</B>,
+     <B>NWEO_REMSPEC</B> and <B>NWEO_TYPESPEC</B> are specified, then <B>NWEO_RWDATONLY</B> can  be
+     used  to  send  and receive only the data part of an Ethernet packet.  If
+     <B>NWEO_RWDATALL</B> is specified then both Ethernet header and data are used.
+
+  <B>PSIP</B> <B>Functions</B>
+
+     [[[No description available yet.]]]
+
+  <B>IP</B> <B>Functions</B>
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOGIPCONF,</B> <B>&amp;struct</B> <B>nwio_ipconf)</B>
+
+     The <B>NWIOGIPCONF</B> ioctl reports the Internet Address and the netmask.   For
+     the <I>nwio</I>_<I>ipconf</I> structure see the <B>NWIOSIPCONF</B> ioctl below.
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOGIPOROUTE,</B> <B>&amp;struct</B> <B>nwio_route)</B>
+
+     The <B>NWIOGIPOROUTE</B> ioctl can be used to  query  an  IP  server  about  its
+     routing  table.   [[[NWIODIPOROUTE, NWIOGIPIROUTE, NWIODIPIROUTE?]]]  The
+     structure <B>nwio_route</B> is defined in &lt;net/gen/route.h&gt;:
+
+          typedef struct nwio_route
+          {
+                  u32_t nwr_ent_no;
+                  u32_t nwr_ent_count;
+                  ipaddr_t nwr_dest;
+                  ipaddr_t nwr_netmask;
+                  ipaddr_t nwr_gateway;
+                  u32_t nwr_dist;
+                  u32_t nwr_flags;
+                  u32_t nwr_pref;
+          } nwio_route_t;
+
+          #define NWRF_EMPTY      0
+          #define NWRF_INUSE      1
+          #define NWRF_FIXED      2
+
+     The requested entry is taken from <B>nwr_ent_no</B>.  Entries are  counted  from
+     0,  so  the  value  0  can be used for an initial query.  The size of the
+     routing table is returned in <B>nwr_ent_count</B>.  The <B>nwr_flags</B>  indicates  if
+     the  entry  is in use (<B>NWRF_INUSE</B>) and if the entry was inserted manually
+     (using <B>NWIOSIPOROUTE</B>) or generated by the IP server itself.  The route is
+     described  by <B>nwr_dest</B>, <B>nwr_netmask</B>, <B>nwr_gateway</B>, <B>nwr_dist</B>, and <B>nwr_pref</B>.
+     <B>Nwr_dest</B> and <B>nwr_netmask</B> select the destination addresses.   A  value  of
+     0.0.0.0 (0x0) in both <B>nwr_dest</B> and <B>nwr_netmask</B> means every host.  A value
+     of 255.255.255.255 (0xffffffff)  in  <B>nwr_netmask</B>  means  a  single  host.
+     Other  values  of  <B>nwr_netmask</B>  are netmasks for the network specified by
+     <B>nwr_dest</B>.  <B>Nwr_gateway</B> is gateway that should be  used.   <B>Nwr_dist</B>  is  a
+     minimal distance.  Packets with a time to live smaller than <B>nwr_dist</B> will
+     not reach the destination.  If two routes have equal netmask and distance
+     fields  but  different  gateways  then  the gateway with highest value in
+     <B>nwr_pref</B> is used.
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOSIPCONF,</B> <B>&amp;struct</B> <B>nwio_ipconf)</B>
+
+     The <B>NWIOSIPCONF</B> ioctl can be used to  inform  the  IP  server  about  its
+     Internet Address and/or its netmask.  Normally an IP server will discover
+     its Internet Address using the RARP protocol.  <B>NWIOSIPCONF</B> can be used in
+     the  case  that  the RARP failed, or the netmask has to be changed.  Note
+     that higher level protocols  (TCP  and  UDP)  assume  that  the  Internet
+     Address  of  an  IP  device  does  not change, therefore TCP and UDP stop
+     functioning if the Internet Address is changed.
+
+     The structure <B>nwio_ipconf</B> is defined in &lt;net/gen/ip_io.h&gt;:
+
+          typedef struct nwio_ipconf
+          {
+                  u32_t   nwic_flags;
+                  ipaddr_t nwic_ipaddr;
+                  ipaddr_t nwic_netmask;
+          } nwio_ipconf_t;
+
+          #define NWIC_NOFLAGS            0x0
+          #define NWIC_FLAGS              0x3
+          #       define NWIC_IPADDR_SET          0x1
+          #       define NWIC_NETMASK_SET         0x2
+
+     The function of <B>nwio_ipconf</B> depends  on  the  value  of  <B>nwic_flags</B>.   If
+     <B>NWIC_IPADDR_SET</B>  is  set  then  the  Internet  Address  will  be  set  to
+     <B>nwic_ipaddr</B>.  If <B>NWIC_NETMASK_SET</B> is set then the Internet  Address  will
+     be set to <B>nwic_netmask</B>.
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOSIPOPT,</B> <B>&amp;struct</B> <B>nwio_ipopt)</B>
+
+     Before an IP channel can be used, it  has  to  be  configured  using  the
+     <B>NWIOSIPOPT</B>    ioctl.     The   structure   <B>nwio_ipopt</B>   is   defined   in
+     &lt;net/gen/ip_io.h&gt;:
+
+          typedef struct nwio_ipopt
+          {
+                  u32_t nwio_flags;
+                  ipaddr_t nwio_rem;
+                  ip_hdropt_t nwio_hdropt;
+                  u8_t nwio_tos;
+                  u8_t nwio_ttl;
+                  u8_t nwio_df;
+                  ipproto_t nwio_proto;
+          } nwio_ipopt_t;
+
+          #define NWIO_NOFLAGS    0x0000L
+          #define NWIO_ACC_MASK   0x0003L
+          #       define NWIO_EXCL        0x00000001L
+          #       define NWIO_SHARED      0x00000002L
+          #       define NWIO_COPY        0x00000003L
+          #define NWIO_LOC_MASK   0x0010L
+          #       define NWIO_EN_LOC      0x00000010L
+          #       define NWIO_DI_LOC      0x00100000L
+          #define NWIO_BROAD_MASK 0x0020L
+          #       define NWIO_EN_BROAD    0x00000020L
+          #       define NWIO_DI_BROAD    0x00200000L
+          #define NWIO_REM_MASK   0x0100L
+          #       define NWIO_REMSPEC     0x00000100L
+          #       define NWIO_REMANY      0x01000000L
+          #define NWIO_PROTO_MASK 0x0200L
+          #       define NWIO_PROTOSPEC   0x00000200L
+          #       define NWIO_PROTOANY    0x02000000L
+          #define NWIO_HDR_O_MASK 0x0400L
+          #       define NWIO_HDR_O_SPEC  0x00000400L
+          #       define NWIO_HDR_O_ANY   0x04000000L
+          #define NWIO_RW_MASK    0x1000L
+          #       define NWIO_RWDATONLY   0x00001000L
+          #       define NWIO_RWDATALL    0x10000000L
+
+
+
+     The  options  are  divided   in   several   categories:    <B>NWIO_ACC_MASK</B>,
+     <B>NWIO_LOC_MASK</B>,     <B>NWIO_BROAD_MASK</B>,    <B>NWIO_REM_MASK</B>,    <B>NWIO_PROTO_MASK</B>,
+     <B>NWIO_HDR_O_MASK</B> and <B>NWIO_RW_MASK</B>.   A  channel  is  configured  when  one
+     option of each category is set.
+
+     The options covered by <B>NWIO_ACC_MASK</B> control the number of channels  that
+     can  use  one  IP  protocol.   If  <B>NWIO_EXCL</B>  is specified then only that
+     channel can use a certain IP  protocol.   If  <B>NWIO_SHARED</B>  then  multiple
+     channels  that  all  have  to  specify  <B>NWIO_SHARED</B>  can  use the same IP
+     protocol, but incoming packets will be delivered to a most  one  channel.
+     <B>NWIO_COPY</B> does not impose any restrictions.  Every channel gets a copy of
+     an incoming packet.
+
+     <B>NWIO_LOC_MASK</B> and <B>NWIO_BROAD_MASK</B> control the delivery  of  packets.   If
+     <B>NWIO_EN_LOC</B>  is specified then packets that are explicitly send to the IP
+     server are delivered.   If  <B>NWIO_EN_BROAD</B>  is  specified  then  broadcast
+     packets  are  delivered.  Either one or both of them can be disabled with
+     <B>NWIO_DI_LOC</B> and <B>NWIO_DI_BROAD</B>.
+
+     <B>NWIO_REMSPEC</B> can be used to restrict communication to  one  remote  host.
+     This  host is taken from the <B>nwio_rem</B> field.  If any remote host is to be
+     allowed then <B>NWIO_REMANY</B> can be used.
+
+     <B>NWIO_PROTOSPEC</B> restricts communication to one IP protocol,  specified  in
+     <B>nwio_proto</B>.  <B>NWIO_PROTOANY</B> allows any protocol to be sent or received.
+
+     <B>NWIO_HDR_O_SPEC</B> specifies all IP header options in advance.   The  values
+     are taken from <B>nwio_hdropt</B>, <B>nwio_tos</B>, <B>nwio_ttl</B>, and <B>nwio_df</B>.  <B>Nwio_hdropt</B>
+     specifies the IP options that should be present in  an  outgoing  packet.
+     <B>Ip_hdropt_t</B> is defined in &lt;net/gen/in.h&gt;:
+
+          typedef struct ip_hdropt
+          {
+                  u8_t iho_opt_siz;
+                  u8_t iho_data[IP_MAX_HDR_SIZE-IP_MIN_HDR_SIZE];
+          } ip_hdropt_t;
+
+     The bytes of size <B>iho_opt_siz</B> in <B>iho_data</B> are appended to the IP  header.
+     <B>Nwio_tos</B>  specifies  the  value of the ``type of service'' bits, <B>nwio_ttl</B>
+     gives the value of the ``time  to  live''  field  and  <B>nwio_df</B>  specifies
+     whether  fragmentation  is  disallowed  or not.  <B>NWIO_HDR_O_ANY</B> specifies
+     that the header options should be specified at each write request.
+
+     <B>NWIO_RWDATONLY</B> specifies that the header should be omitted from  a  write
+     request.   This  option  can  only  be  used  when  all header fields are
+     specified in previous options:  <B>NWIO_EN_LOC</B>, <B>NWIO_DI_BROAD</B>, <B>NWIO_REMSPEC</B>,
+     <B>NWIO_PROTOSPEC</B>  and  <B>NWIO_HDR_O_SPEC</B>.   A  read  operation will also only
+     return the data part, so the IP options will be lost.
+
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOSIPOROUTE,</B> <B>&amp;struct</B> <B>nwio_route)</B>
+
+     The  <B>NWIOSIPOROUTE</B>  ioctl  adds  a  route  to  the  routing  table.   See
+     <B>NWIOGIPOROUTE</B>  above  for a description of the <B>nwio_route</B> structure.  The
+     fields <B>nwr_ent_no</B> and <B>nwr_ent_count</B> are ignored.
+
+  <B>TCP</B> <B>Functions</B>
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOTCPCONN,</B> <B>&amp;struct</B> <B>nwio_tcpcl)</B>
+
+     The <B>NWIOTCPCONN</B> ioctl tries to setup a connection with  a  remote  TCP/IP
+     server.   The  channel  must  be  fully configured (see <B>NWIOSTCPCONF</B>) and
+     values for the local port, the remote port and the remote address have be
+     specified  using <B>NWTC_LP_SET</B> or <B>NWTC_LP_SEL</B>, <B>NWTC_SET_RA</B> and <B>NWTC_SET_RP</B>.
+     The struct nwio_tcpcl is defined in &lt;net/gen/tcp_io.h&gt; as:
+
+          typedef struct nwio_tcpcl
+          {
+                  long nwtcl_flags;
+                  long nwtcl_ttl;
+          } nwio_tcpcl_t;
+
+     Set the <B>nwtcl_flags</B> field to zero before  the  connect  or  listen  call.
+     [[[Further explanation of nwio_tcpcl?]]]
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOGTCPCONF,</B> <B>&amp;struct</B> <B>nwio_tcpconf)</B>
+
+     This call reports the  current  configuration  of  a  TCP  channel.   The
+     <B>nwtc_flags</B>  field  shows  the  status of the <B>access</B>, <B>locport</B>, <B>remaddr</B> and
+     <B>remport</B> fields.  <B>Nwtc_locaddr</B> contains the Internet address of the TCP/IP
+     server.   <B>Remaddr</B>  contains  the  Internet  address  of the remote TCP/IP
+     server when set with <B>NWTC_SET_RA</B> or after a successful connect or  listen
+     (see  <B>NWIOTCPCONN</B>  or  <B>NWIOTCPLISTEN</B>).   <B>Nwio_locport</B>  contains the local
+     TCP/IP  port  set  with  <B>NWTC_LP_SET</B>  or  the  selected  port  set   with
+     <B>NWTC_LP_SEL</B>.   <B>Nwtc_remport</B>  contains  the  TCP port of the remote TCP/IP
+     server as set with <B>NWIO_SET_RP</B> or after a successful connect or listen.
+
+     A value of  0  (zero)  is  reported  for  <B>nwtc_remaddr</B>,  <B>nwtc_locport</B>  or
+     <B>nwtc_remport</B> when no value is set either explicitly or implicitly.
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOTCPLISTEN,</B> <B>&amp;struct</B> <B>nwio_tcpcl)</B>
+
+     The <B>NWIOTCPLISTEN</B> ioctl waits until  a  remote  TCP/IP  server  tries  to
+     connect  to  this  channel.   The  channel  has  to  be  configured  (see
+     <B>NWIOSTCPCONF</B>).  An additional restriction is that the local port must  be
+     set  (with  <B>NWTC_LP_SET</B>)  or  selected (with <B>NWTC_LP_SEL</B>).  When a remote
+     address is set only connections for that host are accepted,  and  when  a
+     remote port is set only connections from that port are accepted.  After a
+     successful listen <B>NWIOGTCPCONF</B> can be used to find out what  the  address
+     and port of the other side are.
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOSTCPCONF,</B> <B>&amp;struct</B> <B>nwio_tcpconf)</B>
+
+     Before  a  TCP  channel  can  be  used  it  must  configured  using   the
+     <B>NWIOSTCPCONF</B>  ioctl.  The parameters to <B>NWIOSTCPCONF</B> are the channel file
+     descriptor and a <B>struct</B> <B>nwio_tcpconf</B> as defined in &lt;net/gen/tcp_io.h&gt;:
+
+          typedef struct nwio_tcpconf
+          {
+                  u32_t nwtc_flags;
+                  ipaddr_t nwtc_locaddr;
+                  ipaddr_t nwtc_remaddr;
+                  tcpport_t nwtc_locport;
+                  tcpport_t nwtc_remport;
+          } nwio_tcpconf_t;
+
+          #define NWTC_NOFLAGS    0x0000L
+          #define NWTC_ACC_MASK   0x0003L
+          #       define NWTC_EXCL        0x00000001L
+          #       define NWTC_SHARED      0x00000002L
+          #       define NWTC_COPY        0x00000003L
+          #define NWTC_LOCPORT_MASK       0x0030L
+          #       define NWTC_LP_UNSET    0x00000010L
+          #       define NWTC_LP_SET      0x00000020L
+          #       define NWTC_LP_SEL      0x00000030L
+          #define NWTC_REMADDR_MASK       0x0100L
+          #       define NWTC_SET_RA      0x00000100L
+          #       define NWTC_UNSET_RA    0x01000000L
+          #define NWTC_REMPORT_MASK       0x0200L
+          #       define NWTC_SET_RP      0x00000200L
+          #       define NWTC_UNSET_RP    0x02000000L
+
+     A tcp channel is considered configured when one flag in each category has
+     been  selected.   Thus one of <B>NWTC_EXCL</B>, <B>NWTC_SHARED</B> or <B>NWTC_COPY</B>, one of
+     <B>NWTC_LP_UNSET</B>,  <B>NWTC_LP_SET</B>  or  <B>NWTC_LP_SEL</B>,  one  of   <B>NWTC_SET_RA</B>   or
+     <B>NWTC_UNSET_RA</B>, and one of <B>NWTC_SET_RP</B> or <B>NWTC_UNSET_RP</B>.
+
+     The acc flags control the access to a certain TCP port.  <B>NWTC_EXCL</B>  means
+     exclusive  access.   An  attempt to configure a channel will be denied if
+     the same port is specified as that of a channel that requested  exclusive
+     access.   <B>NWTC_SHARED</B>  indicates  that several channels use the same port
+     but cooperate.  If the shared mode is specified for one channel than  all
+     other  channel  that use the same port should also be configured with the
+     <B>NWTC_SHARED</B> flag.  <B>NWTC_COPY</B> is specified when the  programmer  does  not
+     care about other channels.  This is the default.
+
+     The locport flags control which  TCP  port  is  used  for  communication.
+     <B>NWTC_LP_UNSET</B>  indicates  the  absence  of  a  local  port.   This is the
+     default.  <B>NWTC_LP_SET</B> means that  the  <B>nwtc_locport</B>  field  contains  the
+     local  port  to be used by TCP.  This value must be in network byte order
+     (see <B><A HREF="../man3/hton.3.html">hton(3)</A></B>.)  <B>NWTC_LP_SEL</B> requests the TCP server to pick a port.  This
+     port will be in the range from 32768 to 65535 and will be unique.
+
+     The <B>remaddr</B> flags specify which hosts  are  acceptable  for  connections.
+     <B>NWTC_SET_RA</B>  indicates  that  only  connection  to  the host specified in
+     <B>nwtc_remaddr</B> are acceptable.  <B>Nwtc_remaddr</B>  should  be  in  network  byte
+     order  (see  <B><A HREF="../man3/hton.3.html">hton(3)</A></B>.)  <B>NWTC_UNSET_RA</B> allows every host on the other side
+     of a connection.  This is the default.
+
+     The  <B>remport</B>  flags  specify  which  remote  ports  are  acceptable   for
+     connections.   <B>NWTC_SET_RP</B>  indicates  that  only  the  port specified in
+     <B>nwtc_remport</B> is acceptable.  <B>NWTC_UNSET_RP</B> allows every port on the other
+     side of a connection.  This is the default.
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOTCPSHUTDOWN)</B>
+
+     The <B>NWIOTCPSHUTDOWN</B> tells the TCP/IP server that no  more  data  will  be
+     sent  over  the channel specified by <I>fd</I>.  This command can be issued when
+     the channel is connected to a remote TCP/IP server.   The  TCP/IP  server
+     will  tell  the  remote TCP/IP server and the client of the remote TCP/IP
+     server will receive an end-of-file indication.
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOGTCPOPT,</B> <B>&amp;struct</B> <B>nwio_tcpopt)</B>
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOSTCPOPT,</B> <B>&amp;struct</B> <B>nwio_tcpopt)</B>
+
+     The behaviour of a TCP channel may be changed  by  setting  a  number  of
+     options.   The TCP options can be obtained with the <B>NWIOGTCPOPT</B> ioctl and
+     set with the <B>NWIOSTCPOPT</B> ioctl.  The  options  are  passed  in  a  <B>struct</B>
+     <B>nwio_tcpopt</B> as defined in &lt;net/gen/tcp_io.h&gt;:
+
+          typedef struct nwio_tcpopt
+          {
+                  u32_t nwto_flags;
+          } nwio_tcpopt_t;
+
+          #define NWTO_NOFLAG     0x0000L
+          #define NWTO_SND_URG_MASK       0x0001L
+          #       define NWTO_SND_URG     0x00000001L
+          #       define NWTO_SND_NOTURG  0x00010000L
+          #define NWTO_RCV_URG_MASK       0x0002L
+          #       define NWTO_RCV_URG     0x00000002L
+          #       define NWTO_RCV_NOTURG  0x00020000L
+          #define NWTO_BSD_URG_MASK       0x0004L
+          #       define NWTO_BSD_URG     0x00000004L
+          #define NWTO_DEL_RST_MASK       0x0008L
+          #       define NWTO_DEL_RST     0x00000008L
+
+     The <B>NWTO_SND_URG</B> option causes bytes written to the channel  to  be  send
+     out  as  urgent data.  On receiving an <B>EURG</B> error the <B>NWTO_RCV_URG</B> option
+     must be set to switch over to reading urgent data.  When all urgent  data
+     has  been  read  an  <B>ENOURG</B> error will follow, indicating that the option
+     must be cleared with <B>NWTO_RCV_NOTURG</B>.  Alas  the  BSD  implementation  of
+     urgent  data  disagrees  with the RFC's, so to be BSD compatible one must
+     set the <B>NWTO_BSD_URG</B> option beforehand on a channel that is  to  send  or
+     receive  urgent  data.  Given that the BSD implementation is the regarded
+     as the TCP/IP  standard  one  should  always  use  the  BSD  style.   The
+     <B>NWTO_DEL_RST</B>  option  delays  a failure response on a connect to the same
+     port as the current open connection.  Without this option a connect would
+     fail  if  a server is not yet listening.  With this option a connect will
+     linger on until the server starts listening.  This option is useful for a
+     server  that  opens  a  connection,  tells  the remote end the local port
+     number and then listens (FTP), or for a program that  forks  off  servers
+     for incoming connections (TELNET).  A new connection may come in before a
+     new listen can be started, so it is nice if the new connect doesn't fail.
+     Use this option only when it is clearly needed.
+
+  <B>UDP</B> <B>Functions</B>
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOGUDPOPT,</B> <B>&amp;struct</B> <B>nwio_udpopt)</B>
+
+     The <B>NWIOGUDPOPT</B> ioctl returns the current options that  result  from  the
+     default  options  and the options set with <B>NWIOSUDPOPT</B>.  When <B>NWUO_LP_SEL</B>
+     or <B>NWUO_LP_SET</B> is selected the local port is  returned  in  <B>nwuo_locport</B>.
+     When <B>NWUO_RP_SET</B> is selected the remote port is returned in <B>nwuo_remport</B>.
+     The  local  address  is  always  returned  in  <B>nwuo_locaddr</B>,   and   when
+     <B>NWUO_RA_SET</B> is selected the remote address is returned in <B>nwuo_remaddr</B>.
+
+     <B>ioctl(</B><I>fd</I><B>,</B> <B>NWIOSUDPOPT,</B> <B>&amp;struct</B> <B>nwio_udpopt)</B>
+
+     A UDP channel must be configured using the <B>NWIOSUDPOPT</B> ioctl  before  any
+     data  can  be  read or written.  <B>NWIOSUDPOPT</B> takes two parameters, a file
+     descriptor to an open UDP device and pointer to a  <B>nwio_udpopt</B>  structure
+     that describes the requested configuration.  The <B>nwio_udpopt</B> structure is
+     defined in &lt;net/gen/udp_io.h&gt; as:
+
+          typedef struct nwio_udpopt
+          {
+                  unsigned long nwuo_flags;
+                  udpport_t nwuo_locport;
+                  udpport_t nwuo_remport;
+                  ipaddr_t nwuo_locaddr;
+                  ipaddr_t nwuo_remaddr;
+          } nwio_udpopt_t;
+
+          #define NWUO_NOFLAGS            0x0000L
+          #define NWUO_ACC_MASK           0x0003L
+          #define         NWUO_EXCL               0x00000001L
+          #define         NWUO_SHARED             0x00000002L
+          #define         NWUO_COPY               0x00000003L
+          #define NWUO_LOCPORT_MASK       0x000CL
+          #define         NWUO_LP_SEL             0x00000004L
+          #define         NWUO_LP_SET             0x00000008L
+          #define         NWUO_LP_ANY             0x0000000CL
+          #define NWUO_LOCADDR_MASK       0x0010L
+          #define         NWUO_EN_LOC             0x00000010L
+          #define         NWUO_DI_LOC             0x00100000L
+          #define NWUO_BROAD_MASK         0x0020L
+          #define         NWUO_EN_BROAD           0x00000020L
+          #define         NWUO_DI_BROAD           0x00200000L
+          #define NWUO_REMPORT_MASK       0x0100L
+          #define         NWUO_RP_SET             0x00000100L
+          #define         NWUO_RP_ANY             0x01000000L
+          #define NWUO_REMADDR_MASK       0x0200L
+          #define         NWUO_RA_SET             0x00000200L
+          #define         NWUO_RA_ANY             0x02000000L
+          #define NWUO_RW_MASK            0x1000L
+          #define         NWUO_RWDATONLY          0x00001000L
+          #define         NWUO_RWDATALL           0x10000000L
+          #define NWUO_IPOPT_MASK         0x2000L
+          #define         NWUO_EN_IPOPT           0x00002000L
+          #define         NWUO_DI_IPOPT           0x20000000L
+
+     A UDP channel is considered configured when one flag in each category has
+     been  selected.   Thus one of <B>NWUO_EXCL</B>, <B>NWUO_SHARED</B> or <B>NWUO_COPY</B>, one of
+     <B>NWUO_LP_SEL</B>,  <B>NWUO_LP_SET</B>  or  <B>NWUO_LP_ANY</B>,   one   of   <B>NWUO_EN_LOC</B>   or
+     <B>NWUO_DI_LOC</B>,  one of <B>NWUO_EN_BROAD</B>, or <B>NWUO_DI_BROAD</B>, one of <B>NWUO_RP_SET</B>,
+     or  <B>NWUO_RP_ANY</B>,   one   of   <B>NWUO_RA_SET</B>,   or   <B>NWUO_RA_ANY</B>,   one   of
+     <B>NWUO_RWDATONLY</B>,   or   <B>NWUO_RWDATALL</B>,   and   one  of  <B>NWUO_EN_IPOPT</B>,  or
+     <B>NWUO_DI_IPOPT</B>.  The acc flags control the access to a certain  UDP  port.
+     <B>NWUO_EXCL</B>  means  exclusive  access:  no other channel can use this port.
+     <B>NWUO_SHARED</B> means shared  access:   only  channels  that  specify  shared
+     access  can use this port and all packets that are received are handed to
+     at most one channel.  <B>NWUO_COPY</B> imposes no  access  restriction  and  all
+     channels get a copy of every received packet for that port.
+
+     The <B>locport</B> flags control the selection of the UDP port for this channel.
+     <B>NWUO_LP_SEL</B> requests the server to pick a port.  This port will be in the
+     range from 32768 to 65535 and it will be unique.   <B>NWUO_LP_SET</B>  sets  the
+     local  port to the value of the <B>nwuo_locport</B> field.  <B>NWUO_LP_ANY</B> does not
+     select a port.  Reception of data is therefore not  possible  but  it  is
+     possible to send data.
+
+     The <B>locaddr</B> flags control the reception of packets.  <B>NWUO_EN_LOC</B>  enables
+     the  reception  of  packets  with  the  local  IP address as destination.
+     <B>NWUO_DI_LOC</B> disables the reception of packet for the local IP address.
+
+     The  <B>broad</B>  flags   control   the   reception   of   broadcast   packets.
+     <B>NWUO_EN_BROAD</B>   enables   the   reception   of   broadcast   packets  and
+     <B>NWUO_DI_BROAD</B> disables the reception of broadcast packets.
+
+
+     The <B>remport</B> flags let the client to specify one specific remote UDP  port
+     or to allow any remote port.  <B>NWUO_RP_SET</B> sets the remote UDP port to the
+     value of <B>nwuo_remport</B>.  Only packets with a matching remote port will  be
+     delivered  and all packets will be sent to that port.  <B>NWUO_RP_ANY</B> allows
+     reception of packets form any port  and  when  transmitting  packets  the
+     remote port has to be specified.
+
+     The <B>remaddr</B> flags control the remote IP address.   <B>NWUO_RA_SET</B>  sets  the
+     remote  IP  address  the  value  of <B>nwuo_remaddr</B>.  Only packets from that
+     address will be delivered and all packets will be sent to  that  address.
+     <B>NWUO_RA_ANY</B>   allows   reception  of  packets  from  any  host  and  when
+     transmitting packets the remote host has to be specified.
+
+     The <B>rw</B> flags control the format of the data to be sent or received.  With
+     <B>NWUO_RWDATONLY</B>  only  the data part of a UDP packet is sent to the server
+     and only the data part is received from the  server.   The  <B>NWUO_RWDATALL</B>
+     mode  presents  the data part of a UDP packet with a header that contains
+     the source and destination IP address, source and destination UDP  ports,
+     the  IP  options,  etc.  The server expects such a header in front of the
+     data to be transmitted.
+
+     The <B>ipopt</B> flags control the delivery  and  transmission  of  IP  options.
+     When  <B>NWUO_EN_IPOPT</B>  is set IP, options will be delivered and sent.  When
+     <B>NWUO_DI_IPOPT</B> is set IP option will be stripped from received packets and
+     no IP options will be sent.
+
+<B>FILES</B>
+
+     /dev/eth*    Raw ethernet.  The numbers in the device names are  decimal,
+                  so one may see names from <B>eth0</B> to <B>eth15</B>.
+
+
+     /dev/psip*   First and second Pseudo IP network.
+
+     /dev/ip*     IP devices for two ethernets and two Pseudo IP networks.
+
+     /dev/tcp*    TCP devices for same four networks.
+
+     /dev/udp*    UDP devices.
+
+     /dev/eth, /dev/psip, /dev/ip, /dev/tcp, /dev/udp
+                  Devices for the default network, links to the devices above.
+                  <B>Eth</B>  is  only  present if ethernet is the default, <B>psip</B> only
+                  for pseudo IP.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/hton.3.html">hton(3)</A></B>, <B><A HREF="../man3/oneC_sum.3.html">oneC_sum(3)</A></B>, <B><A HREF="../man8/inet.8.html">inet(8)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+
+
+<B>DIAGNOSTICS</B>
+     Several errors may be returned by the TCP/IP server.  The error  code  is
+     found in the <B>errno</B> variable if the <B>read</B>, <B>write</B>, or <B>ioctl</B> call returns -1.
+     The TCP/IP error codes defined in &lt;errno.h&gt; are:
+
+     EPACKSIZE              This indicates an attempt to read or write with  a
+                            buffer that is too large or too small.
+
+     EOUTOFBUFS             The  TCP/IP  server  has  insufficient  memory  to
+                            execute the request.
+
+     EBADIOCTL              This indicates an attempt to execute a command the
+                            particular   server   does  not  understand.   For
+                            example, a <B>NWIOGTCPCONF</B> on an ETH channel.
+
+     EBADMODE               The request is refused because the channel is  not
+                            fully  configured,  in  the  wrong  state  or  the
+                            parameters are invalid.
+
+     EBADDEST               This indicates an illegal destination address  for
+                            a packet.
+
+     EDSTNORCH              The destination is not reachable.
+
+     EISCONN                The channel  is  already  connected  so  a  second
+                            request is refused.
+
+     EADDRINUSE             This address is in use.
+
+     ECONNREFUSED           The connection is refused by the other side.
+
+     ECONNRESET             The   connection    is    reset    (non-gracefully
+                            terminated) by the other side.
+
+     ETIMEDOUT              The connection is terminated  due  to  an  expired
+                            timer.
+
+     EURG                   Urgent data is present  and  the  current  receive
+                            mode does not allow urgent data to be transferred.
+
+     ENOURG                 No urgent data is present and a request  came  for
+                            urgent data.
+
+     ENOTCONN               The request requires a connected channel  and  the
+                            channel is not connected.
+
+     ESHUTDOWN              The  connection  is  shut  down.    That   is,   a
+                            <B>NWIOTCPSHUTDOWN</B>  has been executed so no more data
+                            can be transmitted.
+
+     ENOCONN                The connection does not exist.
+
+     EGENERIC               A generic error code for extremely weird cases.
+
+<B>AUTHOR</B>
+     Philip Homburg (philip@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

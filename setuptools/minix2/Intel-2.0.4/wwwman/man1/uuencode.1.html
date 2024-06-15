@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>uue(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>uue(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     uue, uuencode - encode a binary file to ASCII (e.g., for mailing)
+
+<B>SYNOPSIS</B>
+     <B>uue</B> [<B>-</B><I>n</I>] <I>file</I> [<B>-</B>]
+
+<B>OPTIONS</B>
+
+     <B>-</B><I>n</I>   How many lines to put in each file
+
+<B>EXAMPLES</B>
+
+     <B>uue</B> <B>file</B>            # Encode <I>file</I> to <I>file</I>.<I>uue</I>
+
+     <B>uue</B> <B>file</B> <B>-</B> <B>&gt;x</B>       # Encode <I>file</I> and write on <I>stdout</I>
+
+     <B>uue</B> <B>-800</B> <B>file</B>       # Output on <I>file</I>.<I>uaa</I>, <I>file</I>.<I>uab</I> etc.
+
+<B>DESCRIPTION</B>
+
+     <I>Uuencode</I> is a famous program that converts an arbitrary (usually  binary)
+     file to an encoding using only 64 ASCII characters.  <I>Uudecode</I> converts it
+     back to the original file.  The  <I>uue</I>  and  <I>uud</I>  programs  are  the  MINIX
+     versions  of  these programs, and are compatible with the UNIX ones.  The
+     files produced can even  be  sent  successfully  over  BITNET,  which  is
+     notorious  for  mangling files.  It is possible to have <I>uue</I> automatically
+     split the encoded file up into small chunks.  The output files  then  get
+     the  suffixes  .<I>uaa</I>,  .<I>uab</I>,  etc.,  instead  of  .<I>uue</I>.  When <I>uud</I> is given
+     <I>file</I>.<I>uaa</I> to decode, it automatically includes the subsequent pieces.  The
+     encoding  takes 3 bytes (24 bits) from the input file and renders it as 4
+     bytes in the output file.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/btoa.1.html">btoa(1)</A></B>, <B><A HREF="../man1/uud.1.html">uud(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

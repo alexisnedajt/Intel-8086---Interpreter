@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>shar(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>shar(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     shar - shell archiver
+
+<B>SYNOPSIS</B>
+     <B>shar</B> <I>file</I> ...
+
+<B>EXAMPLES</B>
+
+     <B>shar</B> <B>*.c</B> <B>&gt;s</B>         # Collect C programs in shell archive
+
+     <B>sh</B> <B>&lt;s</B>               # Extract files from a shell archive
+
+<B>DESCRIPTION</B>
+
+     The named files are collected together into a shell archive written  onto
+     standard  output.   The  individual files can be extracted by redirecting
+     the shell archive into the shell.  The advantage of <I>shar</I> over <I>ar</I> is  that
+     <I>shar</I>  archives  can  be read on almost any UNIX system, whereas numerous,
+     incompatible versions of <I>ar</I> are in widespread use.  Extracting the  files
+     from a shell archive requires that <I>sed</I> be accessible.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/sh.1.html">sh(1)</A></B>, <B><A HREF="../man1/unshar.1.html">unshar(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

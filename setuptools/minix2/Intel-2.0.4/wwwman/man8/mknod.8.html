@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>mknod(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>mknod(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     mknod - create a special file
+
+<B>SYNOPSIS</B>
+     <B>mknod</B> <I>file</I> [<B>b</B>] [<B>c</B>] <I>major</I> <I>minor</I>
+     <B>mknod</B> <I>file</I> <B>p</B>
+
+<B>EXAMPLES</B>
+
+     <B>mknod</B> <B>/dev/plotter</B> <B>c</B> <B>7</B> <B>0</B>
+                         # Create special file for a plotter
+
+     <B>mknod</B> <B>/dev/fd3</B> <B>b</B> <B>2</B> <B>3</B>
+                         # Create a device for diskette drive 3
+
+     <B>mknod</B> <B>/tmp/stream</B> <B>p</B> # Create a named pipe
+
+<B>DESCRIPTION</B>
+
+     <I>Mknod</I> creates a special file named <I>file</I> , with the  indicated  major  and
+     minor  device  numbers.  The second argument specifies a block special, a
+     character special, or a named pipe.   Named  pipes  do  not  have  device
+     numbers so they are omitted.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/mkfifo.1.html">mkfifo(1)</A></B>, <B><A HREF="../man2/mknod.2.html">mknod(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

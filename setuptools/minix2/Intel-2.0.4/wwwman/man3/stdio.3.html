@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>stdio(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>stdio(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     stdio - standard buffered input/output package
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdio.h&gt;</B>
+
+     <B>FILE</B> <B>*stdin;</B>
+     <B>FILE</B> <B>*stdout;</B>
+     <B>FILE</B> <B>*stderr;</B>
+
+<B>DESCRIPTION</B>
+     The functions  in  the  standard  I/O  library  constitute  a  user-level
+     buffering  scheme.  The in-line macros <B>getc</B> and <B><A HREF="../man3/putc.3.html">putc(3)</A></B> handle characters
+     quickly.  The higher level routines <B>gets</B>, <B>fgets</B>,  <B>scanf</B>,  <B>fscanf</B>,  <B>fread</B>,
+     <B>puts</B>,  <B>fputs</B>,  <B>printf</B>, <B>fprintf</B>, <B>fwrite</B> all use <B>getc</B> and <B>putc</B>; they can be
+     freely intermixed.
+
+     A file with associated buffering is called a <I>stream</I>, and is  declared  to
+     be   a  pointer  to  a  defined  type  <B>FILE</B>.   <B><A HREF="../man3/Fopen.3.html">Fopen(3)</A></B>  creates  certain
+     descriptive data for a stream and returns  a  pointer  to  designate  the
+     stream  in  all  further  transactions.   There  are  three normally open
+     streams  with  constant  pointers  declared  in  the  include  file   and
+     associated with the standard open files:
+
+     <B>stdin</B>     standard input file
+     <B>stdout</B>    standard output file
+     <B>stderr</B>    standard error file
+
+     A constant `pointer' <B>NULL</B> (0) designates no stream at all.
+
+     An integer constant <B>EOF</B> (-1) is returned upon end of  file  or  error  by
+     integer functions that deal with streams.
+
+     Any routine that uses the standard input/output package must include  the
+     header  file &lt;<I>stdio</I>.<I>h</I>&gt; of pertinent macro definitions.  The functions and
+     constants mentioned in the standard I/O manual pages are declared in  the
+     include  file  and  need  no further declaration.  The constants, and the
+     following `functions' are implemented as macros; redeclaration  of  these
+     names is perilous:  <B>clearerr</B>, <B>getc</B>, <B>getchar</B>, <B>putc</B>, <B>putchar</B>, <B>feof</B>, <B>ferror</B>,
+     <B>fileno</B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/open.2.html">open(2)</A></B>, <B><A HREF="../man2/close.2.html">close(2)</A></B>, <B><A HREF="../man2/read.2.html">read(2)</A></B>,  <B><A HREF="../man2/write.2.html">write(2)</A></B>,  <B><A HREF="../man3/fclose.3.html">fclose(3)</A></B>,  <B><A HREF="../man3/ferror.3.html">ferror(3)</A></B>,  <B><A HREF="../man3/fopen.3.html">fopen(3)</A></B>,
+     <B><A HREF="../man3/fread.3.html">fread(3)</A></B>,   <B><A HREF="../man3/fseek.3.html">fseek(3)</A></B>,  <B><A HREF="../man3/getc.3.html">getc(3)</A></B>,  <B><A HREF="../man3/gets.3.html">gets(3)</A></B>,  <B><A HREF="../man3/printf.3.html">printf(3)</A></B>,  <B><A HREF="../man3/putc.3.html">putc(3)</A></B>,  <B><A HREF="../man3/puts.3.html">puts(3)</A></B>,
+     <B><A HREF="../man3/scanf.3.html">scanf(3)</A></B>, <B><A HREF="../man3/setbuf.3.html">setbuf(3)</A></B>, <B><A HREF="../man3/ungetc.3.html">ungetc(3)</A></B>.
+
+
+
+
+
+<B>DIAGNOSTICS</B>
+     The value <B>EOF</B> is returned uniformly to indicate that a <B>FILE</B>  pointer  has
+     not  been initialized with <B>fopen</B>, input (output) has been attempted on an
+     output (input) stream, or a <B>FILE</B> pointer designates corrupt or  otherwise
+     unintelligible <B>FILE</B> data.
+
+     For purposes of efficiency, this implementation of the  standard  library
+     has  been  changed  to  line  buffer  output to a terminal by default and
+     attempts to do this transparently  by  flushing  the  output  whenever  a
+     <B><A HREF="../man2/read.2.html">read(2)</A></B>  from  the  standard  input  is necessary.  This is almost always
+     transparent, but may cause confusion or malfunctioning of programs  which
+     use  standard  i/o  routines  but use <B><A HREF="../man2/read.2.html">read(2)</A></B> themselves to read from the
+     standard input.
+
+     In cases where a large amount of computation is done after printing  part
+     of  a  line  on  an  output  terminal,  it  is necessary to <B><A HREF="../man3/fflush.3.html">fflush(3)</A></B> the
+     standard output before going off and computing so that  the  output  will
+     appear.
+
+<B>BUGS</B>
+     The standard buffered functions do not interact well with  certain  other
+     library and system functions, especially <B>fork</B> and <B>abort</B>.
+
+<B>LIST</B> <B>OF</B> <B>FUNCTIONS</B>
+
+
+     <B>Name</B>        <B>Appears</B> <B>on</B> <B>Page</B>    <B>Description</B>
+
+     clearerr      <B><A HREF="../man3/ferror.3.html">ferror(3)</A></B>    stream status inquiries
+     fclose        <B><A HREF="../man3/fclose.3.html">fclose(3)</A></B>    close or flush a stream
+     fdopen        <B><A HREF="../man3/fopen.3.html">fopen(3)</A></B>     open a stream
+     feof          <B><A HREF="../man3/ferror.3.html">ferror(3)</A></B>    stream status inquiries
+     ferror        <B><A HREF="../man3/ferror.3.html">ferror(3)</A></B>    stream status inquiries
+     fflush        <B><A HREF="../man3/fclose.3.html">fclose(3)</A></B>    close or flush a stream
+     fgetc         <B><A HREF="../man3/getc.3.html">getc(3)</A></B>      get character or word from stream
+     fgets         <B><A HREF="../man3/gets.3.html">gets(3)</A></B>      get a string from a stream
+     fileno        <B><A HREF="../man3/ferror.3.html">ferror(3)</A></B>    stream status inquiries
+     fopen         <B><A HREF="../man3/fopen.3.html">fopen(3)</A></B>     open a stream
+     fprintf       <B><A HREF="../man3/printf.3.html">printf(3)</A></B>    formatted output conversion
+     fputc         <B><A HREF="../man3/putc.3.html">putc(3)</A></B>      put character or word on a stream
+     fputs         <B><A HREF="../man3/puts.3.html">puts(3)</A></B>      put a string on a stream
+     fread         <B><A HREF="../man3/fread.3.html">fread(3)</A></B>     buffered binary input/output
+     freopen       <B><A HREF="../man3/fopen.3.html">fopen(3)</A></B>     open a stream
+     fscanf        <B><A HREF="../man3/scanf.3.html">scanf(3)</A></B>     formatted input conversion
+     fseek         <B><A HREF="../man3/fseek.3.html">fseek(3)</A></B>     reposition a stream
+     ftell         <B><A HREF="../man3/fseek.3.html">fseek(3)</A></B>     reposition a stream
+     fwrite        <B><A HREF="../man3/fread.3.html">fread(3)</A></B>     buffered binary input/output
+     getc          <B><A HREF="../man3/getc.3.html">getc(3)</A></B>      get character or word from stream
+     getchar       <B><A HREF="../man3/getc.3.html">getc(3)</A></B>      get character or word from stream
+     gets          <B><A HREF="../man3/gets.3.html">gets(3)</A></B>      get a string from a stream
+     getw          <B><A HREF="../man3/getc.3.html">getc(3)</A></B>      get character or word from stream
+     printf        <B><A HREF="../man3/printf.3.html">printf(3)</A></B>    formatted output conversion
+     putc          <B><A HREF="../man3/putc.3.html">putc(3)</A></B>      put character or word on a stream
+     putchar       <B><A HREF="../man3/putc.3.html">putc(3)</A></B>      put character or word on a stream
+     puts          <B><A HREF="../man3/puts.3.html">puts(3)</A></B>      put a string on a stream
+     putw          <B><A HREF="../man3/putc.3.html">putc(3)</A></B>      put character or word on a stream
+     rewind        <B><A HREF="../man3/fseek.3.html">fseek(3)</A></B>     reposition a stream
+     scanf         <B><A HREF="../man3/scanf.3.html">scanf(3)</A></B>     formatted input conversion
+     setbuf        <B><A HREF="../man3/setbuf.3.html">setbuf(3)</A></B>    assign buffering to a stream
+     setvbuf       <B><A HREF="../man3/setbuf.3.html">setbuf(3)</A></B>    assign buffering to a stream
+     snprintf      <B><A HREF="../man3/printf.3.html">printf(3)</A></B>    formatted output conversion
+     sprintf       <B><A HREF="../man3/printf.3.html">printf(3)</A></B>    formatted output conversion
+     sscanf        <B><A HREF="../man3/scanf.3.html">scanf(3)</A></B>     formatted input conversion
+     ungetc        <B><A HREF="../man3/ungetc.3.html">ungetc(3)</A></B>    push character back into input stream
+     vfprintf      <B><A HREF="../man3/printf.3.html">printf(3)</A></B>    formatted output conversion
+     vfscanf       <B><A HREF="../man3/scanf.3.html">scanf(3)</A></B>     formatted input conversion
+     vprintf       <B><A HREF="../man3/printf.3.html">printf(3)</A></B>    formatted output conversion
+     vscanf        <B><A HREF="../man3/scanf.3.html">scanf(3)</A></B>     formatted input conversion
+     vsnprintf     <B><A HREF="../man3/printf.3.html">printf(3)</A></B>    formatted output conversion
+     vsprintf      <B><A HREF="../man3/printf.3.html">printf(3)</A></B>    formatted output conversion
+     vsscanf       <B><A HREF="../man3/scanf.3.html">scanf(3)</A></B>     formatted input conversion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

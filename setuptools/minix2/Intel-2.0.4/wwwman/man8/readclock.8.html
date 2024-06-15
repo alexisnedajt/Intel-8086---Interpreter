@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>readclock(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>readclock(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     readclock - read the AT's real time clock
+
+<B>SYNOPSIS</B>
+     <B>readclock</B> [<B>-nwW2</B>]
+
+<B>DESCRIPTION</B>
+     <B>Readclock</B> reads the AT's real time clock and sets the machine's time.  It
+     is  usually  the second thing done in <B>/etc/rc</B>, the first thing is setting
+     the time zone by sourcing <B>/etc/profile</B>.  This means  that  the  clock  is
+     assumed to tell the wall clock time.  If you want to run the clock in GMT
+     then you can put <B>TZ=GMT</B> (or any other TZ value) in front of the readclock
+     command.
+
+<B>OPTIONS</B>
+
+     <B>-n</B>   Play-act, don't set the time nor change the calibration  data,  just
+          show what would be done.
+
+     <B>-w</B>   Write the current time to the  CMOS  clock.   Dangerous,  see  <B>BUGS</B>.
+          Don't forget to use <B>TZ=GMT</B> in front of readclock if the clock should
+          run in GMT.
+
+     <B>-W</B>   Like <B>-w</B>, but also sets the status registers of  the  CMOS  clock  to
+          their proper values.  (For if the clock suddenly runs at an odd pace
+          or has stopped and the BIOS doesn't repair it.)
+
+     <B>-2</B>,  Add 20 to any year before 2000.  If your CMOS clock year  can't  run
+          past  2000,  then  you  can set it to 1980 and use <B>-2</B> to correct the
+          year.  Together with <B>-w</B> the year minus 20 is written to the clock.
+
+<B>FILES</B>
+
+     /etc/profile        Timezone and other shell initialization code.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/date.1.html">date(1)</A></B>, <B><A HREF="../man1/utime.1.html">utime(1)</A></B>.
+
+<B>BUGS</B>
+     Reported to not work on some AT's.
+
+     May mess up the clock royally when setting it (<B>-w</B>).  Only if you  have  a
+     very  standard  AT and you are not afraid of having your CMOS setup reset
+     to the default with a "checksum error" should you use  <B>readclock</B>  to  set
+     the time of the CMOS clock.  You have been warned.
+
+
+
+
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

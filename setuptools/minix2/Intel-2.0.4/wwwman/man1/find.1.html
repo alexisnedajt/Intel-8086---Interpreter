@@ -1,0 +1,112 @@
+<HTML>
+<HEAD>
+<TITLE>find(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>find(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     find - find files meeting a given condition
+
+<B>SYNOPSIS</B>
+     <B>find</B> <I>directory</I> <I>expression</I>
+
+<B>EXAMPLES</B>
+
+     <B>find</B> <B>/</B>  <B>-name</B> <B>a.out</B> <B>-print</B>
+                         # Print all <I>a</I>.<I>out</I> paths
+
+     <B>find</B> <B>/usr/ast</B> <B>!</B> <B>-newer</B> <B>f</B> <B>-ok</B> <B>rm</B> <B>{}</B> <B>\;</B>
+                         # Ask before removing
+
+     <B>find</B> <B>/usr</B> <B>-size</B> <B>+20</B> <B>-exec</B> <B>mv</B> <B>{}</B> <B>/big</B> <B>\^;</B>
+                         # move files &gt; 10k
+
+     <B>find</B> <B>/</B> <B>\(</B> <B>-name</B> <B>a.out</B> <B>-o</B> <B>-name</B> <B>'*.o'</B> <B>\)</B> <B>-exec</B> <B>rm</B> <B>{}</B> <B>\;</B>
+                         # 2 conds
+
+<B>DESCRIPTION</B>
+
+     <I>Find</I> descends the file tree starting at the given directory checking each
+     file  in  that  directory and its subdirectories against a predicate.  If
+     the predicate is true,  an  action  is  taken.   The  predicates  may  be
+     connected by <B>-a</B> (Boolean and), <B>-o</B> (Boolean or) and !  (Boolean negation).
+     Each predicate is true under the conditions specified below.  The integer
+     <I>n</I>  may  also be +<I>n</I> to mean any value greater than <I>n</I>, -<I>n</I> to mean any value
+     less than <I>n</I>, or just <I>n</I> for exactly <I>n</I>.
+
+          -name s    true if current filename is <I>s</I> (include shell wild cards)
+          -size n    true if file size is <I>n</I> blocks
+          -inum n    true if the current file's i-node number is <I>n</I>
+          -mtime n   true if modification time relative to today (in days)  is
+                     <I>n</I>
+          -links n   true if the number of links to the file is <I>n</I>
+          -newer f   true if the file is newer than <I>f</I>
+          -perm n    true if the file's permission bits = <I>n</I> (<I>n</I> is in octal)
+          -user u    true if the uid = <I>u</I> (a numerical value, not a login name)
+          -group g   true if the gid = <I>g</I> (a numerical value, not a group name)
+          -type x    where <I>x</I>  is  <B>bcdfug</B>  (block,  char,  dir,  regular  file,
+                     setuid, setgid)
+          -xdev      do not cross devices to search mounted file systems
+
+     Following the expression can be one of the following, telling what to  do
+     when a file is found:
+
+          -print     print the file name on standard output
+          -print0    print the file name terminated by a null character, to be
+                     used with <B>xargs</B> <B>-0</B>.  (Minix extension).
+
+          -exec      execute a command, {} stands for the file name
+          -ok        prompts before executing the command
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/test.1.html">test(1)</A></B>, <B><A HREF="../man1/xargs.1.html">xargs(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

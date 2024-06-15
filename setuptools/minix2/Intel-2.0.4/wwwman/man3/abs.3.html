@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>abs(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>abs(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     abs - integer absolute value
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdlib.h&gt;</B>
+
+     <B>int</B> <B>abs(int</B> <I>i</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Abs</B> returns the absolute value of its integer operand.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/floor.3.html">floor(3)</A></B>.
+
+<B>BUGS</B>
+     Applying the <I>abs</I> function to the most negative integer generates a result
+     which  is  the  most  negative integer.  That is, abs(0x80000000) returns
+     0x80000000 as a result on a machine with 32-bit ints.  Using  the  result
+     in unsigned computations is sound however.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

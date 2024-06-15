@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>cgrep(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>cgrep(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     cgrep - grep and display context
+
+<B>SYNOPSIS</B>
+     <B>cgrep</B> [<B>-a</B> <I>n</I>] [<B>-b</B> <I>n</I>] [<B>-f</B>] [<B>-l</B> <I>n</I>]  [<B>-n</B>] [<B>-w</B> <I>n</I>] <I>pattern</I> [<I>file</I>] ...
+
+<B>OPTIONS</B>
+
+     <B>-a</B>   How many lines to display after the matching line
+
+     <B>-b</B>   How many lines to display before the matching line
+
+     <B>-f</B>   Suppress file name in the output
+
+     <B>-l</B>   Lines are truncated to this length before comparison
+
+     <B>-n</B>   Suppress line numbers in the output
+
+     <B>-w</B>   Sets window size (same as <B>-a</B> n <B>-b</B> n)
+
+<B>EXAMPLES</B>
+
+     <B>cgrep</B> <B>-w</B> <B>3</B> <B>hello</B> <B>file1</B>
+                         # Print 3 lines of context each way
+
+<B>DESCRIPTION</B>
+
+     <I>Cgrep</I> is a program like <I>grep</I>, except that it also can print a  few  lines
+     above  and/or  below the matching lines.  It also prints the line numbers
+     of the output.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/grep.1.html">grep(1)</A></B>, <B><A HREF="../man1/fgrep.1.html">fgrep(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

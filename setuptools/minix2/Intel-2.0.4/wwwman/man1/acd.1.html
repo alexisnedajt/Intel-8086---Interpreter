@@ -1,0 +1,663 @@
+<HTML>
+<HEAD>
+<TITLE>acd(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>acd(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     acd - a compiler driver
+
+<B>SYNOPSIS</B>
+     <B>acd</B> <B>-v</B>[<I>n</I>] <B>-vn</B>[<I>n</I>] <B>-name</B> <I>name</I> <B>-descr</B> <I>descr</I> <B>-T</B> <I>dir</I> [<I>arg</I> ...]
+
+<B>DESCRIPTION</B>
+     <B>Acd</B> is a compiler driver, a program that calls the  several  passes  that
+     are needed to compile a source file.  It keeps track of all the temporary
+     files used between the passes.  It also  defines  the  interface  of  the
+     compiler, the options the user gets to see.
+
+     This text only describes <B>acd</B> itself, it says nothing about the  different
+     options the C-compiler accepts.  (It has nothing to do with any language,
+     other than being a tool to give a compiler a user interface.)
+
+<B>OPTIONS</B>
+     <B>Acd</B> itself takes five options:
+
+     <B>-v</B>[<I>n</I>]
+          Sets the diagnostic level to <I>n</I> (by default <B>2</B>).  The higher <I>n</I> is, the
+          more  output  <B>acd</B>  generates:  <B>-v0</B> does not produce any output.  <B>-v1</B>
+          prints the basenames of the programs called.  <B>-v2</B> prints  names  and
+          arguments  of  the programs called.  <B>-v3</B> shows the commands executed
+          from the description file too.  <B>-v4</B> shows the program read from  the
+          description file too.  Levels 3 and 4 use backspace overstrikes that
+          look good when viewing the output with a smart pager.
+
+     <B>-vn</B>[<I>n</I>]
+          Like <B>-v</B> except that no command is  executed.   The  driver  is  just
+          play-acting.
+
+     <B>-name</B> <I>name</I>
+          <B>Acd</B> is normally linked to the name the compiler is to be called with
+          by  the user.  The basename of this, say <B>cc</B>, is the call name of the
+          driver.  It plays a role in selecting the proper  description  file.
+          With  the  <B>-name</B>  option  one can change this.  <B>Acd</B> <B>-name</B> <B>cc</B> has the
+          same effect as calling the program as <B>cc</B>.
+
+     <B>-descr</B> <I>descr</I>
+          Allows one to choose the pass description file of  the  driver.   By
+          default <I>descr</I> is the same as <I>name</I>, the call name of the program.  If
+          <I>descr</I>  doesn't  start  with  <B>/</B>,   <B>./</B>,   or   <B>../</B>   then   the   file
+          <B>/usr/lib/</B><I>descr</I><B>/descr</B>  will  be  used  for the description, otherwise
+          <I>descr</I> itself.  Thus <B>cc</B> <B>-descr</B> <B>newcc</B>  calls  the  C-compiler  with  a
+          different description file without changing the call name.  Finally,
+          if <I>descr</I> is <B>"-"</B>, standard input is read.  (The default lib directory
+          <B>/usr/lib</B>,  may  be  changed to <I>dir</I> at compile time by <B>-DLIB=\"</B><I>dir</I><B>\"</B>.
+          The default <I>descr</I> may  be  set  with  <B>-DDESCR=\"</B><I>descr</I><B>\"</B>  for  simple
+          installations on a system without symlinks.)
+
+     <B>-T</B> <I>dir</I>
+          Temporary files are made in <B>/tmp</B> by default, which may be overridden
+          by  the  environment variable <B>TMPDIR</B>, which may be overridden by the
+          <B>-T</B> option.
+
+<B>THE</B> <B>DESCRIPTION</B> <B>FILE</B>
+     The description file is a program interpreted  by  the  driver.   It  has
+     variables,  lists  of  files,  argument  parsing  commands, and rules for
+     transforming input files.
+
+  <B>Syntax</B>
+     There are four simple objects:
+
+          Words, Substitutions, Letters, and Operators.
+
+     And there are two ways to group objects:
+
+          Lists, forming sequences of anything but letters,
+
+          Strings, forming sequences of anything but Words and Operators.
+
+     Each object has the following syntax:
+
+     Words
+          They are sequences of characters, like <B>cc</B>, <B>-I/usr/include</B>, <B>/lib/cpp</B>.
+          No  whitespace  and  no special characters.  The backslash character
+          (<B>\</B>)  may  be  used  to  make  special  characters   common,   except
+          whitespace.   A  backslash  followed  by  whitespace  is  completely
+          removed from the input.  The sequence <B>\n</B> is changed to a newline.
+
+     Substitutions
+          A substitution (henceforth called 'subst') is formed with a <B>$</B>,  e.g.
+          <B>$opt</B>,  <B>$PATH</B>,  <B>${lib}</B>, <B>$*</B>.  The variable name after the <B>$</B> is made of
+          letters, digits and  underscores,  or  any  sequence  of  characters
+          between parentheses or braces, or a single other character.  A subst
+          indicates that the value of the named variable must  be  substituted
+          in the list or string when fully evaluated.
+
+     Letters
+          Letters are the single characters that would make up a word.
+
+     Operators
+          The characters <B>=</B>, <B>+</B>, <B>-</B>, <B>*</B>, <B>&lt;</B>, and <B>&gt;</B> are the  operators.   The  first
+          four  must  be  surrounded  by  whitespace if they are to be seen as
+          special (they are often used in arguments).  The last two are always
+          special.
+
+     Lists
+          One line of objects in the  description  file  forms  a  list.   Put
+          parentheses  around  it  and  you  have  a  sublist.   The values of
+          variables are lists.
+
+     Strings
+          Anything that is not yet a word is a string.  All it needs  is  that
+          the  substs in it are evaluated, e.g.  <B>$LIBPATH/lib$key.a</B>.  A single
+          subst doesn't make a string, it expands to  a  list.   You  need  at
+          least one letter or other subst next to it.  Strings (and words) may
+          also be formed by enclosing them in double quotes.   Only  <B>\</B>  and  <B>$</B>
+          keep their special meaning within quotes.
+
+  <B>Evaluation</B>
+     One thing has to be carefully understood: Substitutions are delayed until
+     the  last  possible moment, and description files make heavy use of this.
+     Only if a subst is tainted,  either  because  its  variable  is  declared
+     local,  or  because  a  subst  in  its variable's value is tainted, is it
+     immediately substituted.  So if a list is assigned  to  a  variable  then
+     this  list is only checked for tainted substs.  Those substs are replaced
+     by the value of their variable.  This is called partial evaluation.
+
+     Full evaluation expands all substs,  the  list  is  flattened,  i.e.  all
+     parentheses are removed from sublists.
+
+     Implosive evaluation is the last that has to be done to a list before  it
+     can  be  used  as  a command to execute.  The substs within a string have
+     been evaluated to lists after full expansion, but a string must be turned
+     into  a  single word, not a list.  To make this happen, a string is first
+     exploded to all possible combinations of words choosing one member of the
+     lists within the string.  These words are tried one by one to see if they
+     exist as a file.  The first one that exists is taken, if none exists than
+     the  first  choice  is  used.  As an example, assume <B>LIBPATH</B> equals <B>(/lib</B>
+     <B>/usr/lib)</B>, <B>key</B> is <B>(c)</B> and <B>key</B> happens to be local.  Then we have:
+
+          <B>"$LIBPATH/lib$key.a"</B>
+
+     before evaluation,
+
+          <B>"$LIBPATH/lib(c).a"</B>
+
+     after partial evaluation,
+
+          <B>"(/lib/libc.a</B> <B>/usr/lib/libc.a)"</B>
+
+     after full evaluation, and finally
+
+          <B>/usr/lib/libc.a</B>
+
+     after implosion, if the file exists.
+
+
+
+  <B>Operators</B>
+     The operators modify the way evaluation is done  and  perform  a  special
+     function on a list:
+
+     <B>*</B>    Forces full evaluation on all the list elements following  it.   Use
+          it  to  force substitution of the current value of a variable.  This
+          is the only operator that forces immediate evaluation.
+
+     <B>+</B>    When a <B>+</B> exists in a list that is  fully  evaluated,  then  all  the
+          elements  before the <B>+</B> are imploded and all elements after the <B>+</B> are
+          imploded and added to the list if they are not already in the  list.
+          So  this  operator  can be used either for set addition, or to force
+          implosive expansion within a sublist.
+
+     <B>-</B>    Like <B>+</B>, except that elements after the <B>-</B> are removed from the list.
+
+     The set operators can be used to gather options that exclude  each  other
+     or for their side effect of implosive expansion.  You may want to write:
+
+          <B>cpp</B> <B>-I$LIBPATH/include</B>
+
+     to call cpp with an extra include directory,  but  <B>$LIBPATH</B>  is  expanded
+     using  a  filename  starting  with <B>-I</B> so this won't work.  Given that any
+     problem in Computer  Science  can  be  solved  with  an  extra  level  of
+     indirection, use this instead:
+
+          <B>cpp</B> <B>-I$INCLUDE</B>
+          <B>INCLUDE</B> <B>=</B> <B>$LIBPATH/include</B> <B>+</B>
+
+  <B>Special</B> <B>Variables</B>
+     There are three special variables used in a description  file:   <B>$*</B>,  <B>$&lt;</B>,
+     and  <B>$&gt;</B>.   These  variables  are always local and mostly read-only.  They
+     will be explained later.
+
+  <B>A</B> <B>Program</B>
+     The lists in a description file form a program that is executed from  the
+     first  to the last list.  The first word in a list may be recognized as a
+     builtin command (only if the first list element is indeed simply a word.)
+     If  it  is  not a builtin command then the list is imploded and used as a
+     UNIX command with arguments.
+
+     Indentation (by tabs or spaces) is not just makeup for a program, but are
+     used  to group lines together.  Some builtin commands need a body.  These
+     bodies are simply lines at a deeper indentation.
+
+     Empty lines are not ignored either, they have the same indentation  level
+     as  the line before it.  Comments (starting with a <B>#</B> and ending at end of
+     line) have an indentation of their own and can be used as null commands.
+
+
+     <B>Acd</B> will complain about unexpected indentation shifts and  empty  bodies.
+     Commands  can share the same body by placing them at the same indentation
+     level before the indented body.  They are then "guards" to the same body,
+     and  are  tried  one  by  one until one succeeds, after which the body is
+     executed.
+
+     Semicolons may be used to separate commands  instead  of  newlines.   The
+     commands are then all at the indentation level of the first.
+
+  <B>Execution</B> <B>phases</B>
+     The driver runs in three phases: Initialization, Argument  scanning,  and
+     Compilation.   Not  all  commands  work  in  all phases.  This is further
+     explained below.
+
+  <B>The</B> <B>Commands</B>
+     The commands accept arguments that are usually generic  expressions  that
+     implode  to  a  word  or  a list of words.  When <I>var</I> is specified, then a
+     single word or subst needs to be given, so an assignment  can  be  either
+     <I>name</I> <B>=</B> <I>value</I>, or <B>$</B><I>name</I> <B>=</B> <I>value</I>.
+
+     <I>var</I> <B>=</B> <I>expr</I> ...
+          The partially evaluated list of  expressions  is  assigned  to  <I>var</I>.
+          During  the  evaluation  is  <I>var</I>  marked  as  local,  and  after the
+          assignment set from undefined to defined.
+
+     <B>unset</B> <I>var</I>
+          <I>Var</I> is set to null and is marked as undefined.
+
+     <B>import</B> <I>var</I>
+          If <I>var</I> is defined in the environment of <B>acd</B> then it is  assigned  to
+          <I>var</I>.  The environment variable is split into words at whitespace and
+          colons.  Empty space between two colons (<B>::</B>)  is changed to a dot.
+
+     <B>mktemp</B> <I>var</I> <B>[</B><I>suffix</I><B>]</B>
+          Assigns to <I>var</I> the name of a new temporary file,  usually  something
+          like  /tmp/acd12345x.  If <I>suffix</I> is present then it will be added to
+          the temporary file's name.  (Use it because  some  programs  require
+          it,  or  just  because it looks good.)  <B>Acd</B> remembers this file, and
+          will delete it as soon as you stop referencing it.
+
+     <B>temporary</B> <I>word</I>
+          Mark the file named by <I>word</I> as a temporary file.  You have  to  make
+          sure  that the name is stored in some list in imploded form, and not
+          just temporarily created when <I>word</I> is  evaluated,  because  then  it
+          will be immediately removed and forgotten.
+
+     <B>stop</B> <I>suffix</I>
+          Sets the target suffix for the compilation  phase.   Something  like
+          <B>stop</B>  <B>.o</B>  means  that  the  source  files must be compiled to object
+          files.  At least one  <B>stop</B>  command  must  be  executed  before  the
+          compilation  phase  begins.   It  may  not  be  changed  during  the
+          compilation  phase.   (Note:  There  is no restriction on <I>suffix</I>, it
+          need not start with a dot.)
+
+     <B>treat</B> <I>file</I> <I>suffix</I>
+          Marks the file as having the given suffix  for  the  compile  phase.
+          Useful for sending a <B>-l</B> option directly to the loader by treating it
+          as having the <B>.a</B> suffix.
+
+     <B>numeric</B> <I>arg</I>
+          Checks if <I>arg</I> is a number.  If not then <B>acd</B> will exit  with  a  nice
+          error message.
+
+     <B>error</B> <I>expr</I> ...
+          Makes the driver print the error message <I>expr</I> ... and exit.
+
+     <B>if</B> <I>expr</I> <B>=</B> <I>expr</I>
+          <B>If</B> tests if the two expressions are equal using set comparison, i.e.
+          each   expression   should  contain  all  the  words  in  the  other
+          expression.  If the test succeeds then the if-body is executed.
+
+     <B>ifdef</B> <I>var</I>
+          Executes the ifdef-body if <I>var</I> is defined.
+
+     <B>ifndef</B> <I>var</I>
+          Executes the ifndef-body if <I>var</I> is undefined.
+
+     <B>iftemp</B> <I>arg</I>
+          Executes the iftemp-body if <I>arg</I> is a temporary file.  Use it when  a
+          command  has the same file as input and output and you don't want to
+          clobber the source file:
+
+               <B>transform</B> <B>.o</B> <B>.o</B>
+                       <B>iftemp</B> <B>$*</B>
+                               <B>$&gt;</B> <B>=</B> <B>$*</B>
+                       <B>else</B>
+                               <B>cp</B> <B>$*</B> <B>$&gt;</B>
+                       <B>optimize</B> <B>$&gt;</B>
+
+     <B>ifhash</B> <I>arg</I>
+          Executes the ifhash-body if <I>arg</I> is an existing file with  a  '<B>#</B>'  as
+          the very first character.  This usually indicates that the file must
+          be pre-processed:
+
+               <B>transform</B> <B>.s</B> <B>.o</B>
+                       <B>ifhash</B> <B>$*</B>
+                               <B>mktemp</B> <B>ASM</B> <B>.s</B>
+                               <B>$CPP</B> <B>$*</B> <B>&gt;</B> <B>$ASM</B>
+                       <B>else</B>
+                               <B>ASM</B> <B>=</B> <B>$*</B>
+
+                       <B>$AS</B> <B>-o</B> <B>$&gt;</B> <B>$ASM</B>
+                       <B>unset</B> <B>ASM</B>
+
+     <B>else</B> Executes the else-body if  the  last  executed  <B>if</B>,  <B>ifdef</B>,  <B>ifndef</B>,
+          <B>iftemp</B>,  or  <B>ifhash</B>  was  unsuccessful.   Note  that  <B>else</B>  need not
+          immediately follow an if, but you are advised not  to  make  use  of
+          this.  It is a "feature" that may not last.
+
+     <B>apply</B> <I>suffix1</I> <I>suffix2</I>
+          Executed inside a transform rule body to transform  the  input  file
+          according  to  another  transform  rule that has the given input and
+          output suffixes.  The file under <B>$*</B> will  be  replaced  by  the  new
+          file.   So if there is a <B>.c</B> <B>.i</B> preprocessor rule then the example of
+          <B>ifhash</B> can be replaced by:
+
+               <B>transform</B> <B>.s</B> <B>.o</B>
+                       <B>ifhash</B> <B>$*</B>
+                               <B>apply</B> <B>.c</B> <B>.i</B>
+                       <B>$AS</B> <B>-o</B> <B>$&gt;</B> <B>$*</B>
+
+     <B>include</B> <I>descr</I>
+          Reads another description file and replaces  the  <B>include</B>  with  it.
+          Execution  continues  with  the  first list in the new program.  The
+          search for <I>descr</I> is the same as used for  the  <B>-descr</B>  option.   Use
+          <B>include</B> to switch in different front ends or back ends, or to call a
+          shared description file with a different initialization.  Note  that
+          <I>descr</I> is only evaluated the first time the <B>include</B> is called.  After
+          that the <B>include</B> has been replaced with  the  included  program,  so
+          changing its argument won't get you a different file.
+
+     <B>arg</B> <I>string</I> ...
+          <B>Arg</B> may be executed in the initialization and scanning phase to post
+          an argument scanning rule, that's all the command itself does.  Like
+          an <B>if</B> that fails it allows more guards to share the same body.
+
+     <B>transform</B> <I>suffix1</I> <I>suffix2</I>
+          <B>Transform</B>, like <B>arg</B>, only posts a rule to transform a file with  the
+          suffix <I>suffix1</I> into a file with the suffix <I>suffix2</I>.
+
+     <B>prefer</B> <I>suffix1</I> <I>suffix2</I>
+          Tells that the transformation rule from <I>suffix1</I> to <I>suffix2</I> is to  be
+          preferred when looking for a transformation path to the stop suffix.
+          Normally the shortest route to the stop suffix is used.   <B>Prefer</B>  is
+          ignored  on  a  <B>combine</B>, because the special nature of combines does
+          not allow ambiguity.
+
+          The two suffixes on a <B>transform</B> or <B>prefer</B> may be the same, giving  a
+          rule that is only executed when preferred.
+
+
+     <B>combine</B> <I>suffix</I>-<I>list</I> <I>suffix</I>
+          <B>Combine</B> is like <B>transform</B> except that it  allows  a  list  of  input
+          suffixes to match several types of input files that must be combined
+          into one.
+
+     <B>scan</B> The scanning phase may be run early from  the  initialization  phase
+          with  the <B>scan</B> command.  Use it if you need to make choices based on
+          the  arguments  before  posting  the  transformation  rules.   After
+          running this, <B>scan</B> and <B>arg</B> become no-ops.
+
+     <B>compile</B>
+          Move on to the compilation phase early, so that you have a chance to
+          run  a  few  extra  commands before exiting.  This command implies a
+          <B>scan</B>.
+
+     Any other command is seen as a UNIX command.  This is where the <B>&lt;</B>  and  <B>&gt;</B>
+     operators  come  into  play.   They  redirect standard input and standard
+     output to the file mentioned after them, just like the shell.   <B>Acd</B>  will
+     stop with an error if the command is not successful.
+
+  <B>The</B> <B>Initialization</B> <B>Phase</B>
+     The driver starts by executing the program once from  top  to  bottom  to
+     initialize variables and post argument scanning and transformation rules.
+
+  <B>The</B> <B>Scanning</B> <B>Phase</B>
+     In this phase the driver makes a pass over the command line arguments  to
+     process  options.   Each  <B>arg</B>  rule is tried one by one in the order they
+     were posted against the front of the argument list.  If a match  is  made
+     then  the  matched  arguments  are removed from the argument list and the
+     arg-body is executed.  If no match can be made then the first argument is
+     moved  to  the  list  of  files waiting to be transformed and the scan is
+     restarted.
+
+     The match is done as follows: Each of the strings after  <B>arg</B>  must  match
+     one  argument at the front of the argument list.  A character in a string
+     must match a character in an argument word, a subst in a string may match
+     1  to  all  remaining characters in the argument, preferring the shortest
+     possible match.  The hyphen in a argument starting with a  hyphen  cannot
+     be matched by a subst.  Therefore:
+
+          <B>arg</B> <B>-i</B>
+
+     matches only the argument <B>-i</B>.
+
+          <B>arg</B> <B>-O$n</B>
+
+     matches any argument that starts with <B>-O</B> and is at least three characters
+     long.  Lastly,
+
+
+          <B>arg</B> <B>-o</B> <B>$out</B>
+
+     matches <B>-o</B> and the argument following it,  unless  that  argument  starts
+     with a hyphen.
+
+     The variable <B>$*</B> is set to all the matched arguments before  the  arg-body
+     is executed.  All the substs in the arg strings are set to the characters
+     they match.  The variable <B>$&gt;</B> is set to  null.   All  the  values  of  the
+     variables are saved and the variables marked local.  All variables except
+     <B>$&gt;</B> are marked read-only.  After the arg-body is executed is the value  of
+     <B>$&gt;</B>  concatenated  to  the  file list.  This allows one to stuff new files
+     into the transformation phase.  These added names are not evaluated until
+     the start of the next phase.
+
+  <B>The</B> <B>Compilation</B> <B>Phase</B>
+     The files gathered in the  file  list  in  the  scanning  phase  are  now
+     transformed  one by one using the transformation rules.  The shortest, or
+     preferred route is computed for each file all the way to the stop suffix.
+     Each  file  is  transformed  until  it  lands at the stop suffix, or at a
+     combine rule.  After a while all files are either fully transformed or at
+     a combine rule.
+
+     The driver chooses a combine rule that is not  on  a  path  from  another
+     combine  rule and executes it.  The file that results is then transformed
+     until it again lands  at  a  combine  rule  or  the  stop  suffix.   This
+     continues until all files are at the stop suffix and the program exits.
+
+     The paths through transform rules may be ambiguous and have cycles,  they
+     will  be  resolved.   But  paths  through  combines  must be unambiguous,
+     because of the many paths from the different files that  meet  there.   A
+     description  file will usually have only one combine rule for the loader.
+     However if you do have a combine conflict then put a no-op transform rule
+     in front of one to resolve the problem.
+
+     If a file matches a long and a short  suffix  then  the  long  suffix  is
+     preferred.   By  putting a null input suffix (<B>""</B>) in a rule one can match
+     any file that no other rule matches.  You can send unknown files  to  the
+     loader this way.
+
+     The variable <B>$*</B> is set to the file to be transformed or the files  to  be
+     combined  before the transform or combine-body is executed.  <B>$&gt;</B> is set to
+     the output file name, it may  again  be  modified.   <B>$&lt;</B>  is  set  to  the
+     original  name  of  the first file of <B>$*</B> with the leading directories and
+     the suffix removed.  <B>$*</B> will be made up  of  temporary  files  after  the
+     first  rule.  <B>$&gt;</B> will be another temporary file or the name of the target
+     file (<B>$&lt;</B> plus the stop suffix), if the stop suffix is reached.
+
+     <B>$&gt;</B> is passed to the next rule; it is imploded and checked to be a  single
+     word.   This  driver  does  not  store  intermediate  object files in the
+     current directory like most other compilers, but keeps them in <B>/tmp</B>  too.
+     (Who knows if the current directory can have files created  in?)   As  an
+     example, here is how you can express the "normal" method:
+
+          <B>transform</B> <B>.s</B> <B>.o</B>
+                  <B>if</B> <B>$&gt;</B> <B>=</B> <B>$&lt;.o</B>
+                          <B>#</B> <B>Stop</B> <B>suffix</B> <B>is</B> <B>.o</B>
+                  <B>else</B>
+                          <B>$&gt;</B> <B>=</B> <B>$&lt;.o</B>
+                          <B>temporary</B> <B>$&gt;</B>
+                  <B>$AS</B> <B>-o</B> <B>$&gt;</B> <B>$*</B>
+
+     Note that <B>temporary</B> is not called if the target  is  already  the  object
+     file,  or  you would lose the intended result!  <B>$&gt;</B> is known to be a word,
+     because <B>$&lt;</B> is local.  (Any string whose substs are all  expanded  changes
+     to a word.)
+
+  <B>Predefined</B> <B>Variables</B>
+     The driver has three variables predefined:  <B>PROGRAM</B>, set to the call name
+     of the driver, <B>VERSION</B>, the driver's version number, and <B>ARCH</B>, set to the
+     name of the default output architecture.  The  latter  is  optional,  and
+     only defined if <B>acd</B> was compiled with <B>-DARCH=\"</B><I>arch</I>-<I>name</I><B>\"</B>.
+
+<B>EXAMPLE</B>
+     As an example a description file for a C compiler is  given.   It  has  a
+     front  end (ccom), an intermediate code optimizer (opt), a code generator
+     (cg), an assembler (as), and  a  loader  (ld).   The  compiler  can  pre-
+     process, but there is also a separate cpp.  If the <B>-D</B> and options like it
+     are changed to look like <B>-o</B> then this example  is  even  as  required  by
+     POSIX.
+
+          # The compiler support search path.
+          C =     /lib /usr/lib /usr/local/lib
+
+          # Compiler passes.
+          CPP =   $C/cpp $CPP_F
+          CCOM =  $C/ccom $CPP_F
+          OPT =   $C/opt
+          CG =    $C/cg
+          AS =    $C/as
+          LD =    $C/ld
+
+          # Predefined symbols.
+          CPP_F = -D__EXAMPLE_CC__
+
+          # Library path.
+          LIBPATH = $USERLIBPATH $C
+
+          # Default transformation target.
+          stop .out
+
+          # Preprocessor directives.
+          arg -D$name
+          arg -U$name
+          arg -I$dir
+                  CPP_F = $CPP_F $*
+
+          # Stop suffix.
+          arg -c
+                  stop .o
+
+          arg -E
+                  stop .E
+
+          # Optimization.
+          arg -O
+                  prefer .m .m
+                  OPT = $OPT -O1
+
+          arg -O$n
+                  numeric $n
+                  prefer .m .m
+                  OPT = $OPT $*
+
+          # Add debug info to the executable.
+          arg -g
+                  CCOM = $CCOM -g
+
+          # Add directories to the library path.
+          arg -L$dir
+                  USERLIBPATH = $USERLIBPATH $dir
+
+          # -llib must be searched in $LIBPATH later.
+          arg -l$lib
+                  $&gt; = $LIBPATH/lib$lib.a
+
+          # Change output file.
+          arg -o$out
+          arg -o $out
+                  OUT = $out
+
+          # Complain about a missing argument.
+          arg -o
+                  error "argument expected after '$*'"
+
+          # Any other option (like -s) are for the loader.
+          arg -$any
+                  LD = $LD $*
+
+          # Preprocess C-source.
+          transform .c .i
+                  $CPP $* &gt; $&gt;
+
+          # Preprocess C-source and send it to standard output or $OUT.
+          transform .c .E
+                  ifndef OUT
+                          $CPP $*
+                  else
+                          $CPP $* &gt; $OUT
+
+          # Compile C-source to intermediate code.
+          transform .c .m
+          transform .i .m
+                  $CCOM $* $&gt;
+
+          # Intermediate code optimizer.
+          transform .m .m
+                  $OPT $* &gt; $&gt;
+
+          # Intermediate to assembly.
+          transform .m .s
+                  $CG $* &gt; $&gt;
+
+          # Assembler to object code.
+          transform .s .o
+                  if $&gt; = $&lt;.o
+                          ifdef OUT
+                                  $&gt; = $OUT
+                  $AS -o $&gt; $*
+
+          # Combine object files and libraries to an executable.
+          combine (.o .a) .out
+                  ifndef OUT
+                          OUT = a.out
+                  $LD -o $OUT $C/crtso.o $* $C/libc.a
+
+<B>FILES</B>
+
+     /usr/lib/<I>descr</I>/descr     - compiler driver description file.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/cc.1.html">cc(1)</A></B>.
+
+<B>ACKNOWLEDGEMENTS</B>
+     Even though the end result doesn't look much like  it,  many  ideas  were
+     nevertheless derived from the ACK compiler driver by Ed Keizer.
+
+
+
+
+
+<B>BUGS</B>
+     POSIX requires that if compiling one source file to an object file  fails
+     then the compiler should continue with the next source file.  There is no
+     way <B>acd</B> can do this, it always stops after error.  It doesn't  even  know
+     what an object file is!  (The requirement is stupid anyhow.)
+
+     If you don't think that tabs are 8 spaces wide, then don't mix them  with
+     spaces for indentation.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

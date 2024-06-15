@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>init(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>init(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     init - grandparent of all processes
+
+<B>DESCRIPTION</B>
+     The first program started by Minix is <B>init</B>.   The  actions  performed  by
+     <B>init</B> can be summarized by this pseudo shell program:
+
+          # Open 0, 1, 2.
+          exec &lt;/dev/null &gt;/dev/log 2&gt;&amp;1
+
+          # Run the system initialization script.
+          sh /etc/rc $bootopts
+
+          &gt;/etc/utmp
+          echo reboot &gt;&gt;/usr/adm/wtmp
+
+          while :; do
+                  # Wait for a process to exit, but don't always block.
+                  wait
+
+                  # Record logout.  (Not in this dumb way, of course.)
+                  if "pid is in my tables" $pid
+                  then
+                          echo "logout $pid" &gt;/etc/utmp
+                          echo "logout $pid" &gt;&gt;/usr/adm/wtmp
+                  fi
+
+                  # Start a new session.
+                  while read line type getty init
+                  do
+                          if idle $line
+                          then
+                                  $init ... &lt;$tty &gt;$tty
+                                  $getty &lt;$tty &gt;$tty 2&gt;&amp;1 &amp;
+                                  pid=$!
+                                  "add pid to tables" $pid
+                                  echo "login $line $pid" &gt;/etc/utmp
+                                  echo "login $line $pid" &gt;&gt;/usr/adm/wtmp
+                          fi
+                  done &lt; /dev/ttytab
+          done
+
+     The first action of <B>init</B> is to run <B>/etc/rc</B> to initialize  the  system  as
+     described  in <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.  <B>Init</B> then enters its main loop where it waits for
+     processes to exit, and starts processes on each  enabled  terminal  line.
+     The  file <B>/etc/ttytab</B> contains a list of terminal devices, their terminal
+     types, the program to execute on them to  allow  one  to  login  (usually
+     <B><A HREF="../man8/getty.8.html">getty(8)</A></B>),  and  the  program  to  execute  first  to initialize the line
+     (usually <B><A HREF="../man1/stty.1.html">stty(1)</A></B>).  These fields may be left out to indicate that a  line
+     is  disabled  or  that initialization is not necessary.  The commands are
+     searched using the path <B>/sbin:/bin:/usr/sbin:/usr/bin</B>.
+
+     <B>Init</B> accepts several signals that must be sent to process id 1.   (It  is
+     the first process, so natually its process id is 1.)  The signals are:
+
+     <B>SIGHUP</B>
+          When receiving a hangup signal, <B>init</B> will forget  about  errors  and
+          rescan  <B>ttytab</B>  for  processes  to  execute.   <B>Init</B> normally rescans
+          <B>ttytab</B> each time it feels the need to  respawn  a  process,  so  the
+          hangup  signal is only needed if a line has been shut down, or after
+          a terminate signal.  Note that after turning a  line  off  you  will
+          have to kill the process running on that line manually, <B>init</B> doesn't
+          do that for you.
+
+     <B>SIGTERM</B>
+          Normally sent by programs that halt or reboot Minix.  Causes <B>init</B> to
+          stop spawning new processes.
+
+     <B>SIGABRT</B>
+          Sent by the keyboard driver when the <B>CTRL</B>-<B>ALT</B>-<B>DEL</B> key combination is
+          typed.   Causes  <B>init</B>  to  run the <B>shutdown</B> command.  A second abort
+          signal makes <B>init</B> halt the system directly with a system call.   The
+          keyboard  driver  halts  the system, without a sync, after the third
+          CTRL-ALT-DEL.
+
+  <B>Minix</B> <B>vs.</B> <B>Minix</B>-<B>vmd</B>
+     There are a few differences between standard Minix and Minix-vmd  on  how
+     <B>init</B>  is  run.   The  <B>/etc/rc</B>  file is executed under standard Minix with
+     input connected to  <B>/dev/console</B>,  but  under  Minix-vmd  this  is  still
+     <B>/dev/null</B>.  This means that under Minix-vmd processes must be reconnected
+     to <B>/dev/console</B> with the <B><A HREF="../man8/intr.8.html">intr(8)</A></B> program if they need  user  interaction.
+     Minix-vmd  passes  the  value  of  the <B>bootopts</B> boot variable to /etc/rc.
+     Standard Minix does not.
+
+<B>FILES</B>
+
+     <B>/etc/ttytab</B>              List of terminals devices.
+
+     <B>/etc/utmp</B>                List of currently logged in users.
+
+     <B>/usr/adm/wtmp</B>            Login/logout history.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man5/ttytab.5.html">ttytab(5)</A></B>, <B><A HREF="../man5/utmp.5.html">utmp(5)</A></B>, <B><A HREF="../man8/getty.8.html">getty(8)</A></B>, <B><A HREF="../man1/stty.1.html">stty(1)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>fclose(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>fclose(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     fclose, fflush - close or flush a stream
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdio.h&gt;</B>
+
+     <B>int</B> <B>fclose(FILE</B> <B>*</B><I>stream</I><B>)</B>
+     <B>int</B> <B>fflush(FILE</B> <B>*</B><I>stream</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Fclose</B> causes any buffers for the named <I>stream</I> to  be  emptied,  and  the
+     file to be closed.  Buffers allocated by the standard input/output system
+     are freed.
+
+     <B>Fclose</B> is performed automatically upon calling <B><A HREF="../man3/exit.3.html">exit(3)</A></B>.
+
+     <B>Fflush</B> causes any buffered data for the named output <I>stream</I> to be written
+     to that file.  The stream remains open.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/close.2.html">close(2)</A></B>, <B><A HREF="../man3/fopen.3.html">fopen(3)</A></B>, <B><A HREF="../man3/setbuf.3.html">setbuf(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     These routines return <B>EOF</B> if <I>stream</I> is  not  associated  with  an  output
+     file, or if buffered data cannot be transferred to that file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

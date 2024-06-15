@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>dosread(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>dosread(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     dosread - read a file from an MS-DOS diskette [IBM]
+
+<B>SYNOPSIS</B>
+     <B>dosread</B> [<B>-a</B>] <I>drive</I> <I>file</I>
+
+<B>OPTIONS</B>
+
+     <B>-a</B>   ASCII file
+
+<B>EXAMPLES</B>
+
+     <B>dosread</B> <B>C</B> <B>g/adv</B> <B>&gt;adv</B>
+                         # Read file <I>g</I>/<I>adv</I> from hard disk
+
+     <B>dosread</B> <B>-a</B> <B>A</B> <B>prog.c</B> <B>&gt;x</B>
+                         # Read ASCII file <I>prog</I>.<I>c</I> from drive A
+
+<B>DESCRIPTION</B>
+
+     <I>Dosread</I> reads one MS-DOS file and writes it on standard output.  The file
+     name  must use slash, not backslash as a separator.  ASCII files have the
+     final CTRL-Z stripped, and carriage return plus line feed are  mapped  to
+     line  feed  only,  the  usual MINIX convention.  See <B>dosdir</B> on the use of
+     single letter drive codes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

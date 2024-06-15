@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>fmt(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>fmt(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     fmt - adjust line-length for paragraphs of text
+
+<B>SYNOPSIS</B>
+     <B>fmt</B> [-<I>width</I>] [<I>files</I>]...
+
+<B>DESCRIPTION</B>
+     <I>fmt</I> is a simple text formatter.   It  inserts  or  deletes  newlines,  as
+     necessary,  to  make  all  lines in a paragraph be approximately the same
+     width.  It preserves indentation and word spacing.
+
+     The default line width is 72 characters.  You can override this with  the
+     -<I>width</I>  flag.   If you don't name any files on the command line, then <I>fmt</I>
+     will read from stdin.
+
+     It is typically used from within <I>vi</I> to adjust the line breaks in a single
+     paragraph.  To do this, move the cursor to the top of the paragraph, type
+     "!}fmt", and hit &lt;Return&gt;.
+
+<B>AUTHOR</B>
+     Steve Kirkendall
+     kirkenda@cs.pdx.edu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

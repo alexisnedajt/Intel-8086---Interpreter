@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>basename(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>basename(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     basename, dirname - strip off file prefixes and suffixes
+
+<B>SYNOPSIS</B>
+     <B>basename</B> <I>file</I> [<I>suffix</I>]
+     <B>dirname</B> <I>file</I>
+
+<B>EXAMPLES</B>
+
+     <B>basename</B> <B>/user/ast/file.c</B>
+                         # Strips path to yield <I>file</I>.<I>c</I>
+
+     <B>basename</B> <B>/user/file.c</B> <B>.c</B>
+                         # Strips path and .<I>c</I> to yield <I>file</I>
+
+     <B>dirname</B> <B>/user/file.c</B>
+                         # Strips basename to yield /<I>user</I>
+
+<B>DESCRIPTION</B>
+
+     <I>Basename</I> removes the initial directory names (if any) yielding  the  name
+     of  the  file itself.  If a second argument is present, it is interpreted
+     as a suffix and is also stripped, if present.
+
+     <I>Dirname</I> removes the final component of a path, yielding the  directory  a
+     file is in.
+
+     These programs are primarily used in shell scripts.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

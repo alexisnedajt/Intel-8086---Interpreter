@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>getpass(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>getpass(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     getpass - read a password
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;minix/minlib.h&gt;</B>
+
+     <B>char</B> <B>*getpass(const</B> <B>char</B> <B>*</B><I>prompt</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Getpass</B> reads a password from the file <B>/dev/tty</B>, or  if  that  cannot  be
+     opened, from the standard input, after prompting with the null-terminated
+     string <I>prompt</I> and disabling echoing.  A pointer is returned  to  a  null-
+     terminated string of at most 32 characters, excluding the null.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/crypt.3.html">crypt(3)</A></B>.
+
+<B>BUGS</B>
+     The return value points to static data whose content  is  overwritten  by
+     each call.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

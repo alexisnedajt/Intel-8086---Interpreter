@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>mined(9)</TITLE>
+</HEAD>
+<BODY>
+<H1>mined(9)</H1>
+<HR>
+<PRE>
+<B>Command:</B>   <B>mined</B> <B>-</B> <B>MINIX</B> <B>editor</B>
+<B>Syntax:</B>    <B>mined</B> [<I>file</I>]
+<B>Flags:</B>     (none)
+<B>Examples:</B>  mined /user/ast/book.3   # Edit an existing file
+           mined                    # Call editor to create a new file
+           ls -l | mined            # Use <I>mined</I> as a  pager  to  inspect
+                                      listing
+
+     <I>Mined</I> is a simple screen editor.  At any instant, a  window  of  24
+lines  is  visible  on  the screen.  The current position in the file is
+shown by the cursor.  Ordinary characters typed in are inserted  at  the
+cursor.   Control  characters  and  keys  on  the numeric keypad (at the
+right-hand side of the keyboard) are used to move the cursor and perform
+other functions.
+
+     Commands exist to move forward and  backward  a  word,  and  delete
+words  either  in  front  of  the  cursor  or behind it.  A word in this
+context is a sequence of characters delimited  on  both  ends  by  white
+space  (space,  tab,  line  feed,  start  of file, or end of file).  The
+commands for deleting characters and words  also  work  on  line  feeds,
+making  it  possible  to join two consecutive lines by deleting the line
+feed between them.
+
+     The editor maintains one save buffer (not displayed).  Commands are
+present to move text from the file to the buffer, from the buffer to the
+file, and to write the buffer onto a  new  file.   If  the  edited  text
+cannot  be  written  out due to a full disk, it may still be possible to
+copy the whole text to the save buffer and then write it to a  different
+file on a different disk with CTRL-Q.  It may also be possible to escape
+from the editor with CTRL-S and remove some files.
+
+     Some of the commands  prompt  for  arguments  (file  names,  search
+patterns,  etc.).   All  commands  that might result in loss of the file
+being edited prompt to ask for confirmation.
+
+     A key (command or ordinary character) can be repeated  <I>n</I>  times  by
+typing <I>ESC</I> <I>n</I> <I>key</I> where <I>ESC</I> is the 'escape' key.
+
+     Forward and backward searching requires a regular expression as the
+search  pattern.   Regular  expressions  follow the same rules as in the
+UNIX editor, <I>ed</I>.  These rules can be stated as:
+
+
+   Any displayable character matches itself.
+
+   . (period) matches any character except line feed.
+
+   ^ (circumflex) matches the start of the line.
+
+   $ (dollar sign) matches the end of the line.
+   \c matches the character <I>c</I> (including period, circumflex, etc).
+
+   [<I>string</I>] matches any of the characters in the string.
+
+   [^string] matches any  of  the  characters  except  those  in  the
+   string.
+
+   [<I>x</I>-<I>y</I>] matches any characters between <I>x</I> and <I>y</I> (e.g., [<I>a</I>-<I>z</I>]).
+
+   Pattern* matches any number of occurrences of <I>pattern</I>.
+
+
+Some examples of regular expressions are:
+
+   The boy     matches the string 'The boy'
+   ^$          matches any empty line.
+   ^.$         matches any line containing exactly 1 character
+   ^A.*\.$     matches any line  starting  with  an  <I>A</I>,  ending  with  a
+               period.
+   ^[A-Z]*$    matches any line  containing  only  capital  letters  (or
+               empty).
+   [A-Z0-9]    matches any line containing either a capital letter or  a
+               digit.
+   .*X$        matches any line ending in 'X'
+   A.*B        matches any line containing an 'A' and then a 'B'
+
+
+     Control characters cannot be entered into a file simply  by  typing
+them  because  all  of  them  are  editor  commands.  To enter a control
+character, depress the ALT key, and then while holding it down, hit  the
+ESC  key.   Release  both  ALT  and  ESC and type the control character.
+Control characters are displayed in reverse video.
+
+     The <I>mined</I> commands are as follows.
+
+<B>CURSOR</B> <B>MOTION</B>
+   <B>arrows</B>      Move the cursor in the indicated direction
+   <B>CTRL</B>-<B>A</B>      Move cursor to start of current line
+   <B>CTRL</B>-<B>Z</B>      Move cursor to end of current line
+   <B>CTRL</B>-<B>^</B>      Move cursor to top of screen
+   <B>CTRL</B>-<B>_</B>      Move cursor to end of screen
+   <B>CTRL</B>-<B>F</B>      Move cursor forward to start of next word
+   <B>CTRL</B>-<B>B</B>      Move cursor backward to start of previous word
+
+<B>SCREEN</B> <B>MOTION</B>
+   <B>Home</B> <B>key</B>    Move to first character of the file
+   <B>End</B> <B>key</B>     Move to last character of the file
+   <B>PgUp</B> <B>key</B>    Scroll window up 23 lines (closer to start of the file)
+   <B>PgDn</B> <B>key</B>    Scroll window down 23 lines (closer to end of the file)
+   <B>CTRL</B>-<B>U</B>      Scroll window up 1 line
+   <B>CTRL</B>-<B>D</B>      Scroll window down 1 line
+
+<B>MODIFYING</B> <B>TEXT</B>
+   <B>Del</B> <B>key</B>     Delete the character under the cursor
+   <B>Backspace</B>   Delete the character to left of the cursor
+   <B>CTRL</B>-<B>N</B>      Delete the next word
+   <B>CTRL</B>-<B>P</B>      Delete the previous word
+   <B>CTRL</B>-<B>T</B>      Delete tail of line (all characters from cursor to end of
+               line)
+   <B>CTRL</B>-<B>O</B>      Open up the line (insert line feed and back up)
+   <B>CTRL</B>-<B>G</B>      Get and insert a file at the cursor position
+
+<B>BUFFER</B> <B>OPERATIONS</B>
+   <B>CTRL</B>-<B>@</B>      Set mark at current position  for  use  with  CTRL-C  and
+               CTRL-K
+   <B>CTRL</B>-<B>C</B>      Copy the text between the mark and the  cursor  into  the
+               buffer
+   <B>CTRL</B>-<B>K</B>      Delete text between mark and cursor; also copy it to  the
+               buffer
+   <B>CTRL</B>-<B>Y</B>      Yank contents of the buffer out  and  insert  it  at  the
+               cursor
+   <B>CTRL</B>-<B>Q</B>      Write the contents of the buffer onto a file
+
+<B>MISCELLANEOUS</B>
+   <B>numeric</B> <B>+</B>   Search forward (prompts for regular expression)
+   <B>numeric</B> <B>-</B>   Search backward (prompts for regular expression)
+   <B>numeric</B> <B>5</B>   Display the file status
+   <B>CTRL</B>-<B>]</B>      Go to specific line
+   <B>CTRL</B>-<B>R</B>      Global replace <I>pattern</I> with <I>string</I> (from cursor to end)
+   <B>CTRL</B>-<B>L</B>      Line replace <I>pattern</I> with <I>string</I>
+   <B>CTRL</B>-<B>W</B>      Write the edited file back to the disk
+   <B>CTRL</B>-<B>X</B>      Exit the editor
+   <B>CTRL</B>-<B>S</B>      Fork off a shell (use CTRL-D to get back to the editor)
+   <B>CTRL</B>-<B>\</B>      Abort whatever the editor was doing and wait for command
+   <B>CTRL</B>-<B>E</B>      Erase screen and redraw it
+   <B>CTRL</B>-<B>V</B>      Visit (edit) a new file
+
+
+<B>Author</B>
+
+     <I>Mined</I> was  designed  by  Andy  Tanenbaum  and  written  by  Michiel
+Huisjes.
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>look(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>look(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     look - find lines in a sorted list
+
+<B>SYNOPSIS</B>
+     <B>look</B> [<B>-df</B>] <I>string</I> [<I>file</I>]
+
+<B>DESCRIPTION</B>
+     <B>Look</B> consults a sorted file and prints all lines that begin with  <I>string</I>.
+     It  uses  binary  search.  The options <B>-d</B> and <B>-f</B> affect comparisons as in
+     <B><A HREF="../man1/sort.1.html">sort(1)</A></B>.  If no file is specified, <B>/usr/lib/dict/words</B>  is  assumed  with
+     collating sequence <B>-df</B>.
+
+<B>OPTIONS</B>
+
+     <B>-d</B>   Dictionary order: compare letters, digits and whitespace.
+
+     <B>-f</B>   Fold. Upper case letters compare equal to lower case.
+
+<B>FILES</B>
+
+     <B>/usr/lib/dict/words</B>      Sorted list of English words.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/sort.1.html">sort(1)</A></B>, <B><A HREF="../man1/spell.1.html">spell(1)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

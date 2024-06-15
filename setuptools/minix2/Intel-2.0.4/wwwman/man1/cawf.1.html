@@ -1,0 +1,461 @@
+<HTML>
+<HEAD>
+<TITLE>cawf(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>cawf(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     cawf, nroff - C version of  the  nroff-like,  Amazingly  Workable  (text)
+     Formatter
+
+<B>SYNOPSIS</B>
+     <B>cawf</B> [<B>-c</B><I>config</I>] [<B>-d</B><I>device</I>] [<B>-e</B>] [<B>-f</B><I>font</I>] [<B>-h</B>] [<B>-m</B><I>acros</I>] [<I>file</I> ...]
+
+<B>DESCRIPTION</B>
+     <I>Cawf</I> formats the text from the input <I>file</I>(s) (standard input if none)  in
+     an  approximation  of <I>nroff</I>.  It comes closest to duplicating <I>nroff</I>'s <B>man</B>
+     or <B>ms</B> macro package styles.  It has some limited support for  <I>nroff</I>'s  <B>me</B>
+     macros.
+
+<B>OPTIONS</B>
+     Options must precede file names.
+
+     <B>-c</B><I>config</I>
+          defines  an  alternate  path  to  the  device  configuration   file.
+          Normally  the device configuration file is found in <I>device</I>.<I>cf</I> in the
+          <I>cawf</I> library (see the <B>FILES</B> section).
+
+          The device configuration file contains device character strings  for
+          selecting  fonts and the bold or italic type faces.  See the <B>DEVICES</B>
+          section for more information.
+
+     <B>-d</B><I>device</I>
+          specifies the name of the output device.  There are  three  built-in
+          devices  -  ANSI, NONE and NORMAL - and other devices may be defined
+          in the device configuration file.  See the <B>DEVICES</B> section for  more
+          information.
+
+          The NORMAL device is the default.
+
+     <B>-e</B>   directs <I>cawf</I> to issue an eject (FF or ^L) after the last page.
+
+     <B>-f</B><I>font</I>
+          specifies the one font for the device, declared  with  the  <B>-d</B><I>device</I>
+          option, that is to be used for the entire document.  <I>Font</I> must match
+          a  font  associated  with  the  device's  stanza   in   the   device
+          configuration file.  See the <B>DEVICES</B> section for more information.
+
+          No <I>font</I> may be specified for the  built-in  devices  ANSI,  NONE  or
+          NORMAL.
+
+     <B>-h</B>   requests a help display.
+
+     <B>-m</B><I>acro</I>
+          specifies the macro file to be used.  The standard <I>cawf</I> distribution
+          supplies  macro files to support ``-man'', ``-me'' or ``-ms''.  <I>Cawf</I>
+          finds a macro file by constructing its name from `m', <I>acro</I> and  <B>.mac</B>
+          - e. g., <B>-m</B><I>an</I> is converted to <B>man.mac</B>.  The  default  directory  for
+          macro  files  is defined when <I>cawf</I> is compiled; it's <I>C</I>:\<I>SYS</I>\<I>LIB</I>\<I>CAWF</I>
+          in the MS-DOS environment; /<I>usr</I>/<I>lib</I>/<I>cawf</I> in the UNIX environment.
+
+     file ...
+          are the names of files containing <I>nroff</I> source text.
+
+<B>NROFF</B> <B>COMPATIBILITY</B>
+     <I>Cawf</I> accepts the following raw <I>nroff</I> requests:
+
+          .\"     .ad     .bp     .br     .ce     .de     .di     .ds
+          .el     .fi     .fl     .ft     .i0     .ie     .if     .in
+          .it     .lg     .li     .ll     .ls     .na     .ne     .nf
+          .nr     .ns     .pl     .po     .ps     .rm     .rn     .rr
+          .rs     .so     .sp     .ta     .ti     .tm     .tr
+
+     and the following in-text codes:
+
+          \$      \%      \*      \"      \c      \f      \h      \k
+          \n      \s      \w
+
+     plus the full list of <I>nroff</I>/<I>troff</I> special characters in the  original  V7
+     <I>troff</I> manual.
+
+     Many restrictions are present; the behavior in general  is  a  subset  of
+     <I>nroff</I>'s.  Of particular note are the following:
+
+     <B>o</B> The fully supported nroff request  control  character  is  the  period.
+       There  is  limited  support  for  the   non-break, acute accent control
+       character.
+
+     <B>o</B> Point sizes do not exist; <B>.ps</B> is ignored.
+
+     <B>o</B> Special vertical spacing - the <B>.vs</B> request included - is ignored.
+
+     <B>o</B> Conditionals cover only the numeric comparisons &gt;, =, &lt;, &gt;= and  &lt;=  on
+       <B>\n(.$</B>;  string  comparisons  between a macro parameter and a literal; <B>n</B>
+       (always true); and  <B>t</B>  (always  false).   Only  single  line  input  is
+       accepted  from conditionals; multi-line input - e.g., \(<I>anything</I>\) - is
+       not supported.
+
+     <B>o</B> The handling of strings is generally primitive.
+
+     <B>o</B> Horizontal motion via <B>\h</B>  must  be  supplied  with  a  number  register
+       interpolation and must be positive - e. g., <B>\w\n(NN</B>, where the value in
+       NN is &gt;= 0.
+
+     <B>o</B> The <B>\k</B> function is reliable only after TAB characters, so it is  useful
+       only for measuring table positions.
+
+     <B>o</B> The <B>.di</B> request only turns output on  and  off  -  any  macro  name  is
+       ignored.
+
+     <B>o</B> Expressions - e. g., <B>.sp</B> - are reasonably general, but the <B>|</B>, <B>&amp;</B>, and  <B>:</B>
+       operators  do  not  exist, there must be white space between the end of
+       the <I>nroff</I> function and the beginning of the expression, and <B>\w</B> requires
+       that  quote  (')  be  used as the delimiters.  <B>\w</B> counts the characters
+       inside the quotes and scales the result in ens, so that,  for  example,
+       \w'\(bu' equals 4n, and \w'\(bu'/1n equals 4.
+
+     <B>o</B> The only acceptable count for  the  <B>.it</B>  request  is  one,  and  it  is
+       effective only with <B>man</B>, <B>me</B> or <B>ms</B> macros.
+
+     <B>o</B> The default scaling factor is `v' for the <B>.ne</B>, <B>.sp</B>, and <B>.pl</B>  raw  <I>nroff</I>
+       requests;  it  is  `u' for <B>.nr</B>; and `n' for <B>.in</B>, <B>.ll</B>, <B>.ls</B>, <B>.po</B>, <B>.ta</B> and
+       <B>.ti</B>.  (A different scaling factor may  be  specified  with  a  trailing
+       character.)
+
+     <B>o</B> Some obsolete or meaningless requests - <B>.i0</B>, <B>.lg</B> and <B>.li</B> - are silently
+       ignored.
+
+     White space at the beginning of lines, and embedded  white  space  within
+     lines  is dealt with properly.  Sentence terminators at ends of lines are
+     understood to imply extra space afterward in filled lines.  Tabs are  im-
+     plemented  crudely  and  not  exactly,  although  usually  they  work  as
+     expected.  Hyphenation is done only at explicit hyphens,  em-dashes,  and
+     <I>nroff</I>  discretionary  hyphens.  By default bold and italic characters are
+     emulated with backspacing and overprinting, but the <B>-d</B>  and  <B>-f</B>  options,
+     combined  with the contents of the device configuration file, may be used
+     to generate special codes for  bold  and  italic  characters.   (See  the
+     <B>DEVICES</B> section for more information.)
+
+<B>MAN</B> <B>MACROS</B>
+     The <B>man</B> macro set replicates the full V7 manual macros, plus a few  semi-
+     random oddballs.  The full list is:
+
+          .AT     .B      .BI     .BR     .BY     .DE     .DT     .HP
+          .I      .IB     .IP     .IR     .IX     .LP     .NB     .P
+          .PD     .PP     .RB     .RE     .RI     .RS     .SH     .SM
+          .SS     .TH     .TP     .UC
+
+     <B>.BY</B> and <B>.NB</B> each take a single string argument  (respectively,  an  indi-
+     cation  of authorship and a note about the status of the manual page) and
+     arrange to place it in the page footer.  <B>.AT</B> and <B>.IX</B> do nothing.
+
+<B>ME</B> <B>MACROS</B>
+     The <B>me</B> macro subset has been derived from the  <I>cawf</I>  <B>ms</B>  macros  by  Chet
+     Creider &lt;creider@csd.uwo.ca&gt;.  It includes:
+
+
+          .(l     .(q     .)l     .)q     .b      .bu     .i      .ip
+          .lp     .np     .pp     .r      .sh     .sm     .u      .uh
+
+     The .(l C and .(l L options are supported.  In addition,  the  .AB,  .AE,
+     .AI,  .AU,  .DA,  .ND,  .TL and .UX macros have been retained from the <B>ms</B>
+     set, and the .XP macro has been borrowed from the Berkeley  additions  to
+     the <B>ms</B> macro set.
+
+<B>MS</B> <B>MACROS</B>
+     The <B>ms</B> macro set is a substantial subset of  the  V7  manuscript  macros.
+     The macros are:
+
+          .AB     .AE     .AI     .AU     .B      .CD     .DA     .DE
+          .DS     .I      .ID     .IP     .LD     .LG     .LP     .ND
+          .NH     .NL     .PP     .QE     .QP     .QS     .R      .RE
+          .RP     .RS     .SH     .SM     .TL     .TP     .UL     .UX
+
+     Size changes are recognized but ignored, as are <B>.RP</B> and  <B>.ND</B>.   <B>.UL</B>  just
+     prints  its  argument in italics.  <B>.DS</B>/<B>.DE</B> does not do a keep, nor do any
+     of the other macros that normally imply keeps.
+
+     The <B>DY</B> string variable is available.  The <B>PD</B>, <B>PI</B>, and <B>LL</B> number registers
+     exist and can be changed.
+
+<B>HEADERS</B> <B>AND</B> <B>FOOTERS</B>
+     <I>Cawf</I> allows the placement of text into the five line  header  and  footer
+     sections  from  the  <B>LH</B>, <B>CH</B>, <B>RF</B>, <B>LF</B>, <B>CF</B>, and <B>RF</B> string variables, via the
+     control of the <B>.^b</B> request:
+
+     .^b fh 1   enables header string placement on the first page
+     .^b fh 0   disables header string placement on the first page
+     .^b HF 1   enables header/footer string placement
+     .^b HF 0   disables header/footer string placement
+
+     There are appropriate <B>.^b</B> requests in the distribution  <B>man</B>,  <B>me</B>  and  <B>ms</B>
+     macro files.  (The <B>me</B> and <B>ms</B> macro files use another <B>.^b</B> request, <B>.^b</B> <B>NH</B>,
+     to enable numbered header processing.)
+
+<B>OUTPUT</B>
+     The default output format supported by <I>cawf</I>, in its distributed form,  is
+     that  appropriate to a dumb terminal, using overprinting for italics (via
+     underlining) and bold.  The <I>nroff</I> special characters are printed as  some
+     vague  approximation  (it's  sometimes  extremely vague) to their correct
+     appearance.
+
+     One part of <I>cawf</I>'s  knowledge  of  the  output  device,  related  to  the
+     formation  of  characters, is established by a device file, which is read
+     before the user's input.  The search for  it  begins  in  <I>cawf</I>'s  library
+     directory,  under  the name <I>term</I>.<B>dev</B> (where <I>term</I> is the value of the TERM
+     environment variable).  Failing to find that, <I>cawf</I> searches for <B>dumb.dev</B>.
+     (See the <B>FILES</B> section for a description of the path  to  <I>cawf</I>'s  library
+     directory.)   The  device  file  uses special internal requests to set up
+     resolution, special characters and more normal <I>nroff</I> functions to set  up
+     page length, etc.
+
+     <I>Cawf</I> has limited support for fonts  special  forms  of  bold  and  italic
+     characters.   It  is  provided through the <B>-c</B> <I>config</I>, <B>-d</B><I>device</I> and <B>-f</B><I>font</I>
+     options.  See the <B>DEVICES</B> section for more information.
+
+     Note  the  distinction  between  the  device  and   the   output   device
+     configuration  files.   The  device file typically defines characters and
+     constant output parameters.  The output device configuration file defines
+     font  and  type  face  codes.   It  is  usually not necessary to define a
+     separate device file for each device represented  in  the  output  device
+     configuration file - the <I>dumb</I>.<I>dev</I> device file will suffice for almost all
+     representations.
+
+<B>DEVICES</B>
+     <I>Cawf</I> supports primitive output device configuration  for  font  and  type
+     face  control.   One  font  may  be  selected  for the entire document by
+     directing <I>cawf</I> to issue a font selection control character string at  the
+     beginning  of the document, and control character strings may be selected
+     for switching between the bold, italic and Roman type faces.
+
+     The <B>-c</B> <I>config</I>, <B>-d</B><I>device</I> and <B>-f</B><I>font</I> options direct the font and type  face
+     selections.
+
+     The <B>-d</B><I>device</I> option specifies the name of the  device.   <I>Cawf</I>  has  three
+     built-in  devices  -  ANSI,  NONE  and  NORMAL.   When the ANSI device is
+     selected, <I>cawf</I> issues the ANSI shadow mode control codes, ``ESC [ 7  m'',
+     to  represent the bold face; the ANSI underscore control codes, ``ESC [ 4
+     m'', to represent the italic face; and the ANSI control codes, ``ESC [  0
+     m'',  to  represent the ROMAN face.  No <B>-f</B><I>font</I> specification is permitted
+     with the ANSI device.
+
+     When the NONE device is selected, <I>cawf</I> uses no special  output  codes  to
+     represent  the type faces.  No <B>-f</B><I>font</I> specification is permitted with the
+     ANSI device.
+
+     The NORMAL output device  is  the  default.   When  it's  selected,  <I>cawf</I>
+     overprints  each  bold character two times, using three issuances of each
+     bold  character,  separated  by  backspace  characters;  it   issues   an
+     underscore  and  backspace  before  each  italic  character.   No  <B>-f</B><I>font</I>
+     specification is permitted with the ANSI device.   The  <B><A HREF="../man1/bsfilt.1.html">bsfilt(1)</A></B>  filter
+     may  be  used  to further process the backspace codes output for a NORMAL
+     device.
+
+     All other devices named in the <B>-d</B><I>device</I> option must be represented  by  a
+     stanza  in  the device configuration file.  The device configuration file
+     is usually contained in <I>device</I>.<I>cf</I> in <I>cawf</I>'<I>s</I> library  directory  (see  the
+     <B>FILES</B> section for more information).  An alternate  device  configuration
+     file path may be specified with the <B>-c</B><I>config</I> option.
+
+     The <B>DEVICE</B> <B>CONFIGURATION</B> <B>FILE</B> section describes the organization  of  the
+     device  configuration  file.   It is easy to add devices to the <I>device</I>.<I>cf</I>
+     supplied in the <I>cawf</I> distribution.
+
+     The <B>-f</B><I>font</I> option  may  be  used  with  the  <B>-d</B><I>device</I>  option,  when  the
+     appropriate stanza in the device configuration file contains an entry for
+     the named <I>font</I>.  The <B>DEVICE</B>  <B>CONFIGURATION</B>  <B>FILE</B>  section  describes  how
+     fonts are defined in device configuration file stanzas.
+
+<B>DEVICE</B> <B>CONFIGURATION</B> <B>FILE</B>
+     The  device  configuration  file  defines  the  special  character  codes
+     necessary  to  direct output devices to select fonts and to produce bold,
+     italic and Roman type faces.
+
+     The configuration file is usually found in <I>device</I>.<I>cf</I>  in  <I>cawf</I>'s  library
+     directory  (see the <B>FILES</B> section for more information).  It is organized
+     into two main parts - comments and  device  stanzas.   Comments  are  any
+     lines  that  begin  with  the  pound  sign  (`#')  character.   They  are
+     informational only and <I>cawf</I> ignores them.  <I>Cawf</I> also ignores empty lines,
+     so they may be used as vertical white space.
+
+     Stanzas name devices and define their font and type face control strings.
+     A stanza begins with the name of the device, starting at the beginning of
+     a line and occupying the entire line.  The body of the  stanza,  defining
+     fonts  and  type  faces, is formed of lines beginning with white space (a
+     TAB or space characters) that directly follow the device name.
+
+     Individual lines of the stanza body contain a key character, followed  by
+     a  equal  sign,  followed by the font name (if a font key) and the output
+     device control codes.  <I>Cawf</I> issues the font control codes  once,  at  the
+     beginning  of  output,  so  only one font may be selected.  The type face
+     control codes are issued at each change of type face.
+
+     The key characters are:
+
+          b          for bold
+          f          for font definition
+          i          for italic
+          r          for Roman
+
+     The `b', `i' and `r' key codes are followed by an equal  sign  (`=')  and
+     their  control code definition.  The `f' key code is followed by an equal
+     sign (`='), the font name, another equal sign and the font  control  code
+     definition.
+
+
+
+     Control code definitions may  contain  any  printable  ASCII  characters.
+     Non-printable characters may be encoded in octal notation with the `\nnn'
+     form or in hexadecimal with the `\xnn' form.  The special code, `\E'  (or
+     `\e') represents the ESC control character (\033 or \x1b).
+
+     Here's a sample showing the definition for  the  HP  LaserJet  III.   The
+     stanza  name  is ``lj3''.  All its non-printable characters are ESCs; the
+     first is coded in  octal  form;  the  second  with  '\E';  the  rest,  in
+     hexadecimal  form.   TAB is used as the leading white space character for
+     the stanza body lines.
+
+          # HP LaserJet III
+
+          lj3
+                  b=\033(s7B
+                  i=\E(s1S
+                  r=\x1b(s0B\x1b(s0S
+                  f=c10=x1b&amp;l0Ox1b(8Ux1b(s0p12h10v0s0b3T
+                  f=c12ibm=x1b&amp;l0Ox1b(10Ux1b(s0p10.00h12.0v0s0b3T
+                  f=lg12=x1b&amp;l0Ox1b(8Ux1b(s12h12v0s0b6T
+
+     The distribution <I>device</I>.<I>cf</I> file defines the following devices and fonts.
+
+     epson     dot matrix printer in Epson FX-86e/FX-800 mode
+               Bold:     Double-strike
+               Fonts:    none
+
+     ibmppds   IBM Personal Printer Data Stream (PPDS) protocol
+               Bold:     Double-strike
+               Italic:   Underline
+               Fonts:    none
+
+     kxp1124   Panasonic KX-P1124 dot matrix printer in PGM mode
+               Bold:     Emphasized
+               Fonts:    c10        10 Characters Per Inch (CPI) Courier
+                         c12        12 CPI Courier
+                         bps10      10 CPI Bold PS
+                         bps12      12 CPI Bold PS
+                         p10        10 CPI Prestige
+                         p12        12 CPI Prestige
+                         s10        10 CPI Script
+                         s12        12 CPI Script
+                         ss10       10 CPI Sans Serif
+                         ss12       12 CPI Sans Serif
+
+
+
+
+
+
+     kxp1180   Panasonic KX-P1180 dot matrix printer in PGM mode
+               Bold:     Emphasized
+               Fonts:    c10        10 Characters Per Inch (CPI) Courier
+                         c12        12 CPI Courier
+                         bps10      10 CPI Bold PS
+                         bps12      12 CPI Bold PS
+                         p10        10 CPI Prestige
+                         p12        12 CPI Prestige
+                         ss10       10 CPI Sans Serif
+                         ss12       12 CPI Sans Serif
+
+     lj3       HP LaserJet III
+               Fonts:    c10        10 point, 12 Characters Per Inch (CPI)
+                                    Courier
+                         c12ibm     12 point, 10 CPI Courier, IBM-PC
+                                    Symbol Set
+                         lg12       12 point, 12 CPI Letter Gothic
+
+     vgamono   VGA monochrome monitor for MS-DOS
+               (ANSI.SYS driver required for MS-DOS)
+               Italic:   Reverse-video
+               Fonts:    none
+
+<B>FILES</B>
+     <I>Cawf</I>  resource  files  are  located  in  the  <I>cawf</I>  library  directory  -
+     <I>C</I>:\<I>SYS</I>\<I>LIB</I>\<I>CAWF</I>,  the  MS-DOS  environment default; or /<I>usr</I>/<I>lib</I>/<I>cawf</I>, the
+     UNIX environment default.   These  defaults  can  be  overridden  by  the
+     CAWFLIB environment variable, or changed in the cawflib.h header file.
+
+     common      common device-independent initialization
+     device.cf   output device configurations
+     *.dev       device-specific initialization
+     m*.mac      macro package files
+
+<B>DIAGNOSTICS</B>
+     Unlike <I>nroff</I>, <I>cawf</I> complains whenever  it  sees  unknown  requests.   All
+     diagnostics appear on the standard error file.
+
+<B>HISTORY</B>
+     Vic Abell of Purdue University &lt;abe@cc.purdue.edu&gt; derived <I>cawf</I> from <I>awf</I>,
+     ``the  Amazingly Workable (text) Formatter,'' written by Henry Spencer of
+     the University of Toronto.  The Toronto work was a supplement  to  the  C
+     News  project.   The  Purdue  effort  was aimed at producing a C language
+     version that would run on small systems, particularly MS-DOS  ones.   The
+     adaptation    of    the    <B>me</B>   macros   was   done   by   Chet   Creider
+     &lt;creider@csd.uwo.ca&gt;.  Chet also contributed ideas for device,  font  and
+     type face support.
+
+
+
+     The MS-DOS version  of  <I>cawf</I>  has  been  compiled  with  version  2.5  of
+     Microsoft's  Quick-C  compiler.   It  runs  under the Mortis Kern Systems
+     Toolkit KornShell, <B><A HREF="../man1/ksh.1.html">ksh(1)</A></B>, and COMMAND.COM.
+
+<B>BUGS</B>
+     Nroff and  troff  mavens  will  have  many  complaints.   Some  may  even
+     represent bugs and not deliberate omissions.
+
+     Watch out for scaling factors - especially on requests like <B>\w</B>.
+
+     The overprinting required to create bold  and  italicized  characters  is
+     tiresome  on  a  slow  printer.   The  <B><A HREF="../man1/bsfilt.1.html">bsfilt(1)</A></B>  post-filter  from  this
+     distribution may be used to  alleviate  that  nuisance  by  managing  the
+     backspacing codes from <I>cawf</I>'s NORMAL device output.
+
+     The printing of bold and italic characters is sometimes better handled by
+     special printer codes.  Use <I>cawf</I>'s <B>-c</B> <I>config</I>, <B>-d</B><I>device</I> and <B>-f</B><I>font</I> options
+     to produce special font and device output control codes.
+
+     <I>Cawf</I> has a small amount of built-in code for the <B>man</B>,  <B>me</B>  and  <B>ms</B>  macro
+     packages, but none for any others.
+
+     The stacking for the <B>.so</B> request is limited.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/bsfilt.1.html">bsfilt(1)</A></B>, <B><A HREF="../man1/colcrt.1.html">colcrt(1)</A></B>, <B><A HREF="../man7/man.7.html">man(7)</A></B>, <B><A HREF="../man7/me.7.html">me(7)</A></B>, <B><A HREF="../man7/ms.7.html">ms(7)</A></B> and <B><A HREF="../man1/nroff.1.html">nroff(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

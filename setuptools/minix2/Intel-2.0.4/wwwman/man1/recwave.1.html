@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>recwave(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>recwave(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     recwave - record an audio file in MicroSoft PCM wave format
+
+<B>SYNOPSIS</B>
+     <B>recwave</B> [-<B>b</B> -<B>s</B> -<B>r</B>] file
+
+<B>DESCRIPTION</B>
+     <B>Recwav</B> takes samples from /<I>dev</I>/<I>audio</I> and writes them to <I>file</I> in Microsoft
+     PCM wave format.
+
+<B>OPTIONS</B>
+
+     -b   number of bits to use for one sample. Must be 8 or 16, default is 8
+
+     -s   enable stereo sampling. 0 = mono (default), 1 = stereo
+
+     -r   sample rate in samples/sec. 4000 - 44100 (default 22050)
+
+<B>BUGS</B>
+     The highest sample rate that can be used depends  on  the  speed  of  the
+     system   and   the   size   of   the  DMA  buffer  used  in  the  driver.
+     (/usr/src/kernel/sb16.h)
+
+<B>AUTHOR</B>
+     Michel R. Prevenier (mrpreve@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

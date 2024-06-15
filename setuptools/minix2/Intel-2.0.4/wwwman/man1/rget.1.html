@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>rget(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>rget(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     rget, rput - network pipe
+
+<B>SYNOPSIS</B>
+     <B>rget</B> [<B>-lcio</B>] [<B>-h</B> <I>host</I>] <I>key</I> [<I>command</I> [<I>arg</I> ...]]
+     <B>rput</B> [<B>-lcio</B>] [<B>-h</B> <I>host</I>] <I>key</I> [<I>command</I> [<I>arg</I> ...]]
+
+<B>DESCRIPTION</B>
+     <B>Rput</B> and <B>rget</B> set up a TCP/IP channel to connect two processes  together.
+     They can looked upon as a remote pipe.  Consider the well known method of
+     copying a directory tree with <B>tar</B>:
+
+         (cd src &amp;&amp; tar cf - .) | (cd dst &amp;&amp; tar xfp -)
+
+     If the directory tree is to be copied to another machine then one can use
+     the following command on the source machine:
+
+         cd src &amp;&amp; rput foo tar cf - .
+
+     And on the destination machine:
+
+         cd dst &amp;&amp; rget -h <I>source</I>-<I>machine</I> foo tar xfp -
+
+     The <I>key</I> is either a port number in C style decimal, octal or  hex,  or  a
+     random  string  that  is  hashed  to  a port number.  <B>Rput</B> uses this port
+     number to open a TCP socket that <B>rget</B> using the same <I>key</I> can connect  to.
+     It  is  customary  to  start  <B>rput</B>  first, although <B>rget</B> will retry for 2
+     minutes trying to connect to the remote <B>rput.</B>
+
+     After the connection is established either utility will  execute  <I>command</I>
+     with  the  given arguments with the TCP channel as either standard output
+     (rput) or standard input (rget).  <B>Rput</B> and <B>rget</B> do not  stay  around  for
+     the  command  to finish, they simply overlay themselves with the command.
+     If no command is given then they will themselves copy standard input into
+     the TCP channel (rput), or output from the TCP channel to standard output
+     (rget).  So these two commands have the same effect:
+
+         rput foo tar cf - .
+         tar cf - . | rput foo
+
+     The second form has two  processes  copying  data  instead  of  just  <B>tar</B>
+     directly  writing its output into the TCP channel.  There is a better way
+     to waste processor cycles, namely to save bandwidth:
+
+         cd src &amp;&amp; tar cf - . | rput foo compress
+
+         cd dst &amp;&amp; rget -h <I>source</I>-<I>machine</I> foo uncompress | tar xfp -
+
+     <B>Rput</B> and <B>rget</B> can be very useful in  the  windowed  environments  we  use
+     these  days.   The  <B>rput</B>  can  be  typed into the window that has a shell
+     running on one machine, and the <B>rget</B> is then typed into the  window  that
+     has  a  shell running on another machine.  This is easier than one of the
+     two well known forms that use <B>rsh</B>:
+
+         cd src &amp;&amp; tar cf - . | rsh dest-machine "cd dst &amp;&amp; tar xfp -"
+
+         cd dst &amp;&amp; rsh source-machine "cd src &amp;&amp; tar cf - ." | tar xfp -
+
+     Especially since these forms require that one must be  able  to  use  <B>rsh</B>
+     without a password, which may not always be the case.
+
+     The <I>key</I> can be any string of characters of any length.  If its  a  number
+     then  it  is  used directly as the port number.  Otherwise the characters
+     binary values are multiplied together, bit 15 is set and  the  result  is
+     truncated to 16 bits to make it a port number in the anonymous port space
+     (32768 - 65535).  The port may be in-use on the source machine, but there
+     is a small chance of this happening, and if so simply choose another key.
+     (So if you use <B>rput</B> and <B>rget</B> in an  unattended  script  then  you  should
+     reserve a port number, otherwise a connection can't be guaranteed.)
+
+<B>OPTIONS</B>
+
+     <B>-lcio</B>
+          These flags allow one  to  reverse  the  default  connect/listen  or
+          input/output  direction  of <B>rput</B> and <B>rget</B>.  Reversing the connection
+          may be necessary if one of the two systems filters  out  connections
+          to unknown ports.  For example:
+
+              rput -c -h <I>destination</I>-<I>machine</I> foo tar cf - .
+
+              rget -l foo tar xfp -
+
+          The <B>-io</B> options can be used to choose which  of  standard  input  or
+          output should be tied to the socket.  It's even possible to tie both
+          input and output to the socket with <B>-io,</B> but only when  executing  a
+          command.   This  is probably the only use for these options, because
+          one usually chooses the direction with the mnemonic put/get names.
+
+     <B>-h</B> <I>host</I>
+          The name of the remote host that a connection must be made  to.   It
+          must  be  used  with  the program that is doing the connect, usually
+          <B>rget</B>.  This option is currently mandatory.  The author  is  planning
+          to increase ease of use by letting the programs find each other with
+          UDP broadcasts or multicasts.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/rsh.1.html">rsh(1)</A></B>.
+
+
+
+<B>DIAGNOSTICS</B>
+
+     rput: Address in use
+          If the port computed out of <I>key</I> is already in use.
+
+<B>AUTHOR</B>
+     Kees J. Bot &lt;kjb@cs.vu.nl&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

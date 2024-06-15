@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>mkdir(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>mkdir(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     mkdir - make a directory file
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;sys/stat.h&gt;</B>
+
+     <B>int</B> <B>mkdir(const</B> <B>char</B> <B>*</B><I>path</I><B>,</B> <B>mode_t</B> <I>mode</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Mkdir</B> creates a new directory file with name <I>path</I>.  The mode of  the  new
+     file  is  initialized  from  <I>mode</I>.   (The  protection part of the mode is
+     modified by the process's mode mask; see <B><A HREF="../man2/umask.2.html">umask(2)</A></B>).
+
+     The directory's owner ID is set to the process's effective user ID.   The
+     directory's  group  ID is set to that of the parent directory in which it
+     is created.
+
+     The low-order 9 bits of mode are modified  by  the  process's  file  mode
+     creation  mask: all bits set in the process's file mode creation mask are
+     cleared.  See <B><A HREF="../man2/umask.2.html">umask(2)</A></B>.
+
+<B>RETURN</B> <B>VALUE</B>
+     A 0 return value indicates success.   A  -1  return  value  indicates  an
+     error, and an error code is stored in <B>errno.</B>
+
+<B>ERRORS</B>
+     <B>Mkdir</B> will fail and no directory will be created if:
+
+     [ENOTDIR]      A component of the path prefix is not a directory.
+
+     [ENAMETOOLONG] The path name exceeds PATH_MAX characters.
+
+     [ENOENT]       A component of the path prefix does not exist.
+
+     [EACCES]       Search permission is denied for a component  of  the  path
+                    prefix.
+
+     [ELOOP]        Too many symbolic links were  encountered  in  translating
+                    the pathname.  (Minix-vmd)
+
+     [EROFS]        The named file resides on a read-only file system.
+
+     [EEXIST]       The named file exists.
+
+     [ENOSPC]       The directory in which the entry for the new directory  is
+                    being  placed cannot be extended because there is no space
+                    left on the file system containing the directory.
+
+
+     [ENOSPC]       The new directory cannot be created because there there is
+                    no  space  left  on  the file system that will contain the
+                    directory.
+
+     [ENOSPC]       There are no free inodes on the file system on  which  the
+                    directory is being created.
+
+     [EIO]          An I/O error occurred while making the directory entry  or
+                    allocating the inode.
+
+     [EIO]          An I/O error occurred while reading from or writing to the
+                    file system.
+
+     [EFAULT]       <I>Path</I> points outside the process's allocated address space.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/chmod.2.html">chmod(2)</A></B>, <B><A HREF="../man2/stat.2.html">stat(2)</A></B>, <B><A HREF="../man2/umask.2.html">umask(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

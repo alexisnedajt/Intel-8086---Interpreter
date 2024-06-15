@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>modem(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>modem(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     modem - switch the modem and getty state
+
+<B>SYNOPSIS</B>
+     <B>modem</B> [<B>-o</B>] [<B>-i</B> <I>num</I>] <B>tty</B><I>n</I>
+
+<B>OPTIONS</B>
+
+     <B>-o</B>   Turn getty off and set modem to dialout
+
+     <B>-i</B>   Set line to dialin
+
+<B>EXAMPLES</B>
+
+     <B>modem</B> <B>-o</B> <B>tty00</B>      # Set tty00 to dialout
+
+     <B>modem</B> <B>-i2</B> <B>tty00</B>     # Set tty00 to dialin (2 rings)
+
+<B>DESCRIPTION</B>
+
+     The <I>getty</I> program allows a terminal port to be used for both  dialin  and
+     dialout.  This  little  program  switches the getty state, and also sends
+     some commands to the modem attached to the specified  line.   If  the  <B>-o</B>
+     flag  is  presnt,  <I>modem</I> will put the getty process (if any) connected to
+     the specified line into SUSPEND state, which means that it will  not  pay
+     attention  to  that line until it is reset to RESTART state.  Also, <I>modem</I>
+     will send some (Hayes) commands to the  attached  modem  to  disable  the
+     auto-nanswer  mode.  The  <B>-i</B>  flag  specifies  the  number  of  times the
+     telephone has to ring before the modem may answer the call (to  give  the
+     operator a chance).
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/term.1.html">term(1)</A></B>, <B><A HREF="../man8/getty.8.html">getty(8)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

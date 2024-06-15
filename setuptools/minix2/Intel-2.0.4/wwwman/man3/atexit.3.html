@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>exit(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>exit(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     exit, atexit - terminate a process after flushing any pending output
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdlib.h&gt;</B>
+
+     <B>void</B> <B>exit(int</B> <I>status</I><B>)</B>
+     <B>int</B> <B>atexit(void</B> <B>(*</B><I>func</I><B>)(void))</B>
+
+<B>DESCRIPTION</B>
+     <B>Exit</B> first calls all functions registered by  <B>atexit</B>,  flushes  all  data
+     buffered by the Standard I/O library, and finally terminates the process.
+     <B>Exit</B> never returns.
+
+     <B>Atexit</B> registers the function <I>func</I> into a table of functions to be called
+     on exit.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/exit.2.html">exit(2)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Atexit</B> returns 0 on success, -1 if <B>malloc</B> cannot allocate more memory for
+     the list of registered functions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

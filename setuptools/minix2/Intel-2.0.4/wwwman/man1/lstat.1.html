@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>stat(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>stat(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     stat, lstat - provide a shell interface to the <B><A HREF="../man2/stat.2.html">stat(2)</A></B> system call
+
+<B>SYNOPSIS</B>
+     <B>stat</B> [-] [-<I>fd</I>] [-<B>all</B>] [-<B>s</B>] [-<I>field</I> ...]  [<I>file1</I> ...]
+
+<B>DESCRIPTION</B>
+     <B>Stat</B> does little more than provide access to the  fields  in  the  <B>struct</B>
+     <B>stat</B>  as  defined  in  the <B><A HREF="../man2/stat.2.html">stat(2)</A></B> manual page.  Each field that is to be
+     listed is specified as the field name without the leading <B>st_</B>.  This  and
+     the  other two options are described below.  All options are then applied
+     to the files listed.  If <B>stat</B> is called as <B>lstat</B> then the <B><A HREF="../man2/lstat.2.html">lstat(2)</A></B> system
+     call is used, otherwise symbolic links are expanded with <B><A HREF="../man2/stat.2.html">stat(2)</A></B>.
+
+     If no fields are named then all fields are  printed.   If  no  files  are
+     listed then all open filedescriptors are printed.
+
+<B>OPTIONS</B>
+
+     <B>-</B>    If the first argument is ``-'', the list of files is assumed to come
+          from  stdin.   This  is  useful  for  things  like  ``ls | stat -uid
+          -mtime.''  <B>-</B><I>fd</I> If an argument is a ``-'' followed by a  number  then
+          that  number is used as a file descriptor whose information is to be
+          printed.
+
+     <B>-all</B> List all fields for each file.
+
+     <B>-s</B>   Use <B><A HREF="../man2/lstat.2.html">lstat(2)</A></B>.
+
+     <B>-mode</B>
+          List the <B>mode</B> field.  Similarly for <B>ino</B>, <B>dev</B>, <B>rdev</B>, <B>nlink</B>, <B>uid</B>, <B>gid</B>,
+          <B>size</B>,  <B>atime</B>,  <B>mtime</B>, and <B>ctime</B>.  Under BSD derived systems you also
+          have <B>blksize</B> and <B>blocks</B>.
+
+     <B>-Atime</B>
+     <B>-Mtime</B>
+     <B>-Ctime</B>
+          The lower case versions of these three options display the  time  as
+          an integer that is the ``seconds since 00:00 Jan 1. 1970.''  Listing
+          the fields with the first letter in caps  causes  the  times  to  be
+          printed in <B><A HREF="../man3/ctime.3.html">ctime(3)</A></B> format (i.e., human readable).
+
+<B>EXAMPLES</B>
+
+     # Find out the number of links to each file
+     $ stat -nlink *.c
+
+     # sort files by age (much like ls -t)
+     $ stat -atime * | sort +1
+
+     # Find out which file is older in <B><A HREF="../man1/sh.1.html">sh(1)</A></B>
+     if test `stat -mtime $1` -lt `stat -mtime $2`; then
+             echo $1 is older than $2
+     else
+             echo $2 is older than $1
+     fi
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/stat.2.html">stat(2)</A></B>.
+
+<B>AUTHOR</B>
+     Larry McVoy (mcvoy@rsch.wisc.edu)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

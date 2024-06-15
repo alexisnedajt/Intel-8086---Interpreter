@@ -1,0 +1,26 @@
+romimage: file=$BXSHARE/BIOS-bochs-latest, address=0xf0000
+
+megs: 64
+
+vgaromimage: $BXSHARE/VGABIOS-elpin-2.40
+
+ata0-master: type=disk, path=MINIX.MNX, cylinders=200, heads=16, spt=32
+
+boot: disk
+
+log: bochsout.txt
+
+panic: action=ask
+error: action=report
+info: action=report
+debug: action=ignore
+
+ips: 1000000
+
+mouse: enabled=0
+
+pit: realtime=1
+
+user_shortcut: keys=ctrlaltdel
+
+#ne2k: ioaddr=0x280, irq=3, mac=42:00:XX:XX:XX:XX, ethmod=win32, ethdev=XXXX

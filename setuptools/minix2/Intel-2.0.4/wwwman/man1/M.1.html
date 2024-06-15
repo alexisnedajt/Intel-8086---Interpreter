@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>M(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>M(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     M, U - conveniently mount and unmount
+
+<B>SYNOPSIS</B>
+     <B>M</B> <I>device</I> [<B>-r</B>]
+     <B>U</B> <I>device</I>
+
+<B>OPTIONS</B>
+
+     <B>-r</B>   Mount read-only
+
+<B>EXAMPLES</B>
+
+     <B>M</B> <B>root</B>              # Mount the RAM image on /root
+
+     <B>M</B> <B>0</B>                 # Mount /dev/fd0 on /fd0
+
+     <B>U</B> <B>fd1</B>               # Unmount /dev/fd1 from /fd1
+
+<B>DESCRIPTION</B>
+
+     <I>M</I> and <I>U</I> allow easy mounting and unmounting of a device by using  only  an
+     abbreviated  device name or keyword.  Special keywords are <B>root</B>, <B>tmp</B>, and
+     <B>usr</B> for the three hard disk partitions Minix runs in.  Floppy devices are
+     mounted  on <B>/fd0</B> or <B>/fd1</B>.  You can use <B>0</B> and <B>1</B> instead of <B>fd0</B> and <B>fd1</B>.  A
+     device it doesn't know about is mounted on <B>/mnt</B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/mount.1.html">mount(1)</A></B>, <B><A HREF="../man1/umount.1.html">umount(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>calendar(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>calendar(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     calendar - reminder service
+
+<B>SYNOPSIS</B>
+     <B>calendar</B> <B>[-</B>] [<B>-r</B>]
+
+<B>OPTIONS</B>
+
+     <B>-</B>    Work for every user and send mail to him
+
+     <B>-r</B>   Restrict multiple execution on the same day
+
+<B>EXAMPLES</B>
+
+     <B>calendar</B>            # Check <I>calendar</I> file in current directory
+
+     <B>calendar</B>            # Normary used under the control of <B><A HREF="../man8/cron.8.html">cron(8)</A></B>
+
+     <B>calendar</B> <B>-r</B>         #  Normary used in /etc/rc file
+
+<B>DESCRIPTION</B>
+
+     Basically <I>calendar</I> program consults the  file  <I>calendar</I>  in  the  current
+     directory  and  display  lines  which contain today's or tomorrow's date.
+     Month-day formats such as '12/25',  'Dec.  25',  'december  25',  '*/25',
+     '12/*',  '*/*'  are  recognized.   The asterisk means 'all' days or 'all'
+     months.  On weekends 'tomorrow' extends through next Monday  without  any
+     consideration  about  holidays.   To  prevent  ambiguity, the formats '25
+     Dec.' and '25/12' are not recognized.
+
+     When an argument <B>-</B> is present, <I>calendar</I> works for all users with  a  file
+     <I>calendar</I>  in  their login directories and sends them mail.  Normally this
+     is done daily under the control of <I>cron</I>.
+
+     The <B>-r</B> option does its the same job as <B>-</B> option, but touches the <I>calendar</I>
+     to prevents further access on the same day.  Normally this is done in the
+     /<I>etc</I>/<I>rc</I> file on a machine  which may be booted several times in one day.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man8/cron.8.html">cron(8)</A></B>.
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

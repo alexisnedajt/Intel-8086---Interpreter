@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>hosts(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>hosts(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     hosts - hostname to IP address database
+
+<B>SYNOPSIS</B>
+     <B>/etc/hosts</B>
+
+<B>DESCRIPTION</B>
+     The hosts  database  lists  the  IP  addresses  and  the  hostnames  that
+     translate  to  these IP addresses.  It is used by <B><A HREF="../man8/nonamed.8.html">nonamed(8)</A></B> in a network
+     without name servers.  A simple <B>/etc/hosts</B> may look like this:
+
+          10.0.0.1       flotsam
+          10.0.0.2       jetsam
+
+     These two entries give names to two IP addresses.  The file  may  contain
+     comments marked with '#'.
+
+     You can have aliases (more hostnames on the same line) to give a  machine
+     more than one name, like <B>www</B>, if you run a web server on one.
+
+     If your PC is Internet connected then you can specify the name  server(s)
+     to get more information from with %nameserver entries:
+
+          172.16.24.3    %nameserver    # dns1.example.com
+          172.16.24.6    %nameserver    # dns2.example.com
+
+     Read <B><A HREF="../man8/nonamed.8.html">nonamed(8)</A></B> for all the details on special  host  file  entries  that
+     configure  <B>nonamed</B> for use on the Internet, and on home machines that are
+     occasionally connected to the Internet.
+
+<B>FILES</B>
+
+     /etc/hosts     Hosts database.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man5/ethers.5.html">ethers(5)</A></B>, <B><A HREF="../man8/nonamed.8.html">nonamed(8)</A></B>, <B><A HREF="../man8/dhcpd.8.html">dhcpd(8)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

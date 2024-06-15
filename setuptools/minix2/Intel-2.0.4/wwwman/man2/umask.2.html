@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>umask(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>umask(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     umask - set file creation mode mask
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;sys/stat.h&gt;</B>
+
+     <B>mode_t</B> <B>umask(mode_t</B> <I>mask</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Umask</B> sets the process's file mode creation mask to <I>mask</I> and returns  the
+     previous  value  of  the  mask.   The  low-order  9 bits of <I>mask</I> are used
+     whenever a file is created, clearing corresponding bits in the file  mode
+     (see  <B><A HREF="../man2/chmod.2.html">chmod(2)</A></B>).   This clearing allows each user to restrict the default
+     access to his files.
+
+     The value is initially 022 (write access for owner only).   The  mask  is
+     inherited by child processes.
+
+<B>RETURN</B> <B>VALUE</B>
+     The previous value of the file mode mask is returned by the call.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/chmod.2.html">chmod(2)</A></B>, <B><A HREF="../man2/mknod.2.html">mknod(2)</A></B>, <B><A HREF="../man2/open.2.html">open(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

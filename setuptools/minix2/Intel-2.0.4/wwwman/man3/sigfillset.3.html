@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>sigset(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>sigset(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     sigset, sigaddset,  sigdelset,  sigemptyset,  sigfillset,  sigismember  -
+     manipulate signal sets
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;signal.h&gt;</B>
+
+     <B>int</B> <B>sigaddset(sigset_t</B> <B>*</B><I>set</I><B>,</B> <B>int</B> <I>sig</I><B>)</B>
+     <B>int</B> <B>sigdelset(sigset_t</B> <B>*</B><I>set</I><B>,</B> <B>int</B> <I>sig</I><B>)</B>
+     <B>int</B> <B>sigemptyset(sigset_t</B> <B>*</B><I>set</I><B>)</B>
+     <B>int</B> <B>sigfillset(sigset_t</B> <B>*</B><I>set</I><B>)</B>
+     <B>int</B> <B>sigismember(const</B> <B>sigset_t</B> <B>*</B><I>set</I><B>,</B> <B>int</B> <I>sig</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     The  system  calls  that  handle  signals,  such  as   <B><A HREF="../man2/sigaction.2.html">sigaction(2)</A></B>   and
+     <B><A HREF="../man2/sigprocmask.2.html">sigprocmask(2)</A></B>  use  sets  of  signals  to  keep  a  process  from  being
+     interrupted by those signals  while  executing  a  signal  handler  or  a
+     critical  code  segment.   These  signal  sets  are  manipulated  by  the
+     following functions:
+
+     <B>int</B> <B>sigaddset(sigset_t</B> <B>*</B><I>set</I><B>,</B> <B>int</B> <I>sig</I><B>)</B>
+          Add signal <I>sig</I> to the signal set referenced by <I>set</I>.
+
+     <B>int</B> <B>sigdelset(sigset_t</B> <B>*</B><I>set</I><B>,</B> <B>int</B> <I>sig</I><B>)</B>
+          Remove signal <I>sig</I> from the signal set referenced by <I>set</I>.
+
+     <B>int</B> <B>sigemptyset(sigset_t</B> <B>*</B><I>set</I><B>)</B>
+          Initialize the signal set referenced by <I>set</I> to an empty set.
+
+     <B>int</B> <B>sigfillset(sigset_t</B> <B>*</B><I>set</I><B>)</B>
+          Initialize the signal set referenced by <I>set</I> to an full set, i.e. all
+          signals are in the set.
+
+     <B>int</B> <B>sigismember(const</B> <B>sigset_t</B> <B>*</B><I>set</I><B>,</B> <B>int</B> <I>sig</I><B>)</B>
+          Return <B>1</B> if the signal <I>sig</I> is present in the set referenced by  <I>set</I>,
+          <B>0</B> otherwise.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/sigaction.2.html">sigaction(2)</A></B>, <B><A HREF="../man2/sigpending.2.html">sigpending(2)</A></B>, <B><A HREF="../man2/sigprocmask.2.html">sigprocmask(2)</A></B>, <B><A HREF="../man2/sigsuspend.2.html">sigsuspend(2)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     All functions  except  <B>sigismember</B>  return  <B>0</B>  on  success.   <B>Sigismember</B>
+     returns  <B>0</B> or <B>1</B> on success.  They return <B>-1</B> with error code <B>EINVAL</B> for an
+     invalid signal number.  (They do not use <B>EFAULT</B> for a  bad  <I>set</I>  address,
+     but will simply cause a segmentation violation.)
+
+
+
+
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

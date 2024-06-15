@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>pwdauth(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>pwdauth(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     pwdauth - password authentication program
+
+<B>SYNOPSIS</B>
+     <B>/usr/lib/pwdauth</B>
+
+<B>DESCRIPTION</B>
+     <B>Pwdauth</B> is a program that is used by the <B><A HREF="../man3/crypt.3.html">crypt(3)</A></B> function to do the hard
+     work.   It is a setuid root utility so that it is able to read the shadow
+     password file.
+
+     <B>Pwdauth</B> expects on  standard  input  two  null  terminated  strings,  the
+     password  typed by the user, and the salt.  That is, the two arguments of
+     the <B>crypt</B> function.  The input read in a single read call  must  be  1024
+     characters or less including the nulls.  <B>Pwdauth</B> takes one of two actions
+     depending on the salt.
+
+     If the salt has the form "<B>##</B><I>user</I>" then the <I>user</I>  is  used  to  index  the
+     shadow  password  file  to  obtain  the  encrypted  password.   The input
+     password is encrypted with  the  one-way  encryption  function  contained
+     within  <B>pwdauth</B>  and  compared  to the encrypted password from the shadow
+     password file.  If equal then <B>pwdauth</B> returns the  string  "<B>##</B><I>user</I>"  with
+     exit  code  0,  otherwise  exit  code  2  to  signal failure.  The string
+     "<B>##</B><I>user</I>" is also returned if both  the  shadow  password  and  the  input
+     password are null strings to allow a password-less login.
+
+     If the salt is not of the form "<B>##</B><I>user</I>" then the  password  is  encrypted
+     and  the  result of the encryption is returned.  If salt and password are
+     null strings then a null string is returned.
+
+     The return value is written to  standard  output  as  a  null  terminated
+     string of 1024 characters or less including the null.
+
+     The exit code is 1 on any error.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/crypt.3.html">crypt(3)</A></B>, <B><A HREF="../man5/passwd.5.html">passwd(5)</A></B>.
+
+<B>NOTES</B>
+     A password must be checked like in this example:
+
+          pw_ok = (strcmp(crypt(key, pw-&gt;pw_passwd), pw-&gt;pw_passwd) == 0);
+
+     The second argument of crypt must be the entire  encrypted  password  and
+     not just the two character salt.
+
+
+
+
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

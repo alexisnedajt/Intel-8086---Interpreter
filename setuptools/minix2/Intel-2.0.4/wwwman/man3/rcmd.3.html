@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>rcmd(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>rcmd(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     rcmd, rresvport, ruserok - routines for returning a stream  to  a  remote
+     command
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;net/netlib.h&gt;</B>
+
+     <B>rem</B> <B>=</B> <B>rcmd(ahost,</B> <B>inport,</B> <B>locuser,</B> <B>remuser,</B> <B>cmd,</B> <B>fd2p);</B> <B>char</B> <B>**ahost;</B> <B>int</B>
+     <B>inport;</B> <B>char</B> <B>*locuser,</B> <B>*remuser,</B> <B>*cmd;</B> <B>int</B> <B>*fd2p;</B>
+
+     <B>s</B> <B>=</B> <B>rresvport(port);</B> <B>int</B> <B>*port;</B>
+
+     <B>ruserok(rhost,</B> <B>superuser,</B> <B>ruser,</B> <B>luser);</B> <B>char</B> <B>*rhost;</B> <B>int</B> <B>superuser;</B> <B>char</B>
+     <B>*ruser,</B> <B>*luser;</B>
+
+<B>DESCRIPTION</B>
+     <I>Rcmd</I> is a routine used by the super-user to execute a command on a remote
+     machine  using  an  authentication scheme based on reserved port numbers.
+     <I>Rresvport</I> is a routine which returns a descriptor to  a  socket  with  an
+     address  in  the  privileged  port  space.   <I>Ruserok</I> is a routine used by
+     servers to authenticate clients requesting service with <I>rcmd</I>.  All  three
+     functions are present in the same file and are used by the <B><A HREF="../man8/rshd.8.html">rshd(8)</A></B> server
+     (among others).
+
+     <I>Rcmd</I> looks up the host *<I>ahost</I> using <B><A HREF="../man3/gethostbyname.3.html">gethostbyname(3)</A></B>, returning -1 if the
+     host does not exist.  Otherwise *<I>ahost</I> is set to the standard name of the
+     host and a connection is established to a server residing  at  the  well-
+     known Internet port <I>inport</I>.
+
+     If the connection succeeds, a socket  in  the  Internet  domain  of  type
+     SOCK_STREAM is returned to the caller, and given to the remote command as
+     <B>stdin</B> and <B>stdout</B>.  If <I>fd2p</I> is non-zero, then an auxiliary  channel  to  a
+     control process will be set up, and a descriptor for it will be placed in
+     *<I>fd2p</I>.  The control  process  will  return  diagnostic  output  from  the
+     command  (unit  2)  on  this  channel, and will also accept bytes on this
+     channel as being UNIX signal numbers, to  be  forwarded  to  the  process
+     group  of  the  command.   If  <I>fd2p</I>  is 0, then the <B>stderr</B> (unit 2 of the
+     remote command) will be made the same as the <B>stdout</B> and no  provision  is
+     made  for  sending  arbitrary signals to the remote process, although you
+     may be able to get its attention by using out-of-band data.
+
+     The protocol is described in detail in <B><A HREF="../man8/rshd.8.html">rshd(8)</A></B>.
+
+     The <I>rresvport</I> routine is used  to  obtain  a  socket  with  a  privileged
+     address bound to it.  This socket is suitable for use by <I>rcmd</I> and several
+     other routines.  Privileged Internet ports are those in the  range  0  to
+     1023.   Only the super-user is allowed to bind an address of this sort to
+     a socket.
+
+     <I>Ruserok</I> takes a remote host's name, as  returned  by  a  <B><A HREF="../man3/gethostbyaddr.3.html">gethostbyaddr(3)</A></B>
+     routine,  two  user  names and a flag indicating whether the local user's
+     name  is  that  of  the   super-user.    It   then   checks   the   files
+     /<I>etc</I>/<I>hosts</I>.<I>equiv</I>  and, possibly, .<I>rhosts</I> in the current working directory
+     (normally the local user's home directory) to  see  if  the  request  for
+     service is allowed.  A 0 is returned if the machine name is listed in the
+     ``hosts.equiv'' file, or the host and remote user name are found  in  the
+     ``.rhosts'' file; otherwise <I>ruserok</I> returns -1.  If the <I>superuser</I> flag is
+     1, the checking of the ``host.equiv'' file is  bypassed.   If  the  local
+     domain  (as  obtained  from  <B><A HREF="../man3/gethostname.3.html">gethostname(3)</A></B>)  is  the  same as the remote
+     domain, only the machine name need be specified.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/rlogin.1.html">rlogin(1)</A></B>, <B><A HREF="../man1/rsh.1.html">rsh(1)</A></B>, <B><A HREF="../man2/intro.2.html">intro(2)</A></B>, <B><A HREF="../man3/rexec.3.html">rexec(3)</A></B>, <B><A HREF="../man8/rexecd.8.html">rexecd(8)</A></B>, <B><A HREF="../man8/rlogind.8.html">rlogind(8)</A></B>, <B><A HREF="../man8/rshd.8.html">rshd(8)</A></B>
+
+<B>DIAGNOSTICS</B>
+     <I>Rcmd</I> returns a valid socket descriptor on  success.   It  returns  -1  on
+     error and prints a diagnostic message on the standard error.
+
+     <I>Rresvport</I> returns a  valid,  bound  socket  descriptor  on  success.   It
+     returns  -1  on  error  with  the global value <I>errno</I> set according to the
+     reason for failure.  The error code EAGAIN is overloaded  to  mean  ``All
+     network ports in use.''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

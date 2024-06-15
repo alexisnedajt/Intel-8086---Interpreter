@@ -1,0 +1,261 @@
+<HTML>
+<HEAD>
+<TITLE>config(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>config(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     config - configuring Minix tasks and servers
+
+<B>DESCRIPTION</B>
+     Minix has a number of configuration files containing parameters that  can
+     be  changed to enable or disable a device driver, to change the number of
+     times a resource can be used, or to tune the performance of  the  system.
+     We  will  name  the  file  that  contains  the parameter, the name of the
+     parameter, and the values it can be set to.  Some comments  are  prefixed
+     by  "8086"  for  Minix  running  in  16-bit  real  mode, "286" for 16-bit
+     protected mode, and "386" for 32-bit protected mode.  Configuration  file
+     names  can be &lt;<I>file</I>.<I>h</I>&gt; for a file in <B>/usr/include/</B>, or a simple file name
+     for a file in <B>/usr/src/</B>.
+
+     There may be several definitions for a parameter with only  one  that  is
+     active.    Which   one  this  is  is  easy  to  find  if  you  know  that
+     <B>(CPU == INTEL)</B> is true, and <B>_WORD_SIZE</B> equals <B>2</B> in 16-bit mode, and <B>4</B>  in
+     32-bit mode.
+
+  &lt;<B>minix/config.h</B>&gt;
+     This is the main configuration file for the Minix.  It contains  lots  of
+     boolean variables to enable or disable drivers and a number of parameters
+     that specify the sizes of system data structures:
+
+     <B>NR_PROCS</B>
+          The number of slots in the  process  table,  and  thus  the  maximum
+          number  of  processes  that  can  be  run  concurrently.   Should be
+          increased from the default <B>32</B> if networking is enabled  (add  <B>8</B>  for
+          deamons),  and  if  more  users are using the system (add <B>4</B> for each
+          active session).  There are a lot of loops in  the  kernel  scanning
+          the  process  table,  so  setting <B>NR_PROCS</B> too high will slow things
+          down a little bit, so don't overdo it.
+
+     <B>NR_BUFS</B>
+          The number of disk buffers in the file system server.  It is used to
+          keep  frequently  used  disk  blocks  in  memory.   <B>8086</B> &amp; <B>286</B>:  The
+          default is <B>40</B>, and that's about as high as it can be set.  <B>386</B>:  The
+          default  is <B>80</B>, which is best increased to <B>1024</B> if you can spare the
+          memory.  More will help, but the effect won't be  as  pronounced  as
+          <B>1024</B>  is  more  than enough to contain the working set of one active
+          user.
+
+     <B>NR_CTRLRS</B>
+          Number of tasks used for disk or tape controllers.   By  default  2,
+          maximum  4.   You need a controller task for each device class to be
+          handled through a <B>/dev/c</B><I>n</I><B>*</B> set of devices.
+
+     <B>ENABLE_CACHE2</B>
+          If set to 1 allows the RAM disk to be used as a  second  level  file
+          system  cache.   Any  block that is evicted from the normal cache is
+          both written to disk (if dirty), and  copied  to  the  second  level
+          cache.   If  it  is needed again then the block is reloaded from the
+          RAM disk if it is still there.  <B>8086</B>:  Forget it, you don't have any
+          memory  for  it.   <B>286</B>:   Turn  it  on  and set the boot environment
+          variable <B>ramsize</B> to <B>512</B> if you have the memory.   That's  enough  to
+          contain  the working set of one active user, and is also the maximum
+          FS can handle.  <B>386</B>:  The installation scripts sets <B>ramsize</B> to  <B>1024</B>
+          if there is enough memory.  Your first point of call is to compile a
+          new kernel with <B>ENABLE_CACHE2</B> off, <B>NR_BUFS</B> set to a large value, and
+          <B>ramsize</B>  set  back  to zero.  A normal block cache works much better
+          than a two level arrangement.
+
+     <B>ENABLE_AT_WINI</B>
+          Enables the AT or IDE disk driver.  (The IDE interface grew  out  of
+          the  old  AT  disk  interface.)   Any  run of the mill PC needs this
+          driver.  You need to assign a driver like this one to  a  controller
+          task using one of the <B>c</B><I>n</I> boot variables.  See <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+     <B>ENABLE_BIOS_WINI</B>
+          Enables the BIOS disk driver.  The BIOS driver uses the system  BIOS
+          to  read or write disk blocks.  <B>8086</B>:  The preferred disk driver for
+          XT class machines.  <B>286</B> &amp; <B>386</B>:  Use a native driver if  possible  to
+          avoid switching back to real mode to make BIOS calls.  Especially on
+          the 286 this is a painful affair.
+
+     <B>ENABLE_ESDI_WINI</B>
+          Enables the ESDI disk driver.  Some PS/2 models have this disk.
+
+     <B>ENABLE_XT_WINI</B>
+          Enables the XT disk driver.  Useful for early IBM/AT  machines  that
+          have XT disks.  In real mode it is best to use the BIOS driver.
+
+     <B>ENABLE_AHA1540_SCSI</B>
+          Enables the Adaptec 1540 series SCSI driver.
+
+     <B>ENABLE_DOSFILE</B>
+          Enable the "DOS file as disk" driver that is used when Minix is  run
+          from MS-DOS to access a large file as a disk.
+
+     <B>ENABLE_FATFILE</B>
+          Enable the "FAT file as disk" driver  that  interprets  a  FAT  file
+          system  to find a large file to use as a disk.  This driver combined
+          with a fast native Minix disk driver is a  better  choice  then  the
+          previous  driver.   (And it works when Minix is not started from MS-
+          DOS.)  This is the last driver  that  needs  to  be  assigned  to  a
+          controller task.
+
+     <B>ENABLE_SB16</B>
+          Enable the Soundblaster-16 audio driver.
+
+     <B>ENABLE_PRINTER</B>
+          Enable the Printer driver.
+
+     <B>DMA_SECTORS</B>
+          The size of the DMA buffer for drivers that use DMA or other drivers
+          that  can only do I/O to a single chunk of memory.  (BIOS, ESDI, XT,
+          DOSFILE.)  Choose a number between <B>1</B> and <B>128</B> for the sector size  of
+          this  buffer.   The  memory  cost  is  twice this amount, because of
+          trouble getting it aligned in memory properly.  A value of <B>16</B> is the
+          minimum to work well, choose <B>64</B> if you have enough memory.
+
+     <B>NR_CONSOLES</B>
+          Number of virtual consoles.  By default <B>2</B>, so you can have two login
+          sessions  that  can  be  switched  to  by  ALT-F1,  ALT-F2  or  ALT-
+          left/rightarrow.  If you have an EGA screen then you can specify  up
+          to <B>4</B> virtual consoles, for VGA you can have <B>8</B>.  It is best to choose
+          one less to leave some video memory to  keep  text  scrolling  fast.
+          You  really  should  read <B><A HREF="../man4/console.4.html">console(4)</A></B> on this.  Note also the <B>console</B>
+          boot variable, you can use it to put more characters on the  screen,
+          at the cost of video memory.
+
+     <B>ENABLE_DP8390</B>
+          Master switch to enable the network drivers.  They are  required  by
+          the   network   server,   <B>inet</B>.   See  <B><A HREF="../man8/boot.8.html">boot(8)</A></B>  for  information  on
+          configuring network support.
+
+     <B>ENABLE_WDETH</B>
+          Enable code for the WD8003 and WD8013 cards in the network driver.
+
+     <B>ENABLE_NE2000</B>
+          Enable code for the NE1000 and NE2000 cards.
+
+     <B>ENABLE_3C503</B>
+          Enable code for the 3Com Etherlink II (3C503).
+
+     <B>NR_PTYS</B>
+          Number of pseudo terminals supported, by default <B>0</B>,  which  disables
+          the  driver.   Pseudo terminals are used for incoming network logins
+          by telnet or rlogin.  One pty is needed per session.
+
+     <B>NR_RS_LINES</B>
+          Number of RS-232 lines supported.  By default <B>2</B> for a normal kernel,
+          but  <B>0</B>  for  a tiny kernel used for XT installation.  You can save a
+          bit of memory by setting this parameter to zero if  you  don't  need
+          serial lines.
+
+  <B>fs/const.h</B>
+     This file contains most of the parameters used by the file  system  code.
+     Most of these cannot be changed, with the exception of these four:
+
+     <B>NR_FILPS</B>
+          Maximum number of open file descriptors for all processes  combined.
+          A  "File  table overflow" error might indicate that this number must
+          be increased.
+
+     <B>NR_INODES</B>
+          Maximum number of in-use files for  all  processes  combined.   Like
+          above  a  "File  table  overflow"  error may also indicate that this
+          number should be increased.  In cases like these one usually doubles
+          both  parameters.   (If  one  table  runs  out then the other one is
+          likely to run out also anyway.)
+
+     <B>NR_SUPERS</B>
+          Number of file systems that can be mounted.   Again  a  "file  table
+          overflow"  error  is  given  if  this  table is full, but it will be
+          produced by the <B>mount</B> command, so you  know  what's  wrong  in  this
+          case.
+
+     <B>NR_LOCKS</B>
+          Number of active file locks by <B><A HREF="../man2/fcntl.2.html">fcntl(2)</A></B>.  These locks are often used
+          by  programs  that  update a shared file, like mail programs do with
+          mail boxes.  A "no locks available" error indicates that this  table
+          has run out.
+
+  <B>kernel/bios_wini.c</B>
+  <B>kernel/dosfile.c</B>
+  <B>kernel/fatfile.c</B>
+     The number of disks each of these drivers can handle is specified by:
+
+     <B>MAX_DRIVES</B>
+          This parameter is set to <B>4</B> for the BIOS and "DOS file" drivers,  and
+          to  <B>2</B>  for the "FAT file" driver.  It can be set as high as you need
+          to allow for more disks, or files as disks.  (The "FAT" driver needs
+          quite some memory per disk, which is why it by default only allows 2
+          disks.)  You will need to run <B><A HREF="../man8/MAKEDEV.8.html">MAKEDEV(8)</A></B> to create  the  extra  disk
+          devices in <B>/dev/</B>.
+
+  <B>inet/inet_config.h</B>
+     The maximum number of TCP/IP networks is:
+
+     <B>IP_PORT_MAX</B>
+          Sets  the  maximum  number  of  networks  that  can  be  defined  in
+          <B>/etc/inet.conf</B>.  <B>8086</B>, <B>286</B>:  By default 2.  <B>386</B>:  By default 4.
+
+  <B>inet/buf.c</B>
+     The number of 512 byte buffers  allocated  for  data  within  the  TCP/IP
+     server is:
+
+
+
+     <B>BUF512_NR</B>
+          These buffers are a shared resource used by the server for any  data
+          it  wants  to  play  with.  For incoming data this number of buffers
+          determines the time packets are kept around, with  each  new  packet
+          evicting an old packet.  It's no big deal if packets get lost before
+          a user process reads them, packets get lost all the time.  The  only
+          real  problem  is  outgoing  TCP  data.   The  default  setting  for
+          <B>BUF512_NR</B> allows up to four backlogged TCP streams, i.e.  when  data
+          is  output  faster then it is read.  If more buffers are needed then
+          one of the TCP connections is shut down.  When this happens you will
+          see  a  "not  enough  buffers  left"  error.   This could happen for
+          instance if a Minix web server is assaulted by a browser that  likes
+          to  open  several connections to the server simultaneously.  The fix
+          is to increase <B>BUF512_NR</B> to allow more slow  outgoing  TCP  streams.
+          <B>86</B>:  The default of <B>32</B> buffers can be increased up to <B>64</B>.  (The "TCP
+          window size" has been limited in 16-bit mode to keep the buffer  use
+          by  TCP  down.)   <B>386</B>:   The  default of <B>128</B> can be increased to any
+          value you like, but <B>512</B> seems to be  more  than  enough.   Minix-vmd
+          uses 512 by default, and it seems happy that way.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man4/controller.4.html">controller(4)</A></B>, <B><A HREF="../man8/usage.8.html">usage(8)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>, <B><A HREF="../man8/MAKEDEV.8.html">MAKEDEV(8)</A></B>.
+
+<B>NOTES</B>
+     Associated with drivers there are device  files  to  access  the  devices
+     controlled  by  the  drivers that may have to be created.  Let's simplify
+     this sentence:  Type <B>ls</B> <B>/dev</B>, note  that  there  are  only  <B>c0*</B>  and  <B>c1*</B>
+     devices,  and  only  for  two  disks  each.  Some devices, like the audio
+     devices, are not even present.  So if you enable a  driver,  or  increase
+     some limits, you also need to use <B><A HREF="../man8/MAKEDEV.8.html">MAKEDEV(8)</A></B> in <B>/dev</B> to allow programs to
+     talk to the drivers.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>ctime(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>ctime(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ctime, localtime, gmtime, asctime, tzset -   convert  date  and  time  to
+     ASCII
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;time.h&gt;</B>
+
+     <B>void</B> <B>tzset(void)</B>
+     <B>char</B> <B>*ctime(const</B> <B>time_t</B> <B>*</B><I>clock</I><B>)</B>
+     <B>char</B> <B>*asctime(const</B> <B>struct</B> <B>tm</B> <B>*</B><I>tm</I><B>)</B>
+     <B>struct</B> <B>tm</B> <B>*localtime(const</B> <B>time_t</B> <B>*</B><I>clock</I><B>)</B>
+     <B>struct</B> <B>tm</B> <B>*gmtime(const</B> <B>time_t</B> <B>*</B><I>clock</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Tzset</B> uses the value of the environment variable <B>TZ</B> to set  up  the  time
+     conversion information used by <B>localtime</B>.
+
+     If <B>TZ</B> does not appear in the environment, the <B>TZDEFAULT</B> file (as  defined
+     in  &lt;<I>tzfile</I>.<I>h</I>&gt;) is used by <B>localtime</B>.  If this file fails for any reason,
+     the GMT offset as provided by the kernel is used.  In this case,  DST  is
+     ignored,  resulting  in the time being incorrect by some amount if DST is
+     currently in effect.  If this fails for any reason, GMT is used.
+
+     If <B>TZ</B> appears in  the  environment  but  its  value  is  a  null  string,
+     Greenwich Mean Time is used; if <B>TZ</B> appears and begins with a slash, it is
+     used as the absolute pathname of the <B><A HREF="../man5/tzfile.5.html">tzfile(5)</A></B>-format file from which  to
+     read  the  time  conversion  information; if <B>TZ</B> appears and begins with a
+     character other than a slash, it's used as a  pathname  relative  to  the
+     system  time  conversion  information  directory, defined as <B>TZDIR</B> in the
+     include file <B>tzfile.h</B>.  If this file fails for any reason, the GMT offset
+     as provided by the kernel is used, as described above.  If this fails for
+     any reason, GMT is used.  See <B><A HREF="../man5/TZ.5.html">TZ(5)</A></B> for a proper description  of  the  <B>TZ</B>
+     variable.
+
+     <B>Ctime</B> converts a time value, pointed to by <I>clock</I>,  such  as  returned  by
+     <B><A HREF="../man2/time.2.html">time(2)</A></B>  into ASCII and returns a pointer to a 26-character string in the
+     following form.  All the fields have constant width.
+
+          Sun Sep 16 01:03:52 1973\n\0
+
+     <B>Localtime</B> and <B>gmtime</B> return pointers to structures containing the broken-
+     down  time.   <B>Localtime</B>  corrects for the time zone and possible daylight
+     savings time; <B>gmtime</B> converts directly to GMT, which  is  the  time  UNIX
+     uses.  <B>Asctime</B> converts a broken-down time to ASCII and returns a pointer
+     to a 26-character string.
+
+     The structure declaration from the include file is:
+
+
+          struct tm {
+                int tm_sec;    /* 0-59  seconds */
+                int tm_min;    /* 0-59  minutes */
+                int tm_hour;   /* 0-23  hour */
+                int tm_mday;   /* 1-31  day of month */
+                int tm_mon;    /* 0-11  month */
+                int tm_year;   /* 0-    year - 1900 */
+                int tm_wday;   /* 0-6   day of week (Sunday = 0) */
+                int tm_yday;   /* 0-365 day of year */
+                int tm_isdst;  /* flag: daylight savings time in effect */
+                long tm_gmtoff; /* offset from GMT in seconds */
+                char **tm_zone; /* abbreviation of timezone name */
+          };
+
+     <B>Tm_isdst</B> is non-zero if a time zone adjustment such as  Daylight  Savings
+     time is in effect.
+
+     <B>Tm_gmtoff</B> is the offset (in seconds) of the time  represented  from  GMT,
+     with positive values indicating East of Greenwich.
+
+<B>FILES</B>
+     /usr/lib/zoneinfo    time zone information directory
+     /etc/localtime       local time zone file
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/time.2.html">time(2)</A></B>, <B><A HREF="../man3/getenv.3.html">getenv(3)</A></B>, <B><A HREF="../man5/tzfile.5.html">tzfile(5)</A></B>, <B><A HREF="../man5/TZ.5.html">TZ(5)</A></B>, <B><A HREF="../man7/environ.7.html">environ(7)</A></B>, <B><A HREF="../man8/zic.8.html">zic(8)</A></B>.
+
+<B>NOTE</B>
+     The return values point to static data whose content  is  overwritten  by
+     each  call.  The <B>tm_zone</B> field of a returned <B>struct</B> <B>tm</B> points to a static
+     array of characters, which will also be overwritten at the next call (and
+     by calls to <B>tzset</B>).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

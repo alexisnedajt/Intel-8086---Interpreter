@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>getopt(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>getopt(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     getopt - get option letter from argv
+
+<B>SYNOPSIS</B>
+     <B>int</B> <B>getopt(argc,</B> <B>argv,</B> <B>optstring)</B>
+     <B>int</B> <B>argc;</B>
+     <B>char</B> <B>**argv;</B>
+     <B>char</B> <B>*optstring;</B>
+
+     <B>extern</B> <B>char</B> <B>*optarg;</B>
+     <B>extern</B> <B>int</B> <B>optind;</B>
+
+<B>DESCRIPTION</B>
+     <I>Getopt</I> returns the next option letter in <I>argv</I> that matches  a  letter  in
+     <I>optstring</I>.   <I>Optstring</I>  is  a  string  of recognized option letters; if a
+     letter is followed by a colon, the option is expected to have an argument
+     that  may  or may not be separated from it by white space.  <I>Optarg</I> is set
+     to point to the start of the option argument on return from <I>getopt</I>.
+
+     <I>Getopt</I> places in <I>optind</I> the  <I>argv</I>  index  of  the  next  argument  to  be
+     processed.   Because  <I>optind</I>  is  external, it is normally initialized to
+     zero automatically before the first call to <I>getopt</I>.
+
+     When all options have been processed (i.e., up to  the  first  non-option
+     argument),  <I>getopt</I>  returns  <B>EOF</B>.   The  special option <B>--</B> may be used to
+     delimit the end of the options; <B>EOF</B> will be  returned,  and  <B>--</B>  will  be
+     skipped.
+
+<B>DIAGNOSTICS</B>
+     <I>Getopt</I> prints an error message on <I>stderr</I> and returns a question mark  (<B>?</B>)
+     when it encounters an option letter not included in <I>optstring</I>.
+
+<B>EXAMPLE</B>
+     The following code fragment shows how one might process the arguments for
+     a  command  that can take the mutually exclusive options <B>a</B> and <B>b</B>, and the
+     options <B>f</B> and <B>o</B>, both of which require arguments:
+
+          main(argc, argv)
+          int argc;
+          char **argv;
+          {
+                  int c;
+                  extern int optind;
+                  extern char *optarg;
+                  .
+                  .
+                  .
+                  while ((c = getopt(argc, argv, "abf:o:")) != EOF)
+                          switch (c) {
+                          case `a':
+                                  if (bflg)
+                                          errflg++;
+                                  else
+                                          aflg++;
+                                  break;
+                          case `b':
+                                  if (aflg)
+                                          errflg++;
+                                  else
+                                          bproc();
+                                  break;
+                          case `f':
+                                  ifile = optarg;
+                                  break;
+                          case `o':
+                                  ofile = optarg;
+                                  break;
+                          case `?':
+                          default:
+                                  errflg++;
+                                  break;
+                          }
+                  if (errflg) {
+                          fprintf(stderr, "Usage: ...");
+                          <B><A HREF="../man2/exit.2.html">exit(2)</A></B>;
+                  }
+                  for (; optind &lt; argc; optind++) {
+                          .
+                          .
+                          .
+                  }
+                  .
+                  .
+                  .
+          }
+
+<B>HISTORY</B>
+     Written by Henry Spencer, working from a Bell Labs manual page.  Modified
+     by Keith Bostic to behave more like the System V version.
+
+<B>BUGS</B>
+     It is not obvious how `-' standing alone should be treated;  this version
+     treats it as a non-option argument, which is not always right.
+
+     Option arguments are allowed to begin with `-'; this  is  reasonable  but
+     reduces the amount of error checking possible.
+
+     <I>Getopt</I> is quite flexible but the obvious price must be  paid:   there  is
+     much  it  could  do  that  it  doesn't,  like checking mutually exclusive
+     options, checking type of option arguments, etc.
+</PRE>
+</BODY>
+</HTML>

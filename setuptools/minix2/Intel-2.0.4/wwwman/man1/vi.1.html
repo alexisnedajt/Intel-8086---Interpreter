@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>elvis(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>elvis(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     elvis, ex, vi - The editor
+
+<B>SYNOPSIS</B>
+     <B>elvis</B> [<I>flags</I>] [<B>+</B><I>cmd</I>] [<I>files</I>...]
+
+<B>DESCRIPTION</B>
+     <B>Elvis</B> is a text editor which emulates <B>vi</B>/<B>ex</B>.
+
+     On systems which pass the program name as an argument, such as  Unix  and
+     Minix, you may also install <B>elvis</B> under the names "ex", "vi", "view", and
+     "input".  These extra names would normally be links  to  elvis;  see  the
+     "ln" shell command.
+
+     When <B>elvis</B> is invoked as "vi",  it  behaves  exactly  as  though  it  was
+     invoked  as  "elvis".   However,  if you invoke <B>elvis</B> as "view", then the
+     readonly option is set as though you had given it the "-R" flag.  If  you
+     invoke  <B>elvis</B> as "ex", then <B>elvis</B> will start up in the colon command mode
+     instead of the visual command mode, as though you had given it  the  "-e"
+     flag.  If you invoke <B>elvis</B> as "input" or "edit", then <B>elvis</B> will start up
+     in input mode, as though the "-i" flag was given.
+
+<B>OPTIONS</B>
+
+     <B>-r</B>   To the real vi, this flag means  that  a  previous  edit  should  be
+          recovered.  <B>Elvis</B>, though, has a separate program, called <B><A HREF="../man1/elvrec.1.html">elvrec(1)</A></B>,
+          for recovering files.  When you invoke <B>elvis</B>  with  -r,  <B>elvis</B>  will
+          tell you to run <B>elvrec</B>.
+
+     <B>-R</B>   This sets the "readonly" option, so you won't accidentally overwrite
+          a file.
+
+     <B>-t</B> <I>tag</I>
+          This causes <B>elvis</B> to start editing at the given tag.
+
+     <B>-m</B> [<I>file</I>]
+          <B>Elvis</B> will search through <I>file</I> for  something  that  looks  like  an
+          error  message  from  a  compiler.   It  will then begin editing the
+          source file that caused the error, with the cursor  sitting  on  the
+          line  where  the error was detected.  If you don't explicitly name a
+          <I>file</I>, then "errlist" is assumed.
+
+     <B>-e</B>   <B>Elvis</B> will start up in colon command mode.
+
+     <B>-v</B>   <B>Elvis</B> will start up in visual command mode.
+
+     <B>-i</B>   <B>Elvis</B> will start up in input mode.
+
+
+
+     <B>-w</B> <I>winsize</I>
+          Sets the "window" option's value to <I>winsize</I>.
+
+     <B>+</B><I>command</I> or <B>-c</B> <I>command</I>
+          If you use the +<I>command</I> parameter, then  after  the  first  file  is
+          loaded  <I>command</I>  is  executed  as  an EX command.  A typical example
+          would be "elvis +237 foo", which would cause <B>elvis</B> to start  editing
+          foo  and  then  move directly to line 237.  The "-c <I>command</I>" variant
+          was added for UNIX SysV compatibility.
+
+<B>FILES</B>
+
+     /tmp/elv*
+          During editing, <B>elvis</B> stores text in a temporary  file.   For  UNIX,
+          this  file  will  usually  be  stored in the /tmp directory, and the
+          first three characters  will  be  "elv".   For  other  systems,  the
+          temporary  files  may  be  stored  someplace  else; see the version-
+          specific section of the documentation.
+
+     tags This is the database used by the <B>:tags</B> command and  the  <B>-t</B>  option.
+          It is usually created by the <B><A HREF="../man1/ctags.1.html">ctags(1)</A></B> program.
+
+     .exrc or elvis.rc
+          On UNIX-like systems, a file called ".exrc" in your  home  directory
+          is executed as a series of <B>ex</B> commands.  A file by the same name may
+          be executed in the current directory,  too.   On  non-UNIX  systems,
+          ".exrc"  is  usually an invalid file name; there, the initialization
+          file is called "elvis.rc" instead.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/ctags.1.html">ctags(1)</A></B>, <B><A HREF="../man1/ref.1.html">ref(1)</A></B>, <B><A HREF="../man1/virec.1.html">virec(1)</A></B>, <B><A HREF="../man9/elvis.9.html">elvis(9)</A></B>.
+
+     <I>Elvis</I> - <I>A</I> <I>Clone</I> <I>of</I> <I>Vi</I>/<I>Ex</I>, the complete <B>elvis</B> documentation.
+
+<B>BUGS</B>
+     There is no LISP support.  Certain other features are missing, too.
+
+     Auto-indent mode is not quite compatible with the real vi.   Among  other
+     things, 0^D and ^^D don't do what you might expect.
+
+     Long lines are displayed differently.  The real vi wraps long lines  onto
+     multiple rows of the screen, but <B>elvis</B> scrolls sideways.
+
+<B>AUTHOR</B>
+     Steve Kirkendall
+     kirkenda@cs.pdx.edu
+
+
+
+
+     Many other people have worked to port <B>elvis</B> to various operating systems.
+     To  see  who deserves credit, run the <B>:version</B> command from within <B>elvis</B>,
+     or look in the system-specific section of the complete documentation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

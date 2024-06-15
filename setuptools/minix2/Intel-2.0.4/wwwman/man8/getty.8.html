@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>getty(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>getty(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     getty - system login banner
+
+<B>SYNOPSIS</B>
+     <B>getty</B> [<I>banner</I> ...]
+
+<B>DESCRIPTION</B>
+     <B>Getty</B> displays a system identification banner, reads  a  user  name  from
+     standard input and executes <B>login</B> with that name as argument.
+
+     <B>Getty</B> uses its arguments separated by spaces  as  a  login  banner.   The
+     character  sequences <B>\n</B>, <B>\s</B> and <B>\t</B> are printed as newline, space and tab.
+     Any other <B>\</B><I>x</I> prints that <I>x</I>.  The character sequences <B>%s</B>, <B>%n</B>, etc. produce
+     the same output as <B>uname</B> <B>-s</B>, <B>uname</B> <B>-n</B>, etc.  The default banner is
+
+          %s\s\sRelease\s%r\sVersion\s%v\n\n%n\slogin:\s
+
+     The only other useful functionality offered by <B>getty</B> is that  it  can  be
+     suspended  by  signal  SIGUSR1  and  restarted by SIGUSR2.  This allows a
+     program such as <B><A HREF="../man1/modem.1.html">modem(1)</A></B> to temporarily claim a dialin line for dialout.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/modem.1.html">modem(1)</A></B>, <B><A HREF="../man5/ttytab.5.html">ttytab(5)</A></B>, <B><A HREF="../man8/init.8.html">init(8)</A></B>.
+
+<B>BUGS</B>
+     <B>Getty</B> should be taught about modems and modem lines.  The signal trick is
+     an awful hack.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

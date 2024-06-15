@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>tail(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>tail(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     tail - print the last few lines of a file
+
+<B>SYNOPSIS</B>
+     <B>tail</B> [<B>-c</B> <I>n</I>] [<B>-f]</B> <B>[-n</B> <I>n</I>] [<I>file</I>] ...
+
+<B>OPTIONS</B>
+
+     <B>-c</B>   The count refers to characters
+
+     <B>-f</B>   On FIFO or special file, keep reading after EOF
+
+     <B>-n</B>   The count refers to lines
+
+<B>EXAMPLES</B>
+
+     <B>tail</B> <B>-n</B> <B>6</B>           # Print last 6 lines of <I>stdin</I>
+
+     <B>tail</B> <B>-c</B> <B>20</B> <B>file</B>     # Print the last 20 characters of <I>file</I>
+
+     <B>tail</B> <B>-n</B> <B>1</B> <B>file1</B> <B>file2</B>
+                         # Print last line of two files
+
+     <B>tail</B> <B>-n</B> <B>+8</B> <B>file</B>     # Print the tail starting with line 8
+
+<B>DESCRIPTION</B>
+
+     The last few lines of one or more files are printed.  The  default  count
+     is 10 lines.  The default file is <I>stdin</I>.  If the value of <I>n</I> for the <B>-c</B> or
+     <B>-n</B> flags starts with a + sign, counting starts at the  beginning,  rather
+     than the end of the file.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/head.1.html">head(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

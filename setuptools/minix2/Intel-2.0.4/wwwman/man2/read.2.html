@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>read(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>read(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     read - read input
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>ssize_t</B> <B>read(int</B> <I>d</I><B>,</B> <B>void</B> <B>*</B><I>buf</I><B>,</B> <B>size_t</B> <I>nbytes</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Read</B> attempts to read <I>nbytes</I> of data from the object  referenced  by  the
+     descriptor <I>d</I> into the buffer pointed to by <I>buf</I>.
+
+     On objects capable of seeking, the <B>read</B> starts at a position given by the
+     pointer  associated  with  <I>d</I>  (see <B><A HREF="../man2/lseek.2.html">lseek(2)</A></B>).  Upon return from <B>read</B>, the
+     pointer is incremented by the number of bytes actually read.
+
+     Objects that are not capable of seeking  always  read  from  the  current
+     position.   The  value  of  the pointer associated with such an object is
+     undefined.
+
+     Upon successful completion, <B>read</B> return the number of bytes actually read
+     and  placed  in  the buffer.  The system guarantees to read the number of
+     bytes requested if the descriptor references a normal file that has  that
+     many bytes left before the end-of-file, but in no other case.
+
+     If the returned value is 0, then end-of-file has been reached.
+
+<B>RETURN</B> <B>VALUE</B>
+     If successful, the number of bytes actually read is returned.  Otherwise,
+     a  -1  is  returned  and the global variable <B>errno</B> is set to indicate the
+     error.
+
+<B>ERRORS</B>
+     <B>Read</B> will fail if one or more of the following are true:
+
+     [EBADF]        <I>D</I> is not a valid descriptor open for reading.
+
+     [EFAULT]       <I>Buf</I> points outside the allocated address space.
+
+     [EIO]          An I/O error occurred while reading from the file system.
+
+     [EINTR]        A read from a slow device was interrupted before any  data
+                    arrived by the delivery of a signal.
+
+     [EAGAIN]       The file was marked for non-blocking I/O, and no data were
+                    ready to be read.
+
+
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/dup.2.html">dup(2)</A></B>, <B><A HREF="../man2/fcntl.2.html">fcntl(2)</A></B>, <B><A HREF="../man2/open.2.html">open(2)</A></B>, <B><A HREF="../man2/pipe.2.html">pipe(2)</A></B>, <B><A HREF="../man2/write.2.html">write(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

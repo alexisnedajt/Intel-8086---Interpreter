@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>sync(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>sync(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     sync - flush the cache to disk
+
+<B>SYNOPSIS</B>
+     <B>sync</B>
+
+<B>EXAMPLES</B>
+
+     <B>sync</B>                # Write out all modified cache blocks
+
+<B>DESCRIPTION</B>
+
+     MINIX maintains a cache of recently used disk blocks.  The  <I>sync</I>  command
+     writes  any  modified  cache  blocks back to the disk.  This is essential
+     before stopping the system, and should be done before running  any  <I>a</I>.<I>out</I>
+     program that might crash.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/sync.2.html">sync(2)</A></B>, <B><A HREF="../man8/update.8.html">update(8)</A></B>, <B><A HREF="../man8/shutdown.8.html">shutdown(8)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

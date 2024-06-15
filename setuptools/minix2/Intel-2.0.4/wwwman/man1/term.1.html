@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>term(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>term(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     term - turn PC into a dumb terminal [IBM]
+
+<B>SYNOPSIS</B>
+     <B>term</B> [<I>baudrate</I>]  [<I>parity</I>]  [<I>bits</I>_<I>per</I>_<I>character</I>]  [<B>-</B><I>dial</I>_<I>string</I>]  [<B>-c</B><I>kcmd</I>]
+           [<I>device</I>]
+
+<B>EXAMPLES</B>
+
+     <B>term</B> <B>2400</B>           # Talk to modem at 2400 baud
+
+     <B>term</B> <B>1200</B> <B>7</B> <B>even</B>    # 1200 baud, 7 bits/char, even parity
+
+     <B>term</B> <B>8</B> <B>9600</B> <B>/dev/tty01</B>
+                         # 9600 baud, 8 bits/char, no parity, use tty01
+
+     <B>term</B> <B>-atdt12345</B> <B>/dev/tty01</B>
+                         # Start with a command to dial out
+
+     <B>term</B> <B>-cH'echo</B> <B>Hello</B> <B>World!'</B> <B>...</B>
+                         # Bind a shell command to the 'H' key
+
+<B>DESCRIPTION</B>
+
+     <I>Term</I> allows MINIX to talk to a terminal or modem over RS232 port 1.   The
+     program  first  sets  the baudrate, parity and character length, and then
+     forks.  The parent sits  in  a  loop  copying  from  <I>stdin</I>  (usually  the
+     console's  keyboard),  to  the  terminal or modem (/<I>dev</I>/<I>tty00</I>). The child
+     sits in a loop  copying  from  the  terminal  or  modem  (/<I>dev</I>/<I>tty00</I>)  to
+     standard  output.  Thus  when RS232 port 1 is connected to a modem, every
+     keystroke typed on the keyboard is sent to the modem, and every character
+     arriving  from  the modem is displayed.  Standard input and output may be
+     redirected, to  provide  a  primitive  file  transfer  program,  with  no
+     checking.   Any  argument  that starts with <B>-at</B> is sent out to the modem,
+     usually to dial out.  <I>Term</I> accepts several commands that  are  formed  by
+     typing the escape character, CTRL-], and a letter.  Type CTRL-]? to see a
+     list of commands.  The subshell command is very important, it allows  you
+     to  type  in  a  ZMODEM command to transfer data.  Do not quit <I>term</I> to do
+     this, or your modem line will be reset!  <I>Term</I> keeps the modem  line  open
+     on file descriptor 9 while running the subshell, so you can type
+
+           &lt;&amp;9 &gt;&amp;9
+
+     at the end of your ZMODEM command to  connect  it  to  the  modem.   With
+     <B>-c</B><I>kcmd</I> arguments you can bind shell commands to keys.  The character just
+     after <B>-c</B> is the key to use, the rest of the characters form  the  command
+     to  bind  to  the  key.   This  command  also  has the modem open on file
+     descriptor 9.
+
+
+     Important note:  to  use  <I>term</I>,  it  is  essential  that  /<I>etc</I>/<I>ttytab</I>  is
+     configured  so  that there is no login session started on the modem line.
+     If there is, both the login session and term will try to  read  from  the
+     modem, and nothing will work.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/rz.1.html">rz(1)</A></B>, <B><A HREF="../man1/sz.1.html">sz(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

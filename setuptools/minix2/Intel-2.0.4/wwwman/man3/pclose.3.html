@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>popen(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>popen(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     popen, pclose - initiate I/O to/from a process
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdio.h&gt;</B>
+
+     <B>FILE</B> <B>*popen(const</B> <B>char</B> <B>*command,</B> <B>const</B> <B>char</B> <B>*type)</B>
+     <B>int</B> <B>pclose(FILE</B> <B>*stream)</B>
+
+<B>DESCRIPTION</B>
+     The arguments to <B>popen</B> are pointers to null-terminated strings containing
+     respectively a shell command line and an I/O mode, either "r" for reading
+     or "w" for writing.  It creates a pipe between the  calling  process  and
+     the  command to be executed.  The value returned is a stream pointer that
+     can be used (as appropriate) to  write  to  the  standard  input  of  the
+     command or read from its standard output.
+
+     A stream opened by <B>popen</B> should be closed by <B>pclose</B>, which waits for  the
+     associated  process  to  terminate  and  returns  the  exit status of the
+     command.
+
+     Because open files are shared, a type "r" command may be used as an input
+     filter, and a type "w" as an output filter.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/pipe.2.html">pipe(2)</A></B>, <B><A HREF="../man3/fopen.3.html">fopen(3)</A></B>, <B><A HREF="../man3/fclose.3.html">fclose(3)</A></B>, <B><A HREF="../man3/system.3.html">system(3)</A></B>, <B><A HREF="../man2/wait.2.html">wait(2)</A></B>, <B><A HREF="../man1/sh.1.html">sh(1)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Popen</B> returns a null pointer if files or processes cannot be created,  or
+     the shell cannot be accessed.
+
+<B>BUGS</B>
+     Buffered reading before opening an input filter may  leave  the  standard
+     input  of  that  filter  mispositioned.   Similar problems with an output
+     filter may be forestalled by careful buffer flushing, for instance,  with
+     <B>fflush</B>, see <B><A HREF="../man3/fclose.3.html">fclose(3)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

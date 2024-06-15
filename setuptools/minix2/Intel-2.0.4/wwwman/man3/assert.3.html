@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>assert(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>assert(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     assert - program verification
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;assert.h&gt;</B>
+
+     <B>void</B> <B>assert(int</B> <I>expression</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Assert</B> is a macro that indicates <I>expression</I> is expected  to  be  true  at
+     this  point  in  the  program.   It  causes an <B><A HREF="../man3/abort.3.html">abort(3)</A></B> with a diagnostic
+     comment on the standard output when <I>expression</I> is false  (0).   Compiling
+     with  the  <B><A HREF="../man1/cc.1.html">cc(1)</A></B>  option  <B>-DNDEBUG</B>  effectively  deletes  <B>assert</B> from the
+     program.
+
+<B>DIAGNOSTICS</B>
+     `Assertion "<I>expression</I>" failed: file <I>f</I> line <I>n</I>.'  <I>F</I> is the source file and
+     <I>n</I> the source line number of the <B>assert</B> statement.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

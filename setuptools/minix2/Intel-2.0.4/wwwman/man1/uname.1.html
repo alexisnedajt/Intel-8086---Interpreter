@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>uname(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>uname(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     uname, arch - system info
+
+<B>SYNOPSIS</B>
+     <B>uname</B> [<B>-snrvmpa</B>]
+     <B>arch</B> [<B>-snrvmpa</B>]
+
+<B>OPTIONS</B>
+
+     <B>-s</B>   System name
+
+     <B>-n</B>   Node/network name
+
+     <B>-r</B>   Operating system release
+
+     <B>-v</B>   Operating system version
+
+     <B>-m</B>   Machine type
+
+     <B>-p</B>   Processor family
+
+     <B>-a</B>   Short for <B>-snrvm</B>
+
+<B>EXAMPLES</B>
+
+     <B>uname</B> <B>-n</B>            # Print the name of the system
+
+     <B>arch</B>                # Print the name of the system architecture
+
+<B>DESCRIPTION</B>
+
+     <I>Uname</I> and <I>arch</I> give information about the system.  The  options  indicate
+     which  information  strings must be printed.  These strings are always in
+     the same order.  <I>Uname</I> and <I>arch</I> only differ w.r.t. the default string  to
+     print, <B>-s</B> and <B>-p</B> respectively.
+
+     The strings are compiled into the commands except for the node  name,  it
+     is obtained from the file /<I>etc</I>/<I>hostname</I>.<I>file</I>.  <B>Uname</B> <B>-m</B> should return the
+     actual machine type, not the same string as with <B>-p</B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/uname.3.html">uname(3)</A></B>.
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

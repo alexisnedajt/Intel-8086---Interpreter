@@ -1,0 +1,162 @@
+<HTML>
+<HEAD>
+<TITLE>cp(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>cp(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     cp, mv, rm, ln, cpdir, clone - copy, move, remove, link
+
+<B>SYNOPSIS</B>
+     <B>cp</B> [<B>-pifsmrRvx</B>] <I>file1</I> <I>file2</I>
+     <B>cp</B> [<B>-pifsrRvx</B>] <I>file</I> ... <I>dir</I>
+
+     <B>mv</B> [<B>-ifsmvx</B>] <I>file1</I> <I>file2</I>
+     <B>mv</B> [<B>-ifsvx</B>] <I>file</I> ... <I>dir</I>
+
+     <B>rm</B> [<B>-ifrRvx</B>] <I>file</I> ...
+
+     <B>ln</B> [<B>-ifsSmrRvx</B>] <I>file1</I> <I>file2</I>
+     <B>ln</B> [<B>-ifsSrRvx</B>] <I>file</I> ... <I>dir</I>
+
+     <B>cpdir</B> [<B>-ifvx</B>] <I>file1</I> <I>file2</I>
+
+     <B>clone</B> [<B>-ifsSvx</B>] <I>file1</I> <I>file2</I>
+
+<B>DESCRIPTION</B>
+     The utilities <B>cp</B>, <B>mv</B>, <B>rm</B>, and  <B>ln</B>  do  basic  file  management:  copying,
+     renaming  or  moving, deletion, and creating links.  (The <B>cpdir</B> and <B>clone</B>
+     utilities are easy to use aliases for copying  or  linking  whole  trees.
+     They are the same as <B>cp</B> <B>-psmr</B> and <B>ln</B> <B>-fmr</B>)
+
+     The first synopsis form of the utilities <B>cp</B>, <B>mv</B>, and <B>ln</B> is used  if  only
+     two arguments are given, and the second argument is not a directory.  The
+     source and target file are then the two files given.
+
+     If the second synopsis form is used then the  last  argument  must  be  a
+     directory.   Each  of  the  files  is  copied,  moved or linked into this
+     directory.
+
+     A file is by default copied  by  <B>cp</B>  without  looking  at  its  type,  so
+     symlinks are followed and devices are opened and read from or written to.
+     Links between files are ignored.  This behavior can be changed  by  using
+     the proper options.
+
+     The <B>mv</B> utility uses the <B><A HREF="../man2/rename.2.html">rename(2)</A></B> call  to  rename  or  move  files.   If
+     source  and  target are on different devices however, then <B>mv</B> will use <B>cp</B>
+     <B>-pr</B> to copy the files or directory trees.
+
+     Each utility continues with the  next  file  on  errors,  except  on  I/O
+     errors.
+
+<B>OPTIONS</B>
+
+
+
+
+     <B>-p</B>   Copy the file attributes like mode, owner, group and  time  of  last
+          modification.   Normally  only the mode is copied to a new file with
+          the file creation mask applied.  Setuid bits are cleared if  setting
+          the ownership fails.
+
+     <B>-i</B>   Ask if ok to overwrite, replace or remove.  <B>Mv</B> and <B>rm</B> will ask  this
+          automatically  if  interactive  and the target file is writable.  <B>Cp</B>
+          will fail if the target cannot be written, <B>ln</B> will  always  fail  if
+          the target exists.
+
+     <B>-f</B>   Makes <B>cp</B> remove a target file before copying if it is not  writable,
+          <B>mv</B> removes an existing target without asking, <B>rm</B> does not report any
+          errors, and <B>ln</B> removes an existing target file before linking.   The
+          last  of  <B>-i</B>  and  <B>-f</B>  wins  for <B>mv</B> if both flags are set, the other
+          utilities do  something  sensible,  like  asking  before  forcefully
+          removing.
+
+     <B>-s</B>   Make a symlink instead of a normal link.  For utilities  other  than
+          <B>ln</B>  this  flag  means  "copy  similar".  The modified time is always
+          copied for <B>cp</B> <B>-s</B> and the other attributes are copied if a  new  file
+          is created.  The normal POSIX required patronizing like applying the
+          file creation mask or clearing setuid bits is not done.
+
+     <B>-S</B>   Make a symlink if a normal link cannot be made  because  source  and
+          target  are on different devices.  The symlink is required to really
+          refer back to the source, meaning that a/b must exist in the call <B>ln</B>
+          <B>-S</B> <B>a/b</B> <B>c/d</B>, and that the symlink from c/d must lead back to a/b.  So
+          the symlink will be created as if <B>ln</B> <B>-s</B> <B>../a/b</B> <B>c/d</B> was  called.   If
+          the  target is a full path, but the source is not then an error will
+          be given saying that this is "too difficult."
+
+     <B>-m</B>   Merge trees.  The first synopsis form is assumed, and the files from
+          one  tree  are  merged  into  the  other.   There  is  no "if it's a
+          directory the put it into that directory" trickery here.
+
+     <B>-r</B>, <B>-R</B>
+          Recursively copy, remove, or link.  If the  source  is  a  directory
+          then the files in this directory are copied to similarly named files
+          in the target directory.  Special files are copied  as  new  special
+          files,  they  are  not read or written.  Symlinks are still expanded
+          and the link structure ignored with  <B>-R</B>.   The  <B>-r</B>  flag  does  copy
+          symlinks  as  symlinks  and  keeps the link structure intact.  (Note
+          that <B>-R</B> is invented by POSIX as a replacement  for  the  classic  <B>-r</B>
+          option  of  older  copy  commands  that did read special files.  The
+          standard says that <B>-r</B> is implementation defined, so that's why  this
+          flag is better than <B>-R</B> in this implementation of <B>cp</B>.)  For <B>rm</B> and <B>ln</B>
+          both flags mean the same.  <B>Ln</B> will recursively link the files in the
+          trees,  except  symlinks,  they are copied.  If symlinks are created
+          with <B>ln</B> <B>-rs</B> or <B>ln</B> <B>-rS</B> then they are required "to work" as  described
+          with the <B>-S</B> flag.
+
+     <B>-v</B>   Verbose.  Show what is done on standard output.
+
+     <B>-x</B>   Do not cross mount points.  Empty directories will be created if the
+          source  directory is a mount point on a copy, move or link.  A mount
+          point will not be  removed  or  traversed  recursively.   This  flag
+          allows one to copy the root device, e.g.  <B>cpdir</B> <B>-x</B> <B>/</B> <B>/mnt</B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/cat.1.html">cat(1)</A></B>,  <B><A HREF="../man1/mkdir.1.html">mkdir(1)</A></B>,  <B><A HREF="../man1/rmdir.1.html">rmdir(1)</A></B>,  <B><A HREF="../man2/mkdir.2.html">mkdir(2)</A></B>,  <B><A HREF="../man2/rmdir.2.html">rmdir(2)</A></B>,  <B><A HREF="../man2/link.2.html">link(2)</A></B>,  <B><A HREF="../man2/unlink.2.html">unlink(2)</A></B>,
+     <B><A HREF="../man2/rename.2.html">rename(2)</A></B>, <B><A HREF="../man2/open.2.html">open(2)</A></B>, <B><A HREF="../man2/read.2.html">read(2)</A></B>, <B><A HREF="../man2/write.2.html">write(2)</A></B>, <B><A HREF="../man3/opendir.3.html">opendir(3)</A></B>.
+
+<B>NOTES</B>
+     All the utilities described are links to the same program.
+
+<B>BUGS</B>
+     <B>Mv</B> should first copy a tree across devices and  then  remove  the  source
+     tree if there was no error.  Instead, each file in the tree is copied and
+     immediately removed.  On error you  may  be  left  with  two  half-filled
+     trees, together containing all of the files.  You may have to restart the
+     move with <B>mv</B> <B>-m</B>.
+
+     <B>Rm</B> should be able to remove arbitrarily deep trees.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>servxcheck(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>servxcheck(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     servxcheck - Internet service access check
+
+<B>SYNOPSIS</B>
+     <B>#define</B> <B>_MINIX_SOURCE</B> <B>1</B>
+     <B>#include</B> <B>&lt;/net/gen/netdb.h&gt;</B>
+
+     <B>int</B> <B>servxcheck(int</B> <I>fd</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>service</I><B>,</B>
+             <B>void</B> <B>(*</B><I>logf</I><B>)(int</B> <I>pass</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>name</I><B>));</B>
+     <B>char</B> <B>*servxfile(const</B> <B>char</B> <B>*</B><I>file</I><B>);</B>
+
+<B>DESCRIPTION</B>
+     <B>Servxcheck()</B> is used by programs like <B>inetd</B> to perform an access check on
+     the host connected to the other end of the TCP channel referenced by file
+     descriptor <I>fd</I>.
+
+     <B>Servxcheck()</B> determines the IP address of the remote host, translates  it
+     to  the  associated  host  name  if  necessary, and checks if the host is
+     granted  access  as  guided   by   the   file   <B>/etc/serv.access</B>.    (See
+     <B><A HREF="../man5/serv.access.5.html">serv.access(5)</A></B>.)   The  service  name  used  to search the access file is
+     passed by the caller as <I>service</I>.  These names should be the same  as  the
+     service names in <B>/etc/services</B>.
+
+     An attempt to connect to a service is logged if  the  access  is  denied.
+     You can use the special checkword "<B>log</B>" to also log if access is granted.
+     Logging will be done to <B>/usr/adm/log</B>.  One may do one's  own  logging  by
+     supplying  a <I>logf</I> function that will be called by <B>servxcheck</B> with a first
+     argument that is true if access is granted, false if denied, and a second
+     argument  that  is  the  name  of  the  remote host whose access has been
+     checked.
+
+     The default is to fail the check unless the access file  says  otherwise.
+     Strange  errors  make the check succeed.  We do not want remote access to
+     fail because of some system error.  Note that this function is not  meant
+     to  check  access  to the system, that's what passwords and such are for,
+     but only to limit access to those who are allowed to use the services the
+     system offers.
+
+     Connections from a  machine  to  itself  are  accepted  immediately.   No
+     further checks, no logging.
+
+     <B>Servxfile()</B> may be  used  to  specify  a  file  other  than  the  default
+     <B>/etc/serv.access</B>.   This  is  useful for programs started from <B>inetd</B> that
+     want to handle the access check themselves, using a private access  file.
+     The  return  value of <B>servxfile()</B> is the pathname of the old access file.
+     Only a pointer to the new path is saved, the caller must keep the  string
+     it points to intact.
+
+
+
+<B>FILES</B>
+
+     <B>/etc/serv.access</B>         Default access check file.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man5/serv.access.5.html">serv.access(5)</A></B>, <B><A HREF="../man5/services.5.html">services(5)</A></B>, <B><A HREF="../man8/inetd.8.html">inetd(8)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Servxcheck()</B> returns 0 if the access is denied, 1 if granted.
+
+     Typical log message:
+
+          Apr 10 13:27:59 service 'shell' granted to jetsam.cs.vu.nl
+
+<B>BUGS</B>
+     IP and DNS based access checks will  stop  most  crackers,  but  not  the
+     really  determined ones.  Luckily Minix is sufficiently strange to thwart
+     the well known cracking schemes.  But don't ever allow yourself  to  feel
+     secure.
+
+<B>AUTHOR</B>
+     Kees J. Bot &lt;kjb@cs.vu.nl&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

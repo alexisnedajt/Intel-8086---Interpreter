@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>lseek(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>lseek(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     lseek - move read/write pointer
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>#define</B> <B>SEEK_SET</B>     <B>0</B>      <B>/*</B> <B>offset</B> <B>is</B> <B>absolute</B> <B>*/</B>
+     <B>#define</B> <B>SEEK_CUR</B>     <B>1</B>      <B>/*</B> <B>relative</B> <B>to</B> <B>current</B> <B>position</B> <B>*/</B>
+     <B>#define</B> <B>SEEK_END</B>     <B>2</B>      <B>/*</B> <B>relative</B> <B>to</B> <B>end</B> <B>of</B> <B>file</B> <B>*/</B>
+
+     <B>off_t</B> <B>lseek(int</B> <B>d,</B> <B>off_t</B> <B>offset,</B> <B>int</B> <B>whence)</B>
+
+<B>DESCRIPTION</B>
+     The descriptor <I>d</I> refers to a file  or  device  open  for  reading  and/or
+     writing.  <B>Lseek</B> sets the file pointer of <I>d</I> as follows:
+
+          If <I>whence</I> is SEEK_SET, the pointer is set to <I>offset</I> bytes.
+
+          If <I>whence</I> is SEEK_CUR, the pointer is set to  its  current  location
+          plus <I>offset</I>.
+
+          If <I>whence</I> is SEEK_END, the pointer is set to the size  of  the  file
+          plus <I>offset</I>.
+
+     Upon successful completion, the resulting pointer location as measured in
+     bytes from beginning of the file is returned.  Some devices are incapable
+     of seeking.  The value of the pointer associated with such  a  device  is
+     undefined.
+
+<B>NOTES</B>
+     Seeking far beyond the end of a file, then  writing,  creates  a  gap  or
+     "hole", which occupies no physical space and reads as zeros.
+
+<B>RETURN</B> <B>VALUE</B>
+     Upon successful completion, the current file pointer value  is  returned.
+     Otherwise,  a  value  of  -1 is returned and <B>errno</B> is set to indicate the
+     error.
+
+<B>ERRORS</B>
+     <B>Lseek</B> will fail and the file pointer will remain unchanged if:
+
+     [EBADF]        <I>Fildes</I> is not an open file descriptor.
+
+     [ESPIPE]       <I>Fildes</I> is associated with a pipe or a socket.
+
+     [EINVAL]       <I>Whence</I> is not a proper value.
+
+
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/fcntl.2.html">fcntl(2)</A></B>, <B><A HREF="../man2/open.2.html">open(2)</A></B>.
+
+<B>BUGS</B>
+     This document's use of <I>whence</I> is incorrect English,  but  maintained  for
+     historical reasons.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

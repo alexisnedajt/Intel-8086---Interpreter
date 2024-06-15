@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>chmod(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>chmod(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     chmod - change access mode for files
+
+<B>SYNOPSIS</B>
+     <B>chmod</B> <B>[-R</B>] <I>mode</I> <I>file</I> ...
+
+<B>OPTIONS</B>
+
+     <B>-R</B>   Change hierarchies recursively
+
+<B>EXAMPLES</B>
+
+     <B>chmod</B> <B>755</B> <B>file</B>      # Owner: rwx Group: r-x Others: r-x
+
+     <B>chmod</B> <B>+x</B> <B>file1</B> <B>file2</B>
+                         # Make <I>file1</I> and <I>file2</I> executable
+
+     <B>chmod</B> <B>a-w</B> <B>file</B>      # Make <I>file</I> read only
+
+     <B>chmod</B> <B>u+s</B> <B>file</B>      # Turn on SETUID for <I>file</I>
+
+     <B>chmod</B> <B>-R</B> <B>o+w</B> <B>dir</B>    # Allow writing for all files in dir
+
+<B>DESCRIPTION</B>
+
+     The given mode is applied to each file in the file list. If the  <B>-R</B>  flag
+     is  present,  the files in a directory will be changed as well.  The mode
+     can be either absolute or symbolic. Absolute modes are given as an  octal
+     number  that  represents  the new file mode. The mode bits are defined as
+     follows:
+
+        4000    Set effective user id on execution to file's owner id
+        2000    Set effective group id on execution to file's group id
+        0400    file is readable by the owner of the file
+        0200    writeable by owner
+        0100    executable by owner
+        0070    same as above, for other users in the same group
+        0007    same as above, for all other users
+
+     Symbolic modes modify the current file mode in a specified way. The  form
+     is:
+
+        [who] op permissions { op permissions ...} {, [who] op ... }
+
+     The possibilities for <I>who</I> are <I>u</I>, <I>g</I>, <I>o</I>, and <I>a</I>, standing for  user,  group,
+     other  and  all,  respectively.  If <I>who</I> is omitted, <I>a</I> is assumed, but the
+     current umask is used. The op can be +, -, or =;  + turns  on  the  given
+     permissions, - turns them off; = sets the permissions exclusively for the
+     given <I>who</I>. For example <I>g</I>=<I>x</I> sets the group permissions to --<I>x</I>.
+
+     The possible permissions are <I>r</I>, <I>w</I>, <I>x</I>; which stand for  read,  write,  and
+     execute;   <I>s</I>  turns on the set effective user/group id bits. <I>s</I> only makes
+     sense with <I>u</I> and <I>g</I>; o+s is harmless.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/ls.1.html">ls(1)</A></B>, <B><A HREF="../man2/chmod.2.html">chmod(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

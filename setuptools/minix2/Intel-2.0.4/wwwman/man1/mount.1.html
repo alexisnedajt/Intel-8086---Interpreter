@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>mount(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>mount(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     mount - mount a file system
+
+<B>SYNOPSIS</B>
+     <B>mount</B> <B>[-r</B>] <I>special</I> <I>file</I>
+     <B>mount</B> <B>[-s</B>] <I>swapfile</I>
+
+<B>OPTIONS</B>
+
+     <B>-r</B>   File system is mounted read-only
+
+     <B>-s</B>   Mount swap space
+
+<B>EXAMPLES</B>
+
+     <B>mount</B> <B>/dev/fd1</B> <B>/user</B>
+                         # Mount diskette 1 on /<I>user</I>
+
+<B>DESCRIPTION</B>
+
+     The file system contained on the special file is mounted on <I>file</I>.  In the
+     example  above,  the  root directory of the file system in drive 1 can be
+     accessed as <B>/user</B> after the mount.  When the file  system  is  no  longer
+     needed, it must be unmounted before being removed from the drive.
+
+     With the <B>-s</B> flag a device or file is mounted as swap space.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/df.1.html">df(1)</A></B>, <B><A HREF="../man1/mkfs.1.html">mkfs(1)</A></B>, <B><A HREF="../man1/fsck.1.html">fsck(1)</A></B>, <B><A HREF="../man8/mkswap.8.html">mkswap(8)</A></B>, <B><A HREF="../man1/umount.1.html">umount(1)</A></B>, <B><A HREF="../man2/mount.2.html">mount(2)</A></B>, <B><A HREF="../man5/fstab.5.html">fstab(5)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

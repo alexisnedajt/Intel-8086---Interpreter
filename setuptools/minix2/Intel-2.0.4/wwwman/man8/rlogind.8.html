@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>rlogind(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>rlogind(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     rlogind, in.rld - remote login server
+
+<B>SYNOPSIS</B>
+     <B>login</B> <B>stream</B> <B>tcp</B> <B>nowait</B> <B>root</B> <B>/usr/sbin/in.rld</B> <B>in.rld</B>
+     <B>tcpd</B> <B>login</B> <B>/usr/sbin/in.rld</B>
+
+<B>DESCRIPTION</B>
+     <B>Rlogind</B> is the server for the <B><A HREF="../man1/rlogin.1.html">rlogin(1)</A></B> program.  The server  provides  a
+     remote  login  facility  with  authentication  based  on  privileged port
+     numbers from trusted hosts.
+
+     <B>Rlogind</B> listens for  service  requests  at  the  port  indicated  in  the
+     ``login'' service specification; see <B><A HREF="../man5/services.5.html">services(5)</A></B>.  When a service request
+     is received the following protocol is initiated:
+
+     1)   The server checks the client's source port.  If the port is  not  in
+          the range 0-1023, the server aborts the connection.
+
+     2)   The server checks the  client's  source  address  and  requests  the
+          corresponding   host   name   (see  <B><A HREF="../man3/gethostbyaddr.3.html">gethostbyaddr(3)</A></B>,  <B><A HREF="../man5/hosts.5.html">hosts(5)</A></B>  and
+          <B><A HREF="../man8/named.8.html">named(8)</A></B>).  If the hostname cannot be determined,  the  dot-notation
+          representation of the host address is used.
+
+     Once the source port and address have been checked, <B>rlogind</B>  allocates  a
+     pseudo  terminal  (see  <B><A HREF="../man4/tty.4.html">tty(4)</A></B>), and manipulates file descriptors so that
+     the slave half of the pseudo terminal becomes the <B>stdin</B> <B>,</B>  <B>stdout</B>  <B>,</B>  and
+     <B>stderr</B>  for  a  login  process.   The login process is an instance of the
+     <B><A HREF="../man1/login.1.html">login(1)</A></B> program, invoked with the <B>-r</B> option.   The  login  process  then
+     proceeds  with the authentication process as described in <B><A HREF="../man8/rshd.8.html">rshd(8)</A></B>, but if
+     automatic authentication fails, it reprompts the user  to  login  as  one
+     finds on a standard terminal line.
+
+     The parent of the login process manipulates the master side of the pseduo
+     terminal,  operating as an intermediary between the login process and the
+     client instance of the <B>rlogin</B> program.  In normal operation,  the  packet
+     protocol  described in <B><A HREF="../man4/tty.4.html">tty(4)</A></B> is invoked to provide ^S/^Q type facilities
+     and propagate interrupt  signals  to  the  remote  programs.   The  login
+     process  propagates the client terminal's baud rate and terminal type, as
+     found in the environment variable, ``TERM''; see <B><A HREF="../man7/environ.7.html">environ(7)</A></B>.  The  screen
+     or  window  size of the terminal is requested from the client, and window
+     size changes from the client are propagated to the pseudo terminal.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/rlogin.1.html">rlogin(1)</A></B>.
+
+
+
+
+
+<B>DIAGNOSTICS</B>
+     All diagnostic messages are returned on the  connection  associated  with
+     the  <B>stderr</B>, after which any network connections are closed.  An error is
+     indicated by a leading byte with a value of 1.
+
+     <B>``Try</B> <B>again.''</B>
+     A <B>fork</B> by the server failed.
+
+     <B>``/bin/sh:</B> <B>...''</B>
+     The user's login shell could not be started.
+
+<B>BUGS</B>
+     The authentication procedure used here  assumes  the  integrity  of  each
+     client  machine  and  the  connecting  medium.   This is insecure, but is
+     useful in an ``open'' environment.
+
+     A facility to allow all data exchanges to be encrypted should be present.
+
+     A more extensible protocol should be used.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

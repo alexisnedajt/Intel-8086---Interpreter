@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>configfile(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>configfile(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     configfile - generic configuration file format
+
+<B>SYNOPSIS</B>
+     <B>*/etc/*.conf</B>
+
+<B>DESCRIPTION</B>
+     The syntax of the generic configuration file format is as follows:
+
+          configfile:     empty
+                  |       configline configfile
+                  ;
+
+          configline:     wordlist '<B>;</B>'
+                  |       <B>include</B> string '<B>;</B>'
+                  ;
+
+          wordlist:       empty
+                  |       word wordlist
+                  |       string wordlist
+                  |       '<B>{</B>' configfile '<B>}</B>' wordlist
+                  ;
+
+          empty:  ;
+
+     A word is a sequence of letters, numbers, and  characters  from  the  set
+     <B>!#$%&amp;*+</B>-<B>./&lt;=&gt;?[\]^_|~</B>.  A backslash (<B>\</B>) may be followed by a character in
+     the set <B>abefnrstv</B> to form a BEL, BS, ESC, FF, NL,  CR,  SP,  TAB,  or  VT
+     character.   Followed  by  up  to  three octal digits a character of that
+     value is formed, and likewise for an <B>x</B> followed by up to two  hexadecimal
+     digits.   Any  other  character  is  left as-is.  A backslash followed by
+     whitespace  is  completely  removed  from  the  input.   (This   includes
+     comments.)
+
+     A string is started by a single or double quote, a series of  characters,
+     and  ended  by  the same type of quote it started with.  Any character or
+     escape with <B>\</B> may be found in a string.  Strings may not span lines.
+
+     Tokens are separated by whitespace, being the usual whitespace characters
+     and  comments.   A  comment  starts  with  the <B>#</B> character, and ends at a
+     newline.
+
+     The special word <B>include</B> tells that the file mentioned in  the  following
+     string  must  be  read  and  included  at  that point.  The file is found
+     relative to the directory the current configuration  file  is  found  in,
+     unless  its  name  starts with a <B>/</B>.  A file that doesn't exist is seen as
+     empty.
+
+
+
+     A generic configuration file can be read with the functions described  in
+     <B><A HREF="../man3/configfile.3.html">configfile(3)</A></B>.
+
+<B>EXAMPLES</B>
+     Have a look at <B>/etc/dhcp.conf</B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/configfile.3.html">configfile(3)</A></B>.
+
+<B>NOTES</B>
+     Inspired by the configuration file of Paul Vixie's <B>bind</B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

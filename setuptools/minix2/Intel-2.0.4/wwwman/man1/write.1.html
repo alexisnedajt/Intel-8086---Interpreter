@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>write(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>write(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     write - send a message to a logged-in user
+
+<B>SYNOPSIS</B>
+     <B>write</B> [<B>-cv</B>] <I>user</I> [<I>tty</I>]
+
+<B>OPTIONS</B>
+
+     <B>-c</B>   Use cbreak mode
+
+     <B>-v</B>   Verbose mode
+
+<B>EXAMPLES</B>
+
+     <B>write</B> <B>ast</B>           # Send a message to ast
+
+     <B>write</B> <B>ast</B> <B>tty00</B>     # Send a message to ast on tty00
+
+<B>DESCRIPTION</B>
+
+     <I>Write</I> lets a user send messages to another logged-in user. Lines typed by
+     the  user appear on the other user's screen a line at a time (a character
+     at a time in the case of cbreak mode). The file /<I>usr</I>/<I>adm</I>/<I>wtmp</I> is searched
+     to  determine  which tty to send to. If the user is logged onto more than
+     one terminal, the <I>tty</I> argument selects the terminal.   Type  CTRL-  D  to
+     terminate the command.  Use ! as a shell escape.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/mail.1.html">mail(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

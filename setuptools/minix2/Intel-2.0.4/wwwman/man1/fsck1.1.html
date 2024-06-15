@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>fsck(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>fsck(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     fsck, fsck1 - perform file system consistency check
+
+<B>SYNOPSIS</B>
+     <B>fsck</B> [<B>-aclmrs</B>] [<I>device</I>] ...
+
+<B>OPTIONS</B>
+
+     <B>-a</B>   Automatically repair inconsistencies
+
+     <B>-c</B>   Check and list only the specified i-nodes
+
+     <B>-l</B>   List the files and directories in the filesytem
+
+     <B>-r</B>   Prompt user for repairs if inconsistencies are found
+
+     <B>-s</B>   List the superblock of the file system
+
+<B>EXAMPLES</B>
+
+     <B>fsck</B> <B>/dev/hd4</B>       # Check file system on /<I>dev</I>/<I>hd4</I>
+
+     <B>fsck</B> <B>-a</B> <B>/dev/at0</B>    # Automatically fix errors on /<I>dev</I>/<I>at0</I>
+
+     <B>fsck</B> <B>-l</B> <B>/dev/fd0</B>    # List the contents of /<I>dev</I>/<I>fd0</I>
+
+     <B>fsck</B> <B>-c</B> <B>2</B> <B>3</B> <B>/dev/hd3</B>
+                         # Check and list /<I>dev</I>/<I>hd3</I> i-nodes 2 &amp; 3
+
+<B>DESCRIPTION</B>
+
+     <I>Fsck</I> performs consistency checks on the file systems which reside on  the
+     specified  devices.  <I>Fsck1</I> is an alternate version for use on obsolete V1
+     file systems.  When either the <B>-a</B> or <B>-r</B> flags are given, the file  system
+     will  be  repaired if errors are found.  Before running <I>fsck</I> on a mounted
+     file system, it must first be unmounted.  Trying to repair a mounted file
+     system is dangerous and should not be attempted.
+
+     To repair the root file system (which cannot be  unmounted),  first  type
+     CTRL-F9  at  the  console  to kill any and all processes.  Log back in as
+     <B>root</B>, type <I>sync</I> to force any buffered changes to disk, run  <I>fsck</I>  on  the
+     root file system and immediately reboot the computer by typing <I>reboot</I>.
+
+     It is necessary to kill all processes  before  repairing  the  root  file
+     system  to  prevent  them  from  modifying  any disk blocks while <I>fsck</I> is
+     running.  This is only necessary for the root file system, any other file
+     system can simply be unmounted before it is checked.
+
+
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/mkfs.1.html">mkfs(1)</A></B>, <B><A HREF="../man1/mount.1.html">mount(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>putc(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>putc(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     putc, putchar, fputc, putw - put character or word on a stream
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdio.h&gt;</B>
+
+     <B>int</B> <B>putc(int</B> <I>c</I><B>,</B> <B>FILE</B> <B>*</B><I>stream</I><B>)</B>
+     <B>int</B> <B>putchar(int</B> <I>c</I><B>)</B>
+     <B>int</B> <B>fputc(int</B> <I>c</I><B>,</B> <B>FILE</B> <B>*</B><I>stream</I><B>)</B>
+     <B>int</B> <B>putw(int</B> <I>w</I><B>,</B> <B>FILE</B> <B>*</B><I>stream</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Putc</B> appends the character <I>c</I> to the named output <I>stream</I>.  It returns  the
+     character written.
+
+     <B>Putchar(</B><I>c</I><B>)</B> is defined as <B>putc(</B><I>c</I><B>,</B> <B>stdout)</B>.
+
+     <B>Fputc</B> behaves like <B>putc</B>, but is a genuine function rather than a macro.
+
+     <B>Putw</B> appends word (that is, <B>int</B>) <I>w</I> to the output <I>stream</I>.  It returns  the
+     word  written.   <B>Putw</B> neither assumes nor causes special alignment in the
+     file.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/fopen.3.html">fopen(3)</A></B>, <B><A HREF="../man3/fclose.3.html">fclose(3)</A></B>, <B><A HREF="../man3/getc.3.html">getc(3)</A></B>, <B><A HREF="../man3/puts.3.html">puts(3)</A></B>, <B><A HREF="../man3/printf.3.html">printf(3)</A></B>, <B><A HREF="../man3/fread.3.html">fread(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     These functions return the constant <B>EOF</B> upon error.  Since this is a good
+     integer, <B><A HREF="../man3/ferror.3.html">ferror(3)</A></B> should be used to detect <B>putw</B> errors.
+
+<B>BUGS</B>
+     Because it is implemented as a macro, <B>putc</B> treats a <I>stream</I> argument  with
+     side  effects  improperly.   In  particular `putc(c, *f++);' doesn't work
+     sensibly.
+
+     Errors can occur long after the call to <B>putc</B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

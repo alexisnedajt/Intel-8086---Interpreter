@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>df(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>df(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     df - report on free disk space
+
+<B>SYNOPSIS</B>
+     <B>df</B> [<B>-ikP</B>] [<B>-t</B> <I>type</I>] [<I>file</I> ...]
+
+<B>DESCRIPTION</B>
+     <B>Df</B> lists the amount of free space on the currently  mounted  devices  (no
+     arguments),  or the devices given as arguments.  If the argument is not a
+     device then the device it resides on is listed.
+
+<B>OPTIONS</B>
+     Without options, <B>df</B> will give a listing like this:
+
+     Filesystem    1k-Blocks     free     used    %  FUsed%  Mounted on
+     /dev/c0d0p1s0      1440      635      805  56%    26%   /
+     /dev/c0d0p1s1     32768    32390      378   2%     1%   /tmp
+     /dev/c0d0p1s2    784657   517809   266848  35%    29%   /usr
+
+     The <B>-i</B> option shifts the focus to the files:
+
+     Filesystem        Files     free     used    %  BUsed%  Mounted on
+     /dev/c0d0p1s0      1024      759      265  26%    56%   /
+     /dev/c0d0p1s1      5472     5468        4   1%     2%   /tmp
+     /dev/c0d0p1s2     65535    46734    18801  29%    35%   /usr
+
+     Option <B>-P</B> makes <B>df</B> use POSIX defined output in 512 byte units:
+
+     Filesystem     512-blocks    Used  Available  Capacity  Mounted on
+     /dev/c0d0p1s0      2880      1628     1252       57%    /
+     /dev/c0d0p1s1     65536       756    64780        2%    /tmp
+     /dev/c0d0p1s2   1569314    533748  1035566       35%    /usr
+
+     With <B>-k</B> 1024 byte units would be used.
+
+     The <B>-t</B> option limits <B>df</B>'s output to file systems of the given <I>type</I>.
+
+<B>FILES</B>
+
+     <B>/etc/mtab</B>      List of mounted file systems.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/du.1.html">du(1)</A></B>, <B><A HREF="../man5/fstab.5.html">fstab(5)</A></B>.
+
+<B>BUGS</B>
+     Default output should also be in 512 byte units says POSIX.
+
+
+
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

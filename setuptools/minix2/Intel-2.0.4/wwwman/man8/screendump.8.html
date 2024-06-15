@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>screendump(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>screendump(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     screendump - write current console screen to standard output
+
+<B>SYNOPSIS</B>
+     <B>screendump</B>
+
+<B>DESCRIPTION</B>
+     <B>Screendump</B> prints the contents of the console screen to standard  output.
+     It does this by reading the screen memory, skipping over attribute bytes,
+     omitting trailing blanks and inserting a newline character at the end  of
+     each line.
+
+<B>NOTES</B>
+     The most common use of <B>screendump</B> is with output redirected  to  a  file.
+     This  allows  screen displays (including output of F-keys) to be captured
+     for inclusion in other documents.
+
+     This version is for IBM-PC architecture only.
+
+<B>BUGS</B>
+     A network user captures an image of the main console, not his or her  own
+     screen.  The output will usually not be what you expect if the display is
+     in hardware scrolling mode, since in that mode the order of the lines  in
+     screen  memory may not be the same as what appears on the screen.  If you
+     expect to use <B>screendump</B> to send notes to  someone  about  problems  that
+     occur while using <B>MINIX</B> you must remember to toggle to software scrolling
+     before you make the dump.  It will also be necessary to use  <B>su</B>,  because
+     <B>/dev/mem</B> is normally not world readable.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

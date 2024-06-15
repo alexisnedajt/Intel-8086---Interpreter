@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>paste(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>paste(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     paste - paste multiple files together
+
+<B>SYNOPSIS</B>
+     <B>paste</B> [<B>-s</B>] [<B>-d</B> <I>list</I>] <I>file</I>...
+
+<B>OPTIONS</B>
+
+     <B>-d</B>   Set delimiter used to separate columns to <I>list</I>.
+
+     <B>-s</B>   Print files sequentially, file <I>k</I> on line <I>k</I>.
+
+<B>EXAMPLES</B>
+
+     <B>paste</B> <B>file1</B> <B>file2</B>   # Print <I>file1</I> in col 1, <I>file2</I> in col 2
+
+     <B>paste</B> <B>-s</B> <B>f1</B> <B>f2</B>      # Print <I>f1</I> on line 1 and <I>f2</I> on line 2
+
+     <B>paste</B> <B>-d</B> <B>:</B> <B>file1</B> <B>file2</B>
+                         # Print the lines separated by a colon
+
+<B>DESCRIPTION</B>
+
+     <I>Paste</I> concatenates corresponding lines  of  the  given  input  files  and
+     writes  them  to  standard  output.  The lines of the different files are
+     separated by the delimiters given with the  option  -s.  If  no  list  is
+     given,  a tab is substituted for every linefeed, except the last one.  If
+     end-of-file is hit on an input file, subsequent lines are empty.  Suppose
+     a  set  of <I>k</I> files each has one word per line. Then the <I>paste</I> output will
+     have <I>k</I> columns, with the contents of file <I>j</I> in column <I>j</I>. If the  <B>-s</B>  flag
+     is  given,  then  the first file is on line 1, the second file on line 2,
+     etc. In effect, <B>-s</B> turns the output sideways.
+
+     If a list of delimiters is given, they are used in turn.   The  C  escape
+     sequences  \n,  \t, \\, and \0 are used for linefeed, tab, backslash, and
+     the null string, respectively.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

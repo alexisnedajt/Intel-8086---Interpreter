@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>mkfifo(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>mkfifo(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     mkfifo - make a named pipe
+
+<B>SYNOPSIS</B>
+     <B>mkfifo</B> <B>[-m</B> <I>mode</I>] <I>fifo</I> ...
+
+<B>OPTIONS</B>
+
+     <B>-m</B>   Create fifo with specified mode
+
+<B>EXAMPLES</B>
+
+     <B>mkfifo</B> <B>pipe</B>         # Create <I>pipe</I> in the current directory
+
+     <B>mkfifo</B> <B>-m</B> <B>a+w</B> <B>systatus</B>
+                         # Create the <I>systatus</I> writable by all
+
+<B>DESCRIPTION</B>
+
+     The specified fifo special files are created.  If the <B>-m</B>  flag  is  used,
+     this  will  be  equivalent  to a chmod on the fifo special file after its
+     creation.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/chmod.1.html">chmod(1)</A></B>, <B><A HREF="../man2/mknod.2.html">mknod(2)</A></B>, <B><A HREF="../man8/mknod.8.html">mknod(8)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

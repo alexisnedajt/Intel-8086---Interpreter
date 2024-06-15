@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>g_h_b_n(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>g_h_b_n(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     g_h_b_n,   gethostbyname,    gethostbyaddr,    gethostent,    sethostent,
+     endhostent, herror - get network host entry
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;net/gen/netdb.h&gt;</B>
+
+     <B>extern</B> <B>int</B> <B>h_errno;</B>
+
+     <B>struct</B> <B>hostent</B> <B>*gethostbyname(name)</B>
+     <B>char</B> <B>*name;</B>
+
+     <B>struct</B> <B>hostent</B> <B>*gethostbyaddr(addr,</B> <B>len,</B> <B>type)</B>
+     <B>char</B> <B>*addr;</B> <B>int</B> <B>len,</B> <B>type;</B>
+
+     <B>struct</B> <B>hostent</B> <B>*gethostent()</B>
+
+     <B>sethostent(stayopen)</B>
+     <B>int</B> <B>stayopen;</B>
+
+     <B>endhostent()</B>
+
+     <B>herror(string)</B>
+     <B>char</B> <B>*string;</B>
+
+<B>DESCRIPTION</B>
+     <I>Gethostbyname</I> and <I>gethostbyaddr</I> each return a pointer to an  object  with
+     the following structure describing an internet host referenced by name or
+     by  address,  respectively.   This  structure  contains  the  information
+     obtained from the name server.
+
+     struct  hostent {
+             char    *h_name; /* official name of host */
+             char    **h_aliases; /* alias list */
+             int     h_addrtype; /* host address type */
+             int     h_length; /* length of address */
+             char    **h_addr_list; /* list of addresses from name server */
+     };
+     #define h_addr  h_addr_list[0] /* address, for backward compatibility */
+
+     The members of this structure are:
+
+     h_name       Official name of the host.
+
+     h_aliases    A zero terminated array of alternate names for the host.
+
+     h_addrtype   The  type  of  address  being  returned;  currently   always
+                  AF_INET.
+
+
+     h_length     The length, in bytes, of the address.
+
+     h_addr_list  A zero terminated array of network addresses for  the  host.
+                  Host addresses are returned in network byte order.
+
+     h_addr       The first address  in  h_addr_list;  this  is  for  backward
+                  compatiblity.
+
+     When using the nameserver, <I>gethostbyname</I> will search for the  named  host
+     in  the current domain and its parents unless the name ends in a dot.  If
+     the  name  contains   no   dot,   and   if   the   environment   variable
+     ``HOSTALAIASES''  contains the name of an alias file, the alias file will
+     first be searched for an alias matching the input name.  See  <B><A HREF="../man7/hostname.7.html">hostname(7)</A></B>
+     for the domain search procedure and the alias file format.
+
+     <I>Sethostent</I> may be used to request the use of a connected TCP  socket  for
+     queries.   If the <I>stayopen</I> flag is non-zero, this sets the option to send
+     all queries to the name server using TCP and  to  retain  the  connection
+     after  each  call  to <I>gethostbyname</I> or <I>gethostbyaddr</I>.  Otherwise, queries
+     are performed using UDP datagrams.
+
+     <I>Endhostent</I> closes the TCP connection.
+
+<B>DIAGNOSTICS</B>
+
+     Error return status from <I>gethostbyname</I> and <I>gethostbyaddr</I> is indicated  by
+     return  of  a  null  pointer.   The  external integer <I>h</I>_<I>errno</I> may then be
+     checked to see whether this is a  temporary  failure  or  an  invalid  or
+     unknown  host.   The routine <I>herror</I> can be used to print an error message
+     describing the failure.  If  its  argument  <I>string</I>  is  non-NULL,  it  is
+     printed,  followed  by a colon and a space.  The error message is printed
+     with a trailing newline.
+
+     <I>h</I>_<I>errno</I> can have the following values:
+
+     HOST_NOT_FOUND  No such host is known.
+
+     TRY_AGAIN       This is usually a temporary  error  and  means  that  the
+                     local   server   did  not  receive  a  response  from  an
+                     authoritative server.  A retry at  some  later  time  may
+                     succeed.
+
+     NO_RECOVERY     Some unexpected server failure was encountered.  This  is
+                     a non-recoverable error.
+
+     NO_DATA         The requested name is valid  but  does  not  have  an  IP
+                     address;  this  is not a temporary error. This means that
+                     the name is known to the name  server  but  there  is  no
+                     address  associated  with  this  name.   Another  type of
+                     request to the name server using this  domain  name  will
+                     result in an answer; for example, a mail-forwarder may be
+                     registered for this domain.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/resolver.3.html">resolver(3)</A></B>, <B><A HREF="../man7/hostname.7.html">hostname(7)</A></B>, <B><A HREF="../man8/nonamed.8.html">nonamed(8)</A></B>, <B><A HREF="../man8/named.8.html">named(8)</A></B>
+
+<B>BUGS</B>
+     All information is contained in a static area so it must be copied if  it
+     is   to  be  saved.   Only  the  Internet  address  format  is  currently
+     understood.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

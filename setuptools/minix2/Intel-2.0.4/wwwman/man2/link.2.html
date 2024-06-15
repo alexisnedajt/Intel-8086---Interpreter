@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>link(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>link(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     link - make a hard link to a file
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>int</B> <B>link(const</B> <B>char</B> <B>*</B><I>name1</I><B>,</B> <B>const</B> <B>char</B> <B>*</B><I>name2</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     A hard link to <I>name1</I> is created; the link has the name <I>name2</I>.  <I>Name1</I> must
+     exist.
+
+     With hard links, both <I>name1</I> and <I>name2</I> must be in the  same  file  system.
+     <I>Name1</I> must not be a directory.  Both the old and the new <I>link</I> share equal
+     access and rights to the underlying object.
+
+<B>RETURN</B> <B>VALUE</B>
+     Upon successful completion, a value of 0 is returned.  Otherwise, a value
+     of -1 is returned and <B>errno</B> is set to indicate the error.
+
+<B>ERRORS</B>
+     <B>Link</B> will fail and no link  will  be  created  if  one  or  more  of  the
+     following are true:
+
+     [ENOTDIR]      A component of either path prefix is not a directory.
+
+     [ENAMETOOLONG] A path name exceeds PATH_MAX characters.
+
+     [ENOENT]       A component of either path prefix does not exist.
+
+     [EACCES]       A  component  of  either   path   prefix   denies   search
+                    permission.
+
+     [EACCES]       The requested link requires writing in a directory with  a
+                    mode that denies write permission.
+
+     [ELOOP]        Too many symbolic links were  encountered  in  translating
+                    one of the pathnames.  (Minix-vmd)
+
+     [ENOENT]       The file named by <I>name1</I> does not exist.
+
+     [EEXIST]       The link named by <I>name2</I> does exist.
+
+     [EPERM]        The file named by <I>name1</I> is a directory and  the  effective
+                    user ID is not super-user.
+
+     [EXDEV]        The link named by <I>name2</I> and the file named by <I>name1</I> are on
+                    different file systems.
+
+
+     [ENOSPC]       The directory in which the entry for the new link is being
+                    placed  cannot  be extended because there is no space left
+                    on the file system containing the directory.
+
+     [EIO]          An I/O error occurred while reading from or writing to the
+                    file system to make the directory entry.
+
+     [EROFS]        The requested link requires writing in a  directory  on  a
+                    read-only file system.
+
+     [EFAULT]       One of the pathnames specified is  outside  the  process's
+                    allocated address space.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/symlink.2.html">symlink(2)</A></B>, <B><A HREF="../man2/unlink.2.html">unlink(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

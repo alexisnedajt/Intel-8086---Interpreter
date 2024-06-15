@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>TZ(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>TZ(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     TZ - Time zone environment variable
+
+<B>SYNOPSIS</B>
+     <B>TZ=</B><I>zone</I>[<B>-</B>]<I>offset</I>[<I>dst</I>[<I>offset</I>][<B>,</B><I>start</I>[<B>/</B><I>time</I>]<B>,</B><I>end</I>[<B>/</B><I>time</I>]]]
+
+<B>DESCRIPTION</B>
+     The <B>TZ</B> environment variable tells functions such as the  <B><A HREF="../man3/ctime.3.html">ctime(3)</A></B>  family
+     and  programs  like  <B>date</B> what the time zone and daylight saving rule is.
+     The value of <B>TZ</B> has the POSIX standardized form shown  in  the  synopsis.
+     This form specifies the zone names, offsets from GMT, and daylight saving
+     changeover times for at least the current year.
+
+     <I>zone</I> A three or more letter name for the time  zone  in  normal  (winter)
+          time.
+
+     <B>[-]</B><I>offset</I>
+          A signed time telling the offset of the  time  zone  westwards  from
+          Greenwich.   The  time  has  the form <I>hh</I>[:<I>mm</I>[:<I>ss</I>]] with a one of two
+          digit hour, and optional two digit minutes and seconds.
+
+     <I>dst</I>  The name of the time zone when daylight saving is in effect.  It may
+          be  followed  by  an  offset telling how big the clock correction is
+          other than the default of 1 hour.
+
+     <I>start</I>/<I>time</I>,<I>end</I>/<I>time</I>
+          Specifies the start and end of  the  daylight  saving  period.   The
+          <I>start</I>  and  <I>end</I>  fields  indicate on what day the changeover occurs.
+          They must be in one of the following formats:
+
+          <B>J</B><I>n</I>   The Julian day <I>n</I> (1 &lt;= <I>n</I> &lt;= 365) ignoring leap days, i.e. there
+               is no February 29.
+
+          <I>n</I>    The zero-based Julian day (0 &lt;= <I>n</I> &lt;= 365).  Leap days  are  not
+               ignored.
+
+          <B>M</B><I>m</I><B>.</B><I>n</I><B>.</B><I>d</I>
+               This indicates month <I>m</I>, the <I>n</I>-th occurrence of day <I>d</I> (1 &lt;= <I>m</I> &lt;=
+               12,  1  &lt;= <I>n</I> &lt;= 5, 0 &lt;= <I>d</I> &lt;= 6, 0=Sunday).  The 5-th occurrence
+               means the last occurrence of that day in a month.  So <B>M4.1.0</B> is
+               the  first  Sunday  in  April,  <B>M9.5.0</B>  is  the  last Sunday in
+               September.
+
+          The <I>time</I> field indicates the time the changeover occurs on the given
+          day.
+
+
+
+
+
+<B>EXAMPLES</B>
+     Greenwich Mean Time:
+
+          <B>TZ=GMT0</B>
+
+     Central European Time, 1 hour east from Greenwich, daylight saving starts
+     on  the  last  Sunday  in  March  at  2 AM and ends on the last Sunday in
+     October at 3 AM:
+
+          <B>TZ='CET-1CEST,M3.5.0/2,M10.5.0/3'</B>
+
+     British time, daylight saving starts and ends at the same moment as  CET,
+     but in an earlier time zone:
+
+          <B>TZ=GMT0BST,M3.5.0/1,M10.5.0/2</B>
+
+     The eastern european time zones also have the  changeovers  at  the  same
+     absolute time as British time and CET.
+
+     U.S. Eastern Standard Time, 5 hours west from Greenwich, daylight  saving
+     starts  on  the first Sunday in April at 2 AM and ends on the last Sunday
+     in October at 2 AM:
+
+          <B>TZ=EST5EDT,M4.1.0/2,M10.5.0/2</B>
+
+     It shouldn't surprise you that daylight saving in New Zealand is observed
+     in  the  months  opposite  from  the previous examples.  It starts on the
+     first Sunday in October at 2 AM and ends on the third Sunday in March  at
+     3 AM:
+
+          <B>TZ=NZST-12NZDT,M10.1.0/2,M3.3.0/3</B>
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man8/readclock.8.html">readclock(8)</A></B>, <B><A HREF="../man1/date.1.html">date(1)</A></B>.
+
+<B>BUGS</B>
+     You may have noticed that many fields are optional.   Do  no  omit  them,
+     because  the  defaults are bogus.  If you need daylight saving then fully
+     specify the changeovers.
+
+     West is negative, east is positive, ask any sailor.
+
+     Next year's  time  zone  and  daylight  saving  time  are  determined  by
+     politicians.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+</PRE>
+</BODY>
+</HTML>

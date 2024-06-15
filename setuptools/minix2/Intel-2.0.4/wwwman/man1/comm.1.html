@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>comm(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>comm(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     comm - print lines common to two sorted files
+
+<B>SYNOPSIS</B>
+     <B>comm</B> [<B>-123</B>] <I>file1</I> <I>file2</I>
+
+<B>OPTIONS</B>
+
+     <B>-1</B>   Suppress column 1 (lines present only in <I>file1</I>)
+
+     <B>-2</B>   Suppress column 2 (lines present only in <I>file2</I>)
+
+     <B>-3</B>   Suppress column 3 (lines present in both files)
+
+<B>EXAMPLES</B>
+
+     <B>comm</B> <B>file1</B> <B>file2</B>    # Print all three columns
+
+     <B>comm</B> <B>-12</B> <B>file1</B> <B>file2</B>
+                         # Print only lines common to both files
+
+<B>DESCRIPTION</B>
+
+     Two sorted files are read  and  compared.   A  three  column  listing  is
+     produced.   Files  only in <I>file1</I> are in column 1; files only in <I>file2</I> are
+     in column 2; files common to both files are in column 3.  The file name -
+     means <I>stdin</I>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/cmp.1.html">cmp(1)</A></B>, <B><A HREF="../man1/diff.1.html">diff(1)</A></B>, <B><A HREF="../man1/sort.1.html">sort(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

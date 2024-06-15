@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>printroot(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>printroot(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     printroot - print the name of the root device on standard output
+
+<B>SYNOPSIS</B>
+     <B>printroot</B>
+
+<B>OPTIONS</B>
+
+     <B>-r</B>   Print only the root device, not a full mtab line
+
+<B>EXAMPLES</B>
+
+     <B>printroot</B>           # Print the name of the root device
+
+<B>DESCRIPTION</B>
+
+     <I>Printroot</I> is useful for initializing the /<I>etc</I>/<I>mtab</I>  when  the  system  is
+     booted.   It  figures out what the root device is by searching /<I>dev</I> until
+     it finds a block special file with the right major/minor device numbers.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man5/fstab.5.html">fstab(5)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

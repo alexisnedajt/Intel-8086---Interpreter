@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>ctype(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>ctype(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ctype, isalpha, isupper, islower, isdigit,  isxdigit,  isalnum,  isspace,
+     ispunct,  isprint, isgraph, iscntrl, isascii, toupper, tolower, toascii -
+     character classification macros
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;ctype.h&gt;</B>
+
+     <B>int</B> <B>isalpha(int</B> <I>c</I><B>)</B>
+     <B>...</B>
+
+<B>DESCRIPTION</B>
+     These macros classify characters by table lookup.  Each  is  a  predicate
+     returning  nonzero  for  true,  zero  for false.  <B>Isascii</B> and <B>toascii</B> are
+     defined on all integer values; the rest are defined only on the range  of
+     <B>unsigned</B> <B>char</B> and on the special value EOF (see <B><A HREF="../man3/stdio.3.html">stdio(3)</A></B>).
+
+     <B>isalpha</B>        <I>c</I> is a letter
+
+     <B>isupper</B>        <I>c</I> is an upper case letter
+
+     <B>islower</B>        <I>c</I> is a lower case letter
+
+     <B>isdigit</B>        <I>c</I> is a digit
+
+     <B>isxdigit</B>       <I>c</I> is a hex digit
+
+     <B>isalnum</B>        <I>c</I> is an alphanumeric character
+
+     <B>isspace</B>        <I>c</I> is a space, tab, carriage return, newline, vertical tab,
+                    or formfeed
+
+     <B>ispunct</B>        <I>c</I>  is  a  punctuation  character  (neither   control   nor
+                    alphanumeric)
+
+     <B>isprint</B>        <I>c</I> is a printing character,  code  <B><A HREF="../man8/040.8.html">040(8)</A></B>  (space)  through
+                    0176 (tilde)
+
+     <B>isgraph</B>        <I>c</I> is a printing character, similar to <B>isprint</B> except false
+                    for space.
+
+     <B>iscntrl</B>        <I>c</I>  is  a  delete  character  (0177)  or  ordinary  control
+                    character (less than 040).
+
+     <B>isascii</B>        <I>c</I> is an ASCII character, code less than 0200
+
+     <B>tolower</B>        <I>c</I> is converted to lower case.  Return value  is  undefined
+                    if not <B>isupper</B>(<I>c</I>).
+
+
+     <B>toupper</B>        <I>c</I> is converted to upper case.  Return value  is  undefined
+                    if not <B>islower</B>(<I>c</I>).
+
+     <B>toascii</B>        <I>c</I> is converted to be a valid ascii character.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man7/ascii.7.html">ascii(7)</A></B>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

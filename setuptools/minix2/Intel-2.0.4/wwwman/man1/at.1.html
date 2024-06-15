@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>at(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>at(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     at - execute commands at a later time
+
+<B>SYNOPSIS</B>
+     <B>at</B> <I>time</I> [<I>month</I> <I>day</I>] [<I>file</I>]
+
+<B>EXAMPLES</B>
+
+     <B>at</B> <B>2315</B> <B>Jan</B> <B>31</B> <B>myfile</B>
+                         # Myfile executed Jan 31 at 11:15 pm
+
+     <B>at</B> <B>0900</B>             # Job input read from <I>stdin</I>
+
+     <B>at</B> <B>0711</B> <B>4</B> <B>29</B>        # Read from <I>stdin</I>, exec on April 29
+
+<B>DESCRIPTION</B>
+
+     <B>At</B> prepares a file to be executed later at the specified time by creating
+     a  special  entry  in  <B>/usr/spool/at</B>.   The  <B>cron</B>  daemon  takes  care of
+     executing these jobs.  It checks to see if  any  files  in  <B>/usr/spool/at</B>
+     should  now  be  run,  and  if  so,  it  runs  them and then puts them in
+     <B>/usr/spool/at/past</B>.  The name of the file created in <B>/usr/spool/at</B> by  <B>at</B>
+     is YY.DDD.HHMM.UU (where YY, DDD, HH, and MM give the time to execute and
+     UU is a unique number).  Note that when the command runs, it will not  be
+     able  to  use  standard  input  unless specifically redirected.  Standard
+     output will be mailed to the owner of the job.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man8/cron.8.html">cron(8)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

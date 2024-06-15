@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>srccrc(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>srccrc(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     srccrc - compute CRC checksums of the entire source tree
+
+<B>SYNOPSIS</B>
+     <B>srccrc</B>
+
+<B>OPTIONS</B>
+
+<B>EXAMPLES</B>
+
+<B>DESCRIPTION</B>
+
+     <I>Srccrc</I> traverses the entire /usr/include and /usr/src tree to run the crc
+     command  on all files found.  The result is a long list of filenames with
+     their checksums.  The filenames are relative to /usr.
+
+     The command makes an effort to remove most junk files such  as  .o,  .bak
+     and files in bin directories.  It cannot find single binaries however, so
+     you will have to run <B>make</B> <B>clean</B> in /usr/src to be able to make a crc list
+     that contains only source files.
+
+     Two crc files can be compared easily with the <I>diff</I> command.  A  crc  list
+     of the original source tree can be found in /usr/src/crclist.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/crc.1.html">crc(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

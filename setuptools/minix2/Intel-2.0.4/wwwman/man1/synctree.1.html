@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>synctree(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>synctree(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     synctree - synchronize directory trees.
+
+<B>SYNOPSIS</B>
+     <B>synctree</B> [<B>-iuf</B>] [[<I>user1</I>@]<I>machine1</I>:]<I>dir1</I> [[<I>user2</I>@]<I>machine2</I>:]<I>dir2</I>
+
+<B>DESCRIPTION</B>
+     <B>Synctree</B> synchronizes the directory tree rooted at  <I>dir2</I>  with  <I>dir1</I>.  It
+     walks  recursively through both trees, and deletes and adds files in <I>dir2</I>
+     to make it equal to <I>dir1</I>. Mode, owner and group are  set  for  each  file
+     unless  the  <B>-u</B>  flag is given. In its normal mode of operation, synctree
+     will ask if it may delete or add directories assuming that you don't want
+     to. Non-directories are simply deleted or added, but synctree will ask if
+     it needs to update a normal file with a default  answer  of  'y'.  Simply
+     typing  return will choose the default answer, typing end-of-file is like
+     typing return to this question and all other questions.
+
+     You can specify a hostname and user-id to be used to access <I>dir1</I> or <I>dir2</I>.
+     Synctree  will  use <B><A HREF="../man1/rsh.1.html">rsh(1)</A></B> to run a copy of itself on the remote machine.
+     The call interface mimics that of <B><A HREF="../man1/rcp.1.html">rcp(1)</A></B>, but you can use more  than  one
+     user@machine prefix if you want to make things really interesting.
+
+     Hard links are enforced, an update is done by first deleting the old file
+     so  that  links  to unknown files are broken.  Links to files within <I>dir2</I>
+     will be restored.
+
+     If either directory contains the file <B>.backup</B>, then  this  file  will  be
+     used  as an alternate inode table.  This allows one to make a backup copy
+     of a file tree full of special files and differing user-ids on  a  remote
+     machine under an unpriviledged user-id.
+
+<B>OPTIONS</B>
+
+     <B>-i</B>   Ask for permission (with default answer 'n') to delete  or  add  any
+          file or directory.
+
+     <B>-u</B>   Only install newer files, i.e. merge the directory trees.
+
+     <B>-f</B>   Don't ask, think 'yes' on any question.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/remsync.1.html">remsync(1)</A></B>, <B><A HREF="../man1/cpdir.1.html">cpdir(1)</A></B>, <B><A HREF="../man1/rsh.1.html">rsh(1)</A></B>, <B><A HREF="../man1/rcp.1.html">rcp(1)</A></B>, <B><A HREF="../man3/perror.3.html">perror(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     Messages may come from three  different  processes.   One  named  "Slave"
+     running  in <I>dir1</I>, one named "Master" running in <I>dir2</I>, and synctree itself
+     in a mediator role.  The mediator will also perform the  task  of  either
+     the  master  or the slave if one of them is running locally.  You need to
+     know this to interpret the  error  messages  coming  from  one  of  these
+     processes.   The  messages  are  normally based on <B><A HREF="../man3/perror.3.html">perror(3)</A></B>.  Failure to
+     contact a remote machine will be reported by <B>rsh</B>.  <B>Synctree</B> should have a
+     zero exit status if no errors have been encountered.
+
+<B>BUGS</B>
+     Directory <I>dir2</I> will be created without asking.
+
+     The master and slave processes get their error output mixed up  sometimes
+     (nice puzzle).
+
+     The local and remote machine must use the same file type encoding.
+
+     The link replacement strategy may lead  to  lack  of  space  on  a  small
+     device.   Let <B>synctree</B> run to completion and then rerun it to pick up the
+     pieces.
+
+     Letting the local process keep its "synctree" name may be a mistake.
+
+     It talks too much.
+
+<B>AUTHOR</B>
+     Kees J. Bot, (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

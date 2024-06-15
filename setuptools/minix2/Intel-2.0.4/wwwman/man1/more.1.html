@@ -1,0 +1,261 @@
+<HTML>
+<HEAD>
+<TITLE>yap(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>yap(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     yap, more - yet another pager
+
+<B>SYNOPSIS</B>
+     <B>yap</B> [<B>-cnuq</B>] [<B>-</B><I>n</I>] [<B>+</B><I>command</I>] [<I>file</I> ...]
+
+<B>DESCRIPTION</B>
+     <B>Yap</B> is a program allowing the user  to  examine  a  continuous  text  one
+     screenful  at  a time on a video display terminal.  It does so by pausing
+     after each screenful, waiting for  the  user  to  type  a  command.   The
+     commands  are  enumerated later.  <B>Yap</B>'s main feature is, that it can page
+     both forwards and backwards, even when reading from standard input.
+
+     The command line options are:
+
+     -<I>n</I>   An integer which is the size (in lines) of a page (the initial <I>page</I>-
+          <I>size</I>.
+
+     <B>-c</B>   Normally, <B>yap</B> will display each page by beginning at the top of  the
+          screen  and erasing each line just before it displays on it. If your
+          terminal cannot erase a line, <B>yap</B> will clear the  screen  before  it
+          displays a page.
+          This avoids scrolling the screen, making it easier to read while <B>yap</B>
+          is  writing.   The <B>-c</B> option causes <B>yap</B> to scroll the screen instead
+          of beginning at the top of the screen.  This is also  done  if  your
+          terminal cannot either erase a line or clear the screen.
+
+     <B>-u</B>   Normally, <B>yap</B> handles underlining such as produced  by  nroff  in  a
+          manner  appropriate  to the particular terminal: if the terminal can
+          perform underlining well (t.i., the escape sequences for underlining
+          do  not  occupy  space on the screen), <B>yap</B> will underline underlined
+          information in the input. The <B>-u</B> option supresses this underlining.
+
+     <B>-n</B>   Normally, <B>yap</B> also recognises escape sequences for stand-out mode or
+          underlining mode in the input, and knows how much space these escape
+          sequences will occupy on the screen, so that <B>yap</B> will not fold lines
+          erroneously.  The <B>-n</B> option supresses this pattern matching.
+
+     <B>-q</B>   This option will cause <B>yap</B> to exit only on the "quit" command.
+
+     <B>+</B><I>command</I>
+          <I>command</I> is taken to be an initial command to <B>yap</B>.
+
+     <B>Yap</B> looks  in  the  <B>YAP</B>  environment  variable  to  pre-set  flags.   For
+     instance,  if  you  prefer  the  <B>-c</B>  mode  of operation, just set the <B>YAP</B>
+     environment variable to <B>-c</B>.
+
+     The commands of <B>yap</B>  can  be  bound  to  sequences  of  keystrokes.   The
+     environment  variable  <B>YAPKEYS</B>  may contain the bindings in the form of a
+     list of colon-separated `name=sequence'  pairs.   The  <I>name</I>  is  a  short
+     mnemonic for the command, the <I>sequence</I> is the sequence of  keystrokes  to
+     be  typed  to invoke the command.  This sequence may contain a ^X escape,
+     which means control-X, and a \X escape, which means X. The latter can  be
+     used  to  get the characters `^', `\' and `:' in the sequence.  There are
+     two keymaps available, the default one and a user-defined one.   You  can
+     switch between one and the other with the <I>change</I> <I>keymap</I> command.
+
+     The <B>yap</B> commands are described below.  The mnemonics for the commands are
+     given  in parentheses. The default key sequences (if any) are given after
+     the mnemonic.  Every command takes an optional  integer  argument,  which
+     may  be  typed  before  the  command.  Some  commands just ignore it. The
+     integer argument is referred to as <I>i</I>.  Usually, if <I>i</I>  is  not  given,  it
+     defaults to 1.
+
+     visit previous file (<I>bf</I>) <B>P</B>
+          Visit the <I>i</I>-th previous file given in the command line.
+
+     scroll one line up or go to line (<I>bl</I>) <B>^K</B> or <B>k</B>
+          If <I>i</I> is not  given,  scroll  one  line  up.  Otherwise,  <I>i</I>  will  be
+          interpreted  as  a  line  number.  A  page  starting  with  the line
+          indicated will then be displayed.
+
+     bottom (<I>bot</I>) <B>l</B> or <B>$</B>
+          Go to the last line of the input.
+
+     display previous page (<I>bp</I>) <B>-</B>
+          Display the previous page, consisting  of  <I>i</I>  lines,  (or  <I>page</I>-<I>size</I>
+          lines if no argument is given).
+
+     display previous page and set pagesize (<I>bps</I>) <B>Z</B>
+          Display the previous page, consisting  of  <I>i</I>  lines,  (or  <I>page</I>-<I>size</I>
+          lines if no argument is given).  If <I>i</I> is given, the <I>page</I>-<I>size</I> is set
+          to <I>i</I>.
+
+     scroll up (<I>bs</I>) <B>^B</B>
+          Scroll up  <I>i</I>  lines  (or  <I>scroll</I>-<I>size</I>  lines  if  <I>i</I>  is  not  given.
+          Initially, the <I>scroll</I>-<I>size</I> is 11).
+
+     search backwards for pattern (<I>bse</I>) <B>?</B>
+          Search backwards for the <I>i</I>-th occurrence  of  a  regular  expression
+          which will be prompted for.  If there are less than <I>i</I> occurrences of
+          the  expression,  the  position  in  the  file  remains   unchanged.
+          Otherwise,  a page is displayed, starting two lines before the place
+          where the expression was found. The user's erase and kill characters
+          may  be  used  to  edit the expression.  Erasing back past the first
+          character cancels the search command.
+          Note: Some systems do not have <B><A HREF="../man3/regex.3.html">regex(3)</A></B>.  On those systems, searches
+          are still supported, but regular expressions are not.
+
+
+     skip lines backwards (<I>bsl</I>) <B>S</B>
+          Skip <I>i</I> lines backwards and display a page.
+
+     skip pages backwards (<I>bsp</I>) <B>F</B>
+          Skip <I>i</I> pages backwards and display a page.
+
+     scroll up and set scrollsize (<I>bss</I>) <B>b</B>
+          Scroll up <I>i</I> lines (or <I>scroll</I>-<I>size</I> lines if <I>i</I> is not given.  If <I>i</I>  is
+          given, the <I>scroll</I>-<I>size</I> is set to <I>i</I>.
+
+     change key map (<I>chm</I>) <B>X</B>
+          Change from the current key map to the other (if there is one).
+
+     exchange current page and mark (<I>exg</I>) <B>x</B>
+          Set the mark to the current page, and display the previously  marked
+          page.
+
+     visit next file (<I>ff</I>) <B>N</B>
+          Visit the <I>i</I>-th next file given in the command line.
+
+     scroll one line down or go to line (<I>fl</I>) <B>^J</B> or <B>^M</B> or <B>j</B>
+          If <I>i</I> is not given, scroll  one  line  down.  Otherwise,  <I>i</I>  will  be
+          interpreted  as  a  line  number.  A  page  starting  with  the line
+          indicated will then be displayed.
+
+     display next page (<I>fp</I>) <B>&lt;space&gt;</B>
+          Display the next page, consisting of <I>i</I> lines, (or <I>page</I>-<I>size</I> lines if
+          no argument is given).
+
+     display next page and set pagesize (<I>fps</I>) <B>z</B>
+          Display the next page, consisting of <I>i</I> lines, (or <I>page</I>-<I>size</I> lines if
+          no argument is given).  If <I>i</I> is given, the <I>page</I>-<I>size</I> is set to <I>i</I>.
+
+     scroll down (<I>fs</I>) <B>^D</B>
+          Scroll down <I>i</I> lines (or <I>scroll</I>-<I>size</I> lines if no argument is given).
+
+     search forwards for pattern (<I>fse</I>) <B>/</B>
+          Search forwards for the <I>i</I>-th  occurrence  of  a  regular  expression
+          which will be prompted for.  If there are less than <I>i</I> occurrences of
+          the  expression,  the  position  in  the  file  remains   unchanged.
+          Otherwise,  a page is displayed, starting two lines before the place
+          where the expression was found. The user's erase and kill characters
+          may  be  used  to  edit the expression.  Erasing back past the first
+          character cancels the search command.
+          Note: Some systems do not have <B><A HREF="../man3/regex.3.html">regex(3)</A></B>.  On those systems, searches
+          are still supported, but regular expressions are not.
+
+
+
+
+     skip lines forwards (<I>fsl</I>) <B>s</B>
+          Skip <I>i</I> lines and display a page.
+
+     skip pages forwards (<I>fsp</I>) <B>f</B>
+          Skip <I>i</I> pages and display a page.
+
+     scroll down and set scrollsize (<I>fss</I>) <B>d</B>
+          Scroll down <I>i</I> lines (or <I>scroll</I>-<I>size</I> lines if <I>i</I> is not given.   If  <I>i</I>
+          is given, the <I>scroll</I>-<I>size</I> is set to <I>i</I>.
+
+     help (<I>hlp</I>) <B>h</B>
+          Give a short description of all commands that are  bound  to  a  key
+          sequence.
+
+     set a mark (<I>mar</I>) <B>m</B>
+          Set a mark on the current page.
+
+     repeat last search (<I>nse</I>) <B>n</B>
+          Search for the  <I>i</I>-th  occurrence  of  the  last  regular  expression
+          entered, in the direction of the last search.
+
+     repeat last search in other direction (<I>nsr</I>) <B>r</B>
+          Search for the  <I>i</I>-th  occurrence  of  the  last  regular  expression
+          entered, but in the other direction.
+
+     quit (<I>qui</I>) <B>Q</B> or <B>q</B>
+          Exit from <B>yap</B>.
+
+     redraw (<I>red</I>) <B>^L</B>
+          Redraw the current page.
+
+     repeat (<I>rep</I>) <B>.</B>
+          Repeat the last command. This does not always make sense, so not all
+          commands can be repeated.
+
+     shell escape (<I>shl</I>) <B>!</B>
+          Invoke the shell with a command that will be prompted for.   In  the
+          command,  the  characters  `%' and `!' are replaced with the current
+          file  name  and  the  previous  shell  command  respectively.    The
+          sequences  `\%'  and  `\!' are replaced by `%' and `!' respectively.
+          The user's erase and  kill  characters  can  be  used  to  edit  the
+          command.  Erasing back past the first character cancels the command.
+
+     pipe to shell command (<I>pip</I>) <B>|</B>
+          Pipe the current input file  into  a  shell  command  that  will  be
+          prompted  for.   The  comments given in the description of the shell
+          escape command apply here too.
+
+
+
+     go to mark (<I>tom</I>) <B>'</B>
+          Display the marked page.
+
+     top (<I>top</I>) <B>^^</B>
+          Display a page starting with the first line of the input.
+
+     visit file (<I>vis</I>) <B>e</B>
+          Visit a new file. The filename will be prompted  for.  If  you  just
+          type a return, the current file is revisited.
+
+     write input to a file (<I>wrf</I>) <B>w</B>
+          Write the input to a file, whose name will be prompted for.
+
+     The commands take effect immediately, i.e., it is not necessary to type a
+     carriage  return.   Up  to  the  time when the command sequence itself is
+     given, the user may give an interrupt to cancel the command being formed.
+
+<B>AUTHOR</B>
+     Ceriel J.H. Jacobs
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man3/regex.3.html">regex(3)</A></B>.
+
+<B>BUGS</B>
+     <B>Yap</B> will find your terminal very stupid and act like it, if it has no way
+     of placing the cursor on the home position, or cannot either erase a line
+     or insert one.
+
+     In lines longer than  about  2000  characters,  a  linefeed  is  silently
+     inserted.
+
+     The percentage, given in the prompt when <B>yap</B> reads from a file (and knows
+     it), is not always very accurate.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

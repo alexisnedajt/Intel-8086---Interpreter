@@ -1,0 +1,162 @@
+<HTML>
+<HEAD>
+<TITLE>fcntl(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>fcntl(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     fcntl - miscellaneous file descriptor control functions
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;fcntl.h&gt;</B>
+
+     <B>int</B> <B>fcntl(int</B> <I>fd</I><B>,</B> <B>int</B> <I>cmd</I><B>,</B> [<I>data</I>]<B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Fcntl()</B>  performs  several  file  descriptor  related   functions,   like
+     duplicating  a  file  descriptor,  setting the "close on exec" attribute,
+     etc.  The <I>fd</I> argument is the file descriptor to operate on,  <I>cmd</I>  is  the
+     command  code  of  the  operation  to  perform,  and  <I>data</I> is an optional
+     argument to give or receive parameters.   The  command  codes  and  other
+     symbols and types are declared in &lt;fcntl.h&gt;.  The commands are:
+
+     <B>fcntl(</B><I>fd</I><B>,</B> <B>F_DUPFD,</B> <B>int</B> <I>fd2</I><B>)</B>
+          Returns a new file descriptor that is a duplicate of file descriptor
+          <I>fd</I>.  It shares the same file pointer and the same file status flags,
+          but has separate file descriptor flags that are initially off.   The
+          value  of  the  duplicate  file  descriptor  is  the first free file
+          descriptor greater than or equal to <I>fd2</I>.
+
+     <B>fcntl(</B><I>fd</I><B>,</B> <B>F_GETFD)</B>
+          Returns the file descriptor flags associated  with  file  descriptor
+          <I>fd</I>.   The  flags  are the "close on exec" flag <B>FD_CLOEXEC</B> that, when
+          set, causes the file  descriptor  to  be  closed  when  the  process
+          executes  another  program.  The Minix-vmd specific <B>FD_ASYNCHIO</B> flag
+          marks a file descriptor for asynchronous I/O operation.
+
+     <B>fcntl(</B><I>fd</I><B>,</B> <B>F_SETFD,</B> <B>int</B> <I>flags</I><B>)</B>
+          Set the file descriptor flags of <I>fd</I> to <I>flags</I>.
+
+     <B>fcntl(</B><I>fd</I><B>,</B> <B>F_GETFL)</B>
+          Return the file status flags and file access modes  associated  with
+          the  file associated with file descriptor <I>fd</I>.  The file status flags
+          are <B>O_NONBLOCK</B> (non blocking I/O) and <B>O_APPEND</B> (append  mode).   The
+          file  access  modes  are <B>O_RDONLY</B> (read-only), <B>O_WRONLY</B> (write-only)
+          and <B>O_RDWR</B> (read-write).  These flags are also used  in  the  second
+          argument of <B><A HREF="../man2/open.2.html">open(2)</A></B>.
+
+     <B>fcntl(</B><I>fd</I><B>,</B> <B>F_SETFL,</B> <B>int</B> <I>flags</I><B>)</B>
+          Set the file status flags of the file referenced  by  <I>fd</I>  to  <I>flags</I>.
+          Only  <B>O_NONBLOCK</B> and <B>O_APPEND</B> may be changed.  Access mode flags are
+          ignored.
+
+     The next four commands use a parameter  of  type  <B>struct</B>  <B>flock</B>  that  is
+     defined in &lt;fcntl.h&gt; as:
+
+          struct flock {
+              short   l_type;     /* F_RDLCK, F_WRLCK, or F_UNLCK */
+              short   l_whence;   /* SEEK_SET, SEEK_CUR, or SEEK_END */
+              off_t   l_start;    /* byte offset to start of segment */
+              off_t   l_len;      /* length of segment */
+              pid_t   l_pid;      /* process id of the locks' owner */
+          };
+
+     This structure describes a  segment  of  a  file.   <B>L_type</B>  is  the  lock
+     operation  performed  on  the  file segment:  <B>F_RDLCK</B> to set a read lock,
+     <B>F_WRLCK</B> to set a write lock, and  <B>F_UNLCK</B>  to  remove  a  lock.   Several
+     processes  may  have  a  read lock on a segment, but only one process can
+     have a write  lock.   <B>L_whence</B>  tells  if  the  <B>l_start</B>  offset  must  be
+     interpreted  from  the  start  of  the  file (<B>SEEK_SET</B>), the current file
+     position (<B>SEEK_CUR</B>),  or  the  end  of  the  file  (<B>SEEK_END</B>).   This  is
+     analogous  to  the third parameter of <B><A HREF="../man2/lseek.2.html">lseek(2)</A></B>.  These <B>SEEK_*</B> symbols are
+     declared in &lt;unistd.h&gt;.  <B>L_start</B> is the starting offset of the segment of
+     the  file.  <B>L_end</B> is the length of the segment.  If zero then the segment
+     extends until end of file.   <B>L_pid</B>  is  the  process-id  of  the  process
+     currently holding a lock on the segment.  It is returned by <B>F_GETLK</B>.
+
+     <B>fcntl(</B><I>fd</I><B>,</B> <B>F_GETLK,</B> <B>struct</B> <B>flock</B> <B>*</B><I>lkp</I><B>)</B>
+          Find out if some other process has a lock on a segment of  the  file
+          associated  by  file  descriptor  <I>fd</I>  that overlaps with the segment
+          described by the <B>flock</B> structure pointed to by <I>lkp</I>.  If the  segment
+          is  not  locked  then  <B>l_type</B> is set to <B>F_UNLCK</B>.  Otherwise an <B>flock</B>
+          structure is returned through <I>lkp</I> that describes the  lock  held  by
+          the  other  process.   <B>L_start</B>  is  set relative to the start of the
+          file.
+
+     <B>fcntl(</B><I>fd</I><B>,</B> <B>F_SETLK,</B> <B>struct</B> <B>flock</B> <B>*</B><I>lkp</I><B>)</B>
+          Register a lock on a  segment  of  the  file  associated  with  file
+          descriptor  <I>fd</I>.   The  file segment is described by the <B>struct</B> <B>flock</B>
+          pointed to by <I>lkp</I>.  This call returns an error if any  part  of  the
+          segment is already locked.
+
+     <B>fcntl(</B><I>fd</I><B>,</B> <B>F_SETLKW,</B> <B>struct</B> <B>flock</B> <B>*</B><I>lkp</I><B>)</B>
+          Register a lock on a  segment  of  the  file  associated  with  file
+          descriptor  <I>fd</I>.   The  file segment is described by the <B>struct</B> <B>flock</B>
+          pointed to by <I>lkp</I>.  This call blocks waiting  for  the  lock  to  be
+          released if any part of the segment is already locked.
+
+     <B>fcntl(</B><I>fd</I><B>,</B> <B>F_FREESP,</B> <B>struct</B> <B>flock</B> <B>*</B><I>lkp</I><B>)</B>
+          This Minix-vmd specific call frees a segment of disk space  occupied
+          by  the  file  associated  with  file descriptor <I>fd</I>.  The segment is
+          described by the <B>struct</B> <B>flock</B>  pointed  to  by  <I>lkp</I>.   The  file  is
+          truncated  in  length  to  the byte position indicated by <B>l_start</B> if
+          <B>l_len</B> is zero.  If <B>l_len</B> is nonzero then the file  keeps  its  size,
+          but  the  freed  bytes  now  read as zeros.  (Other than sharing the
+          flock structure, this call has nothing to do with  locking.)   (This
+          call is common among UNIX(-like) systems.)
+
+     <B>fcntl(</B><I>fd</I><B>,</B> <B>F_SEEK,</B> <B>u64_t</B> <I>pos</I><B>)</B>
+          This Minix-vmd specific call sets the  file  position  of  the  file
+          associated  with  file descriptor <I>fd</I> to the byte offset indicated by
+          the 64-bit number <I>pos</I>.  This is analogous to the call
+
+               <B>lseek(</B><I>fd</I><B>,</B> <I>pos</I><B>,</B> <B>SEEK_SET)</B>
+
+          except that <B>F_SEEK</B> can be used on devices larger than 4 gigabyte.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/open.2.html">open(2)</A></B>, <B><A HREF="../man2/dup.2.html">dup(2)</A></B>, <B><A HREF="../man2/lseek.2.html">lseek(2)</A></B>, <B><A HREF="../man3/ftruncate.3.html">ftruncate(3)</A></B>, <B><A HREF="../man3/int64.3.html">int64(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Fcntl</B> returns a file descriptor, flags, or <B>0</B>  to  indicate  success.   On
+     error  <B>-1</B> is returned, with <B>errno</B> set to the appropriate error code.  The
+     most notable errors are:
+
+     <B>EINTR</B>
+          If a blocked <B>F_SETLKW</B> operation is interrupted by a signal  that  is
+          caught.
+
+     <B>EAGAIN</B>
+          By <B>F_SETLK</B> if a segment cannot be locked.
+
+     <B>EBADF</B>
+          A bad file descriptor in general, or an attempt  to  place  a  write
+          lock on a file that is not open for writing, etc.
+
+     <B>ENOLCK</B>
+          No locks available, the file system code has  run  out  of  internal
+          table space.
+
+<B>AUTHOR</B>
+     Kees J. Bot &lt;kjb@cs.vu.nl&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,175 @@
+<html>
+<head>
+    <title>Minix 2.0.4</title>
+</head>
+<body>
+<h1>HOW TO GET AND INSTALL MINIX 2.0.4</h1>
+
+<strong>
+More Important note:
+</strong>
+<em>
+Version 2.0.4 has been slapped together in a hurry to have a fixed point
+to start a new Minix project at.  The code should be OK, but most new
+things haven't been tested.  (So there's already a fix out.)  The
+documentation is alas far behind all the changes.
+</em>
+<hr>
+<strong>
+Important note:
+</strong>
+<em>
+Version 2.0.4 will not run on a system with only 640K!  The halfbaked
+swapping code does not fully compensate for the increased memory use of
+other parts of the system, most notably the shell.  The documentation
+has not been updated to reflect this, because we still have the hope that
+the next version will again run on the XT.  
+</em>
+<hr>
+
+This directory and subdirectories contains Minix version 2.0.4, a small
+educational UNIX-like system for IBM PC's and compatibles.
+<p>
+Before installing Minix, do the unthinkable and read the installation manual
+<a href="wwwman/man8/usage.8.html"><b>usage</b>(8)</a>.
+It and the possibly useful
+<a href="wwwman/man8/boot.8.html"><b>boot</b>(8)</a>
+are in the following files in two forms:
+<p>
+<pre>
+  <a href="usage.ps">usage.ps</a>   <a href="boot.ps">boot.ps</a>    - PostScript
+  <a href="usage.txt">usage.txt</a>  <a href="boot.txt">boot.txt</a>   - Flat ASCII text
+</pre>
+Alternatively, with a web browser you can view the
+<a href="wwwman/whatis.html">whole manual page set</a>.
+The page to start with is
+<a href="wwwman/man8/usage.8.html"><b>usage</b>(8)</a>.
+
+<hr>
+
+These files may also be of interest:
+
+<pre>
+  <a href="md5list">md5list</a>               - MD5 checksums of the files here
+  <a href="crclist">crclist</a>               - Checksums using Minix <a href="wwwman/man1/crc.1.html">crc</a> command
+  <a href="crc.c">crc.c</a>                 - Command to make CRC checksums
+  <a href="changes.txt">changes.txt</a>           - List of changes between 2.0.0 and 2.0.4
+  <a href="psman/">psman/</a>                - All manuals in PostScript form
+<!-- XXX
+  <a href="misc/">misc/</a>                 - Additional documents: installation example,
+                          network config
+  <a href="bugs">bugs</a>                  - List of bugs in 2.0.4
+  <a href="fixes/">fixes/</a>                - Fixes to bugs in 2.0.4
+--></pre>
+
+<hr>
+
+Minix for the Intel architecture comes in three flavors:
+<pre>
+  - Regular (for 386, 486, and Pentium machines)
+  - Small (for 286 machines)
+  - Running under DOS/Windows/Bochs/WMWare(?).
+</pre>
+
+<p>
+The bits and pieces of each flavor are distributed over the
+<b><a href="i386/">i386</a></b>,
+<b><a href="i86/">i86</a></b>,
+<b><a href="src/">src</a></b>
+directories, depending on architecture (386+ or 286), or
+source files (src).  (Take a peek in those directories if you want to
+know the file sizes.)  You need the following files, <em>and only those
+files</em>, for each flavor:
+
+<h2> 386, 486, Pentium </h2>
+<pre>
+  <a href="i386/ROOT.MNX">i386/ROOT.MNX</a>         - Installation root floppy image
+  <a href="i386/USR.MNX">i386/USR.MNX</a>          - Installation /usr floppy image
+  <a href="i386/NET.TAZ">i386/NET.TAZ</a>          - Network install files (optional!)
+  <a href="i386/USR.TAZ">i386/USR.TAZ</a>          - Binary /usr files (386 executables)
+  <a href="src/SYS.TAZ">src/SYS.TAZ</a>           - Operating system sources (libary, kernel, etc.)
+  <a href="src/CMD.TAZ">src/CMD.TAZ</a>           - Commands sources (cp, ls, mkdir, etc.)
+  <a href="src/FIX.TAZ">src/FIX.TAZ</a>           - Fixed RTL8139 driver (install last)
+</pre>
+
+<h2> 286 with 2M+ memory<br>
+     286 with a 1.44M floppy drive<br>
+     286 with two 720K floppy drives </h2>
+<pre>
+  <a href="i86/ROOT.MNX">i86/ROOT.MNX</a>          - Installation root floppy image
+  <a href="i86/USR.MNX">i86/USR.MNX</a>           - Installation /usr floppy image
+  <a href="i86/NET.TAZ">i86/NET.TAZ</a>           - Network install files (optional!)
+  <a href="i86/USR.TAZ">i86/USR.TAZ</a>           - Binary /usr files (8086 executables)
+  <a href="src/SYS.TAZ">src/SYS.TAZ</a>           - Operating system sources (libary, kernel, etc.)
+  <a href="src/CMD.TAZ">src/CMD.TAZ</a>           - Commands sources (cp, ls, mkdir, etc.)
+</pre>
+
+<h2> Running under DOS in 386 mode </h2>
+<pre>
+  <a href="dosminix.html">dosminix.txt</a>          - README (also present in ZIP file)
+  <a href="i386/DOSMINIX.ZIP">i386/DOSMINIX.ZIP</a>     - Bootstrap and 50M "disk"
+</pre>
+
+<h2> Running under DOS in 8086/286 mode<br>
+     Running under Windows in a DOS box in 8086 mode (experimental) </h2>
+<pre>
+  <a href="dosminix.html">dosminix.txt</a>          - README (also present in ZIP file)
+  <a href="i86/DOSMINIX.ZIP">i86/DOSMINIX.ZIP</a>      - Bootstrap and 50M "disk"
+</pre>
+
+<p>
+
+The files with names ending in <b>.MNX</b> are sector-by-sector copies of
+Minix floppies or disks.  The <b>.TAZ</b> files are compressed UNIX tar
+archives.
+The <b>.ZIP</b> files are archives that can be unpacked by the Windows
+utilities <a href="http://www.pkware.com/">PKZIP</a> or
+<a href="http://www.winzip.com/">WinZip</a>.
+
+<h2> Notes </h2>
+
+The two installation floppies <b>ROOT.MNX</b> and <b>USR.MNX</b> can be
+combined on a 1.2 Mb or 1.44 Mb diskette.  The <b>.TAZ</b> files must be
+distributed over several floppies.  Example for UNIX:
+<pre>
+        <b>cat ROOT.MNX USR.MNX &gt;/dev/floppy</b>
+        <b>dd if=USR.TAZ of=/dev/floppy bs=1440k count=1 skip=0</b>
+        <b>dd if=USR.TAZ of=/dev/floppy bs=1440k count=1 skip=1</b>
+        <b>dd if=USR.TAZ of=/dev/floppy bs=1440k count=1 skip=2</b>
+</pre>
+Increase the "skip" count until <b>dd</b> writes a diskette partially.
+<b>/dev/floppy</b> should be the name of the floppy device.  You have to
+find out what your Operating System names it today.  Under MS-DOS you can
+use the <b>FDVOL</b> command found in the <a href="../dosutil/">../dosutil</a>
+directory to write the floppy images.
+
+<p>
+
+Be careful when you install Minix, many of the commands are potentionally
+dangerous in a way that a simple typing mistake may destroy all other data
+on your system.  So make backups first!  (The DosMinix version, however, is
+relatively safe.)
+
+<h2> Kernel configurations </h2>
+The kernel images present in the NET.TAZ collection differ
+as follows in the &lt;minix/config.h&gt; include file:
+
+<pre>
+				i86	i386
+	NR_PROCS		 40	  64
+	NR_BUFS				2048
+	NR_BUF_HASH			4096
+	ENABLE_CACHE2		 	   0
+	ENABLE_ATAPI		  0
+	ENABLE_FATFILE		  0
+	ENABLE_USERBIOS			   1
+	ENABLE_PCI		  1	   1
+	DMA_SECTORS		 16	  64
+	ENABLE_DP8390		  1	   1
+	ENABLE_RTL8139			   1
+	NR_RS_LINES		  2	   4
+	NR_PTYS			  4	   8
+</pre>
+</body>
+</html>
+<!-- To save as text under Chimera resize browser to 450 px width. -->

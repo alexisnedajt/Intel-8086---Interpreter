@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>halt(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>halt(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     halt - abruptly stop the system
+
+<B>SYNOPSIS</B>
+     <B>halt</B> [<B>-f</B>]
+
+<B>DESCRIPTION</B>
+     <B>Halt</B> stops the system almost immediately.  The  users  are  not  informed
+     about  the  things  to  come.   <B>Halt</B>  is  logged  in <B>/usr/adm/wtmp</B> and in
+     <B>/usr/adm/log</B>, if these files exist.  <B>Halt</B>  should  only  be  run  by  the
+     super-user, any other caller will be refused.
+
+     <B>Halt</B> is a rather rude program.  <B><A HREF="../man8/Shutdown.8.html">Shutdown(8)</A></B> is preferred for it  performs
+     a more gentle halt routine.
+
+     <B>Halt</B> <B>-f</B> is even worse, it omits the terminate signals that  are  normally
+     sent first to all processes to give them a chance to die peacefully.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/reboot.2.html">reboot(2)</A></B>, <B><A HREF="../man8/shutdown.8.html">shutdown(8)</A></B>, <B><A HREF="../man8/reboot.8.html">reboot(8)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+<B>AUTHOR</B>
+     Edvard Tuinder (v892231@si.hhs.NL)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

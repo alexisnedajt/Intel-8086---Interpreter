@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>times(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>times(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     times - get process times
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;sys/times.h&gt;</B>
+     <B>#include</B> <B>&lt;time.h&gt;</B>
+
+     <B>int</B> <B>times(struct</B> <B>tms</B> <B>*</B><I>buffer</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Times</B> returns time-accounting information for the current process and for
+     the  terminated child processes of the current process.  All times are in
+     1/CLOCKS_PER_SEC seconds.
+
+     This is the structure returned by <B>times</B>:
+
+          struct tms {
+              clock_t   tms_utime;    /* user time for this process */
+              clock_t   tms_stime;    /* system time for this process */
+              clock_t   tms_cutime;   /* children's user time */
+              clock_t   tms_cstime;   /* children's system time */
+          };
+
+     The user time is the number of clock ticks used by a process on  its  own
+     computations.   The system time is the number of clock ticks spent inside
+     the kernel on behalf of a process.  This  does  not  include  time  spent
+     waiting for I/O to happen, only actual CPU instruction times.
+
+     The children times are the sum of the children's process times and  their
+     children's times.
+
+<B>RETURN</B>
+     <B>Times</B> returns 0 on success, otherwise -1 with the error code stored  into
+     the global variable <B>errno</B>.
+
+<B>ERRORS</B>
+     The following error code may be set in <B>errno</B>:
+
+     [EFAULT]       The address specified by the <I>buffer</I> parameter is not in  a
+                    valid part of the process address space.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/time.1.html">time(1)</A></B>, <B><A HREF="../man2/wait.2.html">wait(2)</A></B>, <B><A HREF="../man2/time.2.html">time(2)</A></B>.
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

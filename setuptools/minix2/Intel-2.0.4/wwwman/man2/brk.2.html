@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>brk(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>brk(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     brk, sbrk - change data segment size
+
+<B>SYNOPSIS</B>
+     #include &lt;unistd.h&gt;
+
+     <B>int</B> <B>brk(char</B> <B>*</B><I>addr</I><B>)</B>
+
+     <B>char</B> <B>*sbrk(int</B> <I>incr</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Brk</B> sets the system's idea of the lowest data segment location  not  used
+     by  the  program (called the break) to <I>addr</I>.  Locations greater than <I>addr</I>
+     and below the stack pointer are not in the address space  and  will  thus
+     cause a memory violation if accessed.
+
+     In the alternate  function  <B>sbrk</B>,  <I>incr</I>  more  bytes  are  added  to  the
+     program's  data  space  and  a  pointer  to  the start of the new area is
+     returned.
+
+     When a program begins execution via  <B>execve</B>  the  break  is  set  at  the
+     highest   location  defined  by  the  program  and  data  storage  areas.
+     Ordinarily, therefore, only programs with growing data areas need to  use
+     <B>sbrk</B>.
+
+<B>RETURN</B> <B>VALUE</B>
+     The address of the new break is returned  if  <B>brk</B>  succeeds;  <B>-1</B>  if  the
+     program  requests  more memory than the system limit.  <B>Sbrk</B> returns <B>-1</B> if
+     the break could not be set.
+
+<B>ERRORS</B>
+     <B>Sbrk</B> will fail and no additional memory will be allocated if one  of  the
+     following are true:
+
+     [ENOMEM]       The maximum possible size of a data  segment  (as  set  by
+                    <B><A HREF="../man1/chmem.1.html">chmem(1)</A></B>) was exceeded.
+
+     [ENOMEM]       Insufficient virtual memory space existed to  support  the
+                    expansion.  (Minix-vmd)
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/chmem.1.html">chmem(1)</A></B>, <B><A HREF="../man2/execve.2.html">execve(2)</A></B>, <B><A HREF="../man3/malloc.3.html">malloc(3)</A></B>, <B><A HREF="../man3/end.3.html">end(3)</A></B>.
+
+<B>NOTES</B>
+     Minix-vmd rounds a small data segment limit up to 3 megabytes.
+
+
+
+
+
+<B>BUGS</B>
+     Setting the break may fail due to a  temporary  lack  of  virtual  memory
+     under  Minix-vmd.   It is not possible to distinguish this from a failure
+     caused by exceeding the maximum size of the data segment.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

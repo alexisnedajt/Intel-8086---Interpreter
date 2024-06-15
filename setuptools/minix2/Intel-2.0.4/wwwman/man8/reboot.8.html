@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>reboot(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>reboot(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     reboot - reboot the system immediately
+
+<B>SYNOPSIS</B>
+     <B>reboot</B> [<B>-f</B>]
+
+<B>DESCRIPTION</B>
+     <B>Reboot</B> can be used to reboot the system after installing  a  new  kernel.
+     It  does not inform the users, but does log it's actions in <B>/usr/adm/wtmp</B>
+     and <B>/usr/adm/log</B>.   The  system  is  then  rebooted  with  the  <B><A HREF="../man2/reboot.2.html">reboot(2)</A></B>
+     systemcall.
+
+     If the <B>-f</B> flag is not given then all processes are sent terminate signals
+     to give them a chance to die peacefully before the <B>reboot()</B> call.
+
+     If the wtmp file exists, <B>reboot</B> logs itself as if  it  were  a  shutdown.
+     This  is  done  to  prevent  <B><A HREF="../man1/last.1.html">last(1)</A></B>  from  talking about system-crashes.
+     <B>Reboot</B> is registered as is in the log file.
+
+     <B>Reboot</B> can only be executed by the super-user.  Any other caller will  be
+     refused, either by <B>reboot</B>(8) or by <B><A HREF="../man2/reboot.2.html">reboot(2)</A></B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/reboot.2.html">reboot(2)</A></B>, <B><A HREF="../man8/shutdown.8.html">shutdown(8)</A></B>, <B>halt(8),</B> <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+<B>BUGS</B>
+     The error message's given by <B>reboot</B> are not  always  useful.   There  are
+     several routines that can fail, but which are not fatal for the program.
+
+<B>AUTHOR</B>
+     Edvard Tuinder (v892231@si.hhs.NL)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

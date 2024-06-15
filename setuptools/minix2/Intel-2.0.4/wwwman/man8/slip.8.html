@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>slip(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>slip(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     slip - Serial Line IP
+
+<B>SYNOPSIS</B>
+     <B>slip</B> <I>pseudo</I>-<I>ip</I>-<I>device</I>
+
+<B>DESCRIPTION</B>
+     The <B>slip</B>  program  implements  an  Internet  network  connection  over  a
+     bidirectional  8-bit transport, usually a serial line.  The protocol used
+     for this connection is the Serial Line Internet Protocol, SLIP for short.
+
+     The <I>pseudo</I>-<I>ip</I>-<I>device</I> argument names one of the <B>/dev/psip*</B> devices that is
+     offered  by  the  Minix TCP/IP driver <B><A HREF="../man8/inet.8.html">inet(8)</A></B>.  The <B>slip</B> program reads IP
+     packets from standard input and writes them to the pseudo IP device,  and
+     reads  packets  from  the  pseudo  IP  device and writes them to standard
+     output.  A typical use is like this:
+
+          <B>{</B>
+                  <B>stty</B> <B>raw</B> <B>115200</B>
+                  <B>slip</B> <B>/dev/psip2</B> <B>&amp;</B>
+          <B>}</B> <B>&lt;/dev/tty01</B> <B>&gt;/dev/tty01</B>
+
+     The SLIP protocol is just a very  simple  packet  framing  protocol.   It
+     defines  two  characters  as  markers  on a byte stream to frame packets.
+     SLIP does not implement any higher level addressing, error detection,  or
+     compression.   Thanks  to  its simplicity it can be used under Minix, any
+     other system would prefer to use the Point-to-Point protocol: PPP.
+
+     The SLIP packet framing protocol as defined in RFC-1055 is as follows:
+
+     -    Packets are delimited by an END character, octal 300.  END is  often
+          send  at  the  start  of  a  packet  too  to  reset the logic of the
+          receiver, so that random noise isn't added to  the  beginning  of  a
+          packet.
+
+     -    An ESC character (octal 333) is  used  to  escape  any  END  or  ESC
+          characters  that may occur in an IP packet.  END and ESC are changed
+          to ESC 334 and ESC 335 in the data stream.  (Note that  END  doesn't
+          occur  within the data stream at all by escaping it this way, making
+          finding the framing END easier.)
+
+<B>FILES</B>
+
+     <B>/dev/psip*</B>     Pseudo-IP devices for use by <B>slip</B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B>RFC</B>-<B>1055</B>.
+
+
+
+<B>NOTES</B>
+     Under Minix <B>slip</B> forks in two to handle the two data streams in or out of
+     the  serial line.  Under Minix-vmd it uses asynchronous I/O to handle the
+     two streams within one program.
+
+<B>AUTHOR</B>
+     Kees J. Bot &lt;kjb@cs.vu.nl&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,162 @@
+<HTML>
+<HEAD>
+<TITLE>passwd(5)</TITLE>
+</HEAD>
+<BODY>
+<H1>passwd(5)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     passwd, group, shadow - user and group databases, shadow passwords
+
+<B>SYNOPSIS</B>
+     <B>/etc/passwd</B>
+     <B>/etc/group</B>
+     <B>/etc/shadow</B>
+
+<B>DESCRIPTION</B>
+     <B>/etc/passwd</B> lists all the users of the system, and <B>/etc/group</B>  lists  all
+     the  groups  the  users may belong to.  Both files also contain encrypted
+     passwords, numeric ID's etc.  Encrypted passwords may be  hidden  in  the
+     file <B>/etc/shadow</B> if extra protection is warranted.
+
+     Each file is an text file containing one line per  user  or  group.   The
+     data fields on a line are separated by colons.  Each line in the password
+     file has the following form:
+
+          <I>name</I>:<I>passwd</I>:<I>uid</I>:<I>gid</I>:<I>gecos</I>:<I>dir</I>:<I>shell</I>
+
+     The <I>name</I> field is the login name of a user, it is  up  to  8  letters  or
+     numbers long starting with a letter.  The login name must be unique.  The
+     <I>password</I> field is either empty (no password), a  13  character  encrypted
+     password  as returned by <B><A HREF="../man3/crypt.3.html">crypt(3)</A></B>, or a login name preceded by two number
+     signs (#) to index the shadow password file.  Anything else  (usually  *)
+     is  invalid.  The <I>uid</I> and <I>gid</I> fields are two numbers indicating the users
+     user-id and group-id.  These id's do not have to be unique, there may  be
+     more than one name with the same id's.  The <I>gecos</I> field can be set by the
+     user.  It is expected to be a comma separated list of personal data where
+     the  first  item is the full name of the user.  The <I>dir</I> field is the path
+     name of the users home directory.  Lastly the <I>shell</I>  field  is  the  path
+     name  of  the  users login shell, it may be empty to indicate <B>/bin/sh</B>.  A
+     Minix specific extension allows the shell field to  contain  extra  space
+     separated arguments for the shell.
+
+     Lines in the group file consist of four fields:
+
+          <I>name</I>:<I>passwd</I>:<I>gid</I>:<I>mem</I>
+
+     The <I>name</I> field is the name of the group, same  restrictions  as  a  login
+     name.   The <I>passwd</I> field may be used to let users change groups.  The <I>gid</I>
+     field is a number telling the group-id.  The group-id  is  unique  for  a
+     group.   The  <I>mem</I> field is a comma separated list of login names that are
+     special members of the group.  If a system supports  supplementary  group
+     id's  then  a  user's  set  of supplementary group id's is set to all the
+     groups they are a member of.  If a system allows  one  to  change  groups
+     then  one  can  change  to  a  group one is a member of without using the
+     group's password.
+
+
+     The shadow password file has precisely the  same  form  as  the  password
+     file,  except  that  only the <I>name</I> or <I>passwd</I> fields are used as yet.  The
+     other fields are zero or empty.  A password in the password file may have
+     the  form  <B>##</B><I>user</I> to indicate the entry <I>user</I> in the shadow password file.
+     The password in this entry is then used for authentication of  the  user.
+     The shadow file can only be read by the privileged utility <B><A HREF="../man8/pwdauth.8.html">pwdauth(8)</A></B>, so
+     that the encrypted passwords in the shadow file are kept secret, and thus
+     safe from a dictionary attack.
+
+  <B>Special</B> <B>password</B> <B>and</B> <B>group</B> <B>file</B> <B>entries</B>
+     There are several entries in  the  password  and  group  files  that  are
+     preallocated  for  current  or  future  use.   All  id's less than 10 are
+     reserved.  The special password file entries are:
+
+          root:##root:0:0:Big Brother:/usr/src:
+          daemon:*:1:1:The Deuce:/etc:
+          bin:##root:2:0:Binaries:/usr/src:
+          uucp:*:5:5:UNIX to UNIX copy:/usr/spool/uucp:/usr/sbin/uucico
+          news:*:6:6:Usenet news:/usr/spool/news:
+          ftp:*:7:7:Anonymous FTP:/usr/ftp:
+          nobody:*:9999:99::/tmp:
+          ast:*:8:3:Andrew S. Tanenbaum:/usr/ast:
+
+     The <B>root</B> id is of course the super user.  The <B>daemon</B> id is used  by  some
+     daemons.   Some  devices  are  protected  so  that only those daemons can
+     access them.  The <B>bin</B> id owns all sources and most binaries.   The  <B>uucp</B>,
+     <B>news</B>  and <B>ftp</B> id's are for serial line data transfer, usenet news, or ftp
+     if so needed.  The <B>nobody</B> id is used in those cases that  a  program  may
+     not  have  any  privileges  at  all.   The  <B>ast</B>  id  is the honorary home
+     directory for Andrew S. Tanenbaum, the creator of Minix.   You  can  also
+     find the initial contents for a new home directory there.
+
+     The special group file entries are:
+
+          operator:*:0:
+          daemon:*:1:
+          bin:*:2:
+          other:*:3:
+          tty:*:4:
+          uucp:*:5:
+          news:*:6:
+          ftp:*:7:
+          kmem:*:8:
+          nogroup:*:99:
+
+     Groups with the same name as special user id are used  with  those  id's.
+     The  <B>operator</B>  group  is  for the administrators of the system.  Users in
+     this group are granted  special  privileges.   The  <B>other</B>  group  is  for
+     ordinary  users.   The  <B>tty</B> group is for terminal devices, and associated
+     set-gid commands.  Same thing with the <B>kmem</B> group and memory devices.
+
+<B>FILES</B>
+
+     <B>/etc/passwd</B>    The user database.
+
+     <B>/etc/group</B>     The group database.
+
+     <B>/etc/shadow</B>    The shadow password file.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/login.1.html">login(1)</A></B>,   <B><A HREF="../man1/passwd.1.html">passwd(1)</A></B>,   <B><A HREF="../man1/su.1.html">su(1)</A></B>,   <B><A HREF="../man3/crypt.3.html">crypt(3)</A></B>,   <B><A HREF="../man3/getpwent.3.html">getpwent(3)</A></B>,   <B><A HREF="../man3/getgrent.3.html">getgrent(3)</A></B>,
+     <B><A HREF="../man8/pwdauth.8.html">pwdauth(8)</A></B>.
+
+<B>NOTES</B>
+     The <B>nobody</B> and <B>nogroup</B> id's are likely to be renumbered  to  the  highest
+     possible id's once it is figured out what they are.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

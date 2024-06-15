@@ -1,0 +1,262 @@
+<HTML>
+<HEAD>
+<TITLE>installboot(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>installboot(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     installboot - make a device bootable
+
+<B>SYNOPSIS</B>
+     <B>installboot</B> <B>-i(mage)</B> <I>image</I> [<I>label</I>:]<I>kernel</I> <I>mm</I> <I>fs</I> ... <I>init</I>
+     <B>installboot</B> <B>-(e)x(tract)</B> <I>image</I>
+     <B>installboot</B> <B>-d(evice)</B> <I>device</I> <I>bootblock</I> <I>boot</I> [[<I>label</I>:]<I>image</I> ...]
+     <B>installboot</B> <B>-b(oot)</B> <I>device</I> <I>bootblock</I> <I>boot</I> [<I>label</I>:]<I>image</I> ...
+     <B>installboot</B> <B>-m(aster)</B> <I>device</I> <I>masterboot</I> [<I>keys</I> [<I>logical</I>]]
+
+<B>DESCRIPTION</B>
+     <B>Installboot</B> may be used to make  a  device  bootable  by  constructing  a
+     kernel image and installing bootstrap code into the boot block of a Minix
+     file system.  To understand how this can be done one first  has  to  know
+     what happens when a PC is booted.
+
+     When the power is turned on the typical PC will try  to  read  the  first
+     sector from the first floppy disk or from the first hard disk into memory
+     and execute it.  The code obtained from the hard disk (from the so-called
+     master  boot sector) will immediately replace itself by the code found in
+     the first sector of the active partition.  Thus the PC is  now  executing
+     the  bootstrap  code  found in the first sector of /dev/fd0, /dev/c0d0p0,
+     /dev/c0d0p1, /dev/c0d0p2, or  /dev/c0d0p3  (assuming  the  boot  disk  is
+     attached  to  controller  0.)   The  bootstrap  will locate the operating
+     system on the device it itself was loaded from, load it, and execute it.
+
+     To make a Minix file system <B>/dev/fd0</B> mounted on <B>/mnt</B> bootable, enter  the
+     following:
+
+          <B>cp</B> <B>/usr/mdec/boot</B> <B>/mnt/boot</B>
+
+          <B>installboot</B> <B>-i</B> <B>/mnt/minix</B> <B>kernel</B> <B>mm</B> <B>fs</B> <B>init</B>
+
+          <B>installboot</B> <B>-d</B> <B>/dev/fd0</B> <B>/usr/mdec/bootblock</B> <B>boot</B>
+
+     The "boot" program in the example is named the  "Boot  Monitor".   It  is
+     loaded by the bootblock code placed in the boot sector of /dev/fd0 and it
+     will take care  of  loading  the  kernel  image  "minix"  from  the  root
+     directory  of  the  file system.  See <B><A HREF="../man8/monitor.8.html">monitor(8)</A></B> for a description of the
+     Boot Monitor.  Note that <B>boot</B> is a name in the file system on <B>/dev/fd0</B> in
+     this  example, the same file as <B>/mnt/boot</B>.  Making <B>/mnt/minix</B> is normally
+     not necessary, there is usually a kernel image in the <B>tools</B> directory.
+
+<B>OPTIONS</B>
+     <B>-i(mage)</B> <I>image</I> [<I>label</I>:]<I>kernel</I> <I>mm</I> <I>fs</I> ... <I>init</I>
+          The <B>-image</B> option (or the  <B>-i</B>  shorthand)  combines  the  executable
+          files  needed  to  run  Minix in one file.  Only the names and a few
+          zero  bytes  are  inserted  into  the  image.   The  name   is   for
+          identification  and  the  zeros  are  used to pad separate pieces to
+          sector boundaries for fast loading.
+          An executable may be prefixed  by  a  label.   The  Monitor  may  be
+          instructed  to  load  processes  by  label.  So more than one kernel
+          process may  be  included  in  the  image,  each  with  a  different
+          winchester  driver  for  instance.   So  if  you  have  compiled two
+          different kernels with an AT or XT driver then
+
+               <B>installboot</B> <B>-i</B> <I>image</I> <I>AT</I>:<I>at</I>_<I>kernel</I> <I>XT</I>:<I>xt</I>_<I>kernel</I> <I>mm</I> <I>fs</I> <I>init</I>
+
+          will make an image  with  two  different  labeled  kernels  and  one
+          unlabeled set of the other binaries.
+
+     <B>-(e)x(tract)</B> <I>image</I>
+          Extract the binaries from <I>image</I> under the names stored in the image.
+          (The name includes the optional label.)
+
+     <B>-d(evice)</B> <I>device</I> <I>bootblock</I> <I>boot</I> [[<I>label</I>:]<I>image</I> ...]
+          Installs <I>bootblock</I> in the boot sector of <I>device</I>  together  with  the
+          disk  addresses  to  <I>boot</I>.   These disk addresses are needed to load
+          <I>boot</I> from the file system at boot time.  The argument <I>boot</I> is  first
+          searched  in  the file system on <I>device</I>.  If it is not found then it
+          is read as a normal file and added at the end of  the  file  system.
+          The  file system should be smaller than the device it is on to allow
+          this.  Any extra images are also added to the end as described under
+          <B>-boot</B>.  (Make sure you understand all this.)
+
+          The device need not be mounted when <B>installboot</B> is run, nor does  it
+          matter if it is.
+
+          <B>Installboot</B> needs to be run again if <I>boot</I> is rewritten,  because  it
+          will then occupy a new place on the disk.
+
+          Old boot parameters are kept if there are no images added.
+
+     <B>-b(oot)</B> <I>device</I> <I>bootblock</I> <I>boot</I> [<I>label</I>:]<I>image</I> ...
+          This option fills a blank floppy in <I>device</I> with boot code and kernel
+          images.  This "boot disk" does not have a root file system, only the
+          Boot Monitor and Minix  kernels.   The  boot  parameters  sector  is
+          filled  with  code that enables menu options for selecting an image.
+          After loading an image, the Monitor will ask you to  insert  a  root
+          file system diskette before starting Minix.
+
+          The labels used on the images should match those on the  executables
+          used inside the image.  You can put a comma separated list of labels
+          on an image for each label used within the  image.   For  the  image
+          created earlier one would create a boot floppy like this:
+
+               <B>installboot</B> <B>-b</B> <B>/dev/fd0</B> <B>bootblock</B> <B>boot</B> <I>AT</I>,<I>XT</I>:<I>image</I>
+
+          If a label-list is omitted on an image,  then  that  image  will  be
+          selected  by  default.   (Like  in  the  normal one image, no labels
+          case.)
+
+          Note that <B>-device</B> and <B>-boot</B> together allow you to make a boot floppy
+          with  or without a root file system.  With the boot code in the file
+          system, attached to the end of it, or after  the  boot  block.   And
+          with  one  or more kernel images in the file system or at the end of
+          the device.  Somewhat confusing.
+
+     <B>-m(aster)</B> <I>device</I> <I>masterboot</I> [<I>keys</I> [<I>logical</I>]]
+          This option installs the <I>masterboot</I> program into the boot sector  of
+          the  given device.  If another device is given instead of <I>masterboot</I>
+          then its bootstrap code is copied to <I>device</I>.  The  master  bootstrap
+          on a hard disk boots the active partition on that disk at boot time.
+          The MS-DOS fdisk command normally puts a  master  bootstrap  on  the
+          hard  disk.   Minix  has two bootstraps that can be used as a master
+          bootstrap, <B>masterboot</B> and <B>jumpboot.</B>
+
+          <B>Masterboot</B> is  a  fairly  normal  master  bootstrap  that  works  as
+          follows:
+
+               If installed on a hard disk then it will load the bootstrap  of
+               the  active partition and run it.  <B>Masterboot</B> can be put in the
+               first sector of a hard disk to boot the active partition, or in
+               the  first  sector  of  a  Minix  partition  to boot the active
+               subpartition.
+
+               If installed on a Minix floppy then it will  try  to  boot  the
+               next  floppy  or  the first hard disk.  Ideal for floppies with
+               just data on it, they will no longer obstruct the boot  process
+               if  left  in  the drive.  Also a very useful trick to boot from
+               floppy drive 1.
+
+          The other bootstrap named <B>jumpboot</B> is used for the weird cases:
+
+               If your default operating system is installed on  another  disk
+               then <B>jumpboot</B> can be installed on the first disk and instructed
+               to boot the disk, partition or subpartition that must be booted
+               by default.
+
+               If one of your operating systems insists on being  active  when
+               booted  then  use  <B>jumpboot</B>  to ignore the active flag and boot
+               your preferred O.S. instead.  The Boot Monitor's "<B>boot *</B>" trick
+               to activate the partition to boot is useful here.
+
+               To boot a logical partition within an extended partition.  Note
+               that  you  can put <B>jumpboot</B> in the first sector of the extended
+               partition in this case,  with  the  extended  partition  marked
+               active.
+
+               If you hold down the ALT key while <B>jumpboot</B> is being  executed,
+               then you can type the disk, partition or subpartition you  want
+               to boot as one to three digits followed by typing ENTER.
+
+          <B>Jumpboot</B> can be programmed to boot a certain partition with the <I>keys</I>
+          argument  and optionally also the <I>logical</I> argument.  <I>Keys</I> are one to
+          three digits naming the disk, partition  or  subpartition.   If  the
+          device  to  boot  is <B>/dev/c0d1p3s0</B>, then <I>keys</I> is <B>130</B>.  These are the
+          same three digits you can type manually if  you  hold  down  ALT  at
+          boot.   To  program  <B>jumpboot</B>  to boot a logical partition within an
+          extended partition, let <I>keys</I> be just  a  disk  number,  and  specify
+          <I>logical</I> as the name of the logical partition on that disk that is to
+          be booted.  (Actually <I>logical</I> can be any device name, but this  form
+          should  be  avoided  because  it  offers less checking to see if the
+          device is still there after a disk rearrangement.)
+
+          A backup  copy  of  the  current  master  bootstrap  (including  the
+          partition table) can be made with:
+
+               dd if=<I>device</I> of=<I>backup</I>-<I>file</I> count=1
+
+          A simple 'cp <I>backup</I>-<I>file</I> <I>device</I>' will put it back.  You can also use
+          <B>fdisk</B>  <B>/mbr</B>  under  MS-DOS  5.0  (or  newer)  to  restore the master
+          bootstrap.
+
+<B>FILES</B>
+
+     <B>/usr/mdec/bootblock</B>      Minix bootstrap for the Minix root  device.   To
+                              be placed in the boot sector.
+
+     <B>/usr/mdec/boot</B>           Minix Boot Monitor.  Can usually be found in the
+                              root directory of a bootable device.
+
+     <B>/usr/mdec/masterboot</B>     Master bootstrap.  Can be placed  in  the  first
+                              sector of a disk to select the active partition.
+                              In a Minix  primary  partition  it  selects  the
+                              active subpartition.
+
+     <B>/usr/mdec/jumpboot</B>       Special "boot this" bootstrap.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man8/part.8.html">part(8)</A></B>, <B><A HREF="../man8/monitor.8.html">monitor(8)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <I>File</I> is not an executable
+          What you think is boot code or part of the kernel isn't.
+
+     <I>Program</I> will crash, text/data segment larger then 64K
+          One of the 16-bit programs added to an image  has  a  text  or  data
+          segment  that  is  larger  than  64K.  You probably enabled too many
+          drivers, or configured too many buffers.
+
+     <I>File</I> can't be attached to <I>device</I>
+          You are trying to put the boot monitor or  an  image  after  a  file
+          system,  but  there  is no or not enough space.  Did you specify the
+          full path of the monitor instead of just "boot"?
+
+     <I>Device</I> is not a Minix file system
+          You are using <B>-device</B> on  a  device  that  doesn't  contain  a  file
+          system.  Maybe you specified the wrong device, maybe you should make
+          a file system, or maybe you should use <B>-boot</B>.
+
+     <I>Device</I> contains a file system
+          You are about to destroy a file system with <B>-boot</B>.  Maybe you  meant
+          to use <B>-device</B>?  You have 10 seconds to make up your mind...
+
+     <I>File</I> is too big
+          Several types of messages like these will tell you that  <I>file</I>  can't
+          be  installed in a boot sector, or that there is no room to add some
+          parameters, etc.  Is <I>file</I> really a bootstrap?
+
+  <B>Bootstrap</B> <B>errors</B>
+     Read error
+          A read error trying to get the next bit of boot code.  You may  even
+          get  the BIOS error code in hex.  Either the device has a bad block,
+          or jumpboot is told to read a nonexistent disk.
+
+     No active partition
+          None of the partitions in a partition table is marked active.
+
+     Not bootable
+          Partition  does  not  exist  (jumpboot),  or  it's  bootstrap  isn't
+          executable.
+
+<B>NOTES</B>
+     The Minix bootstraps can boot beyond the 8G disk size limit if  the  BIOS
+     supports  the IBM/MS INT 13 Extensions.  Alas only Minix-vmd can make use
+     of this, standard Minix has a 4G disk size limit.
+
+<B>BUGS</B>
+     It has four more options than the SunOS installboot program it is modeled
+     after.
+
+     The bootblock code has been crunched to such ugliness that you can use it
+     to scare little kids out of your garden.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

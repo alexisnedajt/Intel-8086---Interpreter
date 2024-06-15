@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>who(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>who(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     who - print list of currently logged in users
+
+<B>SYNOPSIS</B>
+     <B>who</B> [<I>file</I>]
+
+<B>EXAMPLES</B>
+
+     <B>who</B>                 # Print user names, terminals and times
+
+<B>DESCRIPTION</B>
+
+     <I>Who</I> prints a list of currently logged in users.  For each one,  the  user
+     name,  terminal,  and  login  time  is  printed.  This  program  gets its
+     information from the file /<I>etc</I>/<I>utmp</I>, which is updated by init and  login.
+     If the file does not exist, neither of these will create it, and <I>who</I> will
+     not work.  Note that if you decide to create an  empty  /<I>usr</I>/<I>adm</I>/<I>wtmp</I>  to
+     enable  the login accounting, it will grow forever and eventually fill up
+     your disk unless you manually truncate it  from  time  to  time.   If  an
+     optional file name is provided, the logins in that file will be printed.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man5/utmp.5.html">utmp(5)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

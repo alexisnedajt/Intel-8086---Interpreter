@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>getgrent(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>getgrent(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     getgrent, getgrnam, getgrgid, setgrent, endgrent, setgrfile - group  file
+     routines
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;grp.h&gt;</B>
+
+     <B>struct</B> <B>group</B> <B>*getgrent(void)</B>
+     <B>struct</B> <B>group</B> <B>*getgrnam(const</B> <B>char</B> <B>*</B><I>name</I><B>)</B>
+     <B>struct</B> <B>group</B> <B>*getgrgid(gid_t</B> <I>gid</I><B>)</B>
+     <B>int</B> <B>setgrent(void)</B>
+     <B>void</B> <B>endgrent(void)</B>
+     <B>void</B> <B>setgrfile(const</B> <B>char</B> <B>*</B><I>file</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     These functions are used to obtain information from the group file.  They
+     return this information in a <B>struct</B> <B>group</B> as defined by &lt;grp.h&gt;:
+
+     struct group {
+         char  *gr_name;      /* login name */
+         char  *gr_passwd;    /* encrypted password */
+         gid_t gr_gid;        /* numeric group id */
+         char  **gr_mem;      /* null-terminated list of group members */
+     };
+
+     <B>Getgrent()</B> reads the group file entry by  entry.   <B>Getgrnam()</B>  scans  the
+     entire  group  file  for the group with the given <I>name</I>.  <B>Getgrgid()</B> looks
+     for the first group with the given <I>gid</I>.  The  <B>setgrent()</B>  and  <B>endgrent()</B>
+     functions  are  used  to  open  and  later  close  the  group file.  With
+     <B>setgrfile()</B> one can specify the file to read other than the normal  group
+     file.   This  only  sets the name, the next <B>setgrent()</B> call will open the
+     file.   Do  not  touch  the  file  name  while   it   is   active.    Use
+     <B>setgrfile(NULL)</B> to revert back to the normal group file.
+
+     The usual way to scan the group file is (error checking omitted):
+
+          setgrent();
+          while ((gr = getgrent()) != NULL)
+                  if (appropriate_test(gr)) break;
+          endgrent();
+
+     The <B>gr</B> variable contains the entry  that  is  wanted  if  non-NULL.   The
+     <B>getgrnam()</B>  and  <B>getgrgid()</B> functions are implemented as in this example,
+     with error checking of course.
+
+     <B>Getgrent()</B> calls <B>setgrent()</B> if this has not yet  been  done.   <B>Setgrent()</B>
+     first  calls  <B>endgrent()</B>  if  the  group  file  is  still  open.   (Other
+     implementations may simply rewind the file.)
+
+
+<B>FILES</B>
+
+     <B>/etc/group</B>     The group file database.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/getgroups.2.html">getgroups(2)</A></B>, <B><A HREF="../man3/initgroups.3.html">initgroups(3)</A></B>, <B><A HREF="../man3/getpwent.3.html">getpwent(3)</A></B>, <B><A HREF="../man5/passwd.5.html">passwd(5)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Setgrent()</B> has the same return value and error codes as the <B><A HREF="../man2/open.2.html">open(2)</A></B>  call
+     it  uses  to  open the group file.  The <B>get</B><I>xxx</I><B>()</B> functions return NULL on
+     end of file, entry not found, or error.  You can set <B>errno</B> to zero before
+     the call and check it after.
+
+<B>NOTES</B>
+     All <B>get</B><I>xxx</I><B>()</B>  routines  return  a  pointer  to  static  storage  that  is
+     overwritten in each call.
+
+     Only <B>getgrnam()</B> and <B>getgrgid()</B> are defined by POSIX.   The  <B>_MINIX_SOURCE</B>
+     macro  must  be  defined  before  including  &lt;grp.h&gt;  to  make  the other
+     functions visible.  The <B>gr_passwd</B> field is also not defined by POSIX, but
+     is  always  visible.   Portable  code  cannot  reliably  detect errors by
+     setting <B>errno</B> to zero.  Under Minix it is better  to  make  a  <B>getgrent()</B>
+     scan  if  you  need  to look up several group-id's or names, but portable
+     code  had  better  use  several  <B>getgrgid()</B>  or  <B>getgrnam()</B>  calls.   The
+     <B>getgrent()</B>  is  usually  available  on  other  systems,  but  may be very
+     expensive.  See <B><A HREF="../man3/initgroups.3.html">initgroups(3)</A></B> if you are after supplementary group id's.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

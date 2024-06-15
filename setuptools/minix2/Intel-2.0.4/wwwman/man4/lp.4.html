@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>lp(4)</TITLE>
+</HEAD>
+<BODY>
+<H1>lp(4)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     lp - line printer
+
+<B>DESCRIPTION</B>
+     The <B>lp</B> device refers to the line printer attached to the  parallel  port.
+     Any  byte  written  to this device is printed.  Only one process may have
+     the device open.
+
+     The <B>write</B> <B>(2)</B> call may return with a smaller count  then  the  number  of
+     bytes  requested  to  write.   The next write call is then likely to fail
+     with the error code <B>EAGAIN</B> if the printer is out of paper, or <B>EIO</B> if  the
+     printer is turned off.
+
+<B>FILES</B>
+
+     /dev/lp   Parallel port device.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/lp.1.html">lp(1)</A></B>.
+
+<B>BUGS</B>
+     Only one parallel port is supported.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

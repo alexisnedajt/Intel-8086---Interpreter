@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>cron(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>cron(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     cron - clock daemon
+
+<B>SYNOPSIS</B>
+     <B>cron</B> [<B>-d</B>[<I>level</I>]]
+
+<B>DESCRIPTION</B>
+     The <B>cron</B> daemon executes tasks that must be repeated every now  and  then
+     (cron  jobs),  and  tasks  that  must  be run just once (at jobs).  It is
+     normally used to run daily or weekly system maintenance scripts.  What it
+     needs  to  run  and  when  is  specified in a number of "cron tables", or
+     crontab files for short.  These tables are:
+
+          <B>/usr/lib/crontab</B>
+          <B>/usr/local/lib/crontab</B>
+          <B>/var/lib/crontab</B>
+          <B>/var/opt/</B><I>name</I><B>/lib/crontab  </B>(Minix-vmd only)
+          <B>/usr/spool/crontabs/</B><I>user</I>
+
+     These files follow the usual pattern:  One for the standard  things,  one
+     for  local  tasks  per  organization,  one  for tasks per system, and one
+     crontab per installed package.  (Cron  reads  <B>/usr/lib/packages</B>  to  find
+     names   of  installed  packages,  it  doesn't  just  grab  everything  in
+     <B>/var/opt</B>.)  The last set of files fall outside the normal  pattern,  they
+     are  per  user  crontabs that one can create with the <B><A HREF="../man1/crontab.1.html">crontab(1)</A></B> command.
+     The file names in  <B>/usr/spool/crontabs/</B>  are  login  names  of  the  file
+     owners.
+
+     The format of a crontab file is described in <B><A HREF="../man5/crontab.5.html">crontab(5)</A></B>.
+
+  <B>AT</B> <B>jobs</B>
+     <B>Cron</B> also takes care of the execution of jobs issued by  <B><A HREF="../man1/at.1.html">at(1)</A></B>  that  are
+     found in <B>/usr/spool/at/</B>.  Cron simply runs the AT job as if there were an
+     "sh at-job" as a cron job at the appropriate time under  the  user-id  of
+     the  owner  of the script.  The script takes care of the rest.  See <B><A HREF="../man1/at.1.html">at(1)</A></B>
+     for the details.
+
+  <B>Job</B> <B>I/O</B>
+     Standard input, output and error are the same as cron's  if  the  job  is
+     started by the system crontabs or from package crontabs.  This means that
+     output from system jobs usually ends up on the console  and  in  the  log
+     file.   Output from personal cron jobs or at jobs are mailed to the owner
+     of the job.  No mail is sent if the job is silent.
+
+<B>OPTIONS</B>
+
+     [<B>-d</B>[<I>level</I>]]
+          Set the debug level, by default 1.  Makes <B>cron</B> print info on what it
+          happens  to be doing.  Level 1 just tells about sleep times and what
+          job is executed, level 2 also shows the internal crontab data  on  a
+          table load.  (With time fields translated to match those  of  <B>struct</B>
+          <B>tm</B>, see <B><A HREF="../man3/ctime.3.html">ctime(3)</A></B>.)
+
+  <B>SIGNALS</B>
+     <B>Cron</B> takes the following actions when sent one of the following signals:
+
+     <B>SIGHUP</B>      Reload the crontab tables if they changed since the last time
+                 they  were  loaded,  and reexamine the AT job spool.  Used by
+                 <B><A HREF="../man1/at.1.html">at(1)</A></B> and <B><A HREF="../man1/crontab.1.html">crontab(1)</A></B>.
+
+     <B>SIGUSR1</B>     Increase the debug level by 1.
+
+     <B>SIGUSR2</B>     Turn debugging off.
+
+<B>ENVIRONMENT</B>
+     <B>Cron</B> sets the environment variables <B>USER</B>, <B>LOGNAME</B>, <B>HOME</B>, and <B>SHELL</B> to the
+     user's  login  name  (2x), home directory, and shell if a job is executed
+     for a given user.  The working  directory  is  set  to  the  user's  home
+     directory.   Everything  else is inherited from <B>cron</B>, exactly as <B>cron</B> got
+     it when it started.  Note that commands are always passed to <B>/bin/sh</B>, not
+     to the user's shell.
+
+     System cron jobs are in principle executed with <B>cron</B>'s  environment,  use
+     <B>-u</B>  <B>root</B> or the crontab file <B>/usr/spool/crontabs/root</B> if you want to give
+     root the same treatment as ordinary users.
+
+<B>FILES</B>
+
+     <B>/usr/lib/crontab</B>         Main Minix crontab file.
+
+     <B>/usr/local/lib/crontab</B>   Local jobs for all systems in an organization.
+
+     <B>/var/lib/crontab</B>         System specific jobs.
+
+     <B>/var/opt/</B><I>name</I><B>/lib/crontab</B>
+                              Per package jobs for Minix-vmd.
+
+     <B>/usr/lib/packages</B>        List of installed packages.
+
+     <B>/usr/spool/crontabs/</B><I>user</I> Per user jobs.
+
+     <B>/usr/spool/at/*</B>          Jobs issued by <B><A HREF="../man1/at.1.html">at(1)</A></B>.
+
+     <B>/usr/run/cron.pid</B>        Process id of cron when cron is  running.   Used
+                              by  <B><A HREF="../man1/at.1.html">at(1)</A></B>  and  <B><A HREF="../man1/crontab.1.html">crontab(1)</A></B> to send cron a hangup
+                              signal.
+
+
+
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/at.1.html">at(1)</A></B>, <B><A HREF="../man1/crontab.1.html">crontab(1)</A></B>.
+
+<B>NOTES</B>
+     A job is not reissued until a previous instance of it  has  exited.   The
+     next  time  to execute is computed from the previous time it ran.  If job
+     issuing lags behind on the system time then the next time to  run  it  is
+     computed from the current system time.
+
+<B>BUGS</B>
+     <B>Cron</B> doesn't like it if the system time is changed.  If set forward  then
+     cron  will  react  when  it  next wakes up by running all jobs within the
+     skipped time once or twice before  it  catches  up.   Setting  the  clock
+     backwards makes cron play dead until the system time passes the old time.
+     (Changing the system time is bad idea anyway, and  not  just  because  of
+     cron.)
+
+     Jobs that fall in the missing hour in a change to  Daylight  Saving  Time
+     are skipped.  Nothing is done in the extra hour on the change out of DST.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>access(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>access(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     access - determine accessibility of file
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>#define</B> <B>R_OK</B>   <B>4</B>   <B>/*</B> <B>test</B> <B>for</B> <B>read</B> <B>permission</B> <B>*/</B>
+     <B>#define</B> <B>W_OK</B>   <B>2</B>   <B>/*</B> <B>test</B> <B>for</B> <B>write</B> <B>permission</B> <B>*/</B>
+     <B>#define</B> <B>X_OK</B>   <B>1</B>   <B>/*</B> <B>test</B> <B>for</B> <B>execute</B> <B>(search)</B> <B>permission</B> <B>*/</B>
+     <B>#define</B> <B>F_OK</B>   <B>0</B>   <B>/*</B> <B>test</B> <B>for</B> <B>presence</B> <B>of</B> <B>file</B> <B>*/</B>
+
+     <B>int</B> <B>access(const</B> <B>char</B> <B>*</B><I>path</I><B>,</B> <B>mode_t</B> <I>mode</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Access</B> checks the given file <I>path</I> for accessibility  according  to  <I>mode</I>,
+     which  is  an  inclusive  or of the bits <B>R_OK</B>, <B>W_OK</B> and <B>X_OK</B>.  Specifying
+     <I>mode</I> as <B>F_OK</B> (i.e., 0) tests whether the directories leading to the  file
+     can be searched and the file exists.
+
+     The real user ID and the group access list (including the real group  ID)
+     are  used  in  verifying  permission,  so  this call is useful to set-UID
+     programs.
+
+     Notice that only access bits are checked.  A directory may  be  indicated
+     as  writable  by  <B>access</B>, but an attempt to open it for writing will fail
+     (although files may be created there); a file may  look  executable,  but
+     <B>execve</B> will fail unless it is in proper format.
+
+<B>RETURN</B> <B>VALUE</B>
+     If <I>path</I> cannot be found or if any of the desired access modes  would  not
+     be granted, then a -1 value is returned; otherwise a 0 value is returned.
+
+<B>ERRORS</B>
+     Access to the file is denied if one or more of the following are true:
+
+     [ENOTDIR]      A component of the path prefix is not a directory.
+
+     [ENAMETOOLONG] The path name exceeds PATH_MAX characters.
+
+     [ENOENT]       The named file does not exist.
+
+     [EACCES]       Search permission is denied for a component  of  the  path
+                    prefix.
+
+     [ELOOP]        Too many symbolic links were  encountered  in  translating
+                    the pathname.  (Minix-vmd)
+
+
+
+     [EROFS]        Write access is requested for a file on a  read-only  file
+                    system.
+
+     [EACCES]       Permission bits  of  the  file  mode  do  not  permit  the
+                    requested  access,  or  search  permission  is denied on a
+                    component of the path prefix.  The owner  of  a  file  has
+                    permission  checked  with  respect  to the ``owner'' read,
+                    write, and execute mode bits, members of the file's  group
+                    other  than the owner have permission checked with respect
+                    to  the  ``group''  mode  bits,  and   all   others   have
+                    permissions  checked  with  respect  to the ``other'' mode
+                    bits.
+
+     [EFAULT]       <I>Path</I> points outside the process's allocated address space.
+
+     [EIO]          An I/O error occurred while reading from or writing to the
+                    file system.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/chmod.2.html">chmod(2)</A></B>, <B><A HREF="../man2/stat.2.html">stat(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

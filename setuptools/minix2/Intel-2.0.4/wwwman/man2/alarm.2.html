@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>alarm(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>alarm(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     alarm - schedule signal after specified time
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>unsigned</B> <B>int</B> <B>alarm(unsigned</B> <B>int</B> <I>seconds</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Alarm</B> causes signal SIGALRM, see <B><A HREF="../man2/sigaction.2.html">sigaction(2)</A></B>, to be sent to the invoking
+     process  in  a number of seconds given by the argument.  Unless caught or
+     ignored, the signal terminates the process.
+
+     Alarm requests are not stacked; successive calls reset the  alarm  clock.
+     If  the  argument  is  0,  any  alarm  request  is  canceled.  Because of
+     scheduling delays, resumption of execution of when the signal  is  caught
+     may be delayed an arbitrary amount.
+
+     The return value is the amount of time previously remaining in the  alarm
+     clock.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/pause.2.html">pause(2)</A></B>, <B><A HREF="../man2/sigsuspend.2.html">sigsuspend(2)</A></B>, <B><A HREF="../man2/sigaction.2.html">sigaction(2)</A></B>, <B><A HREF="../man3/sleep.3.html">sleep(3)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

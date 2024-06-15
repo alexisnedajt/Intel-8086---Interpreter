@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>make(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>make(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     make - a program for maintaining large programs
+
+<B>SYNOPSIS</B>
+     <B>make</B> [<B>-f</B> <I>file</I>] [<B>-adeiknpqrst</B>] [<I>option</I>] ... [<I>target</I>]
+
+<B>OPTIONS</B>
+
+     <B>-f</B>   Use <I>file</I> as the makefile
+
+     <B>-d</B>   Print debugging information
+
+     <B>-e</B>   Environment overrides makefile macros
+
+     <B>-i</B>   Ignore status returned by commands
+
+     <B>-k</B>   On error, skip to next command
+
+     <B>-n</B>   Report, but do not execute
+
+     <B>-p</B>   Print macros and targets
+
+     <B>-q</B>   Question up-to-dateness of target
+
+     <B>-r</B>   Rule inhibit; do not use default rules
+
+     <B>-s</B>   Silent mode
+
+     <B>-t</B>   Touch files instead of making them
+
+<B>EXAMPLES</B>
+
+     <B>make</B> <B>kernel</B>         # Make <I>kernel</I> up to date
+
+     <B>make</B> <B>-n</B> <B>-f</B> <B>mfile</B>    # Tell what needs to be done
+
+<B>DESCRIPTION</B>
+
+     <I>Make</I> is a program that is normally used  for  developing  large  programs
+     consisting  of  multiple  files.   It  keeps  track of which object files
+     depend on which source and  header  files.   When  called,  it  does  the
+     minimum amount of recompilation to bring the target file up to date.
+
+     The file dependencies are expected  in  <I>makefile</I>  or  <I>Makefile</I>  ,  unless
+     another file is specified with <B>-f</B>.  <I>Make</I> has some default rules built in,
+     for example, it knows how to make .<I>o</I> files from  .<I>c</I>  files.   Here  is  a
+     sample <I>makefile</I> .
+
+
+
+       d=/user/ast                            # <I>d</I> is a macro
+       program: head.o tail.o                 # <I>program</I> depends on these
+                cc -o program head.o tail.o   # tells how to make <I>program</I>
+                echo Program done.            # announce completion
+       head.o:  $d/def.h head.c               # <I>head</I>.<I>o</I> depends on these
+       tail.o:  $d/var.h tail.c               # <I>tail</I>.<I>o</I> depends on these
+
+     A complete description of <I>make</I> would require too much space  here.   Many
+     books  on  UNIX  discuss <I>make</I> . Study the numerous <I>Makefiles</I> in the MINIX
+     source tree for examples.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/cc.1.html">cc(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

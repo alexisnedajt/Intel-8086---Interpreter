@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>system(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>system(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     system - issue a shell command
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;stdlib.h&gt;</B>
+
+     <B>int</B> <B>system(const</B> <B>char</B> <B>*</B><I>string</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>System</B> causes the <I>string</I> to be given to <B><A HREF="../man1/sh.1.html">sh(1)</A></B> as input as if  the  string
+     had  been  typed  as  a command at a terminal.  The current process waits
+     until the shell has completed, then returns the exit status of the shell.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/sh.1.html">sh(1)</A></B>, <B><A HREF="../man3/popen.3.html">popen(3)</A></B>, <B><A HREF="../man2/execve.2.html">execve(2)</A></B>, <B><A HREF="../man2/wait.2.html">wait(2)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     Exit status 127 indicates the shell couldn't be executed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>nm(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>nm(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     nm - print name list
+
+<B>SYNOPSIS</B>
+     <B>nm</B> [<B>-dgnopru</B>] [<I>file</I>] ...
+
+<B>OPTIONS</B>
+
+     <B>-d</B>   Print the offsets in decimal instead of in hex
+
+     <B>-g</B>   Print only external symbols
+
+     <B>-n</B>   Sort numerically rather than alphabetically
+
+     <B>-o</B>   Prepend file name to each line rather than only once
+
+     <B>-p</B>   Do not sort, print in symbol-table order
+
+     <B>-r</B>   Sort in reverse order
+
+     <B>-u</B>   Print only undefined symbols
+
+<B>EXAMPLES</B>
+
+     <B>nm</B> <B>-n</B> <B>a.out</B>         # Print all symbols in numerical order
+
+     <B>nm</B> <B>-dg</B> <B>a.out</B>        # Print globals alphabetically in decimal
+
+<B>DESCRIPTION</B>
+
+     <I>Nm</I> prints the symbol table of executable files when it is available.   If
+     no  file is given, the symbols in <I>a</I>.<I>out</I> are used. The format of the table
+     is somewhat compatible with the one produced  by <I>asld</I> when used with  the
+     <B>-s</B>  option.  The  symbol  table  can be added with <I>ast</I>. Assembly language
+     files do not have symbol tables.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/anm.1.html">anm(1)</A></B>, <B><A HREF="../man1/asize.1.html">asize(1)</A></B>, <B><A HREF="../man1/ar.1.html">ar(1)</A></B>, <B><A HREF="../man1/size.1.html">size(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

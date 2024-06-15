@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>join(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>join(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     join - relational database operator
+
+<B>SYNOPSIS</B>
+     <B>join</B> [<B>-a</B><I>n</I>] [<B>-e</B> <I>s</I>] [<B>-o</B> <I>list</I>] [<B>-t</B><I>c</I>] file1 file2
+
+<B>DESCRIPTION</B>
+     <B>Join</B> forms, on the standard output, a join of the two relations specified
+     by  the lines of <I>file1</I> and <I>file2</I>.  If <I>file1</I> is `-', the standard input is
+     used.
+
+     <I>File1</I> and <I>file2</I> must be sorted in increasing ASCII collating sequence  on
+     the  fields  on  which  they are to be joined, normally the first in each
+     line.
+
+     There is one line in the output for each pair of lines in <I>file1</I> and <I>file2</I>
+     that  have  identical  join fields.  The output line normally consists of
+     the common field, then the rest of the line from <I>file1</I>, then the rest  of
+     the line from <I>file2</I>.
+
+     Fields are normally separated by blank, tab or newline.   In  this  case,
+     multiple separators count as one, and leading separators are discarded.
+
+     These options are recognized:
+
+     <B>-a</B><I>n</I>  In addition to the normal output, produce a line for each unpairable
+          line in file <I>n</I>, where <I>n</I> is 1 or 2.
+
+     <B>-e</B> <I>s</I> Replace empty output fields by string <I>s</I>.
+
+     <B>-o</B> <I>list</I>
+          Each output line  comprises  the  fields  specified  in  <I>list</I>,  each
+          element of which has the form <I>n</I>.<I>m</I>, where <I>n</I> is a file number and <I>m</I> is
+          a field number.
+
+     <B>-t</B><I>c</I>  Use character <I>c</I> as a separator (tab character).  Every appearance of
+          <I>c</I> in a line is significant.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/sort.1.html">sort(1)</A></B>, <B><A HREF="../man1/comm.1.html">comm(1)</A></B>, <B><A HREF="../man1/awk.1.html">awk(1)</A></B>.
+
+<B>BUGS</B>
+     With default field separation, the collating sequence is that of <B>sort</B> <B>-b</B>;
+     with <B>-t</B>, the sequence is that of a plain sort.
+
+     The conventions of <B>join</B>, <B>sort</B>, <B>comm</B>, <B>uniq</B>, <B>look</B>  and  <B><A HREF="../man1/awk.1.html">awk(1)</A></B>  are  wildly
+     incongruous.
+
+
+
+</PRE>
+</BODY>
+</HTML>

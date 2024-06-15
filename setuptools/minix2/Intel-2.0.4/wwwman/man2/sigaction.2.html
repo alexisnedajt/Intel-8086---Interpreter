@@ -1,0 +1,211 @@
+<HTML>
+<HEAD>
+<TITLE>sigaction(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>sigaction(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     sigaction, signal - manage signal state and handlers
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;signal.h&gt;</B>
+
+     <B>int</B> <B>sigaction(int</B> <I>sig</I><B>,</B> <B>const</B>  <B>struct</B>  <B>sigaction</B>  <B>*</B><I>act</I><B>,</B>  <B>struct</B>  <B>sigaction</B>
+          <B>*</B><I>oact</I><B>)</B>
+     <B>void</B> <B>(*signal(int</B> <I>sig</I><B>,</B> <B>void</B> <B>(*</B><I>handler</I><B>)(int)))(int);</B>
+
+<B>DESCRIPTION</B>
+     <B>Sigaction()</B> is used to examine,  set,  or  modify  the  attributes  of  a
+     signal.   The  argument  <I>sig</I> is the signal in question.  The <I>act</I> argument
+     points to a structure containing the new attributes of  the  signal,  the
+     structure pointed to by <I>oact</I> will receive the old attributes that were in
+     effect before the call.
+
+     The <I>act</I> and <I>oact</I> arguments may be <B>NULL</B> to indicate  that  either  no  new
+     attributes are to be set, or that the old attributes are not of interest.
+
+     The structure containing the signal attributes is defined  in  &lt;signal.h&gt;
+     and looks like this:
+
+          <B>struct</B> <B>sigaction</B> <B>{</B>
+              <B>void</B>        <B>(*sa_handler)(int</B> <B>sig);</B>
+              <B>sigset_t</B>    <B>sa_mask;</B>
+              <B>int</B>         <B>sa_flags;</B>
+          <B>};</B>
+
+     The <B>sa_handler</B> field contains the address of a signal handler, a function
+     that  is  called  when  the process is signalled, or one of these special
+     constants:
+
+     <B>SIG_DFL</B>     Default signal handling is to  be  performed.   This  usually
+                 means  that  the  process  is killed, but some signals may be
+                 ignored by default.
+
+     <B>SIG_IGN</B>     Ignore the signal.
+
+     The <B>sa_mask</B> field indicates a set of signals that must  be  blocked  when
+     the  signal  is  being handled.  Whether the signal <I>sig</I> itself is blocked
+     when being handled is not controlled by this mask.   The  mask  is  of  a
+     "signal set" type that is to be manipulated by the <B><A HREF="../man3/sigset.3.html">sigset(3)</A></B> functions.
+
+     How the signal is handled precisely is specified by bits in <B>sa_flags</B>.  If
+     none  of  the  flags  is  set  then the handler is called when the signal
+     arrives.  The signal is blocked during  the  call  to  the  handler,  and
+     unblocked  when  the  handler returns.  A system call that is interrupted
+     returns <B>-1</B> with <B>errno</B> set to <B>EINTR</B>.  The following bit flags can  be  set
+     to modify this behaviour:
+     <B>SA_RESETHAND</B>   Reset the signal handler to <B>SIG_DFL</B>  when  the  signal  is
+                    caught.
+
+     <B>SA_NODEFER</B>     Do not block the signal on entry to the handler.
+
+     <B>SA_COMPAT</B>      Handle the signal in a way that is compatible with the the
+                    old <B>signal()</B> call.
+
+     The old <B>signal()</B> signal system call sets a signal  handler  for  a  given
+     signal  and  returns the old signal handler.  No signals are blocked, the
+     flags are <B>SA_RESETHAND</B> <B>|</B> <B>SA_NODEFER</B> <B>|</B> <B>SA_COMPAT</B>.  New code should not use
+     <B>signal()</B>.   Note  that  <B>signal()</B>  and  all  of  the  <B>SA_*</B> flags are Minix
+     extensions.
+
+     Signal handlers are reset to <B>SIG_DFL</B> on an <B><A HREF="../man2/execve.2.html">execve(2)</A></B>.  Signals  that  are
+     ignored stay ignored.
+
+  <B>Signals</B>
+     Minix knows about the following signals:
+
+     signal     num    notes   description
+
+     SIGHUP     1      k       Hangup
+     SIGINT     2      k       Interrupt (usually DEL or CTRL-C)
+     SIGQUIT    3      kc      Quit (usually CTRL-\)
+     SIGILL     4      kc      Illegal instruction
+     SIGTRAP    5      xkc     Trace trap
+     SIGABRT    6      kc      Abort program
+     SIGFPE     8      k       Floating point exception
+     SIGKILL    9      k       Kill
+     SIGUSR1    10     k       User defined signal #1
+     SIGSEGV    11     kc      Segmentation fault
+     SIGUSR2    12     k       User defined signal #2
+     SIGPIPE    13     k       Write to a pipe with no reader
+     SIGALRM    14     k       Alarm clock
+     SIGTERM    15     k       Terminate (default for <B><A HREF="../man1/kill.1.html">kill(1)</A></B>)
+     SIGCHLD    17     pvi     Child process terminated
+     SIGCONT    18     p       Continue if stopped
+     SIGSTOP    19     ps      Stop signal
+     SIGTSTP    20     ps      Interactive stop signal
+     SIGTTIN    21     ps      Background read
+     SIGTTOU    22     ps      Background write
+     SIGWINCH   23     xvi     Window size change
+
+     The letters in the notes column indicate:
+
+
+
+
+
+     <B>k</B>    The process is killed if the signal is not caught.
+
+     <B>c</B>    The signal causes a core dump.
+
+     <B>i</B>    The signal is ignored if not caught.
+
+     <B>v</B>    Only Minix-vmd implements this signal.
+
+     <B>x</B>    Minix extension, not defined by POSIX.
+
+     <B>p</B>    These signals are not implemented, but POSIX requires that they  are
+          defined.
+
+     <B>s</B>    The process should be stopped, but is killed instead.
+
+     The <B>SIGKILL</B> signal cannot be caught or ignored.  The <B>SIGILL</B>  and  <B>SIGTRAP</B>
+     signals  cannot  be  automatically  reset.   The system silently enforces
+     these restrictions.  This may or may not be reflected by  the  attributes
+     of these signals and the signal masks.
+
+  <B>Types</B>
+     POSIX prescribes that &lt;sys/types.h&gt; has the following definition:
+
+          <B>typedef</B> <B>int</B> <B>(*sighandler_t)(int)</B>
+
+     With this type the following declarations can be made:
+
+          <B>sighandler_t</B> <B>sa_handler;</B>
+          <B>sighandler_t</B> <B>signal(int</B> <I>sig</I><B>,</B> <B>sighandler_t</B> <I>handler</I><B>);</B>
+
+     This may help you to understand the  earlier  declarations  better.   The
+     <B>sighandler_t</B>  type  is  also  very  useful  in  old  style C code that is
+     compiled by a compiler for standard C.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/kill.1.html">kill(1)</A></B>, <B><A HREF="../man2/kill.2.html">kill(2)</A></B>, <B><A HREF="../man2/pause.2.html">pause(2)</A></B>, <B><A HREF="../man2/sigprocmask.2.html">sigprocmask(2)</A></B>, <B><A HREF="../man2/sigsuspend.2.html">sigsuspend(2)</A></B>, <B><A HREF="../man2/sigpending.2.html">sigpending(2)</A></B>,
+     <B><A HREF="../man3/sigset.3.html">sigset(3)</A></B>.
+
+<B>DIAGNOSTICS</B>
+     <B>Sigaction()</B> returns <B>0</B> on success or <B>-1</B> on error.   <B>Signal()</B>  returns  the
+     old handler on success or <B>SIG_ERR</B> on error.  The error code may be:
+
+     <B>EINVAL</B>    Bad signal number.
+
+     <B>EFAULT</B>    Bad <I>act</I> or <I>oact</I> addresses.
+
+
+
+
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

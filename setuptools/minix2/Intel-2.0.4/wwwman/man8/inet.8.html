@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>inet(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>inet(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     inet - TCP/IP server
+
+<B>SYNOPSIS</B>
+     <B>inet</B>
+
+<B>DESCRIPTION</B>
+     <B>Inet</B> is the TCP/IP server.  It is a device driver that interfaces between
+     the  file server and the low level ethernet device driver.  The interface
+     to this server is described in <B><A HREF="../man4/ip.4.html">ip(4)</A></B>.
+
+     <B>Inet</B>  starts  as  a  normal  process,  reads  a  the  configuration  file
+     <B>/etc/inet.conf</B> to see what it should do, and uses a few special low level
+     system  calls  to  turn  itself  into  a  server.   The  format  of   the
+     configuration file is as follows:
+
+  <B>Configuration</B>
+     The inet configuration file is fairly simple, here is an example:
+
+          <B>eth0</B> <B>DP8390</B> <B>0</B> <B>{</B> <B>default;</B> <B>};</B>
+          <B>psip1;</B>
+
+     It tells that network 0 (the one containing devices <B>eth0</B>, <B>ip0</B>,  <B>tcp0</B>  and
+     <B>udp0</B>) uses the ethernet device driver handled by task "DP8390" at port 0.
+     This network is marked as the default network, so most  programs  use  it
+     through the unnumbered devices like <B>/dev/tcp</B> or <B>/dev/udp</B>.  Network 1 is a
+     Pseudo IP network that can be used for a  serial  IP  over  a  modem  for
+     instance.
+
+     The configuration file may look  like  a  common  configuration  file  as
+     described  by  <B><A HREF="../man5/configfile.5.html">configfile(5)</A></B>,  but  it  is currently just a simple subset
+     allowing only what you see here.  The following network  definitions  are
+     possible:
+
+     <B>eth</B><I>N</I> <I>task</I> <I>port</I> {<I>options</I>};
+          This sets up an ethernet with device name <B>/dev/eth</B><I>N</I>,  built  on  the
+          given  ethernet device driver at the given port at that driver.  (If
+          a network driver manages two network cards then they are at  port  0
+          and 1.)
+
+     <B>eth</B><I>N</I> <B>vlan</B> <I>id</I> <B>eth</B><I>M</I> {<I>options</I>};     (Minix-vmd only)
+          The ethernet <B>eth</B><I>N</I> uses VLAN number <I>id</I> and is built on ethernet <B>eth</B><I>M</I>.
+          A  packet given to this network has a VLAN tag prefixed to it and is
+          then handed over to another ethernet for transmission.   Likewise  a
+          packet  on  that ethernet carrying the appropriate VLAN tag has this
+          tag removed and is sent on  to  this  network.   The  VLAN  ethernet
+          behaves  like  an  ordinary  ethernet  as  far  as  applications are
+          concerned.
+
+
+     <B>psip</B><I>N</I> {<I>options</I>};
+          Creates pseudo IP network <B>/dev/psip</B><I>N</I>,  usable  for  IP  over  serial
+          lines, tunnels and whatnot.
+
+<B>OPTIONS</B>
+     Some options can be given between braces.  Minix only understands one  of
+     these options, "default".  Minix-vmd does them all, of course.
+
+     <B>default</B>;
+          Mark this network as  the  default  network.   Exactly  one  of  the
+          networks  must be so marked.  When <B>inet</B> is started it will check and
+          create all the necessary network devices before becoming  a  server.
+          To  know  what major device number to use it checks <B>/dev/ip</B>, so that
+          device must already exist.  It can be created by <B>MAKEDEV</B> if need be.
+
+     <B>no</B> <B>ip</B>;
+     <B>no</B> <B>tcp</B>;
+     <B>no</B> <B>udp</B>;
+          These options turn the IP, TCP, or UDP layer  off.   Inet  will  not
+          enable  the  devices  for these layers, and will deactivate code for
+          these layers.  Disabling IP will also disable TCP  or  UDP,  because
+          they  need  IP  to function.  An ethernet without an IP layer can be
+          used as for stealth listening.  An IP network without TCP or UDP can
+          be  used to pester students into creating the missing functionality.
+          Keeps them off the streets, and maybe they'll learn something.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man4/ip.4.html">ip(4)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+<B>NOTES</B>
+     The number of networks that can be defined are 2  (Minix-86),  4  (Minix-
+     386)  or  16  (Minix-vmd).   This  limits  both  the total number and the
+     highest device number you can use.
+
+     Getting a network administrator to give you a trunk or multi-VLAN port to
+     run  multiple  networks  on  can be a challenge.  It questions their idea
+     that VLANs are separate networks, while in reality it  is  just  one  big
+     ethernet.
+
+<B>ACKNOWLEDGMENTS</B>
+     Cindy Crawford, for providing invaluable help debugging this server.
+
+<B>AUTHOR</B>
+     Code:    Philip Homburg &lt;philip@cs.vu.nl&gt;
+     Manual:  Kees J. Bot &lt;kjb@cs.vu.nl&gt;
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

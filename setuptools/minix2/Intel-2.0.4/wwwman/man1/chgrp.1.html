@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>chgrp(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>chgrp(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     chgrp - change group
+
+<B>SYNOPSIS</B>
+     <B>chgrp</B> <B>[-R</B>] [<I>owner</I>:]<I>group</I> <I>file</I> ...
+
+<B>OPTIONS</B>
+
+     <B>-R</B>   Change directory hierarchies
+
+<B>EXAMPLES</B>
+
+     <B>chgrp</B> <B>system</B> <B>file1</B> <B>file2</B>
+                         # Make <I>system</I> the group of the files
+
+     <B>chrgp</B> <B>-R</B> <B>other</B> <B>dir1</B> # Make <I>other</I> the group of all files below dir1
+
+<B>DESCRIPTION</B>
+
+     The group field (and optionally  owner  field)  of  the  named  files  is
+     changed  to  <I>group</I>  and <I>owner</I> . Alternatively, a decimal gid (uid) may be
+     specified instead of a group name.  If the <B>-R</B> flag is used,  the  changes
+     will  be  applied recursively to all files in named directories. Only the
+     superuser may execute this command to set arbitrary groups. Normal  users
+     can  only  change  the group if they own the file, and the group is their
+     own group (Minix), or one of their supplementary groups (Minix-vmd).
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man8/chown.8.html">chown(8)</A></B>, <B><A HREF="../man1/chmod.1.html">chmod(1)</A></B>, <B><A HREF="../man1/ls.1.html">ls(1)</A></B>, <B><A HREF="../man2/chown.2.html">chown(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

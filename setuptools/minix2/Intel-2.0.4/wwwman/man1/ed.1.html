@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>ed(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>ed(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     ed - editor
+
+<B>SYNOPSIS</B>
+     <B>ed</B> <I>file</I>
+
+<B>OPTIONS</B>
+
+     <B>-</B>    Suppress line/byte count messages (for in scripts)
+
+<B>EXAMPLES</B>
+
+     <B>ed</B> <B>prog.c</B>           # Edit <I>prog</I>.<I>c</I>
+
+     <B>echo</B> <B>'1,$p'</B> <B>|</B> <B>ed</B> <B>-</B> <B>file</B>
+                         # Odd way to write 'cat file'
+
+<B>DESCRIPTION</B>
+
+     <I>Ed</I> is functionally equivalent to the standard V7 editor, ed. It  supports
+     the following commands:
+
+           (.)  a: append
+           (.,.) c: change
+           (.,.) d: delete
+                e: edit new file"
+                f: print name of edited file"
+           (1,$) g: global command
+           (.)  i: insert
+           (.,.+1) j: join lines together
+           (.)  k: mark
+           (.)  l: print with special characters in octal
+           (.,.) m: move
+           (.,.) p: print
+                q: quit editor"
+           (.)  r: read in new file
+           (.,.) s: substitute
+           (1,$) v: like g, except select lines that do not match
+           (1,$) w: write out edited file
+     Many of the commands can take one or two addresses, as  indicated  above.
+     The  defaults  are  shown  in parentheses.  Thus <I>a</I> appends to the current
+     line, and <I>g</I> works on the whole file as default. The  dot  refers  to  the
+     current  line.   Below  is  a  sample editing session with comments given
+     following the # symbol.
+
+           ed prog.c               # Edit prog.c
+           3,20p                   # Print lines 3 through 20
+           /whole/                 # Find next occurence of <I>whole</I>
+           s/whole/while/          # Replace <I>whole</I> by <I>while</I>
+           g/Buf/s//BUF/g          # Replace <I>Buf</I> by <I>BUF</I> everywhere
+           w                       # Write the file back
+           q                       # Exit the editor
+     <I>Ed</I> is provided for its sentimental value.  If you  want  a  line-oriented
+     editor, try <I>ex</I>.  If you want a good editor, use <I>elle</I>, <I>elvis</I>, or <I>mined</I>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/elvis.1.html">elvis(1)</A></B>, <B><A HREF="../man9/elle.9.html">elle(9)</A></B>, <B><A HREF="../man9/mined.9.html">mined(9)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>getgid(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>getgid(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     getgid, getegid - get group identity
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;sys/types.h&gt;</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>gid_t</B> <B>getgid(void)</B>
+     <B>gid_t</B> <B>getegid(void)</B>
+
+<B>DESCRIPTION</B>
+     <B>Getgid</B> returns the real group ID of  the  current  process,  <B>getegid</B>  the
+     effective group ID.
+
+     The real group ID is specified at login time.
+
+     The effective group ID  is  more  transient,  and  determines  additional
+     access  permission during execution of a ``set-group-ID'' process, and it
+     is for such processes that <B>getgid</B> is most useful.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/getuid.2.html">getuid(2)</A></B>, <B><A HREF="../man2/setgid.2.html">setgid(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

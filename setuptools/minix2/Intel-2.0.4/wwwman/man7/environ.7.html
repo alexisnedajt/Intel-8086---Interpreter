@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>environ(7)</TITLE>
+</HEAD>
+<BODY>
+<H1>environ(7)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     environ - user environment
+
+<B>SYNOPSIS</B>
+     <B>extern</B> <B>char</B> <B>*const</B> <B>*environ;</B>
+
+<B>DESCRIPTION</B>
+     An array of  strings  called  the  `environment'  is  made  available  by
+     <B><A HREF="../man2/execve.2.html">execve(2)</A></B>  when  a  process begins.  By convention these strings have the
+     form `<I>name</I>=<I>value</I>'.  The following names are used by various commands:
+
+     <B>PATH</B>    The sequence of directory prefixes that <B>sh</B>, <B>time</B>, <B><A HREF="../man1/nice.1.html">nice(1)</A></B>,  etc.,
+             apply  in  searching for a file known by an incomplete path name.
+             The  prefixes  are  separated   by   `:'.    Login   shells   set
+             <B>PATH=:/bin:/usr/bin</B>.   Note  that the empty space between the `='
+             and the `:' indicates  the  current  directory.   Security  aware
+             people move the extra `:' to the end of their path or omit it.
+
+     <B>HOME</B>    A user's login directory, set by <B><A HREF="../man1/login.1.html">login(1)</A></B> from the password  file
+             <B><A HREF="../man5/passwd.5.html">passwd(5)</A></B>.
+
+     <B>TERM</B>    The kind of terminal for which output is to  be  prepared.   This
+             information  is  used  by  programs  that wish to exploit special
+             terminal  capabilities,  a  screen  oriented  text   editor   for
+             instance.   The  terminal  type  is  set by <B><A HREF="../man1/login.1.html">login(1)</A></B> from the tty
+             database <B><A HREF="../man5/ttytab.5.html">ttytab(5)</A></B>.
+
+     <B>SHELL</B>   The file name of the users login shell, set by <B><A HREF="../man1/login.1.html">login(1)</A></B> from  the
+             password file <B><A HREF="../man5/passwd.5.html">passwd(5)</A></B>.
+
+     <B>TERMCAP</B> The string describing the terminal in TERM, or the  name  of  the
+             termcap file, see <B><A HREF="../man5/termcap.5.html">termcap(5)</A></B>, <B><A HREF="../man3/termcap.3.html">termcap(3)</A></B>.
+
+     <B>EXINIT</B>  A startup list of commands read by <B><A HREF="../man1/elvis.1.html">elvis(1)</A></B>.
+
+     <B>USER</B>    The login name of the user, set by  <B><A HREF="../man1/login.1.html">login(1)</A></B>  from  the  password
+             file <B><A HREF="../man5/passwd.5.html">passwd(5)</A></B>.
+
+     <B>LOGNAME</B> Set to the same value as <B>USER</B>.  BSD derived  systems  have  <B>USER</B>,
+             System  V  has  <B>LOGNAME</B>,  so  modern  systems  have both to avoid
+             problems.
+
+     Further names may be placed in the environment by the <B>export</B> command  and
+     `<I>name</I>=<I>value</I>'  arguments  in <B><A HREF="../man1/sh.1.html">sh(1)</A></B>.  Arguments may also be placed in their
+     environment by programs if they use <B><A HREF="../man3/putenv.3.html">putenv(3)</A></B>.  Or in the environment  of
+     another  program  by  building  a  new  environment  for  one of the exec
+     functions that accepts an environment list, like <B><A HREF="../man2/execle.2.html">execle(2)</A></B> or  <B><A HREF="../man2/execve.2.html">execve(2)</A></B>.
+     It is unwise to conflict with certain <B><A HREF="../man1/sh.1.html">sh(1)</A></B> variables that are frequently
+     set and/or exported by `.profile' files:  <B>MAIL</B>, <B>PS1</B>, <B>PS2</B>, <B>IFS</B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/elvis.1.html">elvis(1)</A></B>, <B><A HREF="../man1/login.1.html">login(1)</A></B>, <B><A HREF="../man1/sh.1.html">sh(1)</A></B>, <B><A HREF="../man3/execl.3.html">execl(3)</A></B>,  <B><A HREF="../man2/execve.2.html">execve(2)</A></B>,  <B><A HREF="../man3/system.3.html">system(3)</A></B>,  <B><A HREF="../man3/termcap.3.html">termcap(3)</A></B>,
+     <B><A HREF="../man5/termcap.5.html">termcap(5)</A></B>, <B><A HREF="../man5/passwd.5.html">passwd(5)</A></B>, <B><A HREF="../man5/ttytab.5.html">ttytab(5)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

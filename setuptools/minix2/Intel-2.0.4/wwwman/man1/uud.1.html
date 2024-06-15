@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>uud(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>uud(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     uud, uudecode - decode a binary file encoded with uue
+
+<B>SYNOPSIS</B>
+     <B>uud</B> [<B>-n</B>] [<B>-s</B> <I>srcdir</I>] [<B>-t</B> <I>dstdir</I>/] <I>file</I>
+
+<B>OPTIONS</B>
+
+     <B>-n</B>   Do not verify checksums
+
+     <B>-s</B>   Name of directory where .<I>uue</I> file is
+
+     <B>-t</B>   Name of directory where output goes
+
+<B>EXAMPLES</B>
+
+     <B>uud</B> <B>file.uue</B>        # Re-create the original file
+
+     <B>uud</B> <B>-</B> <B>&lt;file.uue</B>     # The - means use <I>stdin</I>
+
+<B>DESCRIPTION</B>
+
+     <I>Uud</I> decodes a file encoded with <I>uue</I> or UNIX <I>uuencode</I>.  The  decoded  file
+     is  given  the  name  that the original file had. The name information is
+     part of the encoded file.  Mail headers and other junk before the encoded
+     file are skipped.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/uue.1.html">uue(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

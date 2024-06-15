@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>exit(2)</TITLE>
+</HEAD>
+<BODY>
+<H1>exit(2)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     exit, _exit - terminate a process
+
+<B>SYNOPSIS</B>
+     <B>void</B> <B>_exit(int</B> <I>status</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>_exit</B> terminates a process with the following consequences:
+
+          All of the descriptors open in the calling process are closed.  This
+          may  entail  delays,  for  example,  waiting  for output to drain; a
+          process in this state may not be killed, as it is already dying.
+
+          If the parent process of the calling process is executing a <B>wait</B>  or
+          is interested in the SIGCHLD signal (Minix-vmd), then it is notified
+          of the calling process's termination and the low-order eight bits of
+          <I>status</I> are made available to it; see <B><A HREF="../man2/wait.2.html">wait(2)</A></B>.
+
+          The parent process ID of all of the calling process's existing child
+          processes  are  also  set  to 1.  This means that the initialization
+          process (see <B><A HREF="../man2/intro.2.html">intro(2)</A></B>) inherits each of these processes as well.
+
+     Most C programs call the library routine <B><A HREF="../man3/exit.3.html">exit(3)</A></B>, which performs  cleanup
+     actions in the standard I/O library before calling _<I>exit</I>.
+
+<B>RETURN</B> <B>VALUE</B>
+     This call never returns.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/fork.2.html">fork(2)</A></B>, <B><A HREF="../man2/sigaction.2.html">sigaction(2)</A></B>, <B><A HREF="../man2/wait.2.html">wait(2)</A></B>, <B><A HREF="../man3/exit.3.html">exit(3)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

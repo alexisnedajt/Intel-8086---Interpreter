@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>cat(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>cat(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     cat - concatenate files and write them to stdout
+
+<B>SYNOPSIS</B>
+     <B>cat</B> [<B>-u</B>] [<I>file</I>] ...
+
+<B>OPTIONS</B>
+
+     <B>-u</B>   Unbuffered output
+
+<B>EXAMPLES</B>
+
+     <B>cat</B> <B>file</B>            # Display file on the terminal
+
+     <B>cat</B> <B>file1</B> <B>file2</B> <B>|</B> <B>lp</B>
+                         # Concatenate 2 files and print result
+
+<B>DESCRIPTION</B>
+
+     <I>Cat</I> concatenates its input files and copies the result to <I>stdout</I>.  If  no
+     input  file  is named, or - is encountered as a file name, standard input
+     is used.  Output is buffered in 512 byte blocks unless  the  <B>-u</B>  flag  is
+     given.   If  you  just want to copy a file, <I>cp</I> should be used since it is
+     faster.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/cp.1.html">cp(1)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

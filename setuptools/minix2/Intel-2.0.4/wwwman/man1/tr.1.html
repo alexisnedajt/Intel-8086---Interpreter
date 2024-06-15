@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>tr(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>tr(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     tr - translate character codes
+
+<B>SYNOPSIS</B>
+     <B>tr</B> [<B>-cds</B>] [<I>string1</I>] [<I>string2</I>]
+
+<B>OPTIONS</B>
+
+     <B>-c</B>   Complement the set of characters in <I>string1</I>
+
+     <B>-d</B>   Delete all characters specified in <I>string1</I>
+
+     <B>-s</B>   Squeeze all runs of characters in <I>string1</I> to one character
+
+<B>EXAMPLES</B>
+
+     <B>tr</B> <B>'[A-Z]'</B> <B>'[a-z]'</B> <B>&lt;x</B> <B>&gt;y</B>
+                         # Convert upper case to lower case
+
+     <B>tr</B> <B>-d</B> <B>'0123456789'</B> <B>&lt;f1</B> <B>&gt;f2</B>
+                         # Delete all digits from <I>f1</I>
+
+<B>DESCRIPTION</B>
+
+     <I>Tr</I> performs simple character translation.  When  no  flag  is  specified,
+     each  character  in <I>string1</I> is mapped onto the corresponding character in
+     <I>string2</I> .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

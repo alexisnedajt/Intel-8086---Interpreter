@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>shutdown(8)</TITLE>
+</HEAD>
+<BODY>
+<H1>shutdown(8)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     shutdown - graciously close the system down
+
+<B>SYNOPSIS</B>
+     <B>shutdown</B> [<B>-hrRmk</B>] [<B>-x</B> <I>code</I>] [<I>time</I>-<I>specification</I> [<I>message</I>]]
+
+<B>DESCRIPTION</B>
+     <B>Shutdown</B> is a program which allows a system operator to  close  down  the
+     system in an nice way. <B>Shutdown</B> informs the users why and when the system
+     is going down.  This warning is issued 10 minutes  before  shutdown  time
+     and  every  minute  in  the  last  5  minutes.  At this time (5 minutes),
+     <B>shutdown</B> creates a file <B>/etc/nologin</B> to prevent new  users  from  logging
+     in.
+
+     <B>Shutdown</B> keeps a logfile of shutdowns.  Every shutdown is  registered  in
+     <B>/usr/adm/wtmp</B>, if this file exists, and by <B><A HREF="../man3/syslog.3.html">syslog(3)</A></B> (level <B>auth</B>.<B>notice</B>).
+     After these actions, a call is done to <B><A HREF="../man2/reboot.2.html">reboot(2)</A></B>  which  actually  brings
+     the system down.
+
+     <I>Time</I>-<I>specification</I> may be something like <B>15:00</B>, <B>15.00</B>, <B>+15</B>, or <B>now</B> for  a
+     shutdown at 3pm (twice), 15 minutes from now, or immediately.
+
+     The message may be used to describe why the system is going down, it  may
+     also be typed on standard input with the <B>-m</B> option.
+
+<B>OPTIONS</B>
+
+     <B>-h</B>   This flag prevents the system from  rebooting  after  the  shutdown.
+          The system can now be powered off.  This is the default.
+
+     <B>-r</B>   This flag indicates that the system  should  reboot  after  shutting
+          down.
+
+     <B>-R</B>   Reboot the system by resetting it.  Normally the kernel will try  to
+          return  to  the  Boot  Monitor.   With  <B>-R</B> the system will receive a
+          hardware reset.
+
+     <B>-x</B> <I>code</I>
+          Halt the system and let the Monitor execute the  given  code  as  if
+          typed at the monitor prompt.  You can for instance use <B>-x</B> <B>'boot</B> <B>hd0'</B>
+          as a very fast way to reboot "from the top."
+
+     <B>-m</B>   Allows the operator to type a shutdown message  on  standard  input,
+          that will be added to the messages displayed on all terminals.
+
+     <B>-k</B>   This option gives the possibility of terminating an already  started
+          shutdown.   This  is  only  possible  if  shutdown  time has not yet
+          arrived.
+
+
+     <B>-C</B>   Check if the system crashed.  This option is not  used  at  shutdown
+          time,  but  at  reboot time.  It tells if the file systems should be
+          checked by testing if the last entry in the wtmp file is a  shutdown
+          entry.  (A crude replacement for a file system clean flag.)
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/reboot.2.html">reboot(2)</A></B>, <B><A HREF="../man3/syslog.3.html">syslog(3)</A></B>, <B><A HREF="../man8/halt.8.html">halt(8)</A></B>, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>.
+
+<B>AUTHOR</B>
+     Edvard Tuinder (v892231@si.hhs.NL)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

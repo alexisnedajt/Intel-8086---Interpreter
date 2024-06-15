@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>getcwd(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>getcwd(3)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     getcwd - get current working directory pathname
+
+<B>SYNOPSIS</B>
+     <B>#include</B> <B>&lt;unistd.h&gt;</B>
+
+     <B>char</B> <B>*getcwd(char</B> <B>*</B><I>pathname</I><B>,</B> <B>size_t</B> <I>len</I><B>)</B>
+
+<B>DESCRIPTION</B>
+     <B>Getcwd</B> copies the absolute pathname of the current working  directory  to
+     <I>pathname</I>  and  returns  a pointer to the result.  <I>Pathname</I> is a character
+     array of length <I>len</I>.
+
+<B>DIAGNOSTICS</B>
+     <B>Getcwd</B> returns a null pointer and sets <B>errno</B> if  an  error  occurs.   The
+     error  will  reflect the system call errors that may occur if the path to
+     the current directory is searched upwards to  the  root  directory.   The
+     error <B>ERANGE</B> is returned if the result does not fit within <I>len</I> bytes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,212 @@
+<HTML>
+<HEAD>
+<TITLE>hier(7)</TITLE>
+</HEAD>
+<BODY>
+<H1>hier(7)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     hier - file system hierarchy
+
+<B>DESCRIPTION</B>
+     A tour through the Minix directory hierarchy.
+
+     /       root
+
+     /bin/   Utility programs, cf /usr/bin/ (1)
+             cat     Show files, <B><A HREF="../man1/cat.1.html">cat(1)</A></B>
+             sh      Shell, <B><A HREF="../man1/sh.1.html">sh(1)</A></B>
+             mount   Mount file systems, <B><A HREF="../man8/mount.8.html">mount(8)</A></B>
+             ...
+
+     /boot   Boot Monitor, <B><A HREF="../man8/monitor.8.html">monitor(8)</A></B>
+
+     /dev/   devices (4)
+             console
+                     Main console, <B><A HREF="../man4/tty.4.html">tty(4)</A></B>
+             tty*    Terminals, <B><A HREF="../man4/tty.4.html">tty(4)</A></B>
+             hd*     Hard disk, <B><A HREF="../man4/hd.4.html">hd(4)</A></B>
+             fd*     Floppy disk, <B><A HREF="../man4/fd.4.html">fd(4)</A></B>
+             ...
+
+     /etc/   System configuration and data files, cf /usr/etc/ (1,5,8)
+             ethers  Ethernet addresses database, <B><A HREF="../man5/ethers.5.html">ethers(5)</A></B>
+             fstab   File system table, <B><A HREF="../man5/fstab.5.html">fstab(5)</A></B>
+             group   Groups database, <B><A HREF="../man5/group.5.html">group(5)</A></B>
+             hostname.file
+                     Name of the local system, <B><A HREF="../man5/usage.5.html">usage(5)</A></B>
+             hosts   TCP/IP hosts database, <B><A HREF="../man5/hosts.5.html">hosts(5)</A></B>
+             hosts.equiv
+                     Network equivalent hosts, <B><A HREF="../man5/hosts.equiv.5.html">hosts.equiv(5)</A></B>
+             inet.conf
+                     Inet server config file, <B><A HREF="../man8/inet.8.html">inet(8)</A></B>
+             keymap  Keymap for custom keyboard, <B><A HREF="../man8/loadkeys.8.html">loadkeys(8)</A></B>
+             motd    Message of the day, <B><A HREF="../man1/login.1.html">login(1)</A></B>
+             mtab    Mounted file system table, <B><A HREF="../man5/fstab.5.html">fstab(5)</A></B>
+             passwd  User database, <B><A HREF="../man5/passwd.5.html">passwd(5)</A></B>
+             profile
+                     System wide shell profile, <B><A HREF="../man1/sh.1.html">sh(1)</A></B>
+             rc      System startup script, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>
+             resolv.conf
+                     TCP/IP domain name system, <B><A HREF="../man5/resolv.conf.5.html">resolv.conf(5)</A></B>
+             services
+                     TCP/IP names to services, <B><A HREF="../man5/services.5.html">services(5)</A></B>
+             serv.access
+                     Internet service access control, <B><A HREF="../man5/serv.access.5.html">serv.access(5)</A></B>
+             shadow  Shadow password database, <B><A HREF="../man5/passwd.5.html">passwd(5)</A></B>
+             termcap
+                     Terminal type descriptions, <B><A HREF="../man5/termcap.5.html">termcap(5)</A></B>
+             ttytab  Terminals device table, <B><A HREF="../man5/ttytab.5.html">ttytab(5)</A></B>
+             utmp    User login database, <B><A HREF="../man1/login.1.html">login(1)</A></B>
+             ...
+
+     /minix
+             Minix kernel image, <B><A HREF="../man8/monitor.8.html">monitor(8)</A></B>
+
+     /tmp/   Small, short-lived temporary files, cf /usr/tmp/
+
+     /usr/   Home directories and more system files
+
+             adm/    System administration files (1,5,8)
+                     lastlog
+                             Last logins, <B><A HREF="../man1/login.1.html">login(1)</A></B>
+                     log
+                             Default log file
+                     old
+                             Last weeks log files
+                     wtmp
+                             User logins and logouts, <B><A HREF="../man1/login.1.html">login(1)</A></B>
+                     *.cache
+                             Cached data of some programs
+                     ...
+
+             ast/    Honorary home directory of Andrew S. Tanenbaum
+                     Also new user initial files
+
+             <I>user</I>/   Home directory of <I>user</I>
+                     .ashrc  Ash (shell) startup, <B><A HREF="../man1/ash.1.html">ash(1)</A></B>
+                     .ellepro.b1
+                             Elle (editor) startup (compiled), <B><A HREF="../man1/elle.1.html">elle(1)</A></B>
+                     .ellepro.e
+                             Elle (editor) startup (text), <B><A HREF="../man1/elle.1.html">elle(1)</A></B>
+                     .exrc   Ex/vi (editor) startup, <B><A HREF="../man1/ex.1.html">ex(1)</A></B>
+                     .profile
+                             Custom user shell profile, <B><A HREF="../man1/sh.1.html">sh(1)</A></B>
+                     .rhosts Remote user permission file, <B><A HREF="../man5/rhosts.5.html">rhosts(5)</A></B>
+                     ...
+
+             bin/    User programs
+                     cc      C compiler, <B><A HREF="../man1/cc.1.html">cc(1)</A></B>
+                     cp      Copy files, <B><A HREF="../man1/cp.1.html">cp(1)</A></B>
+                     ls      List files, <B><A HREF="../man1/ls.1.html">ls(1)</A></B>
+                     man     Show manual pages, <B><A HREF="../man1/man.1.html">man(1)</A></B>
+                     ...
+
+             etc/    More system data files, cf /etc (8)
+                     rc      Continued system startup, <B><A HREF="../man8/boot.8.html">boot(8)</A></B>
+                     daily
+                             Daily system cleanup
+                     ...
+
+             include/
+                     C-compiler include files
+                     minix/  Minix kernel include files
+                             ...
+                     ...
+
+             lib/    Compiler libraries and other support stuff
+                     cawf/   Text formatter support files, <B><A HREF="../man1/cawf.1.html">cawf(1)</A></B>
+                     crontab
+                             Cron jobs, <B><A HREF="../man8/cron.8.html">cron(8)</A></B>
+                     dict/   Word lists
+                             words   American English word list, <B><A HREF="../man1/look.1.html">look(1)</A></B>
+                             ...
+                     libc.a  C library (Minix-8086 only), <B><A HREF="../man1/cc.1.html">cc(1)</A></B>
+                     <I>arch</I>    Per architecture compiler binaries and
+                             libaries, <B><A HREF="../man1/cc.1.html">cc(1)</A></B>
+                     ...
+
+             local/  Local software, cf /usr/
+                     bin/    Local utilities
+                     etc/    Local data files
+                             rc      Local system startup
+                             ...
+                     man/    Local manual pages
+                     src/    Local sources
+                     ...
+
+             man/    Manual pages, <B><A HREF="../man1/man.1.html">man(1)</A></B>
+                     cat*/   Preformatted manual pages
+                     man0/   Section 0, Book style user commands
+                     man1/   User commands
+                     man2/   System calls
+                     man3/   Library routines
+                     man4/   Device files
+                     man5/   File formats
+                     man6/   Games
+                     man7/   Miscellaneous
+                     man8/   System utilities
+                     whatis  Table of manual pages, <B><A HREF="../man5/whatis.5.html">whatis(5)</A></B>
+                     ...
+
+             mdec/
+                     boot    Bootstrap code, <B><A HREF="../man8/installboot.8.html">installboot(8)</A></B>
+                     ...
+
+             preserve/
+                     Saved elvis editor buffers, <B><A HREF="../man8/elvprsv.8.html">elvprsv(8)</A></B>, <B><A HREF="../man1/elvrec.1.html">elvrec(1)</A></B>
+
+             spool/  Mail and command spooling
+                     at/     At jobs, <B><A HREF="../man1/at.1.html">at(1)</A></B>
+                             past/   Completed at jobs
+                     mail/   Mail drops, <B><A HREF="../man1/mail.1.html">mail(1)</A></B>
+                             <I>user</I>    Mailbox of <I>user</I>
+                             ...
+                     ...
+
+             src/    System and command sources (home of bin)
+                     LICENSE
+                             Minix license to use
+                     commands/
+                             Utility sources
+                     crclist
+                             CRC checksums of the source tree, <B><A HREF="../man8/srccrc.8.html">srccrc(8)</A></B>
+                     lib/    Library sources
+                     fs/     File system
+                     inet/   TCP/IP task
+                     kernel/
+                             Kernel
+                     mm/     Memory manager
+                     boot/   Boot Monitor
+                     tools/  Kernel image making tools, <B><A HREF="../man8/tools.8.html">tools(8)</A></B>
+
+             tmp/    Large temporary files
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/ls.1.html">ls(1)</A></B>, <B><A HREF="../man1/man.1.html">man(1)</A></B>, <B><A HREF="../man1/find.1.html">find(1)</A></B>, <B><A HREF="../man1/grep.1.html">grep(1)</A></B>, <B><A HREF="../man8/checkhier.8.html">checkhier(8)</A></B>.
+
+<B>NOTES</B>
+     Not all of the directories and files shown are  present.   They  must  be
+     created as needed.
+
+<B>BUGS</B>
+     Many of the listed manual references do not yet exist.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

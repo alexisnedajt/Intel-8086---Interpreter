@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<TITLE>kill(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>kill(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     kill - send a signal to a process
+
+<B>SYNOPSIS</B>
+     <B>kill</B> [<B>-</B><I>n</I>] <I>process</I>
+
+<B>OPTIONS</B>
+
+     <B>-</B><I>n</I>   Signal number to send
+
+     <B>-</B><I>NAME</I>
+          Named signal to send
+
+<B>EXAMPLES</B>
+
+     <B>kill</B> <B>35</B>             # Send signal 15 to process 35
+
+     <B>kill</B> <B>-9</B> <B>40</B>          # Send signal 9 to process 40
+
+     <B>kill</B> <B>-2</B> <B>0</B>           # Send signal 2 to whole terminal process group
+
+     <B>kill</B> <B>-HUP</B> <B>-123</B>      # Send a hangup to process group 123
+
+<B>DESCRIPTION</B>
+
+     A signal is sent to a given process.  By default signal 15  (SIGTERM)  is
+     sent.   Process  0 means all the processes in the sender's process group.
+     A process group can be signalled by the negative  value  of  the  process
+     group  ID.   Signals  may be numerical, or the name of the signal without
+     <B>SIG</B>.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man2/kill.2.html">kill(2)</A></B>, <B><A HREF="../man2/sigaction.2.html">sigaction(2)</A></B>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

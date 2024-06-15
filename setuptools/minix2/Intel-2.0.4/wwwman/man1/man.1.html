@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>man(1)</TITLE>
+</HEAD>
+<BODY>
+<H1>man(1)</H1>
+<HR>
+<PRE>
+<B>NAME</B>
+     man - display online manual pages
+
+<B>SYNOPSIS</B>
+     <B>man</B> [<B>-antkfq</B>] [<B>-M</B> <I>path</I>] [<B>-s</B> <I>section</I>] <I>title</I> ...
+
+<B>DESCRIPTION</B>
+     <B>Man</B> displays the online manual pages for  the  specified  titles  in  the
+     specified sections.  The sections are as follows:
+
+     <B>1</B>    User Commands
+          Generic commands such as <B>ls</B>, <B>cp</B>, <B>grep</B>.
+
+     <B>2</B>    System Calls
+          Low level routines that directly interface with the kernel.
+
+     <B>3</B>    Library Routines
+          Higher level C language subroutines.
+
+     <B>4</B>    Device Files
+          Describes devices in <B>/dev</B>.
+
+     <B>5</B>    File Formats
+          Formats of files handled by various utilities and subroutines.
+
+     <B>6</B>    Games
+          It's not UNIX without an adventure game.
+
+     <B>7</B>    Miscellaneous
+          Macro packages, miscellaneous tidbits.
+
+     <B>8</B>    System Utilities
+          Commands for the System Administrator.
+
+     <B>9</B>    Documents
+          Larger manuals explaining some commands in more detail.
+
+     (If you are new to Minix then try <B>man</B> <B>hier</B>, it will show you  around  the
+     file system and give you many pointers to other manual pages.)
+
+     By default, <B>man</B> will try the following files in a manual  page  directory
+     for the command <B>man</B> <B>-s</B> <B>1</B> <B>ls</B>:
+
+          <B>cat1/ls.1</B>
+          <B>cat1/ls.1.Z</B>
+          <B>man1/ls.1</B>
+          <B>man1/ls.1.Z</B>
+
+
+
+     Files in the man[1-8] directories are formatted with <B>nroff</B>  <B>-man</B>.   Those
+     in man9 are formatted with <B>nroff</B> <B>-mnx</B>.  Files in the cat? directories are
+     preformatted.  Files with names ending in <B>.Z</B> are decompressed first  with
+     <B>zcat</B>  (see <B><A HREF="../man1/compress.1.html">compress(1)</A></B>).  The end result is presented to the user using a
+     pager if displaying on the screen.
+
+     For each manual page directory in its search path, <B>man</B> will first try all
+     the  subdirectories of the manual page directory for the files above, and
+     then the directory itself.  The directory <B>/usr/man</B> contains the  standard
+     manual  pages,  with  manual  pages  for optional packages installed in a
+     subdirectory of /usr/man, with  the  same  structure  as  /usr/man.   The
+     directory   <B>/usr/local/man</B>   contains  manual  pages  for  locally  added
+     software.  By default /usr/local/man is searched first, then /usr/man.
+
+     A title is not simply used as a  filename,  because  several  titles  may
+     refer  to  the  same  manual page.  Each manual page directory contains a
+     database of titles in the <B><A HREF="../man5/whatis.5.html">whatis(5)</A></B> file that is created by <B><A HREF="../man1/makewhatis.1.html">makewhatis(1)</A></B>
+     from  the  NAME sections of all the manual pages.  A title is searched in
+     this database and the first title on a whatis line is used as a filename.
+
+<B>OPTIONS</B>
+     The options may be interspersed with  the  titles  to  search,  and  take
+     effect for the titles after them.
+
+     <B>-a</B>   Show all the manual pages or one line descriptions  with  the  given
+          title in all the specified sections in all the manual directories in
+          the search path.  Normally only the first page found is shown.
+
+     <B>-n</B>   Use <B>nroff</B> <B>-man</B> to format manual pages (default).
+
+     <B>-t</B>   Use <B>troff</B> <B>-man</B> to format manual pages.
+
+     <B>-f</B>   Use <B><A HREF="../man1/whatis.1.html">whatis(1)</A></B> to show a one line description of the title  from  the
+          <B><A HREF="../man5/whatis.5.html">whatis(5)</A></B> file.
+
+     <B>-k</B>   Use <B><A HREF="../man1/apropos.1.html">apropos(1)</A></B> to show all the one line descriptions  of  the  title
+          anywhere in the <B><A HREF="../man5/whatis.5.html">whatis(5)</A></B> files (implies <B>-a</B>).
+
+     <B>-q</B>   Quietly check if all requested manual pages exist.   No  output,  no
+          errors, just an exit code.
+
+     <B>-M</B> <I>path</I>
+          Use <I>path</I> as the search path for manual directories.
+
+     <B>-s</B> <I>section</I>
+          <I>Section</I> is the section number the page is to be found in, or a comma
+          separated  list  of  sections  to  use.   Normally  all sections are
+          searched.  The search is always in numerical order  no  matter  what
+          your  section  list  looks  like.   A  single  digit is treated as a
+          section number without the <B>-s</B> for compatibility with  BSD-style  <B>man</B>
+          commands.
+
+<B>ENVIRONMENT</B>
+
+     <B>MANPATH</B>        This is a colon separated list of  directories  to  search
+                    for manual pages, by default <B>/usr/local/man:/usr/man</B>.
+
+     <B>PAGER</B>          The program to use to display the manual page or one  line
+                    descriptions on the screen page by page.  By default <B>more</B>.
+
+<B>FILES</B>
+
+     /usr/man/whatis          One of the <B><A HREF="../man5/whatis.5.html">whatis(5)</A></B> databases.
+
+<B>SEE</B> <B>ALSO</B>
+     <B><A HREF="../man1/nroff.1.html">nroff(1)</A></B>,  <B><A HREF="../man1/troff.1.html">troff(1)</A></B>,  <B><A HREF="../man1/more.1.html">more(1)</A></B>,   <B><A HREF="../man1/whatis.1.html">whatis(1)</A></B>,   <B><A HREF="../man1/makewhatis.1.html">makewhatis(1)</A></B>,   <B><A HREF="../man1/catman.1.html">catman(1)</A></B>,
+     <B><A HREF="../man5/whatis.5.html">whatis(5)</A></B>, <B><A HREF="../man7/man.7.html">man(7)</A></B>.
+
+<B>AUTHOR</B>
+     Kees J. Bot (kjb@cs.vu.nl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>
