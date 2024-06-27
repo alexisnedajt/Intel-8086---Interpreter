@@ -1571,8 +1571,9 @@ int main(int argc, char* argv[])
 
     fread(&header, sizeof(header), 1, file);
     fread(&header, sizeof(header), 1, file);
-    // read useless data (ez)
+
 	printf(" AX   BX   CX   DX   SP   BP   SI   DI  FLAGS IP\n");
+	
     uint8_t byte1;
     for (uint32_t i = 0; i < length;i++)
     {

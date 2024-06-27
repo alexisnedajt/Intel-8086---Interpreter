@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -lm -g
 LDFLAGS =
 LDLIBS =
 
-SRC = main.c
+SRC = main.c syscalls.c
 
 OBJ = ${SRC:.c=.o}
 EXE = ${SRC:.c=}

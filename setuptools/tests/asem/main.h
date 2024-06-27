@@ -4,6 +4,7 @@
 #include <err.h>
 #include <byteswap.h>
 #include <string.h>
+#include "syscalls.h"
 
 #define XOR 0b00001100
 
@@ -96,7 +97,7 @@
 #define CLI 0b11111010
 #define STI 0b11111011
 #define HLT 0b11110100
-#define WAIT 0b10011011
+#define WAIT1 0b10011011
 #define ESC 0b11011 //TODO
 #define LOCK 0b11110000
 
@@ -153,3 +154,14 @@
 
 #define NOT 0b1111011
 #define SHL 0b110100 //and SHR/SAR/ROL/ROR/RCL/RCR
+
+typedef struct instruct{
+    char* name;
+    int w;
+    int d;
+    int mod;
+    int reg;
+    int rm;
+    int data;
+    int disp;
+} instruct;

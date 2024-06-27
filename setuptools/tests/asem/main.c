@@ -1,16 +1,16 @@
 #include "main.h"
 
-//Probleme d'affichage de memoire sinon fini !!!!
-
-uint8_t text[length];
+uint8_t* text_area;
+uint8_t* data_area;
 int16_t registers[8] = {0,0,0,0,0xdcff,0,0,0};
-int current = 0;
+uint8_t current = 0;
 
-int Cmp(char* s1, char* s2){
-	if (strcmp(s1,s2) == 0)
-		return 1;
-	return 0;
-}
+char* val[2][8] = {
+	{"al","cl","dl","bl","ah","ch","dh","bh"},
+	{"ax","cx","dx","bx","sp","bp","si","di"}
+};
+
+//---------------------------------------------------------------------------------------
 
 char* pretty(int memory, int byte, int byte2, char* memPrint, int disp, int size, int yes, int swap){
 	char* s = ""; 
@@ -22,7 +22,7 @@ char* pretty(int memory, int byte, int byte2, char* memPrint, int disp, int size
 		asprintf(&s,"%s%04x ",s,bswap_16(registers[i]));
 	}
 	asprintf(&s,"%s---- ",s);
-	asprintf(&s,"%s%04x: ",s,memory);
+	asprintf(&s,"%s%04x:",s,memory);
 	asprintf(&s,"%s%02x",s,byte);
 	if (yes == 1){
 		asprintf(&s,"%s%02x",s,byte2);
@@ -40,64 +40,26 @@ char* pretty(int memory, int byte, int byte2, char* memPrint, int disp, int size
 		else
 			asprintf(&s,"%s%04x",s,disp);
 	}
-	asprintf(&s,"%-13s",s);
+	asprintf(&s,"%-62s",s);
 	return s;
 }
 
-char* val(int w, int v){
-	if (w == 1){
-		if (v == 0b000)
-			return "ax";
-		if (v == 0b001)
-			return "cx";
-		if (v == 0b010)
-			return "dx";
-		if (v == 0b011)
-			return "bx";
-		if (v == 0b100)
-			return "sp";
-		if (v == 0b101)
-			return "bp";
-		if (v == 0b110)
-			return "si";
-		return "di";
-	}
-	else {
-		if (v == 0b000)
-			return "al";
-		if (v == 0b001)
-			return "cl";
-		if (v == 0b010)
-			return "dl";
-		if (v == 0b011)
-			return "bl";
-		if (v == 0b100)
-			return "ah";
-		if (v == 0b101)
-			return "ch";
-		if (v == 0b110)
-			return "dh";
-		return "bh";	
-	}
-}
-
-
-char* r_m(int* rm, int disp, int size){
+char* r_m(int rm, int disp, int size){
 	char* ans;
 	char* op = "+";
-	if ((*rm) == 0b000)
+	if ((rm) == 0b000)
 		ans = "bx+si";
-	else if ((*rm) == 0b001)
+	else if ((rm) == 0b001)
 		ans = "bx+di";
-	else if ((*rm) == 0b010)
+	else if ((rm) == 0b010)
 		ans = "bp+si";
-	else if ((*rm) == 0b011)
+	else if ((rm) == 0b011)
 		ans = "bp+di";
-	else if ((*rm) == 0b100) 
+	else if ((rm) == 0b100) 
 		ans = "si";
-	else if ((*rm) == 0b101) 
+	else if ((rm) == 0b101) 
 		ans = "di";
-	else if ((*rm) == 0b110) 
+	else if ((rm) == 0b110) 
 		ans = "bp";
 	else
 		ans = "bx";
@@ -144,10 +106,8 @@ char* memPrint(int data, int size, int yes, int d, int neg, int sh){
 	}
 	else{
 		if (neg == 1) {
-			//printf("first data = %d\n",data);
 			if ((data & 0x8000) == 0x8000){
 					data = 0xffff - data + 1;
-					//printf("second data = %02x\n",data);
 					op = "-";
 			}
 		}
@@ -193,63 +153,51 @@ char* memPrint(int data, int size, int yes, int d, int neg, int sh){
 	return s;
 }
 
-char* readText(FILE* file, int* size, int max){
-	char* s;
-	uint8_t byte1;
-	if (*size == max){
-		return "";
-	}
-	for (int i = 0; i < *size; i++){
-		current++;
-		byte1 = text[current];
-		asprintf(&s,"%s%c",s,byte1);
-	}
-	return s;
-}
+//---------------------------------------------------------------------------------------
 
-void D_w_mod_reg_rm(FILE* file, char* inst, int byte, int memory, int* d, int* w, int* mod, int* reg, int*rm){
-	char* first = val(*w,*reg);
+void D_w_mod_reg_rm(int byte, int memory, struct instruct* inst){
+	char* first = val[inst->w][inst->reg];
 	char* second;
-	uint8_t a = ((*mod) << 6) + ((*reg) << 3) + *rm;
+	uint8_t a = ((inst->mod) << 6) + ((inst->reg) << 3) + inst->rm;
 	int disp = 0;
 	uint8_t dis8;
 	int s = 0;
-	if (*mod == 0b01){
+	if (inst->mod == 0b01){
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = (int16_t)(dis8);
 		s = 1;
-		second = r_m(rm,disp,s);
+		second = r_m(inst->rm,disp,s);
 	}
-	else if (*mod == 0b10){
+	else if (inst->mod == 0b10){
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = (int8_t)(dis8);
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = ((int8_t)(dis8) << 8) + disp;
 		s = 2;
-		second = r_m(rm,disp,s);
+		second = r_m(inst->rm,disp,s);
 	}
-	else if (*mod == 0b00 ){
-		if (*rm == 0b110){
+	else if (inst->mod == 0b00 ){
+		if (inst->rm == 0b110){
 			current++;
-			dis8 = text[current];
+			dis8 = text_area[current];
 			disp = (int8_t)(dis8);
 			current++;
-			dis8 = text[current];
+			dis8 = text_area[current];
 			disp = ((int8_t)(dis8) << 8) + disp;
 			asprintf(&second,"[%04x]",disp);
 			s = 2 ;
 		}
 		else{
-			second = r_m(rm,0,0);
+			second = r_m(inst->rm,0,0);
 		}
 	}
-	else if (*mod == 0b11){
-		second = val(*w,*rm);
+	else if (inst->mod == 0b11){
+		second = val[inst->w][inst->rm];
 	}
-	if (*d == 0){
+	if (inst->d == 0){
 		char** temp = malloc(sizeof(char*));
 		*temp = first;
 		first = second;
@@ -257,365 +205,359 @@ void D_w_mod_reg_rm(FILE* file, char* inst, int byte, int memory, int* d, int* w
 		free(temp);
 	}
 	
-	printf("%s %s %s, %s\n", pretty(memory,byte,a,"",disp,s,1,1), inst, first, second);
+	printf("%s %s %s, %s", pretty(memory-1,byte,a,"",disp,s,1,1), inst->name, first, second);
 	return;
 }
 
-void W_mod_rm(FILE* file, char* inst, int byte, int memory, int* w, int* mod, int* byte2, int* rm, int data, int size){
+void W_mod_rm(int byte, int memory, struct instruct* inst, int size){
 	char* r = "";
 	int disp = -1;
 	int s = 1;
 	uint8_t dis8;
 	int d = 0;
 	int sawp = 1;
-	if (*mod == 0b01){
+	if (inst->mod == 0b01){
 		current++;
-		dis8 = text[current];
-		if (data == -1){
+		dis8 = text_area[current];
+		if (inst->data == -1){
 			disp = dis8;
-			data = dis8;
-			d = bswap_16(data);
+			inst->data = dis8;
+			d = bswap_16(inst->data);
 		}
 		else {
-			disp = data;
-			data = dis8;
-			d = data;
+			disp = inst->data;
+			inst->data = dis8;
+			d = inst->data;
 		}
 		if (size == 2){
 			d = disp & 0x00ff;
 			disp >>= 8;
-			data = (d << 8) + dis8;
-			d = bswap_16(data);
+			inst->data = (d << 8) + dis8;
+			d = bswap_16(inst->data);
 		}
 		s = 1;
-		r = r_m(rm,disp,s);
+		r = r_m(inst->rm,disp,s);
 	}
-	else if (*mod == 0b10){
+	else if (inst->mod == 0b10){
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = (int8_t)(dis8);
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = ((int8_t)(dis8) << 8) + disp;
-		d = data;
+		d = inst->data;
 		s = 2;
-		r = r_m(rm,disp,s);
+		r = r_m(inst->rm,disp,s);
 	}
-	else if (*mod == 0b00){
-		if (*rm == 0b110){
+	else if (inst->mod == 0b00){
+		if (inst->rm == 0b110){
 			current++;
-			dis8 = text[current];
+			dis8 = text_area[current];
 			disp = (int8_t)(dis8);
 			current++;
-			dis8 = text[current];
+			dis8 = text_area[current];
 			disp = ((int8_t)(dis8) << 8) + disp;
-			d = data;
-			data = disp;
+			d = inst->data;
+			inst->data = disp;
 			disp = d;
-			d = data;
+			d = inst->data;
 			asprintf(&r,"[%04x]",bswap_16(disp));
 			s = 1;
 		}
 		else {
-			disp = data;
+			disp = inst->data;
 			d = -1;
-			r = r_m(rm,disp,0);
+			r = r_m(inst->rm,disp,0);
 		}
 	}
-	else if (*mod == 0b11){
-		r = val(*w,*rm);
-		d = data;
-		if (Cmp(inst,"or") || Cmp(inst,"and") || Cmp(inst,"test")){
+	else if (inst->mod == 0b11){
+		r = val[inst->w][inst->rm];
+		d = inst->data;
+		if (strcmp(inst->name,"or") == 0 || strcmp(inst->name,"and") == 0 || strcmp(inst->name,"test") == 0){
 			sawp = 0;
 		}
 	}
-	if (Cmp(inst,"mov")){
+	if (strcmp(inst->name,"mov") == 0){
 		if (d == -1){
-			data = bswap_16(disp);
+			inst->data = bswap_16(disp);
 			size = 1;
 			s = 0;
 		}
 		else{
-			data = (d << 8) + dis8;
+			inst->data = (d << 8) + dis8;
 		}
 		if (size > 1)
 			size = 1;
-		d = bswap_16(data)  ;
+		d = bswap_16(inst->data)  ;
 	}
-	char* mprint = memPrint(data,size,1,1,0,s);
+	char* mprint = memPrint(inst->data,size,1,1,0,s);
 	if (mprint[0] != '\0'){
 		asprintf(&r,"%s,",r);
 	}
 	if (d == -1)
 		size = 0;
-	printf("%s %s %s %s\n",pretty(memory,byte,*byte2,memPrint(disp,1,0,0,0,1),d,size,1,sawp), inst, r, mprint);
+	printf("%s %s %s %s",pretty(memory-1,byte,(inst->mod << 6) + (inst->reg << 3) + inst->rm,memPrint(disp,1,0,0,0,1),d,size,1,sawp), inst->name, r, mprint);
 	return;
 }
 
-void W_reg(char* inst, int byte, int memory, int* w, int* reg, int data, int size){
-	char* s;
-	asprintf(&s,"%s",pretty(memory,byte,0,memPrint(data,size,0,0,0,1),0,0,0,1));
-	printf("%s %s %s, %s\n", s, inst, val(*w,*reg), memPrint(data,size,1,1,0,1));
-	if (Cmp(inst,"mov")){
-		registers[*reg] = data;
-	}
+void W_reg(int byte, int memory, struct instruct* inst, int size){
+	printf("%s %s %s, %s", pretty(memory-1,byte,0,memPrint(inst->data,size,0,0,0,1),0,0,0,1), inst->name, val[inst->w][inst->reg], memPrint(inst->data,size,1,1,0,1));
 	return;
 }
 
-void W(char* inst, int byte, int memory, int data, int size){
-	char* s;
-	asprintf(&s,"%s",pretty(memory,byte,0,memPrint(data,size,0,0,0,1),0,0,0,1));
-	printf("%s %s %s\n", s, inst, memPrint(data,size,1,1,0,1));
+void W(int byte, int memory, struct instruct* inst, int size){
+	printf("%s %s %s", pretty(memory-1,byte,0,memPrint(inst->data,size,0,0,0,1),0,0,0,1), inst->name, memPrint(inst->data,size,1,1,0,1));
 	return;
 }
 
-void Mod_reg_rm(FILE* file, char* inst, int byte, int memory, int* mod, int* reg, int* rm){
-	char* first = val(1,*reg);
+void Mod_reg_rm(int byte, int memory, struct instruct* inst){
+	char* first = val[1][inst->reg];
 	char* second;
-	int a = ((*mod) << 6) + ((*reg) << 3) + *rm;
+	int a = ((inst->mod) << 6) + ((inst->reg) << 3) + inst->rm;
 	int disp = 0;
 	int s = 0;
 	uint8_t dis8;
-	if (*mod == 0b01){
+	if (inst->mod == 0b01){
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = dis8;
 		s = 1;
-		asprintf(&second,"%s",r_m(rm,disp,s));
+		asprintf(&second,"%s",r_m(inst->rm,disp,s));
 	}
-	else if (*mod == 0b10){
+	else if (inst->mod == 0b10){
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = (int8_t)(dis8);
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = ((int8_t)(dis8) << 8) + disp;
 		s = 2;
-		asprintf(&second,"%s",r_m(rm,disp,s));
+		asprintf(&second,"%s",r_m(inst->rm,disp,s));
 	}
-	else if (*mod == 0b00){
-		if (*rm == 0b110){
+	else if (inst->mod == 0b00){
+		if (inst->rm == 0b110){
 			current++;
-			dis8 = text[current];
+			dis8 = text_area[current];
 			disp = (int8_t)(dis8);
 			current++;
-			dis8 = text[current];
+			dis8 = text_area[current];
 			disp = ((int8_t)(dis8) << 8) + disp;
 			asprintf(&second,"[%04x]",disp);
 			s = 2 ;
 		}
 		else
-			second = r_m(rm,0,0);
+			second = r_m(inst->rm,0,0);
 	}
-	if (*mod == 0b11){
-		asprintf(&second,"%s",val(1,*rm));
+	if (inst->mod == 0b11){
+		asprintf(&second,"%s",val[1][inst->rm]);
 	}
-	printf("%s %s %s, %s\n",pretty(memory,byte,a,"",disp,s,1,1), inst, first, second);
+	printf("%s %s %s, %s",pretty(memory-1,byte,a,"",disp,s,1,1), inst->name, first, second);
 	return;
 }
 
-void Reg(char* inst, int byte, int memory, int* reg){
+void Reg(int byte, int memory, struct instruct* inst){
 	char* op = "";
-	if (Cmp(inst,"xchg"))
+	if (strcmp(inst->name,"xchg") == 0)
 		op = ", ax";
-	printf("%s %s %s %s\n",pretty(memory,byte,0,"",0,0,0,1), inst, val(1,*reg), op);
+	printf("%s %s %s %s",pretty(memory-1,byte,0,"",0,0,0,1), inst->name, val[1][inst->reg], op);
 	return;
 }
 
-void Mod_rm(FILE* file, char* inst, int byte, int memory, int* mod, int* mid, int* rm, int data, int size){
+void Mod_rm(int byte, int memory, struct instruct* inst, int size){
 	char* first;
-	int a = ((*mod) << 6) + ((*mid) << 3) + *rm;
+	int a = ((inst->mod) << 6) + ((inst->mod) << 3) + inst->rm;
 	int disp = 0;
 	uint8_t dis8;
 	int s = 0;
-	if (*mod == 0b01){
+	if (inst->mod == 0b01){
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = (int8_t)(dis8);
 		s = 1;
-		first = r_m(rm,disp,s);
+		first = r_m(inst->rm,disp,s);
 	}
-	else if (*mod == 0b10){
+	else if (inst->mod == 0b10){
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = (int8_t)(dis8);
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = ((int8_t)(dis8) << 8) + disp;
 		s = 2;
-		first = r_m(rm,disp,s);
+		first = r_m(inst->rm,disp,s);
 	}
-	else if (*mod == 0b00 ){
-		if (*rm == 0b110){
+	else if (inst->mod == 0b00 ){
+		if (inst->rm == 0b110){
 			current++;
-			dis8 = text[current];
+			dis8 = text_area[current];
 			disp = (int8_t)(dis8);
 			current++;
-			dis8 = text[current];
+			dis8 = text_area[current];
 			disp = ((int8_t)(dis8) << 8) + disp;
 			asprintf(&first,"[%04x]",disp);
 			s = 2 ;
 		}
 		else{
-			first = r_m(rm,0,0);
+			first = r_m(inst->rm,0,0);
 			s = 0;
-			first = r_m(rm,disp,s);
+			first = r_m(inst->rm,disp,s);
 		}
 	}
-	if (*mod == 0b11)
-		first = val(1,*rm);
-	char* mprint = memPrint(data,size,1,1,0,1);
+	if (inst->mod == 0b11)
+		first = val[1][inst->rm];
+	char* mprint = memPrint(inst->data,size,1,1,0,1);
 	if (mprint[0] != '\0'){
 		asprintf(&first,"%s,",first);
 	}
-	printf("%s %s %s %s\n",pretty(memory,byte,a, memPrint(data,size,0,0,0,1),disp,s,1,1), inst, first, mprint);
+	printf("%s %s %s %s",pretty(memory-1,byte,a, memPrint(inst->data,size,0,0,0,1),disp,s,1,1), inst->name, first, mprint);
 	return;
 }
 
-void S_w_mod_rm(FILE* file, char* inst, int byte, int memory, int* w, int* mod, int* reg, int*rm, int data, int size){
+void S_w_mod_rm(int byte, int memory, struct instruct* inst, int size){
 	char* first;
-	uint8_t a = ((*mod) << 6) + ((*reg) << 3) + *rm;
+	uint8_t a = ((inst->mod) << 6) + ((inst->reg) << 3) + inst->rm;
 	int disp = 0;
 	int s = 0;
 	uint8_t dis8;
-	int d = data;
+	int d = inst->data;
 	int ds = 0;
-	if (*mod == 0b01){
+	if (inst->mod == 0b01){
 		current++;
-		dis8 = text[current];
-		disp = data;
+		dis8 = text_area[current];
+		disp = inst->data;
 		if (size == 2){
 			disp = (disp & 0xff00) >> 8;
 		}
 		s = 1;
 		ds = dis8;
-		d = data;
+		d = inst->data;
 		if (size == 2)
-			data = ((data & 0x00ff) << 8) + dis8;
+			inst->data = ((inst->data & 0x00ff) << 8) + dis8;
 		else
-			data = dis8;
-		first = r_m(rm,disp,s);
+			inst->data = dis8;
+		first = r_m(inst->rm,disp,s);
 	}
-	else if (*mod == 0b10){
+	else if (inst->mod == 0b10){
 		current++;
-		dis8 = text[current];
-		disp = (dis8 << 8) + data;
+		dis8 = text_area[current];
+		disp = (dis8 << 8) + inst->data;
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		d = disp;
-		data = dis8;
+		inst->data = dis8;
 		s = 2;
 		ds = dis8;
-		first = r_m(rm,disp,s);
+		first = r_m(inst->rm,disp,s);
 	}
-	else if (*mod == 0b00 ){
-		if (*rm == 0b110){
+	else if (inst->mod == 0b00 ){
+		if (inst->rm == 0b110){
 			current++;
-			dis8 = text[current];
-			disp = (dis8 << 8) + data;
+			dis8 = text_area[current];
+			disp = (dis8 << 8) + inst->data;
 			current++;	
-			dis8 = text[current];	
+			dis8 = text_area[current];	
 			d = disp;
 			ds = dis8;
-			data = dis8;
+			inst->data = dis8;
 			asprintf(&first,"[%04x]",disp);
 			s = 2 ;
 		}
 		else{
-			first = r_m(rm,0,0);
+			first = r_m(inst->rm,0,0);
 			s = 0;
-			d = data;
+			d = inst->data;
 		}
 	}
-	else if (*mod == 0b11){
-		d = data;
-		first = val(*w,*rm);
+	else if (inst->mod == 0b11){
+		d = inst->data;
+		first = val[inst->w][inst->rm];
 	}
 	int neg = 0;
-	if (Cmp(inst,"cmp") || Cmp(inst,"cmp byte")){
-		if ((data & 0x80) == 0x80)
-			data = 0xff00 + data;
+	if (strcmp(inst->name,"cmp") == 0 || strcmp(inst->name,"cmp byte") == 0){
+		if ((inst->data & 0x80) == 0x80)
+			inst->data = 0xff00 + inst->data;
 		else
-			data = 0x0000 + data;
+			inst->data = 0x0000 + inst->data;
 		neg = 1;
 	}
-	printf("%s %s %s, %s\n",pretty(memory,byte,a,memPrint(d,size,0,0,0,1),ds,s,1,1), inst, first, memPrint(data,size,1,1,neg,1));
+	inst = first;	
+	printf("%s %s %s, %s",pretty(memory-1,byte,a,memPrint(d,size,0,0,0,1),ds,s,1,1), inst->name, first, memPrint(inst->data,size,1,1,neg,1));
 	return;
 }
 
-void W_mod_reg_rm(FILE* file, char* inst, int byte, int memory, int* w, int* mod, int* reg, int* rm){
-	char* second = val(*w,*reg);
+void W_mod_reg_rm(int byte, int memory, struct instruct* inst){
+	char* second = val[inst->w][inst->reg];
 	char* first;
-	int a = ((*mod) << 6) + ((*reg) << 3) + *rm;
+	int a = ((inst->mod) << 6) + ((inst->reg) << 3) + inst->rm;
 	int disp = 0;
 	int size = 0;
 	uint8_t dis8;
-	if (*mod == 0b01){
+	if (inst->mod == 0b01){
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = (int8_t)(dis8);
 		size = 1;
-		first = r_m(rm,*mod,size);
+		first = r_m(inst->rm,inst->mod,size);
 	}
-	else if (*mod == 0b10){
+	else if (inst->mod == 0b10){
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = (int8_t)(dis8);
 		current++;
-		dis8 = text[current];
+		dis8 = text_area[current];
 		disp = ((int8_t)(dis8) << 8) + disp;
 		size = 2;
-		first = r_m(rm,*mod,size);
+		first = r_m(inst->rm,inst->mod,size);
 	}
-	else if (*mod == 0b00){
-		if (*rm == 0b110){
+	else if (inst->mod == 0b00){
+		if (inst->rm == 0b110){
 			current++;
-			dis8 = text[current];
+			dis8 = text_area[current];
 			disp = dis8;
 			current++;
-			dis8 = text[current];
+			dis8 = text_area[current];
 			disp = ((dis8) << 8) + disp;
 			asprintf(&first,"[%04x]",disp);
 			size = 2 ;
 		}
 		else{
-			first = r_m(rm,0,0);
+			first = r_m(inst->rm,0,0);
 		}
 	}
-	if (*mod == 0b11){
-		first = val(*w,*rm);
+	if (inst->mod == 0b11){
+		first = val[inst->w][inst->rm];
 	}
 	char* di = "";
 	if (disp != 0){
 		asprintf(&di,"%02x",disp);
 	}
-	printf("%s %s %s, %s\n",pretty(memory,byte, a, "", disp,size,1,1), inst, first, second);
+	printf("%s %s %s, %s",pretty(memory-1,byte, a, "", disp,size,1,1), inst->name, first, second);
 	return;
 }
 
 void nothing(char* inst, int byte, int memory, int data, int disp, int yes, int size){
 	char* str;
-	asprintf(&str,"%s",pretty(memory,byte,0,memPrint(data,size,1-yes,0,0,1),0,0,0,1));
+	asprintf(&str,"%s",pretty(memory-1,byte,0,memPrint(data,size,1-yes,0,0,1),0,0,0,1));
 	disp = disp & 0x0000ffff;
-	printf("%s %s %s\n", str, inst, memPrint(disp,size,yes,1,0,1));
+	printf("%s %s %s", str, inst, memPrint(disp,size,yes,1,0,1));
 }
 
-void jump(FILE* file, char* inst, int byte, int memory){
+void jump(char* inst, int byte, int memory){
 		current++;
-		int data = text[current];
+		int data = text_area[current];
 		int inc = data;
 		if ((data & 0b10000000) == 0b10000000){
 			inc = (int8_t)(data);
 		}
 		char* str;
-		asprintf(&str,"%s",pretty(memory,byte,0,memPrint(data,1,0,0,0,1),0,0,0,1));
-		printf("%s %s %04x\n", str, inst, memory+inc+2);
+		asprintf(&str,"%s",pretty(memory-1,byte,0,memPrint(data,1,0,0,0,1),0,0,0,1));
+		printf("%s %s %04x", str, inst, memory+inc+2);
 }
 
 void undefined(int byte, int memory){
 	char* s;
-	asprintf(&s,"%s",pretty(memory,byte,0,"",0,0,0,1));
-	printf("%s (undefined)\n", s);
+	asprintf(&s,"%s",pretty(memory-1,byte,0,"",0,0,0,1));
+	printf("%s (undefined)", s);
 }
 
 char* Inst(uint8_t byte){
@@ -731,88 +673,69 @@ char* Inst(uint8_t byte){
 	return "";
 }
 
-
 //---------------------------------------------------------------------------------------
 
-
-char* instruct5(int index) {
-	uint8_t byte = text[current];
+char* instruct5(int index, uint8_t byte, struct instruct* inst) {
 	switch(byte>>5){
 		case PUSH3:
-			int reg = ((byte & 0b00011000) >> 3);
-			Reg("push",byte,index,&reg);
+			current--;
+			Reg(byte,index,inst);
 			return "push";
 	}
 	return "";
 }
 
-char* instruct4(int index, int* w, int* reg, int* data1) {
-	uint8_t b;
-	uint8_t byte = text[current];
+char* instruct4(int index, uint8_t byte, struct instruct* inst) {
 	int size;
 	switch(byte>>4){
 		case MOV3:
-			current++;
-			b = text[current];
-			*w = (byte & 0b00001000) >> 3;
-			*reg = byte & 0b00000111;
-			*data1 = b;
+			inst->name = "mov";
+			inst->w = (byte & 0b00001000) >> 3;
+			inst->data = (inst->mod << 6) + (inst->reg << 3) + inst->rm;
+			inst->reg = byte & 0b00000111;
 			size = 1;
-			if (*w == 1){
+			if (inst->w == 1){
 				current++;
-				*data1 = (*data1 << 8) + text[current];
+				inst->data = (inst->data << 8) + text_area[current];
 				size = 2;
 			}
-			W_reg("mov",byte,index,w,reg,*data1,size);
+			W_reg(byte,index,inst,size);
+			/*printf("\ninst->reg = %i\n",inst->reg);
+			printf("inst->data = %i\n",inst->data);
+			printf("registers[inst->reg] = %i\n",registers[inst->reg]);*/
+			registers[inst->reg] = inst->data;
 			return "mov";
 	}	
 	return "";
 }
 
-char* instruct3(int index, int*w, int* mod, int* reg, int* rm) {
-	uint8_t b;
-	uint8_t byte = text[current];
+char* instruct3(int index, uint8_t byte, struct instruct* inst) {
 	switch(byte>>3){
 		case ESC:
-			*w = byte & 0b00000001;
-			current++;
-			b = text[current];
-			*mod = (b & 0b11000000)>>6;
-			*rm = (b & 0b00000111);
-			int mid = (b & 0b00111000) >> 3;
-			Mod_rm("esc",byte,index,mod,&mid,rm,0,0);
+			inst->name = "esc";
+			Mod_rm(byte,index,inst,0);
 			return "esc";
 		case PUSH2:
 		case POP2:
 		case XCHG2:
 		case INC2:
 		case DEC2:
-			*reg = byte & 0b00000111;
-			if (byte >> 3 == PUSH2){
-				Reg("push",byte,index,reg);
-				return "push";
-			}	
-			if (byte >> 3 == POP2){
-				Reg("pop",byte,index,reg);
-				return "pop";
-			}
-			if (byte >> 3 == XCHG2){
-				Reg("xchg",byte,index,reg);
-				return "xchg";
-			}
-			if (byte >> 3 == INC2){
-				Reg("inc",byte,index,reg);
-				return "inc";
-			}
-			Reg("dec",byte,index,reg);
+			current--;
+			if (byte >> 3 == PUSH2)
+				inst->name = "push";
+			else if (byte >> 3 == POP2)
+				inst->name = "pop";
+			else if (byte >> 3 == XCHG2)
+				inst->name = "xchg";
+			else if (byte >> 3 == INC2)
+				inst->name = "inc";
+			Reg(byte,index,inst);
 			return "dec";
 	}
 	return "";
 }	
 
-char* instruct2(int index, int* d, int* w, int* mod, int* reg, int* rm) {
-	uint8_t b;
-	uint8_t byte = text[current];
+char* instruct2(int index, uint8_t byte, struct instruct* inst) {
 	switch(byte>>2){
 		case MOV1:
 		case ADD1:
@@ -820,189 +743,128 @@ char* instruct2(int index, int* d, int* w, int* mod, int* reg, int* rm) {
 		case SUB1:
 		case SSB1:
 		case CMP1:
-			*d = (byte & 0b00000010) > 1;
-			*w = byte & 0b00000001;
-			current++;
-			b = text[current];
-			*mod = (b & 0b11000000) >> 6;
-			*reg = (b & 0b00111000) >>3;
-			*rm = b & 0b00000111;
-			if (byte>>2 == MOV1){
-				D_w_mod_reg_rm("mov", byte, index, d, w, mod, reg, rm);
-				return "mov";
-			}
-			if (byte>>2 == ADD1){
-				D_w_mod_reg_rm("add", byte, index, d, w, mod, reg, rm);
-				return "add";
-			}
-			if (byte>>2 == ADC1){
-				D_w_mod_reg_rm("adc", byte, index, d, w, mod, reg, rm);
-
-				return "adc";	
-			}
-			if (byte>>2 == SUB1){
-				D_w_mod_reg_rm("sub", byte, index, d, w, mod, reg, rm);
-				return "sub";
-			}
-			if (byte>>2 == SSB1){
-				D_w_mod_reg_rm("sbb", byte, index, d, w, mod, reg, rm);
-				return "sbb";
-			}
-			D_w_mod_reg_rm("cmp", byte, index, d, w, mod, reg, rm);
-			return "cmp";
 		case AND1:
 		case OR1:
 		case XOR1:
-		    char* str = "";
-			if (byte>>2 == OR1)
-				asprintf(&str,"or");
+			if (byte>>2 == MOV1)
+				inst->name = "mov";
+			else if (byte>>2 == ADD1)
+				inst->name = "add";
+			else if (byte>>2 == ADC1)
+				inst->name = "adc";
+			else if (byte>>2 == SUB1)
+				inst->name = "sub";
+			else if (byte>>2 == SSB1)
+				inst->name = "sbb";
+			else if (byte>>2 == OR1)
+				inst->name = "or";
 			else if (byte>>2 == XOR1)
-				asprintf(&str,"xor");
+				inst->name = "xor";
 			else
-				asprintf(&str,"and");
-			*d = (byte & 0b00000010) >> 1;
-			*w = byte & 0b00000001;
-			current++;
-			b = text[current];
-			*mod = (b & 0b11000000) >> 6;
-			*reg = (b & 0b00111000) >> 3;
-			*rm = b & 0b00000111;
-			D_w_mod_reg_rm(str, byte, index, d, w, mod, reg, rm);
+				inst->name = "and";
+			D_w_mod_reg_rm(byte, index, inst);
 			return "xor";
 		case ADD2:
-		    *d = (byte & 0b00000010) >> 1;
-			*w = byte & 0b00000001;
 			current++;
-			b = text[current];
-			*mod = (b & 0b11000000) >> 6;
-			*reg = (b & 0b00111000) >> 3;
-			*rm = b & 0b00000111;
-			current++;
-			uint8_t data1 = text[current];
-			if (*d == 0 && *w == 1){
+			inst->data = text_area[current];
+			if (inst->d == 0 && inst->w == 1){
 				current++;
-				data1 = (data1 <<8) + text[current];
+				inst->data = (inst->data <<8) + text_area[current];
 			}
-			if ((b & 0b00111000) == 0b00000000){
-				S_w_mod_rm("add",byte,index,w,mod,reg,rm,data1,1);
-				return "add";
-			}
-			else if ((b & 0b00111000) == 0b00010000){
-				S_w_mod_rm("adc",byte,index,w,mod,reg,rm,data1,1);
-				return "adc";
-			}
-			else if ((b & 0b00111000) == 0b00101000){
-				S_w_mod_rm("sub",byte,index,w,mod,reg,rm,data1,1);
-				return "sub";
-			}
-			else if ((b & 0b00111000) == 0b00011000){
-				S_w_mod_rm("sbb",byte,index,w,mod,reg,rm,data1,1);
-				return "ssb";
-			}
-			if (*w == 1)
-				S_w_mod_rm("cmp",byte,index,w,mod,reg,rm,data1,1);
+			if (inst->reg == 0b00000000)
+				inst->name = "add";
+			else if (inst->reg == 0b00010000)
+				inst->name = "adc";
+			else if (inst->reg == 0b00101000)
+				inst->name = "+ sub";
+			else if (inst->reg == 0b00011000)
+				inst->name = "sbb";
+			else if (inst->w == 1)
+				inst->name = "cmp";
 			else
-				S_w_mod_rm("cmp byte",byte,index,w,mod,reg,rm,data1,1);
+				inst->name = "cmp byte";
+			S_w_mod_rm(byte,index,inst,1);
 			return "cmp";
 		case SHL:
-			char* c ;
-			*d = (byte & 0b00000010) >> 1;
-			*w = byte & 0b00000001;
-			current++;
-			b = text[current];
-			*mod = (b & 0b11000000) >> 6;
-			*reg = (b & 0b00111000) >> 3;
-			*rm = b & 0b00000111;
-			int byte2 = (int)b;
-			if (*reg == 0b100)
-				c = "shl";
-			else if (*reg == 0b101)
-				c = "shr";
-			else if (*reg == 0b111)
-				c = "sar";
-			else if (*reg == 0b000)
-				c = "rol";
-			else if (*reg == 0b001)
-				c = "ror";
-			else if (*reg == 0b010)
-				c = "rcl";
-			else if (*reg == 0b011)
-				c = "rcr";
-			str = "1";
-			if (*d == 1)
+			if (inst->reg == 0b100)
+				inst->name = "shl";
+			else if (inst->reg == 0b101)
+				inst->name = "shr";
+			else if (inst->reg == 0b111)
+				inst->name = "sar";
+			else if (inst->reg == 0b000)
+				inst->name = "rol";
+			else if (inst->reg == 0b001)
+				inst->name = "ror";
+			else if (inst->reg == 0b010)
+				inst->name = "rcl";
+			else if (inst->reg == 0b011)
+				inst->name = "rcr";
+			char* str = "1";
+			if (inst->d == 1)
 				asprintf(&str,"cl");
-			char* r = val(*w,*rm);
+			char* r = val[inst->w][inst->rm];
 			int disp = 0;
 			int s = 0;
 			uint8_t dis8;
-			if (*mod == 0b01){
+			if (inst->mod == 0b01){
 				current++;
-				dis8 = text[current];
+				dis8 = text_area[current];
 				disp = (int8_t)(dis8);
 				s = 1;
 			}
-			else if (*mod == 0b10){
+			else if (inst->mod == 0b10){
 				current++;
-				dis8 = text[current];
+				dis8 = text_area[current];
 				disp = (int8_t)(dis8);
 				current++;
-				disp = ((int8_t)(text[current]) << 8) + disp;
+				disp = ((int8_t)(text_area[current]) << 8) + disp;
 				s = 2;
 			}
-			if (*mod != 0b11){
-				r = r_m(rm,disp,s);
+			if (inst->mod != 0b11){
+				r = r_m(inst->rm,disp,s);
 			}
-			printf("%s %s %s, %s\n",pretty(index,byte,byte2,memPrint(byte2,1,0,0,0,1),disp,s,0,1), c, r, str);
+			printf("%s %s %s, %s",pretty(index,byte,(inst->mod << 6) + (inst-> reg << 3) + inst->reg,memPrint((inst->mod << 6) + (inst-> reg << 3) + inst->reg,1,0,0,0,1),disp,s,0,1), inst->name, r, str);
 			return "shl";
 	}			
 	return "";
 }
 
-char* instruct1(int index,int* d, int* w, int* mod, int* reg, int* rm, int* data1) {
-	uint8_t b;
+char* instruct1(int index, uint8_t byte, struct instruct* inst) {
 	int size = 0;
-	int byte2 = 0;
 	char* str = "";
 	char* st;
 	char* s;
-	uint8_t byte = text[current];
 	switch(byte>>1) {
 		case INC1:
-		    *w = byte & 0b00000001;
-			current++;
-			b = text[current];
-			*mod = (b & 0b11000000) >> 6;
-			*rm = b & 0b00000111;
-			byte2 = (int)b;
-			if ((b & 0b00111000) == 0b00001000){
-					W_mod_rm("dec",byte,index,w,mod,&byte2,rm,-1,0);
+			if (inst->reg == 0b00001000){
+					inst -> name = "dec";
+					W_mod_rm(byte,index,inst,0);
 					return "dec";
 			}
 			return "";
 		case REP:
-			current++;
-			b = text[current];
-			char* inst = Inst(b);
-			asprintf(&s,"%s",pretty(index,byte,0,memPrint(b,1,0,0,0,1),0,0,0,1));
-			printf("%s %s %s\n", s, "rep", inst);
+			char* ins = Inst((inst->mod << 6) + (inst->reg << 3) + inst->rm);
+			asprintf(&s,"%s",pretty(index,byte,0,memPrint((inst->mod << 6) + (inst->reg << 3) + inst->rm,1,0,0,0,1),0,0,0,1));
+			printf("%s %s %s\n", s, "rep", ins);
 			return "rep";
 		case CMPS:
 		case SCAS:
 		case LODS:
 		case STOS:
 		case MOVS:
+			current--;
 			if (byte >> 1 == CMPS)
-				asprintf(&str,"cmps");
+				inst->name = "cmps";
 			else if (byte >> 1 == SCAS)
-				asprintf(&str,"scas");
+				inst->name = "scas";
 			else if (byte >> 1 == LODS)
-				asprintf(&str,"lods");
+				inst->name = "lods";
 			else if (byte >> 1 == STOS)
-				asprintf(&str,"stos");
+				inst->name = "stos";
 			else
-				asprintf(&str,"movs");
-			*w = byte & 0b00000001;
-			if (w == 0){
+				inst->name = "movs";
+			if (inst->w == 0){
 				asprintf(&str,"%sb",str);
 				nothing("movsw",byte,index,-1,-1,0,0);
 			}
@@ -1012,56 +874,41 @@ char* instruct1(int index,int* d, int* w, int* mod, int* reg, int* rm, int* data
 			}
 			return "movs";
 		case MOV2:
-			current++;
-			b = text[current];
-			if ((b & 0b00111000) == 0b00000000){
-				str = "mov byte";
-				*w = byte & 0b00000001;
-				*mod = (b & 0b11000000)>>6;
-				*rm = (b & 0b00000111);
+			if (inst->reg == 0b00000000){
+				inst->name = "mov byte";
 				current++;
-				*data1 = text[current];
+				inst->data = text_area[current];
 				size = 1;
-				byte2 = (*mod << 6)+ ((b & 0b00111000) << 3) + *rm;
-				if (*w == 1) {
-					str = "mov";
+				if (inst->w == 1) {
+					inst->name = "mov";
 					current++;
-					*data1 = (*data1 << 8) + text[current];
+					inst->data = (inst->data << 8) + text_area[current];
 					size = 2;
 				}
-				W_mod_rm(str,byte,index,w,mod,&byte2,rm,*data1,size);
+				W_mod_rm(byte,index,inst,size);
 				return "mov";
 			}
 			return "";
 		case XCHG1:
-			current++;
-			b = text[current];
-			*w = byte & 0b00000001;
-			*mod = (b & 0b11000000)>>6;
-			*reg = (b & 0b00111000)>>3;
-			*rm = b & 0b00000111;
-			W_mod_reg_rm("xchg",byte,index,w,mod,reg,rm);
+			W_mod_reg_rm(byte,index,inst);
 			return "xchg";
 		case IN1:
 		case OUT1:
-			current++;
-			b = text[current];
-			*w = byte & 0b00000001;
 			st = "al";
-			if (*w == 1)
+			if (inst->w == 1)
 				st = "ax";
 			if (byte >> 1 == IN1)
 				str = "in";
 			else
 				str = "out";
-			asprintf(&s,"%s",pretty(index,byte,b,memPrint(b,1,1,1,0,1),0,0,0,1));
-			printf("%s %s %s, %s\n", s, str, st, memPrint(b,1,1,1,0,1));
+			asprintf(&s,"%s",pretty(index,byte,(inst->mod << 6) + (inst->reg << 3) + inst->rm,memPrint((inst->mod << 6) + (inst->reg << 3) + inst->rm,1,1,1,0,1),0,0,0,1));
+			printf("%s %s %s, %s\n", s, str, st, memPrint((inst->mod << 6) + (inst->reg << 3) + inst->rm,1,1,1,0,1));
 			return "int";
 		case IN2:
 		case OUT2:
-			*w = byte & 0b00000001;
+			current--;
 			st = "al";
-			if (*w == 1)
+			if (inst->w == 1)
 				st = "ax";
 			if (byte >> 1 == IN2)
 				str = "in";
@@ -1071,463 +918,399 @@ char* instruct1(int index,int* d, int* w, int* mod, int* reg, int* rm, int* data
 			printf("%s %s %s, dx\n", s, str, st);
 			return "out";
 		case ADD3:
-			*w = byte & 0b00000001;
-			current++;
-			b = text[current];
-			size = 1;
-			if (*w == 1) {	
-				int temp = *data1 << 8;
-				current++;
-				*data1 = text[current];
-				*data1 = temp + *data1;
-				size = 2;
-			}
-			W("add",byte,index,*data1,size);
-			return "add";
 		case ADC3:
-			*w = byte & 0b00000001;
-			current++;
-			*data1 = text[current];
-			size = 1;
-			if (*w == 1){
-				current++;
-				*data1 = (*data1 << 8) + text[current];
-				size = 2;
-			}
-			W("adc",byte,index,*data1,size);
-			return "adc";
 		case SUB3:
-			*w = byte & 0b00000001;
-			current++;
-			*data1 = text[current];
-			size = 1;
-			if (*w == 1) {
-				current++;
-				*data1 = (*data1<<8) + text[current];
-				size = 2;
-			}
-			W("sub ax,",byte,index,*data1,size);
-			return "sub";
 		case SSB3:
-			*w = byte & 0b00000001;
-			current++;
-			*data1 = text[current];
-			size = 1;
-			if (*w == 1) {
-				current++;
-				*data1 = (*data1 << 8) + text[current];
-				size = 2;
-			}
-			W("sbb",byte,index,*data1, size);
-			return "ssb";
-		case CMP3:
-			*w = byte & 0b00000001;
-			current++;
-			*data1 = text[current];
-			size = 1;
-			str = "cmp";
-			if (*w == 1) {
-				str = "cmp ax,";
-				current++;
-				*data1 = (*data1 << 8) + text[current];
-				size = 2;
-			}
-			W(str,byte,index,*data1,size);
-			return "cmp";
-		case MUL:
-		case XOR2:
-			*w = byte & 0b00000001;
-			current++;
-			b = text[current];
-			*mod = (b & 0b11000000) >> 6;
-			*reg = (b & 0b00111000) >> 3;
-			*rm = b & 0b00000111;
-			int byte2 = (int)b;
-			if (byte >> 1 == MUL){
-				if ((b & 0b00111000) == 0b00100000){
-					W_mod_rm("mul",byte,index,w,mod,&byte2,rm,-1,0);
-					return "mul";
-				}
-				else if ((b & 0b00111000) == 0b00101000){
-					W_mod_rm("imul",byte,index,w,mod,&byte2,rm,-1,0);
-					return "mul";
-				}
-				else if ((b & 0b00111000) == 0b00110000){
-					W_mod_rm("div",byte,index,w,mod,&byte2,rm,-1,0);
-					return "div";
-				}
-				else if ((b & 0b00111000) == 0b00111000){
-					W_mod_rm("idiv",byte,index,w,mod,&byte2,rm,-1,0);
-					return "idiv";
-				}
-				else if ((b & 0b00111000) == 0b00011000){
-					W_mod_rm("neg",byte,index,w,mod,&byte2,rm,-1,0);
-					return "neg";
-				}
-				else if ((b & 0b00111000) == 0b00010000){
-					W_mod_rm("not",byte,index,w,mod,&byte2,rm,-1,0);
-					return "not";
-				}
-			}
-			current++;
-			*data1 = text[current];
-			size = 1;
-			if ((b & 0b00111000) == 0b00110000)
-				str = "xor";
-			else if (byte >> 1 == MUL && (b & 0b00111000) == 0b00000000){
-				if (*w == 0 && *mod != 0b11)
-					str = "test byte";
-				else
-					str = "test";
-			}
-			else if ((b & 0b00111000) == 0b00001000)
-				str = "or";
-			else if ((b & 0b00111000) == 0b00100000)
-				str = "and";
-			if (str[0] != '\0'){
-				if (*w == 1){
-					current++;
-					*data1 = (*data1 << 8) + text[current];
-					size = 2;
-				}
-				W_mod_rm(str,byte,index,w,mod,&byte2,rm,*data1,size);
-			}
-			else{
-				if (*d == 0 && *w == 1){
-					current++;
-					*data1 = (*data1 << 8) + text[current];
-					size = 2;
-				}
-				if ((b & 0b00111000) == 0b00000000)
-					S_w_mod_rm("add",byte,index,w,mod,reg,rm,*data1,size);
-				else if ((b & 0b00111000) == 0b00010000)
-					S_w_mod_rm("adc",byte,index,w,mod,reg,rm,*data1,size);
-				else if ((b & 0b00111000) == 0b00101000)
-					S_w_mod_rm("sub",byte,index,w,mod,reg,rm,*data1,size);
-				else if ((b & 0b00111000) == 0b00011000)
-					S_w_mod_rm("sbb",byte,index,w,mod,reg,rm,*data1,size);
-				else if ((b & 0b00111000) == 0b00111000){
-					if (*w == 1)
-						S_w_mod_rm("cmp",byte,index,w,mod,reg,rm,*data1,size);
-					else
-						S_w_mod_rm("cmp byte",byte,index,w,mod,reg,rm,*data1,size);
-				}
-			}
-			return "cmp";
 		case AND3:
 		case TEST3:
 		case OR3:
 		case XOR3:
-			if (byte >> 1 == OR3)
-				asprintf(&str,"or");
-			else if (byte >> 1 == XOR3)
-				asprintf(&str,"xor");
-			else if (byte >> 1 == AND3)
-				asprintf(&str,"and");
-			else
-				asprintf(&str,"test al,");
-			*w = byte & 0b00000001;
-			current++;
-			*data1 = text[current];
-			int size = 1;
-			if (*w == 1){
-				current++;
-				*data1 = (*data1 << 8) + text[current];
-				size = 2 ;
+		case CMP3:
+			inst->data = (inst->mod << 6) + (inst->reg << 3) + inst->rm;
+			size = 1;
+			if(byte >> 1 == ADC3)
+				inst->name = "adc";
+			else if(byte >> 1 == SUB3)
+				inst->name = "sub ax,";
+			else if(byte >> 1 == SSB3)
+				inst->name = "ssb";
+			else if(byte >> 1 == CMP3)
+				inst->name = "cmp";
+			else{
+				if (byte >> 1 == OR3)
+					inst->name = "or";
+				else if (byte >> 1 == XOR3)
+					inst->name = "xor";
+				else if (byte >> 1 == AND3)
+					inst->name = "and";
+				else
+					inst->name = "test al,";
 			}
-			W(str,byte,index,*data1,size);
-			return "xor";
-		case TEST1:
-			*w = byte & 0b00000001;
+			if (inst->w == 1) {	
+				current++;
+				inst->data = (inst->data << 8) + text_area[current];
+				size = 2;
+			}
+			W(byte,index,inst,size);
+			return "add";
+		case MUL:
+		case XOR2:
+			if (byte >> 1 == MUL){
+				if (inst->reg == 0b00100000)
+					inst->name = "mul";
+				else if (inst->reg == 0b00101000)
+					inst->name = "imul";
+				else if (inst->reg == 0b00110000)
+					inst->name = "div";
+				else if (inst->reg == 0b00111000)
+					inst->name = "idiv";
+				else if (inst->reg == 0b00011000)
+					inst->name = "neg";
+				else if (inst->reg == 0b00010000)
+					inst->name = "not";
+				W_mod_rm(byte,index,inst,0);
+				return "not";
+			}
 			current++;
-			b = text[current];
-			*mod = (b & 0b11000000) >> 6;
-			*reg = (b & 0b00111000) >> 3;
-			*rm = b & 0b00000111;
-			W_mod_reg_rm("test",byte,index,w,mod,reg,rm);
+			inst->data = text_area[current];
+			size = 1;
+			if (inst->reg == 0b00110000)
+				inst->name = "xor";
+			else if (byte >> 1 == MUL && inst->reg == 0b00000000){
+				if (inst->w == 0 && inst->mod != 0b11)
+					inst->name = "test byte";
+				else
+					inst->name = "test";
+			}
+			else if (inst->reg == 0b00001000)
+				inst->name = "or";
+			else if (inst->reg == 0b00100000)
+				inst->name = "and";
+			if (inst->name[0] != '\0'){
+				if (inst->w == 1){
+					current++;
+					inst->data = (inst->data << 8) + text_area[current];
+					size = 2;
+				}
+				W_mod_rm(byte,index,inst,size);
+			}
+			else{
+				if (inst->d == 0 && inst->w == 1){
+					current++;
+					inst->data = (inst->data << 8) + text_area[current];
+					size = 2;
+				}
+				if (inst->reg == 0b00000000)
+					inst->name = "add";
+				else if (inst->reg == 0b00010000)
+					inst->name = "adc";
+				else if (inst->reg == 0b00101000)
+					inst->name = "sub";
+				else if (inst->reg == 0b00011000)
+					inst->name = "sbb";
+				else if (inst->reg == 0b00111000){
+					if (inst->w == 1)
+						inst->name = "cmp";
+					else
+						inst->name = "cmp byte";
+				}
+				S_w_mod_rm(byte,index,inst,size);
+			}
+			return "cmp";
+		case TEST1:
+			W_mod_reg_rm(byte,index,inst);
 			return "test";
 	}
 	return "";
 }
 
-char* instruct0(int index, int* mod, int* reg, int* rm) {
-	uint8_t b;
+char* instruct0(int index, uint8_t byte, struct instruct* inst) {
 	int data = 0;
-	uint8_t byte = text[current];
-	switch(text[current]) {
+	switch(byte) {
 		case MOV6:
 		case MOV7:
-			current++;
-			b = text[current];
-			if ((b & 0b001000000) == 0b000000000) {
-				*mod = (b & 0b110000000) >> 7;
-				*reg = (b & 0b000111000) >> 3;
-				*rm = b & 0b000000111;
-				char* ins = "mov";
-				Mod_reg_rm(file,ins,byte,index,mod,reg,rm);
-				return ins;
+			inst->name = "mov";
+			if (inst->reg == 0b000000000) {
+				Mod_reg_rm(byte,index,inst);
+				return "mov";
 			}
 			return "";
 		case PUSH1:
-			current++;
-			b = text[current];
-			*mod = (b & 0b11000000) >> 6;
-			*rm = (b & 0b00000111);
-			int mid = (b & 0b00111000) >> 3;
-			int byte2 = (int)b;
-			int w = (byte & 0b00000001);
-			if ((b & 0b00111000) == 0b00001000){
-					W_mod_rm(file,"dec",byte,index,&w,mod,&byte2,rm,-1,0);
-					return "dec";
-				}
-			if ((b & 0b00111000) == 0b00000000){
-				int w = (byte & 0b00000001);
-				W_mod_rm(file,"inc",byte,index,&w,mod,&byte2,rm,-1,0);
+			inst->name = "dec";
+			if (inst->reg == 0b00001000){
+				W_mod_rm(byte,index,inst,0);
+				return "dec";
 			}
-			else if ((b & 0b00111000) == 0b00110000) {
-				Mod_rm(file,"push",byte,index,mod,&mid,rm,-1,0);
-			}
-			else if (((b & 0b00111000) == 0b00100000) || ((b & 0b00111000) == 0b00101000)){
-				Mod_rm(file,"jmp",byte,index,mod,&mid,rm,-1,0);
-			}
-			else if (((b & 0b00111000) == 0b00010000) || ((b & 0b00111000) == 0b00011000)){
-				Mod_rm(file,"call",byte,index,mod,&mid,rm,-1,0);
-			}
+			if (inst->reg == 0b00000000)
+				inst->name = "inc";
+			else if (inst->reg == 0b00110000) 
+				inst->name = "push";
+			else if ((inst->reg == 0b00100000) || (inst->reg == 0b00101000))
+				inst->name = "jmp";
+			else if ((inst->reg == 0b00010000) || (inst->reg == 0b00011000))
+				inst->name = "call";
+			Mod_rm(byte,index,inst,0);
 			return "jmp";
 		case POP1:
-			current++;
-			b = text[current];
-			if ((b & 0b00111000) == 0b00000000) {
-				*mod = (b & 0b11000000) >> 6;
-				*rm = (b & 0b00000111);
-				int mid = b & 0b00111000;
-				Mod_rm(file,"pop",byte,index,mod,&mid,rm,-1,0);
+			inst->name = "pop";
+			if (inst->reg == 0b00000000) {
+				Mod_rm(byte,index,inst,0);
 				return "pop";
 			}
 			return "";
 		case XLAT:
+			current--;
 			nothing("xlat",byte,index,-1,-1,0,0);
 			return "xlat";
 		case LEA:
 		case LDS:
 		case LES:
-			current++;
-			b = text[current];
-			*mod = (b & 0b11000000) >> 6;
-			*reg = (b & 0b00111000) >> 3;
-			*rm = b & 0b00000111;
-			if (byte == 0b10001101){
-				Mod_reg_rm(file,"lea",byte,index,mod,reg,rm);
-				return "lea";
-			}
-			if (byte == 0b11000101){
-				Mod_reg_rm(file,"lds",byte,index,mod,reg,rm);
-				return "lds";
-			}
-			Mod_reg_rm(file,"les",byte,index,mod,reg,rm);
+			if (byte == 0b10001101)
+				inst->name = "lea";
+			else if (byte == 0b11000101)
+				inst->name = "lds";
+			else
+				inst->name = "les";
+			Mod_reg_rm(byte,index,inst);
 			return "les";
 		case LAHF:
+			current--;
 			nothing("lahf",byte,index,-1,-1,0,0);
 			return "lahf";
 		case SAHF:
+			current--;
 			nothing("sahf",byte,index,-1,-1,0,0);
 			return "sahf";
 		case PUSHF:
+			current--;
 			nothing("pushf",byte,index,-1,-1,0,0);
 			return "pushf";
 		case POPF:
+			current--;
 			nothing("popf",byte,index,-1,-1,0,0);
 			return "popf";
 		case AAA:
+			current--;
 			nothing("aaa",byte,index,-1,-1,0,0);
 			return "aaa";
 		case BAA:
+			current--;
 			nothing("baa",byte,index,-1,-1,0,0);
 			return "baa";
 		case AAS:
+			current--;
 			nothing("aas",byte,index,-1,-1,0,0);
 			return "aas";
 		case DAS:
+			current--;
 			nothing("das",byte,index,-1,-1,0,0);
 			return "das";
 		case AAM1:
-			current++;
-			b = text[current];
-			if (b == AAM1) {
-				nothing("aam",byte,index,b,b,1,1);
+			if ((inst->mod << 6) + (inst->reg << 3) + inst->rm == AAM1) {
+				nothing("aam",byte,index,(inst->mod << 6) + (inst->reg << 3) + inst->rm,(inst->mod << 6) + (inst->reg << 3) + inst->rm,1,1);
 				return "aam";
 			}
 			return "";
 		case AAD1:
-			current++;
-			b = text[current];
-			if (b == AAD2) {
-				nothing("aad",byte,index,b,b,1,1);
+			if ((inst->mod << 6) + (inst->reg << 3) + inst->rm == AAD2) {
+				nothing("aad",byte,index,(inst->mod << 6) + (inst->reg << 3) + inst->rm,(inst->mod << 6) + (inst->reg << 3) + inst->rm,1,1);
 				return "aad";
 			}
 			return "";
 		case CBW:
+			current--;
 			nothing("cbw",byte,index,-1,-1,0,0);
 			return "cbw";
 		case CWD:
+			current--;
 			nothing("cwd",byte,index,-1,-1,0,0);
 			return "cwd";
 		case INT1:
-			current++;
-			b = text[current];
-			nothing("int",byte,index,b,b,1,1);
+			nothing("+ int",byte,index,(inst->mod << 6) + (inst->reg << 3) + inst->rm,(inst->mod << 6) + (inst->reg << 3) + inst->rm,1,1);
+			message* m = (message*)(data_area + bswap_16(registers[3]));
+			syscalls_l[m->m_type-1](m,data_area);
 			return "int";
 		case JNB:
-			jump(file,"jnb",byte,index);
+			current--;
+			jump("jnb",byte,index);
 			return "jnb";
 		case CLC:
+			current--;
 			nothing("clc",byte,index,-1,-1,0,0);
 			return "clc";
 		case STC:
+			current--;
 			nothing("stc",byte,index,-1,-1,0,0);
 			return "stc";
 		case CLI:
+			current--;
 			nothing("cli",byte,index,-1,-1,0,0);
 			return "cli";
 		case STI:
+			current--;
 			nothing("sti",byte,index,-1,-1,0,0);
 			return "sti";
 		case CLD:
+			current--;
 			nothing("cld",byte,index,-1,-1,0,0);
 			return "cld";
 		case STD:
+			current--;
 			nothing("std",byte,index,-1,-1,0,0);
 			return "std";
 		case CMC:
+			current--;
 			nothing("cmc",byte,index,-1,-1,0,0);
 			return "cmc";
 		case HLT:
+			current--;
 			nothing("hlt",byte,index,-1,-1,0,0);
 			return "hlt";
-		case WAIT:
+		case WAIT1:
+			current--;
 			nothing("wait",byte,index,-1,-1,0,0);
 			return "wait";
 		case LOCK:
+			current--;
 			nothing("lock",byte,index,-1,-1,0,0);
 			return "lock";
 		case JE:
-			jump(file,"je",byte,index);
+			current--;
+			jump("je",byte,index);
 			return "jnb";
 		case JL:
-			jump(file,"jl",byte,index);
+			current--;
+			jump("jl",byte,index);
 			return "jnb";
 		case JLE:
-			jump(file,"jle",byte,index);
+			current--;
+			jump("jle",byte,index);
 			return "jnb";
 		case JB:
-			jump(file,"jb",byte,index);
+			current--;
+			jump("jb",byte,index);
 			return "jnb";
 		case JBE:
-			jump(file,"jbe",byte,index);
+			current--;
+			jump("jbe",byte,index);
 			return "jnb";
 		case JP:
-			jump(file,"jp",byte,index);
+			current--;
+			jump("jp",byte,index);
 			return "jnb";
 		case JO:
-			jump(file,"jo",byte,index);
+			current--;
+			jump("jo",byte,index);
 			return "jnb";
 		case JS:
-			jump(file,"js",byte,index);
+			current--;
+			jump("js",byte,index);
 			return "jnb";
 		case JNE:
-			jump(file,"jne",byte,index);
+			current--;
+			jump("jne",byte,index);
 			return "jnb";
 		case JNL:
-			jump(file,"jnl",byte,index);
+			current--;
+			jump("jnl",byte,index);
 			return "jnb";
 		case JNLE:
-			jump(file,"jnle",byte,index);
+			current--;
+			jump("jnle",byte,index);
 			return "jnb";
 		case JNBE:
-			jump(file,"jnbe",byte,index);
+			current--;
+			jump("jnbe",byte,index);
 			return "jnb";
 		case JNP:
-			jump(file,"jnp",byte,index);
+			current--;
+			jump("jnp",byte,index);
 			return "jnb";
 		case JNO:
-			jump(file,"jno",byte,index);
+			current--;
+			jump("jno",byte,index);
 			return "jnb";
 		case JNS:
-			jump(file,"jns",byte,index);
+			current--;
+			jump("jns",byte,index);
 			return "jnb";
 		case LOOP:
-			jump(file,"loop",byte,index);
+			current--;
+			jump("loop",byte,index);
 			return "jnb";
 		case LOOPZ:
-			jump(file,"loopz",byte,index);
+			current--;
+			jump("loopz",byte,index);
 			return "jnb";
 		case LOOPNZ:
-			jump(file,"loopnz",byte,index);
+			current--;
+			jump("loopnz",byte,index);
 			return "jnb";
 		case JCXZ:
-			jump(file,"jxcz",byte,index);
+			current--;
+			jump("jxcz",byte,index);
 			return "jnb";
 		case INT2:
+			current--;
 			nothing("int",byte,index,-1,-1,0,0);
 			return "int";
 		case IRET:
+			current--;
 			nothing("iret",byte,index,-1,-1,0,0);
 			return "iret";
 		case INTO:
+			current--;
 			nothing("into",byte,index,-1,-1,0,0);
 			return "into";
 		case JMP1:
+			inst->data = (inst->mod << 6) + (inst->reg << 3) + inst->rm;
 			current++;
-			data = text[current];
-			current++;
-			data = (data << 8) + text[current];
+			inst->data = (inst->data << 8) + text_area[current];
 			nothing("jmp",byte,index,data,index+3+data,0,2);
 			return "jmp";
 		case JMP2:
-			jump(file,"jmp short",byte,index);
+			current--;
+			jump("jmp short",byte,index);
 			return "jmp";
 		case CALL3:
 		case JMP4:
-			char* inst;
+			inst->data = (inst->mod << 6) + (inst->reg << 3) + inst->rm;
 			if (byte == CALL3)
-				inst = "call";
+				inst->name = "call";
 			else
-				inst = "jmp";
+				inst->name = "jmp";
 			current++;
-			data = text[current];
-			current++;
-			data = (data << 8) + text[current];
+			data = (((inst->mod << 6) + (inst->reg << 3) + inst->rm) << 8) + text_area[current];
 
 			current++;
-			int data2 = text[current];
+			int data2 = text_area[current];
 			current++;
-			data2 = (data << 8) + text[current];
+			data2 = (data2 << 8) + text_area[current];
 
 			char* str = "";
 			char* t;
 			asprintf(&t,"%s%s",memPrint(data,2,0,0,0,1),memPrint(data2,2,0,0,0,1));
 			asprintf(&str,"%s",pretty(index,byte,0,t,0,0,0,1));
-			printf("%s %s %s:%s\n", str, inst, memPrint(data,2,1,1,0,1),memPrint(data2,2,1,1,0,1));
+			printf("%s %s %s:%s\n", str, inst->name, memPrint(data,2,1,1,0,1),memPrint(data2,2,1,1,0,1));
 			return "jmp";
 		case RET3:
 		case RET1:
+			current--;
 			nothing("ret",byte,index,0,0,0,0);
 			return "ret";
 		case RET4:
 		case RET2:
+			inst->data = (inst->mod << 6) + (inst->reg << 3) + inst->rm;
 			current++;
-			data = text[current];
-			current++;
-			data = (data << 8) + text[current];
+			data = (inst->data << 8) + text_area[current];
 			nothing("ret",byte,index,data,data,1,2);
 			return "ret";
 		case CALL1:
+			inst->data = (inst->mod << 6) + (inst->reg << 3) + inst->rm;
 			current++;
-			data = text[current];
-			current++;
-			data = (data << 8) + text[current];
+			data = (inst->data << 8) + text_area[current];
 			int ind = index + 3;
-			if ((data & 0b1000000000000000) == 0b1000000000000000)
+			if ((data & 0x8000) == 0x8000)
 				ind -= (0b1111111111111111 - data) + 1;
 			else
 				ind += data;
@@ -1541,8 +1324,8 @@ char* instruct0(int index, int* mod, int* reg, int* rm) {
 
 int main(int argc, char* argv[])
 {
-    if (argc < 2)
-        errx(1, "Argument missing: ./main <a.out>");
+    if (argc != 2)
+        errx(1, "Incorrect execution : ./main <a.out>");
 
     char * filename = argv[1];
     FILE* file = fopen(filename, "r");
@@ -1558,46 +1341,43 @@ int main(int argc, char* argv[])
 
     fread(&header, sizeof(header), 1, file);
     fread(&header, sizeof(header), 1, file);
-
     fread(&header, sizeof(header), 1, file);
     fread(&header, sizeof(header), 1, file);
 
-	for (uint32_t i = 0 ; i< length; i++){
-		fread(&text[i], sizeof(text[i]), 1, file);
-	}
+	text_area = malloc(length*sizeof(uint8_t));
+	data_area = malloc(a_data*sizeof(uint8_t));
+
+	for (uint32_t i = 0 ; i< length; i++)
+		fread(&text_area[i], sizeof(text_area[i]), 1, file);
+	for (uint32_t i = 0 ; i< a_data; i++)
+		fread(&data_area[i], sizeof(data_area[i]), 1, file);
 
 	printf(" AX   BX   CX   DX   SP   BP   SI   DI  FLAGS IP\n");
 
+	uint8_t byte, b;
     for (; current < length; current++)
     {
-		int d = 0, w = 0, mod = 0, reg = 0, rm = 0;
-		int data1 = 0;
-		char* instruct;
-		instruct = instruct0(current,&mod,&reg,&rm);
-		if (instruct[0] != '\0'){
+		if (current != 0)
+			printf("\n");
+
+		byte = text_area[current];
+		current++;
+		b = text_area[current];
+		struct instruct inst = {"",byte & 0b00000001,(byte & 0b00000010) >> 1,(b & 0b11000000) >> 6,(b & 0b00111000) >> 3,b & 0b00000111,b,0};
+		
+		if (instruct0(current,byte,&inst)[0] != '\0')
 			continue;
-		}
-		instruct = instruct1(current,&d,&w,&mod,&reg,&rm,&data1);
-		if (instruct[0] != '\0'){
+		if (instruct1(current,byte,&inst)[0] != '\0')
 			continue;
-		}
-		instruct = instruct2(current,&d,&w,&mod,&reg,&rm);
-		if (instruct[0] != '\0'){
+		if (instruct2(current,byte,&inst)[0] != '\0')
 			continue;
-		}
-		instruct = instruct3(current,&w,&mod,&reg,&rm);
-		if (instruct[0] != '\0'){
+		if (instruct3(current,byte,&inst)[0] != '\0')
 			continue;
-		}
-		instruct = instruct4(current,&w,&reg,&data1);
-		if (instruct[0] != '\0'){
+		if (instruct4(current,byte,&inst)[0] != '\0')
 			continue;
-		}
-		instruct = instruct5(current);
-		if (instruct[0] != '\0'){
+		if (instruct5(current,byte,&inst)[0] != '\0')
 			continue;
-		}
     }
-	
+	printf("\n");
     return 0;
 }
