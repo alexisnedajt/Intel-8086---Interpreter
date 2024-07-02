@@ -5,6 +5,7 @@
 #include <byteswap.h>
 #include <string.h>
 #include "syscalls.h"
+#include "type.h"
 
 #define XOR 0b00001100
 
@@ -81,6 +82,40 @@
 #define INT1 0b11001101
 
 #define XOR1 0b001100
+
+#define TEST2 0b1111011
+
+#define AND1 0b001000
+#define AND3 0b0010010
+
+#define NOT 0b1111011
+#define SHL 0b110100 //and SHR/SAR/ROL/ROR/RCL/RCR
+
+#define Norm 0
+#define Imm 1
+#define Add1 2
+#define Add2 3
+
+typedef struct instruct{
+    char* name;
+
+    int d;
+    int w;
+    int mod; //Bytes info
+    int reg;
+    int rm;
+
+    int data; 
+    int disp; //Next bytes values
+    int new_data;
+
+    char* rg; //Might make another struct to remember these and treat them separately
+    char* ad; //The strings used for printing if we want to reuse them
+
+    int add; //The address of an instruction if immediate address
+    int type; //0 if reg_reg | 1 if reg_imm | 2 if add_reg | 3 if reg_add
+} instruct;
+
 #define XOR2 0b1000000 // and or2
 #define XOR3 0b0011010
 
@@ -146,22 +181,3 @@
 #define MOVS 0b1010010
 #define CMPS 0b1010011
 #define REP 0b1111001
-
-#define TEST2 0b1111011
-
-#define AND1 0b001000
-#define AND3 0b0010010
-
-#define NOT 0b1111011
-#define SHL 0b110100 //and SHR/SAR/ROL/ROR/RCL/RCR
-
-typedef struct instruct{
-    char* name;
-    int w;
-    int d;
-    int mod;
-    int reg;
-    int rm;
-    int data;
-    int disp;
-} instruct;

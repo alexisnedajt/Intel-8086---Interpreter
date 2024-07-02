@@ -1,3 +1,6 @@
+#ifndef SYSCALLS
+#define SYSCALLS
+
 #include "type.h"
 #include <unistd.h>
 
@@ -56,3 +59,5 @@ void Write(message* m, uint8_t* data_area);
 void Exit(message* m, uint8_t* data_area);
 
 extern func syscalls_l[NCALLS];
+
+#endif 

@@ -1,3 +1,5 @@
+#ifndef TYPES
+#define TYPES
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -68,5 +70,6 @@ typedef struct {
 #define m6_l1  m_u.m_m6.m6l1
 #define m6_f1  m_u.m_m6.m6f1
 
-
 typedef void (*func)(message*,uint8_t*);
+
+#endif 
