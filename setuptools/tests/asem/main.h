@@ -92,9 +92,11 @@
 #define SHL 0b110100 //and SHR/SAR/ROL/ROR/RCL/RCR
 
 #define Norm 0
-#define Imm 1
-#define Add1 2
-#define Add2 3
+#define Imm1 1
+#define Imm2 2
+#define Add1 3
+#define Add2 4
+#define RegR 5
 
 typedef struct instruct{
     char* name;

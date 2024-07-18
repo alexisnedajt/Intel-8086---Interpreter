@@ -1,0 +1,726 @@
+ AX   BX   CX   DX   SP   BP   SI   DI  FLAGS IP
+0000 0000 0000 0000 ffdc 0000 0000 0000 ---- 0000:31ed         xor bp, bp
+0000 0000 0000 0000 ffdc 0000 0000 0000 --Z- 0002:89e3         mov bx, sp
+0000 ffdc 0000 0000 ffdc 0000 0000 0000 --Z- 0004:8b07         mov ax, [bx] ;[ffdc]0001
+0001 ffdc 0000 0000 ffdc 0000 0000 0000 --Z- 0006:8d5702       lea dx, [bx+2] ;[ffde]ffe6
+0001 ffdc 0000 ffde ffdc 0000 0000 0000 --Z- 0009:8d4f04       lea cx, [bx+4] ;[ffe0]0000
+0001 ffdc ffe0 ffde ffdc 0000 0000 0000 --Z- 000c:01c1         add cx, ax
+0001 ffdc ffe1 ffde ffdc 0000 0000 0000 -S-- 000e:01c1         add cx, ax
+0001 ffdc ffe2 ffde ffdc 0000 0000 0000 -S-- 0010:bb1000       mov bx, 0010
+0001 0010 ffe2 ffde ffdc 0000 0000 0000 -S-- 0013:81fb1402     cmp bx, 0214
+0001 0010 ffe2 ffde ffdc 0000 0000 0000 -S-C 0017:730f         jnb 0028
+0001 0010 ffe2 ffde ffdc 0000 0000 0000 -S-C 0019:f6c301       test bl, 1
+0001 0010 ffe2 ffde ffdc 0000 0000 0000 --Z- 001c:750a         jne 0028
+0001 0010 ffe2 ffde ffdc 0000 0000 0000 --Z- 001e:813f5353     cmp [bx], 5353 ;[0010]5353
+0001 0010 ffe2 ffde ffdc 0000 0000 0000 --Z- 0022:7504         jne 0028
+0001 0010 ffe2 ffde ffdc 0000 0000 0000 --Z- 0024:891e0200     mov [0002], bx ;[0002]0232
+0001 0010 ffe2 ffde ffdc 0000 0000 0000 --Z- 0028:8b1e0200     mov bx, [0002] ;[0002]0010
+0001 0010 ffe2 ffde ffdc 0000 0000 0000 --Z- 002c:890f         mov [bx], cx ;[0010]5353
+0001 0010 ffe2 ffde ffdc 0000 0000 0000 --Z- 002e:51           push cx
+0001 0010 ffe2 ffde ffda 0000 0000 0000 --Z- 002f:52           push dx
+0001 0010 ffe2 ffde ffd8 0000 0000 0000 --Z- 0030:50           push ax
+0001 0010 ffe2 ffde ffd6 0000 0000 0000 --Z- 0031:e80500       call 0039
+0001 0010 ffe2 ffde ffd4 0000 0000 0000 --Z- 0039:55           push bp
+0001 0010 ffe2 ffde ffd2 0000 0000 0000 --Z- 003a:89e5         mov bp, sp
+0001 0010 ffe2 ffde ffd2 ffd2 0000 0000 --Z- 003c:b80400       mov ax, 0004
+0004 0010 ffe2 ffde ffd2 ffd2 0000 0000 --Z- 003f:50           push ax
+0004 0010 ffe2 ffde ffd0 ffd2 0000 0000 --Z- 0040:e83b00       call 007e
+0004 0010 ffe2 ffde ffce ffd2 0000 0000 --Z- 007e:55           push bp
+0004 0010 ffe2 ffde ffcc ffd2 0000 0000 --Z- 007f:89e5         mov bp, sp
+0004 0010 ffe2 ffde ffcc ffcc 0000 0000 --Z- 0081:50           push ax
+0004 0010 ffe2 ffde ffca ffcc 0000 0000 --Z- 0082:50           push ax
+0004 0010 ffe2 ffde ffc8 ffcc 0000 0000 --Z- 0083:8d5e06       lea bx, [bp+6] ;[ffd2]0000
+0004 ffd2 ffe2 ffde ffc8 ffcc 0000 0000 --Z- 0086:895efe       mov [bp-2], bx ;[ffca]0004
+0004 ffd2 ffe2 ffde ffc8 ffcc 0000 0000 --Z- 0089:b81e00       mov ax, 001e
+001e ffd2 ffe2 ffde ffc8 ffcc 0000 0000 --Z- 008c:50           push ax
+001e ffd2 ffe2 ffde ffc6 ffcc 0000 0000 --Z- 008d:ff76fe       push [bp-2] ;[ffca]ffd2
+001e ffd2 ffe2 ffde ffc4 ffcc 0000 0000 --Z- 0090:ff7604       push [bp+4] ;[ffd0]0004
+001e ffd2 ffe2 ffde ffc2 ffcc 0000 0000 --Z- 0093:e80a02       call 02a0
+001e ffd2 ffe2 ffde ffc0 ffcc 0000 0000 --Z- 02a0:55           push bp
+001e ffd2 ffe2 ffde ffbe ffcc 0000 0000 --Z- 02a1:89e5         mov bp, sp
+001e ffd2 ffe2 ffde ffbe ffbe 0000 0000 --Z- 02a3:81ec1a04     sub sp, 041a
+001e ffd2 ffe2 ffde fba4 ffbe 0000 0000 -S-- 02a7:56           push si
+001e ffd2 ffe2 ffde fba2 ffbe 0000 0000 -S-- 02a8:57           push di
+001e ffd2 ffe2 ffde fba0 ffbe 0000 0000 -S-- 02a9:8b7608       mov si, [bp+8] ;[ffc6]001e
+001e ffd2 ffe2 ffde fba0 ffbe 001e 0000 -S-- 02ac:c74600ec00   mov [bp-14], 0000 ;[ffaa]0000
+001e ffd2 ffe2 ffde fba0 ffbe 001e 0000 -S-- 02b1:8b5e04       mov bx, [bp+4] ;[ffc2]0004
+001e 0004 ffe2 ffde fba0 ffbe 001e 0000 -S-- 02b4:ff4604       inc [bp+4] ;[ffc2]0004
+001e 0004 ffe2 ffde fba0 ffbe 001e 0000 ---- 02b7:8a07         mov al, [bx] ;[0004]68
+0068 0004 ffe2 ffde fba0 ffbe 001e 0000 ---- 02b9:98           cbw
+0068 0004 ffe2 ffde fba0 ffbe 001e 0000 ---- 02ba:8946f8       mov [bp-8], ax ;[ffb6]0000
+0068 0004 ffe2 ffde fba0 ffbe 001e 0000 ---- 02bd:09c0         or ax, ax
+0068 0004 ffe2 ffde fba0 ffbe 001e 0000 ---- 02bf:7503         jne 02c4
+0068 0004 ffe2 ffde fba0 ffbe 001e 0000 ---- 02c4:837ef825     cmp [bp-8], 25 ;[ffb6]0068
+0068 0004 ffe2 ffde fba0 ffbe 001e 0000 ---- 02c8:7440         je 030a
+0068 0004 ffe2 ffde fba0 ffbe 001e 0000 ---- 02ca:8b14         mov dx, [si] ;[001e]0000
+0068 0004 ffe2 0000 fba0 ffbe 001e 0000 ---- 02cc:4a           dec dx
+0068 0004 ffe2 ffff fba0 ffbe 001e 0000 -S-- 02cd:8914         mov [si], dx ;[001e]0000
+0068 0004 ffe2 ffff fba0 ffbe 001e 0000 -S-- 02cf:7c10         jl 02e1
+0068 0004 ffe2 ffff fba0 ffbe 001e 0000 -S-- 02e1:56           push si
+0068 0004 ffe2 ffff fb9e ffbe 001e 0000 -S-- 02e2:ff76f8       push [bp-8] ;[ffb6]0068
+0068 0004 ffe2 ffff fb9c ffbe 001e 0000 -S-- 02e5:e85305       call 083b
+0068 0004 ffe2 ffff fb9a ffbe 001e 0000 -S-- 083b:55           push bp
+0068 0004 ffe2 ffff fb98 ffbe 001e 0000 -S-- 083c:89e5         mov bp, sp
+0068 0004 ffe2 ffff fb98 fb98 001e 0000 -S-- 083e:50           push ax
+0068 0004 ffe2 ffff fb96 fb98 001e 0000 -S-- 083f:50           push ax
+0068 0004 ffe2 ffff fb94 fb98 001e 0000 -S-- 0840:56           push si
+0068 0004 ffe2 ffff fb92 fb98 001e 0000 -S-- 0841:57           push di
+0068 0004 ffe2 ffff fb90 fb98 001e 0000 -S-- 0842:8b7e04       mov di, [bp+4] ;[fb9c]0068
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 -S-- 0845:8b7606       mov si, [bp+6] ;[fb9e]001e
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 -S-- 0848:c7060e0037   mov [000e], 1037 ;[000e]0000
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 -S-- 084e:837c0200     cmp [si+2], 0 ;[0020]0001
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 ---- 0852:7d07         jnl 085b
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 ---- 085b:f644000402   test byte [si+4], 2 ;[0022]02
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 ---- 085f:7506         jne 0867
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 ---- 0867:f644000480   test byte [si+4], 80 ;[0022]02
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 --Z- 086b:740c         je 0879
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 --Z- 0879:816400047fff and [si+4], ff7f ;[0022]0002
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 ---- 087e:814c00040001 or [si+4], 0100 ;[0022]0002
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 ---- 0883:f644000404   test byte [si+4], 4 ;[0022]02
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 --Z- 0887:7403         je 088c
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 --Z- 088c:837c0800     cmp [si+8], 0 ;[0026]0000
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 --Z- 0890:7403         je 0895
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 --Z- 0895:81fe1e00     cmp si, 001e
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 --Z- 0899:7532         jne 08cd
+0068 0004 ffe2 ffff fb90 fb98 001e 0068 --Z- 089b:ff362000     push [0020] ;[0020]0001
+0068 0004 ffe2 ffff fb8e fb98 001e 0068 --Z- 089f:e8ad05       call 0e4f
+0068 0004 ffe2 ffff fb8c fb98 001e 0068 --Z- 0e4f:55           push bp
+0068 0004 ffe2 ffff fb8a fb98 001e 0068 --Z- 0e50:89e5         mov bp, sp
+0068 0004 ffe2 ffff fb8a fb8a 001e 0068 --Z- 0e52:83ec20       sub sp, 20
+0068 0004 ffe2 ffff fb6a fb8a 001e 0068 -S-- 0e55:8d46e0       lea ax, [bp-20] ;[fb6a]0000
+fb6a 0004 ffe2 ffff fb6a fb8a 001e 0068 -S-- 0e58:50           push ax
+fb6a 0004 ffe2 ffff fb68 fb8a 001e 0068 -S-- 0e59:ff7604       push [bp+4] ;[fb8e]0001
+fb6a 0004 ffe2 ffff fb66 fb8a 001e 0068 -S-- 0e5c:e85700       call 0eb6
+fb6a 0004 ffe2 ffff fb64 fb8a 001e 0068 -S-- 0eb6:55           push bp
+fb6a 0004 ffe2 ffff fb62 fb8a 001e 0068 -S-- 0eb7:89e5         mov bp, sp
+fb6a 0004 ffe2 ffff fb62 fb62 001e 0068 -S-- 0eb9:ff7606       push [bp+6] ;[fb68]fb6a
+fb6a 0004 ffe2 ffff fb60 fb62 001e 0068 -S-- 0ebc:b80854       mov ax, 5408
+5408 0004 ffe2 ffff fb60 fb62 001e 0068 -S-- 0ebf:50           push ax
+5408 0004 ffe2 ffff fb5e fb62 001e 0068 -S-- 0ec0:ff7604       push [bp+4] ;[fb66]0001
+5408 0004 ffe2 ffff fb5c fb62 001e 0068 -S-- 0ec3:e8f201       call 10b8
+5408 0004 ffe2 ffff fb5a fb62 001e 0068 -S-- 10b8:55           push bp
+5408 0004 ffe2 ffff fb58 fb62 001e 0068 -S-- 10b9:89e5         mov bp, sp
+5408 0004 ffe2 ffff fb58 fb58 001e 0068 -S-- 10bb:83ec18       sub sp, 18
+5408 0004 ffe2 ffff fb40 fb58 001e 0068 -S-- 10be:8b5604       mov dx, [bp+4] ;[fb5c]0001
+5408 0004 ffe2 0001 fb40 fb58 001e 0068 -S-- 10c1:8956ec       mov [bp-14], dx ;[fb44]0000
+5408 0004 ffe2 0001 fb40 fb58 001e 0068 -S-- 10c4:8b5606       mov dx, [bp+6] ;[fb5e]5408
+5408 0004 ffe2 5408 fb40 fb58 001e 0068 -S-- 10c7:8956f0       mov [bp-10], dx ;[fb48]0000
+5408 0004 ffe2 5408 fb40 fb58 001e 0068 -S-- 10ca:8b5608       mov dx, [bp+8] ;[fb60]fb6a
+5408 0004 ffe2 fb6a fb40 fb58 001e 0068 -S-- 10cd:8956fa       mov [bp-6], dx ;[fb52]0000
+5408 0004 ffe2 fb6a fb40 fb58 001e 0068 -S-- 10d0:8d46e8       lea ax, [bp-18] ;[fb40]0000
+fb40 0004 ffe2 fb6a fb40 fb58 001e 0068 -S-- 10d3:50           push ax
+fb40 0004 ffe2 fb6a fb3e fb58 001e 0068 -S-- 10d4:b83600       mov ax, 0036
+0036 0004 ffe2 fb6a fb3e fb58 001e 0068 -S-- 10d7:50           push ax
+0036 0004 ffe2 fb6a fb3c fb58 001e 0068 -S-- 10d8:b80100       mov ax, 0001
+0001 0004 ffe2 fb6a fb3c fb58 001e 0068 -S-- 10db:50           push ax
+0001 0004 ffe2 fb6a fb3a fb58 001e 0068 -S-- 10dc:e836fd       call 0e15
+0001 0004 ffe2 fb6a fb38 fb58 001e 0068 -S-- 0e15:55           push bp
+0001 0004 ffe2 fb6a fb36 fb58 001e 0068 -S-- 0e16:89e5         mov bp, sp
+0001 0004 ffe2 fb6a fb36 fb36 001e 0068 -S-- 0e18:56           push si
+0001 0004 ffe2 fb6a fb34 fb36 001e 0068 -S-- 0e19:57           push di
+0001 0004 ffe2 fb6a fb32 fb36 001e 0068 -S-- 0e1a:8b7608       mov si, [bp+8] ;[fb3e]fb40
+0001 0004 ffe2 fb6a fb32 fb36 fb40 0068 -S-- 0e1d:8b5606       mov dx, [bp+6] ;[fb3c]0036
+0001 0004 ffe2 0036 fb32 fb36 fb40 0068 -S-- 0e20:895402       mov [si+2], dx ;[fb42]0000
+0001 0004 ffe2 0036 fb32 fb36 fb40 0068 -S-- 0e23:56           push si
+0001 0004 ffe2 0036 fb30 fb36 fb40 0068 -S-- 0e24:ff7604       push [bp+4] ;[fb3a]0001
+0001 0004 ffe2 0036 fb2e fb36 fb40 0068 -S-- 0e27:e86b02       call 1095
+0001 0004 ffe2 0036 fb2c fb36 fb40 0068 -S-- 1095:b90300       mov cx, 0003
+0001 0004 0003 0036 fb2c fb36 fb40 0068 -S-- 1098:eb00         jmp short 109a
+0001 0004 0003 0036 fb2c fb36 fb40 0068 -S-- 109a:55           push bp
+0001 0004 0003 0036 fb2a fb36 fb40 0068 -S-- 109b:89e5         mov bp, sp
+0001 0004 0003 0036 fb2a fb2a fb40 0068 -S-- 109d:8b4604       mov ax, [bp+4] ;[fb2e]0001
+0001 0004 0003 0036 fb2a fb2a fb40 0068 -S-- 10a0:8b5e06       mov bx, [bp+6] ;[fb30]fb40
+0001 fb40 0003 0036 fb2a fb2a fb40 0068 -S-- 10a3:cd20         int 20
+<ioctl(1, 0x5408, 0xfb6a)
+0000 fb40 0003 0036 fb2a fb2a fb40 0068 -S-- 10a5:5d           pop bp
+0000 fb40 0003 0036 fb2c fb36 fb40 0068 -S-- 10a6:c3           ret
+0000 fb40 0003 0036 fb2e fb36 fb40 0068 -S-- 0e2a:5b           pop bx
+0000 0001 0003 0036 fb30 fb36 fb40 0068 -S-- 0e2b:5b           pop bx
+0000 fb40 0003 0036 fb32 fb36 fb40 0068 -S-- 0e2c:89c7         mov di, ax
+0000 fb40 0003 0036 fb32 fb36 fb40 0000 -S-- 0e2e:09ff         or di, di
+0000 fb40 0003 0036 fb32 fb36 fb40 0000 --Z- 0e30:7403         je 0e35
+0000 fb40 0003 0036 fb32 fb36 fb40 0000 --Z- 0e35:837c0200     cmp [si+2], 0 ;[fb42]ffea
+0000 fb40 0003 0036 fb32 fb36 fb40 0000 -S-- 0e39:7d0e         jnl 0e49
+0000 fb40 0003 0036 fb32 fb36 fb40 0000 -S-- 0e3b:8b5402       mov dx, [si+2] ;[fb42]ffea
+0000 fb40 0003 ffea fb32 fb36 fb40 0000 -S-- 0e3e:f7da         neg dx
+0000 fb40 0003 0016 fb32 fb36 fb40 0000 ---C 0e40:89162601     mov [0126], dx ;[0126]0000
+0000 fb40 0003 0016 fb32 fb36 fb40 0000 ---C 0e44:b8ffff       mov ax, ffff
+ffff fb40 0003 0016 fb32 fb36 fb40 0000 ---C 0e47:eb03         jmp short 0e4c
+ffff fb40 0003 0016 fb32 fb36 fb40 0000 ---C 0e4c:e94c03       jmp 119b
+ffff fb40 0003 0016 fb32 fb36 fb40 0000 ---C 119b:5f           pop di
+ffff fb40 0003 0016 fb34 fb36 fb40 0068 ---C 119c:5e           pop si
+ffff fb40 0003 0016 fb36 fb36 001e 0068 ---C 119d:89ec         mov sp, bp
+ffff fb40 0003 0016 fb36 fb36 001e 0068 ---C 119f:5d           pop bp
+ffff fb40 0003 0016 fb38 fb58 001e 0068 ---C 11a0:c3           ret
+ffff fb40 0003 0016 fb3a fb58 001e 0068 ---C 10df:83c406       add sp, 6
+ffff fb40 0003 0016 fb40 fb58 001e 0068 -S-- 10e2:e9b800       jmp 119d
+ffff fb40 0003 0016 fb40 fb58 001e 0068 -S-- 119d:89ec         mov sp, bp
+ffff fb40 0003 0016 fb58 fb58 001e 0068 -S-- 119f:5d           pop bp
+ffff fb40 0003 0016 fb5a fb62 001e 0068 -S-- 11a0:c3           ret
+ffff fb40 0003 0016 fb5c fb62 001e 0068 -S-- 0ec6:83c406       add sp, 6
+ffff fb40 0003 0016 fb62 fb62 001e 0068 -S-- 0ec9:e9d102       jmp 119d
+ffff fb40 0003 0016 fb62 fb62 001e 0068 -S-- 119d:89ec         mov sp, bp
+ffff fb40 0003 0016 fb62 fb62 001e 0068 -S-- 119f:5d           pop bp
+ffff fb40 0003 0016 fb64 fb8a 001e 0068 -S-- 11a0:c3           ret
+ffff fb40 0003 0016 fb66 fb8a 001e 0068 -S-- 0e5f:5b           pop bx
+ffff 0001 0003 0016 fb68 fb8a 001e 0068 -S-- 0e60:5b           pop bx
+ffff fb6a 0003 0016 fb6a fb8a 001e 0068 -S-- 0e61:31db         xor bx, bx
+ffff 0000 0003 0016 fb6a fb8a 001e 0068 --Z- 0e63:09c0         or ax, ax
+ffff 0000 0003 0016 fb6a fb8a 001e 0068 -S-- 0e65:7501         jne 0e68
+ffff 0000 0003 0016 fb6a fb8a 001e 0068 -S-- 0e68:89d8         mov ax, bx
+0000 0000 0003 0016 fb6a fb8a 001e 0068 -S-- 0e6a:e93003       jmp 119d
+0000 0000 0003 0016 fb6a fb8a 001e 0068 -S-- 119d:89ec         mov sp, bp
+0000 0000 0003 0016 fb8a fb8a 001e 0068 -S-- 119f:5d           pop bp
+0000 0000 0003 0016 fb8c fb98 001e 0068 -S-- 11a0:c3           ret
+0000 0000 0003 0016 fb8e fb98 001e 0068 -S-- 08a2:5b           pop bx
+0000 0001 0003 0016 fb90 fb98 001e 0068 -S-- 08a3:09c0         or ax, ax
+0000 0001 0003 0016 fb90 fb98 001e 0068 --Z- 08a5:7426         je 08cd
+0000 0001 0003 0016 fb90 fb98 001e 0068 --Z- 08cd:b80004       mov ax, 0400
+0400 0001 0003 0016 fb90 fb98 001e 0068 --Z- 08d0:50           push ax
+0400 0001 0003 0016 fb8e fb98 001e 0068 --Z- 08d1:e84c02       call 0b20
+0400 0001 0003 0016 fb8c fb98 001e 0068 --Z- 0b20:55           push bp
+0400 0001 0003 0016 fb8a fb98 001e 0068 --Z- 0b21:89e5         mov bp, sp
+0400 0001 0003 0016 fb8a fb8a 001e 0068 --Z- 0b23:83ec0c       sub sp, c
+0400 0001 0003 0016 fb7e fb8a 001e 0068 -S-- 0b26:56           push si
+0400 0001 0003 0016 fb7c fb8a 001e 0068 -S-- 0b27:57           push di
+0400 0001 0003 0016 fb7a fb8a 001e 0068 -S-- 0b28:837e0400     cmp [bp+4], 0 ;[fb8e]0400
+0400 0001 0003 0016 fb7a fb8a 001e 0068 ---- 0b2c:7505         jne 0b33
+0400 0001 0003 0016 fb7a fb8a 001e 0068 ---- 0b33:c74600f400   mov [bp-c], 0000 ;[fb7e]0000
+0400 0001 0003 0016 fb7a fb8a 001e 0068 ---- 0b38:837ef402     cmp [bp-c], 2 ;[fb7e]0000
+0400 0001 0003 0016 fb7a fb8a 001e 0068 -S-C 0b3c:7203         jb 0b41
+0400 0001 0003 0016 fb7a fb8a 001e 0068 -S-C 0b41:8b5604       mov dx, [bp+4] ;[fb8e]0400
+0400 0001 0003 0400 fb7a fb8a 001e 0068 -S-C 0b44:42           inc dx
+0400 0001 0003 0401 fb7a fb8a 001e 0068 ---C 0b45:81e2fffe     and dx, fffe
+0400 0001 0003 0400 fb7a fb8a 001e 0068 ---- 0b49:83c202       add dx, 2
+0400 0001 0003 0402 fb7a fb8a 001e 0068 ---- 0b4c:8956f6       mov [bp-a], dx ;[fb80]0000
+0400 0001 0003 0402 fb7a fb8a 001e 0068 ---- 0b4f:83fa04       cmp dx, 4
+0400 0001 0003 0402 fb7a fb8a 001e 0068 ---- 0b52:730b         jnb 0b5f
+0400 0001 0003 0402 fb7a fb8a 001e 0068 ---- 0b5f:833e2140000  cmp [0214], 0 ;[0214]0000
+0400 0001 0003 0402 fb7a fb8a 001e 0068 --Z- 0b64:752d         jne 0b93
+0400 0001 0003 0402 fb7a fb8a 001e 0068 --Z- 0b66:b80400       mov ax, 0004
+0004 0001 0003 0402 fb7a fb8a 001e 0068 --Z- 0b69:50           push ax
+0004 0001 0003 0402 fb78 fb8a 001e 0068 --Z- 0b6a:e86a02       call 0dd7
+0004 0001 0003 0402 fb76 fb8a 001e 0068 --Z- 0dd7:55           push bp
+0004 0001 0003 0402 fb74 fb8a 001e 0068 --Z- 0dd8:89e5         mov bp, sp
+0004 0001 0003 0402 fb74 fb74 001e 0068 --Z- 0dda:56           push si
+0004 0001 0003 0402 fb72 fb74 001e 0068 --Z- 0ddb:57           push di
+0004 0001 0003 0402 fb70 fb74 001e 0068 --Z- 0ddc:8b362801     mov si, [0128] ;[0128]0274
+0004 0001 0003 0402 fb70 fb74 0274 0068 --Z- 0de0:8b5604       mov dx, [bp+4] ;[fb78]0004
+0004 0001 0003 0004 fb70 fb74 0274 0068 --Z- 0de3:03162801     add dx, [0128] ;[0128]0274
+0004 0001 0003 0278 fb70 fb74 0274 0068 ---- 0de7:89d7         mov di, dx
+0004 0001 0003 0278 fb70 fb74 0274 0278 ---- 0de9:837e0400     cmp [bp+4], 0 ;[fb78]0004
+0004 0001 0003 0278 fb70 fb74 0274 0278 ---- 0ded:7e04         jle 0df3
+0004 0001 0003 0278 fb70 fb74 0274 0278 ---- 0def:39f7         cmp di, si
+0004 0001 0003 0278 fb70 fb74 0274 0278 ---- 0df1:720a         jb 0dfd
+0004 0001 0003 0278 fb70 fb74 0274 0278 ---- 0df3:837e0400     cmp [bp+4], 0 ;[fb78]0004
+0004 0001 0003 0278 fb70 fb74 0274 0278 ---- 0df7:7d09         jnl 0e02
+0004 0001 0003 0278 fb70 fb74 0274 0278 ---- 0e02:57           push di
+0004 0001 0003 0278 fb6e fb74 0274 0278 ---- 0e03:e896ff       call 0d9c
+0004 0001 0003 0278 fb6c fb74 0274 0278 ---- 0d9c:55           push bp
+0004 0001 0003 0278 fb6a fb74 0274 0278 ---- 0d9d:89e5         mov bp, sp
+0004 0001 0003 0278 fb6a fb6a 0274 0278 ---- 0d9f:83ec18       sub sp, 18
+0004 0001 0003 0278 fb52 fb6a 0274 0278 -S-- 0da2:8b162801     mov dx, [0128] ;[0128]0274
+0004 0001 0003 0274 fb52 fb6a 0274 0278 -S-- 0da6:395604       cmp [bp+4], dx ;[fb6e]0278
+0004 0001 0003 0274 fb52 fb6a 0274 0278 ---- 0da9:7427         je 0dd2
+0004 0001 0003 0274 fb52 fb6a 0274 0278 ---- 0dab:8b5604       mov dx, [bp+4] ;[fb6e]0278
+0004 0001 0003 0278 fb52 fb6a 0274 0278 ---- 0dae:8956f2       mov [bp-e], dx ;[fb5c]0001
+0004 0001 0003 0278 fb52 fb6a 0274 0278 ---- 0db1:8d46e8       lea ax, [bp-18] ;[fb52]fb6a
+fb52 0001 0003 0278 fb52 fb6a 0274 0278 ---- 0db4:50           push ax
+fb52 0001 0003 0278 fb50 fb6a 0274 0278 ---- 0db5:b81100       mov ax, 0011
+0011 0001 0003 0278 fb50 fb6a 0274 0278 ---- 0db8:50           push ax
+0011 0001 0003 0278 fb4e fb6a 0274 0278 ---- 0db9:31c0         xor ax, ax
+0000 0001 0003 0278 fb4e fb6a 0274 0278 --Z- 0dbb:50           push ax
+0000 0001 0003 0278 fb4c fb6a 0274 0278 --Z- 0dbc:e85600       call 0e15
+0000 0001 0003 0278 fb4a fb6a 0274 0278 --Z- 0e15:55           push bp
+0000 0001 0003 0278 fb48 fb6a 0274 0278 --Z- 0e16:89e5         mov bp, sp
+0000 0001 0003 0278 fb48 fb48 0274 0278 --Z- 0e18:56           push si
+0000 0001 0003 0278 fb46 fb48 0274 0278 --Z- 0e19:57           push di
+0000 0001 0003 0278 fb44 fb48 0274 0278 --Z- 0e1a:8b7608       mov si, [bp+8] ;[fb50]fb52
+0000 0001 0003 0278 fb44 fb48 fb52 0278 --Z- 0e1d:8b5606       mov dx, [bp+6] ;[fb4e]0011
+0000 0001 0003 0011 fb44 fb48 fb52 0278 --Z- 0e20:895402       mov [si+2], dx ;[fb54]0000
+0000 0001 0003 0011 fb44 fb48 fb52 0278 --Z- 0e23:56           push si
+0000 0001 0003 0011 fb42 fb48 fb52 0278 --Z- 0e24:ff7604       push [bp+4] ;[fb4c]0000
+0000 0001 0003 0011 fb40 fb48 fb52 0278 --Z- 0e27:e86b02       call 1095
+0000 0001 0003 0011 fb3e fb48 fb52 0278 --Z- 1095:b90300       mov cx, 0003
+0000 0001 0003 0011 fb3e fb48 fb52 0278 --Z- 1098:eb00         jmp short 109a
+0000 0001 0003 0011 fb3e fb48 fb52 0278 --Z- 109a:55           push bp
+0000 0001 0003 0011 fb3c fb48 fb52 0278 --Z- 109b:89e5         mov bp, sp
+0000 0001 0003 0011 fb3c fb3c fb52 0278 --Z- 109d:8b4604       mov ax, [bp+4] ;[fb40]0000
+0000 0001 0003 0011 fb3c fb3c fb52 0278 --Z- 10a0:8b5e06       mov bx, [bp+6] ;[fb42]fb52
+0000 fb52 0003 0011 fb3c fb3c fb52 0278 --Z- 10a3:cd20         int 20
+<brk(0x0278) => 0>
+0000 fb52 0003 0011 fb3c fb3c fb52 0278 --Z- 10a5:5d           pop bp
+0000 fb52 0003 0011 fb3e fb48 fb52 0278 --Z- 10a6:c3           ret
+0000 fb52 0003 0011 fb40 fb48 fb52 0278 --Z- 0e2a:5b           pop bx
+0000 0000 0003 0011 fb42 fb48 fb52 0278 --Z- 0e2b:5b           pop bx
+0000 fb52 0003 0011 fb44 fb48 fb52 0278 --Z- 0e2c:89c7         mov di, ax
+0000 fb52 0003 0011 fb44 fb48 fb52 0000 --Z- 0e2e:09ff         or di, di
+0000 fb52 0003 0011 fb44 fb48 fb52 0000 --Z- 0e30:7403         je 0e35
+0000 fb52 0003 0011 fb44 fb48 fb52 0000 --Z- 0e35:837c0200     cmp [si+2], 0 ;[fb54]0000
+0000 fb52 0003 0011 fb44 fb48 fb52 0000 --Z- 0e39:7d0e         jnl 0e49
+0000 fb52 0003 0011 fb44 fb48 fb52 0000 --Z- 0e49:8b4402       mov ax, [si+2] ;[fb54]0000
+0000 fb52 0003 0011 fb44 fb48 fb52 0000 --Z- 0e4c:e94c03       jmp 119b
+0000 fb52 0003 0011 fb44 fb48 fb52 0000 --Z- 119b:5f           pop di
+0000 fb52 0003 0011 fb46 fb48 fb52 0278 --Z- 119c:5e           pop si
+0000 fb52 0003 0011 fb48 fb48 0274 0278 --Z- 119d:89ec         mov sp, bp
+0000 fb52 0003 0011 fb48 fb48 0274 0278 --Z- 119f:5d           pop bp
+0000 fb52 0003 0011 fb4a fb6a 0274 0278 --Z- 11a0:c3           ret
+0000 fb52 0003 0011 fb4c fb6a 0274 0278 --Z- 0dbf:83c406       add sp, 6
+0000 fb52 0003 0011 fb52 fb6a 0274 0278 -S-- 0dc2:09c0         or ax, ax
+0000 fb52 0003 0011 fb52 fb6a 0274 0278 --Z- 0dc4:7d05         jnl 0dcb
+0000 fb52 0003 0011 fb52 fb6a 0274 0278 --Z- 0dcb:8b56fa       mov dx, [bp-6] ;[fb64]0278
+0000 fb52 0003 0278 fb52 fb6a 0274 0278 --Z- 0dce:89162801     mov [0128], dx ;[0128]0274
+0000 fb52 0003 0278 fb52 fb6a 0274 0278 --Z- 0dd2:31c0         xor ax, ax
+0000 fb52 0003 0278 fb52 fb6a 0274 0278 --Z- 0dd4:e9c603       jmp 119d
+0000 fb52 0003 0278 fb52 fb6a 0274 0278 --Z- 119d:89ec         mov sp, bp
+0000 fb52 0003 0278 fb6a fb6a 0274 0278 --Z- 119f:5d           pop bp
+0000 fb52 0003 0278 fb6c fb74 0274 0278 --Z- 11a0:c3           ret
+0000 fb52 0003 0278 fb6e fb74 0274 0278 --Z- 0e06:5b           pop bx
+0000 0278 0003 0278 fb70 fb74 0274 0278 --Z- 0e07:09c0         or ax, ax
+0000 0278 0003 0278 fb70 fb74 0274 0278 --Z- 0e09:7504         jne 0e0f
+0000 0278 0003 0278 fb70 fb74 0274 0278 --Z- 0e0b:89f0         mov ax, si
+0274 0278 0003 0278 fb70 fb74 0274 0278 --Z- 0e0d:eb03         jmp short 0e12
+0274 0278 0003 0278 fb70 fb74 0274 0278 --Z- 0e12:e98603       jmp 119b
+0274 0278 0003 0278 fb70 fb74 0274 0278 --Z- 119b:5f           pop di
+0274 0278 0003 0278 fb72 fb74 0274 0068 --Z- 119c:5e           pop si
+0274 0278 0003 0278 fb74 fb74 001e 0068 --Z- 119d:89ec         mov sp, bp
+0274 0278 0003 0278 fb74 fb74 001e 0068 --Z- 119f:5d           pop bp
+0274 0278 0003 0278 fb76 fb8a 001e 0068 --Z- 11a0:c3           ret
+0274 0278 0003 0278 fb78 fb8a 001e 0068 --Z- 0b6d:5b           pop bx
+0274 0004 0003 0278 fb7a fb8a 001e 0068 --Z- 0b6e:89c6         mov si, ax
+0274 0004 0003 0278 fb7a fb8a 0274 0068 --Z- 0b70:3dffff       cmp ax, ffff
+0274 0004 0003 0278 fb7a fb8a 0274 0068 ---C 0b73:7505         jne 0b7a
+0274 0004 0003 0278 fb7a fb8a 0274 0068 ---C 0b7a:89f2         mov dx, si
+0274 0004 0003 0274 fb7a fb8a 0274 0068 ---C 0b7c:42           inc dx
+0274 0004 0003 0275 fb7a fb8a 0274 0068 ---C 0b7d:81e2fffe     and dx, fffe
+0274 0004 0003 0274 fb7a fb8a 0274 0068 ---- 0b81:89d6         mov si, dx
+0274 0004 0003 0274 fb7a fb8a 0274 0068 ---- 0b83:83c602       add si, 2
+0274 0004 0003 0274 fb7a fb8a 0276 0068 ---- 0b86:89361402     mov [0214], si ;[0214]0000
+0274 0004 0003 0274 fb7a fb8a 0276 0068 ---- 0b8a:89361602     mov [0216], si ;[0216]0000
+0274 0004 0003 0274 fb7a fb8a 0276 0068 ---- 0b8e:c74400fe00   mov [si-2], 0000 ;[0274]0000
+0274 0004 0003 0274 fb7a fb8a 0276 0068 ---- 0b93:c74600fe00   mov [bp-2], 0000 ;[fb88]0000
+0274 0004 0003 0274 fb7a fb8a 0276 0068 ---- 0b98:8b361802     mov si, [0218] ;[0218]0000
+0274 0004 0003 0274 fb7a fb8a 0000 0068 ---- 0b9c:09f6         or si, si
+0274 0004 0003 0274 fb7a fb8a 0000 0068 --Z- 0b9e:744d         je 0bed
+0274 0004 0003 0274 fb7a fb8a 0000 0068 --Z- 0bed:ff76f6       push [bp-a] ;[fb80]0402
+0274 0004 0003 0274 fb78 fb8a 0000 0068 --Z- 0bf0:e8d0fe       call 0ac3
+0274 0004 0003 0274 fb76 fb8a 0000 0068 --Z- 0ac3:55           push bp
+0274 0004 0003 0274 fb74 fb8a 0000 0068 --Z- 0ac4:89e5         mov bp, sp
+0274 0004 0003 0274 fb74 fb74 0000 0068 --Z- 0ac6:56           push si
+0274 0004 0003 0274 fb72 fb74 0000 0068 --Z- 0ac7:8b1e1602     mov bx, [0216] ;[0216]0276
+0274 0276 0003 0274 fb72 fb74 0000 0068 --Z- 0acb:035e04       add bx, [bp+4] ;[fb78]0402
+0274 0678 0003 0274 fb72 fb74 0000 0068 ---- 0ace:391e1602     cmp [0216], bx ;[0216]0276
+0274 0678 0003 0274 fb72 fb74 0000 0068 -S-C 0ad2:7717         jnbe 0aeb
+0274 0678 0003 0274 fb72 fb74 0000 0068 -S-C 0ad4:8b5604       mov dx, [bp+4] ;[fb78]0402
+0274 0678 0003 0402 fb72 fb74 0000 0068 -S-C 0ad7:03161602     add dx, [0216] ;[0216]0276
+0274 0678 0003 0678 fb72 fb74 0000 0068 ---- 0adb:81c2ff03     +add dx, 03ff
+0274 0678 0003 0a77 fb72 fb74 0000 0068 ---- 0adf:81e2fc00     and dx, fc00
+0274 0678 0003 0800 fb72 fb74 0000 0068 ---- 0ae3:89d6         mov si, dx
+0274 0678 0003 0800 fb72 fb74 0800 0068 ---- 0ae5:39161602     cmp [0216], dx ;[0216]0276
+0274 0678 0003 0800 fb72 fb74 0800 0068 -S-C 0ae9:760a         jbe 0af5
+0274 0678 0003 0800 fb72 fb74 0800 0068 -S-C 0af5:56           push si
+0274 0678 0003 0800 fb70 fb74 0800 0068 -S-C 0af6:e8a302       call 0d9c
+0274 0678 0003 0800 fb6e fb74 0800 0068 -S-C 0d9c:55           push bp
+0274 0678 0003 0800 fb6c fb74 0800 0068 -S-C 0d9d:89e5         mov bp, sp
+0274 0678 0003 0800 fb6c fb6c 0800 0068 -S-C 0d9f:83ec18       sub sp, 18
+0274 0678 0003 0800 fb54 fb6c 0800 0068 -S-- 0da2:8b162801     mov dx, [0128] ;[0128]0278
+0274 0678 0003 0278 fb54 fb6c 0800 0068 -S-- 0da6:395604       cmp [bp+4], dx ;[fb70]0800
+0274 0678 0003 0278 fb54 fb6c 0800 0068 ---- 0da9:7427         je 0dd2
+0274 0678 0003 0278 fb54 fb6c 0800 0068 ---- 0dab:8b5604       mov dx, [bp+4] ;[fb70]0800
+0274 0678 0003 0800 fb54 fb6c 0800 0068 ---- 0dae:8956f2       mov [bp-e], dx ;[fb5e]5408
+0274 0678 0003 0800 fb54 fb6c 0800 0068 ---- 0db1:8d46e8       lea ax, [bp-18] ;[fb54]0000
+fb54 0678 0003 0800 fb54 fb6c 0800 0068 ---- 0db4:50           push ax
+fb54 0678 0003 0800 fb52 fb6c 0800 0068 ---- 0db5:b81100       mov ax, 0011
+0011 0678 0003 0800 fb52 fb6c 0800 0068 ---- 0db8:50           push ax
+0011 0678 0003 0800 fb50 fb6c 0800 0068 ---- 0db9:31c0         xor ax, ax
+0000 0678 0003 0800 fb50 fb6c 0800 0068 --Z- 0dbb:50           push ax
+0000 0678 0003 0800 fb4e fb6c 0800 0068 --Z- 0dbc:e85600       call 0e15
+0000 0678 0003 0800 fb4c fb6c 0800 0068 --Z- 0e15:55           push bp
+0000 0678 0003 0800 fb4a fb6c 0800 0068 --Z- 0e16:89e5         mov bp, sp
+0000 0678 0003 0800 fb4a fb4a 0800 0068 --Z- 0e18:56           push si
+0000 0678 0003 0800 fb48 fb4a 0800 0068 --Z- 0e19:57           push di
+0000 0678 0003 0800 fb46 fb4a 0800 0068 --Z- 0e1a:8b7608       mov si, [bp+8] ;[fb52]fb54
+0000 0678 0003 0800 fb46 fb4a fb54 0068 --Z- 0e1d:8b5606       mov dx, [bp+6] ;[fb50]0011
+0000 0678 0003 0011 fb46 fb4a fb54 0068 --Z- 0e20:895402       mov [si+2], dx ;[fb56]0000
+0000 0678 0003 0011 fb46 fb4a fb54 0068 --Z- 0e23:56           push si
+0000 0678 0003 0011 fb44 fb4a fb54 0068 --Z- 0e24:ff7604       push [bp+4] ;[fb4e]0000
+0000 0678 0003 0011 fb42 fb4a fb54 0068 --Z- 0e27:e86b02       call 1095
+0000 0678 0003 0011 fb40 fb4a fb54 0068 --Z- 1095:b90300       mov cx, 0003
+0000 0678 0003 0011 fb40 fb4a fb54 0068 --Z- 1098:eb00         jmp short 109a
+0000 0678 0003 0011 fb40 fb4a fb54 0068 --Z- 109a:55           push bp
+0000 0678 0003 0011 fb3e fb4a fb54 0068 --Z- 109b:89e5         mov bp, sp
+0000 0678 0003 0011 fb3e fb3e fb54 0068 --Z- 109d:8b4604       mov ax, [bp+4] ;[fb42]0000
+0000 0678 0003 0011 fb3e fb3e fb54 0068 --Z- 10a0:8b5e06       mov bx, [bp+6] ;[fb44]fb54
+0000 fb54 0003 0011 fb3e fb3e fb54 0068 --Z- 10a3:cd20         int 20
+<brk(0x0800) => 0>
+0000 fb54 0003 0011 fb3e fb3e fb54 0068 --Z- 10a5:5d           pop bp
+0000 fb54 0003 0011 fb40 fb4a fb54 0068 --Z- 10a6:c3           ret
+0000 fb54 0003 0011 fb42 fb4a fb54 0068 --Z- 0e2a:5b           pop bx
+0000 0000 0003 0011 fb44 fb4a fb54 0068 --Z- 0e2b:5b           pop bx
+0000 fb54 0003 0011 fb46 fb4a fb54 0068 --Z- 0e2c:89c7         mov di, ax
+0000 fb54 0003 0011 fb46 fb4a fb54 0000 --Z- 0e2e:09ff         or di, di
+0000 fb54 0003 0011 fb46 fb4a fb54 0000 --Z- 0e30:7403         je 0e35
+0000 fb54 0003 0011 fb46 fb4a fb54 0000 --Z- 0e35:837c0200     cmp [si+2], 0 ;[fb56]0000
+0000 fb54 0003 0011 fb46 fb4a fb54 0000 --Z- 0e39:7d0e         jnl 0e49
+0000 fb54 0003 0011 fb46 fb4a fb54 0000 --Z- 0e49:8b4402       mov ax, [si+2] ;[fb56]0000
+0000 fb54 0003 0011 fb46 fb4a fb54 0000 --Z- 0e4c:e94c03       jmp 119b
+0000 fb54 0003 0011 fb46 fb4a fb54 0000 --Z- 119b:5f           pop di
+0000 fb54 0003 0011 fb48 fb4a fb54 0068 --Z- 119c:5e           pop si
+0000 fb54 0003 0011 fb4a fb4a 0800 0068 --Z- 119d:89ec         mov sp, bp
+0000 fb54 0003 0011 fb4a fb4a 0800 0068 --Z- 119f:5d           pop bp
+0000 fb54 0003 0011 fb4c fb6c 0800 0068 --Z- 11a0:c3           ret
+0000 fb54 0003 0011 fb4e fb6c 0800 0068 --Z- 0dbf:83c406       add sp, 6
+0000 fb54 0003 0011 fb54 fb6c 0800 0068 -S-- 0dc2:09c0         or ax, ax
+0000 fb54 0003 0011 fb54 fb6c 0800 0068 --Z- 0dc4:7d05         jnl 0dcb
+0000 fb54 0003 0011 fb54 fb6c 0800 0068 --Z- 0dcb:8b56fa       mov dx, [bp-6] ;[fb66]0800
+0000 fb54 0003 0800 fb54 fb6c 0800 0068 --Z- 0dce:89162801     mov [0128], dx ;[0128]0278
+0000 fb54 0003 0800 fb54 fb6c 0800 0068 --Z- 0dd2:31c0         xor ax, ax
+0000 fb54 0003 0800 fb54 fb6c 0800 0068 --Z- 0dd4:e9c603       jmp 119d
+0000 fb54 0003 0800 fb54 fb6c 0800 0068 --Z- 119d:89ec         mov sp, bp
+0000 fb54 0003 0800 fb6c fb6c 0800 0068 --Z- 119f:5d           pop bp
+0000 fb54 0003 0800 fb6e fb74 0800 0068 --Z- 11a0:c3           ret
+0000 fb54 0003 0800 fb70 fb74 0800 0068 --Z- 0af9:5b           pop bx
+0000 0800 0003 0800 fb72 fb74 0800 0068 --Z- 0afa:09c0         or ax, ax
+0000 0800 0003 0800 fb72 fb74 0800 0068 --Z- 0afc:7404         je 0b02
+0000 0800 0003 0800 fb72 fb74 0800 0068 --Z- 0b02:8b1e1602     mov bx, [0216] ;[0216]0276
+0000 0276 0003 0800 fb72 fb74 0800 0068 --Z- 0b06:8977fe       mov [bx-2], si ;[0274]0000
+0000 0276 0003 0800 fb72 fb74 0800 0068 --Z- 0b09:c74400fe00   mov [si-2], 0000 ;[07fe]0000
+0000 0276 0003 0800 fb72 fb74 0800 0068 --Z- 0b0e:ff361602     push [0216] ;[0216]0276
+0000 0276 0003 0800 fb70 fb74 0800 0068 --Z- 0b12:e8da01       call 0cef
+0000 0276 0003 0800 fb6e fb74 0800 0068 --Z- 0cef:55           push bp
+0000 0276 0003 0800 fb6c fb74 0800 0068 --Z- 0cf0:89e5         mov bp, sp
+0000 0276 0003 0800 fb6c fb6c 0800 0068 --Z- 0cf2:83ec06       sub sp, 6
+0000 0276 0003 0800 fb66 fb6c 0800 0068 -S-- 0cf5:56           push si
+0000 0276 0003 0800 fb64 fb6c 0800 0068 -S-- 0cf6:57           push di
+0000 0276 0003 0800 fb62 fb6c 0800 0068 -S-- 0cf7:8b5604       mov dx, [bp+4] ;[fb70]0276
+0000 0276 0003 0276 fb62 fb6c 0800 0068 -S-- 0cfa:8956fa       mov [bp-6], dx ;[fb66]0800
+0000 0276 0003 0276 fb62 fb6c 0800 0068 -S-- 0cfd:09d2         or dx, dx
+0000 0276 0003 0276 fb62 fb6c 0800 0068 ---- 0cff:7461         je 0d62
+0000 0276 0003 0276 fb62 fb6c 0800 0068 ---- 0d01:31ff         xor di, di
+0000 0276 0003 0276 fb62 fb6c 0800 0000 --Z- 0d03:8b361802     mov si, [0218] ;[0218]0000
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d07:09f6         or si, si
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d09:740b         je 0d16
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d16:8b5efa       mov bx, [bp-6] ;[fb66]0276
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d19:8937         mov [bx], si ;[0276]0000
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d1b:09ff         or di, di
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d1d:7407         je 0d26
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d26:8b56fa       mov dx, [bp-6] ;[fb66]0276
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d29:89161802     mov [0218], dx ;[0218]0000
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d2d:09f6         or si, si
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d2f:7415         je 0d46
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d46:09ff         or di, di
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d48:7418         je 0d62
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 0d62:e93604       jmp 119b
+0000 0276 0003 0276 fb62 fb6c 0000 0000 --Z- 119b:5f           pop di
+0000 0276 0003 0276 fb64 fb6c 0000 0068 --Z- 119c:5e           pop si
+0000 0276 0003 0276 fb66 fb6c 0800 0068 --Z- 119d:89ec         mov sp, bp
+0000 0276 0003 0276 fb6c fb6c 0800 0068 --Z- 119f:5d           pop bp
+0000 0276 0003 0276 fb6e fb74 0800 0068 --Z- 11a0:c3           ret
+0000 0276 0003 0276 fb70 fb74 0800 0068 --Z- 0b15:5b           pop bx
+0000 0276 0003 0276 fb72 fb74 0800 0068 --Z- 0b16:89361602     mov [0216], si ;[0216]0276
+0000 0276 0003 0276 fb72 fb74 0800 0068 --Z- 0b1a:b80100       mov ax, 0001
+0001 0276 0003 0276 fb72 fb74 0800 0068 --Z- 0b1d:e97c06       jmp 119c
+0001 0276 0003 0276 fb72 fb74 0800 0068 --Z- 119c:5e           pop si
+0001 0276 0003 0276 fb74 fb74 0000 0068 --Z- 119d:89ec         mov sp, bp
+0001 0276 0003 0276 fb74 fb74 0000 0068 --Z- 119f:5d           pop bp
+0001 0276 0003 0276 fb76 fb8a 0000 0068 --Z- 11a0:c3           ret
+0001 0276 0003 0276 fb78 fb8a 0000 0068 --Z- 0bf3:5b           pop bx
+0001 0402 0003 0276 fb7a fb8a 0000 0068 --Z- 0bf4:09c0         or ax, ax
+0001 0402 0003 0276 fb7a fb8a 0000 0068 ---- 0bf6:7406         je 0bfe
+0001 0402 0003 0276 fb7a fb8a 0000 0068 ---- 0bf8:ff46f4       inc [bp-c] ;[fb7e]0000
+0001 0402 0003 0276 fb7a fb8a 0000 0068 ---- 0bfb:e93aff       jmp 0b38
+0001 0402 0003 0276 fb7a fb8a 0000 0068 ---- 0b38:837ef402     cmp [bp-c], 2 ;[fb7e]0001
+0001 0402 0003 0276 fb7a fb8a 0000 0068 -S-C 0b3c:7203         jb 0b41
+0001 0402 0003 0276 fb7a fb8a 0000 0068 -S-C 0b41:8b5604       mov dx, [bp+4] ;[fb8e]0400
+0001 0402 0003 0400 fb7a fb8a 0000 0068 -S-C 0b44:42           inc dx
+0001 0402 0003 0401 fb7a fb8a 0000 0068 ---C 0b45:81e2fffe     and dx, fffe
+0001 0402 0003 0400 fb7a fb8a 0000 0068 ---- 0b49:83c202       add dx, 2
+0001 0402 0003 0402 fb7a fb8a 0000 0068 ---- 0b4c:8956f6       mov [bp-a], dx ;[fb80]0402
+0001 0402 0003 0402 fb7a fb8a 0000 0068 ---- 0b4f:83fa04       cmp dx, 4
+0001 0402 0003 0402 fb7a fb8a 0000 0068 ---- 0b52:730b         jnb 0b5f
+0001 0402 0003 0402 fb7a fb8a 0000 0068 ---- 0b5f:833e2140000  cmp [0214], 0 ;[0214]0276
+0001 0402 0003 0402 fb7a fb8a 0000 0068 ---- 0b64:752d         jne 0b93
+0001 0402 0003 0402 fb7a fb8a 0000 0068 ---- 0b93:c74600fe00   mov [bp-2], 0000 ;[fb88]0000
+0001 0402 0003 0402 fb7a fb8a 0000 0068 ---- 0b98:8b361802     mov si, [0218] ;[0218]0276
+0001 0402 0003 0402 fb7a fb8a 0276 0068 ---- 0b9c:09f6         or si, si
+0001 0402 0003 0402 fb7a fb8a 0276 0068 ---- 0b9e:744d         je 0bed
+0001 0402 0003 0402 fb7a fb8a 0276 0068 ---- 0ba0:8b54fe       mov dx, [si-2] ;[0274]0800
+0001 0402 0003 0800 fb7a fb8a 0276 0068 ---- 0ba3:8956fa       mov [bp-6], dx ;[fb84]0000
+0001 0402 0003 0800 fb7a fb8a 0276 0068 ---- 0ba6:8b56f6       mov dx, [bp-a] ;[fb80]0402
+0001 0402 0003 0402 fb7a fb8a 0276 0068 ---- 0ba9:01f2         add dx, si
+0001 0402 0003 0678 fb7a fb8a 0276 0068 ---- 0bab:89d7         mov di, dx
+0001 0402 0003 0678 fb7a fb8a 0276 0678 ---- 0bad:397efa       cmp [bp-6], di ;[fb84]0800
+0001 0402 0003 0678 fb7a fb8a 0276 0678 ---- 0bb0:7234         jb 0be6
+0001 0402 0003 0678 fb7a fb8a 0276 0678 ---- 0bb2:39f7         cmp di, si
+0001 0402 0003 0678 fb7a fb8a 0276 0678 ---- 0bb4:7630         jbe 0be6
+0001 0402 0003 0678 fb7a fb8a 0276 0678 ---- 0bb6:8d5d02       lea bx, [di+2] ;[067a]0000
+0001 067a 0003 0678 fb7a fb8a 0276 0678 ---- 0bb9:395efa       cmp [bp-6], bx ;[fb84]0800
+0001 067a 0003 0678 fb7a fb8a 0276 0678 ---- 0bbc:760f         jbe 0bcd
+0001 067a 0003 0678 fb7a fb8a 0276 0678 ---- 0bbe:8b56fa       mov dx, [bp-6] ;[fb84]0800
+0001 067a 0003 0800 fb7a fb8a 0276 0678 ---- 0bc1:8955fe       mov [di-2], dx ;[0676]0000
+0001 067a 0003 0800 fb7a fb8a 0276 0678 ---- 0bc4:897cfe       mov [si-2], di ;[0274]0800
+0001 067a 0003 0800 fb7a fb8a 0276 0678 ---- 0bc7:8b14         mov dx, [si] ;[0276]0000
+0001 067a 0003 0000 fb7a fb8a 0276 0678 ---- 0bc9:8915         mov [di], dx ;[0678]0000
+0001 067a 0003 0000 fb7a fb8a 0276 0678 ---- 0bcb:893c         mov [si], di ;[0276]0000
+0001 067a 0003 0000 fb7a fb8a 0276 0678 ---- 0bcd:837efe00     cmp [bp-2], 0 ;[fb88]0000
+0001 067a 0003 0000 fb7a fb8a 0276 0678 --Z- 0bd1:7409         je 0bdc
+0001 067a 0003 0000 fb7a fb8a 0276 0678 --Z- 0bdc:8b14         mov dx, [si] ;[0276]0678
+0001 067a 0003 0678 fb7a fb8a 0276 0678 --Z- 0bde:89161802     mov [0218], dx ;[0218]0276
+0001 067a 0003 0678 fb7a fb8a 0276 0678 --Z- 0be2:89f0         mov ax, si
+0276 067a 0003 0678 fb7a fb8a 0276 0678 --Z- 0be4:eb1a         jmp short 0c00
+0276 067a 0003 0678 fb7a fb8a 0276 0678 --Z- 0c00:e99805       jmp 119b
+0276 067a 0003 0678 fb7a fb8a 0276 0678 --Z- 119b:5f           pop di
+0276 067a 0003 0678 fb7c fb8a 0276 0068 --Z- 119c:5e           pop si
+0276 067a 0003 0678 fb7e fb8a 001e 0068 --Z- 119d:89ec         mov sp, bp
+0276 067a 0003 0678 fb8a fb8a 001e 0068 --Z- 119f:5d           pop bp
+0276 067a 0003 0678 fb8c fb98 001e 0068 --Z- 11a0:c3           ret
+0276 067a 0003 0678 fb8e fb98 001e 0068 --Z- 08d4:5b           pop bx
+0276 0400 0003 0678 fb90 fb98 001e 0068 --Z- 08d5:894408       mov [si+8], ax ;[0026]0000
+0276 0400 0003 0678 fb90 fb98 001e 0068 --Z- 08d8:09c0         or ax, ax
+0276 0400 0003 0678 fb90 fb98 001e 0068 ---- 08da:7507         jne 08e3
+0276 0400 0003 0678 fb90 fb98 001e 0068 ---- 08e3:814c00040800 or [si+4], 0008 ;[0022]0102
+0276 0400 0003 0678 fb90 fb98 001e 0068 ---- 08e8:c744000600   mov [si+6], 0400 ;[0024]0000
+0276 0400 0003 0678 fb90 fb98 001e 0068 ---- 08ed:f644000440   test byte [si+4], 40 ;[0022]0a
+0276 0400 0003 0678 fb90 fb98 001e 0068 --Z- 08f1:7506         jne 08f9
+0276 0400 0003 0678 fb90 fb98 001e 0068 --Z- 08f3:c70403       mov [si], 03ff ;[001e]ffff
+0276 0400 0003 0678 fb90 fb98 001e 0068 --Z- 08f7:eb04         jmp short 08fd
+0276 0400 0003 0678 fb90 fb98 001e 0068 --Z- 08fd:8b5408       mov dx, [si+8] ;[0026]0276
+0276 0400 0003 0276 fb90 fb98 001e 0068 --Z- 0900:89540a       mov [si+a], dx ;[0028]0000
+0276 0400 0003 0276 fb90 fb98 001e 0068 --Z- 0903:f644000404   test byte [si+4], 4 ;[0022]0a
+0276 0400 0003 0276 fb90 fb98 001e 0068 --Z- 0907:745b         je 0964
+0276 0400 0003 0276 fb90 fb98 001e 0068 --Z- 0964:f644000440   test byte [si+4], 40 ;[0022]0a
+0276 0400 0003 0276 fb90 fb98 001e 0068 --Z- 0968:7503         jne 096d
+0276 0400 0003 0276 fb90 fb98 001e 0068 --Z- 096a:e97700       jmp 09e4
+0276 0400 0003 0276 fb90 fb98 001e 0068 --Z- 09e4:8b540a       mov dx, [si+a] ;[0028]0276
+0276 0400 0003 0276 fb90 fb98 001e 0068 --Z- 09e7:2b5408       sub dx, [si+8] ;[0026]0276
+0276 0400 0003 0000 fb90 fb98 001e 0068 --Z- 09ea:8956fc       mov [bp-4], dx ;[fb94]0068
+0276 0400 0003 0000 fb90 fb98 001e 0068 --Z- 09ed:8b5406       mov dx, [si+6] ;[0024]0400
+0276 0400 0003 0400 fb90 fb98 001e 0068 --Z- 09f0:4a           dec dx
+0276 0400 0003 03ff fb90 fb98 001e 0068 ---- 09f1:8914         mov [si], dx ;[001e]03ff
+0276 0400 0003 03ff fb90 fb98 001e 0068 ---- 09f3:8b5c08       mov bx, [si+8] ;[0026]0276
+0276 0276 0003 03ff fb90 fb98 001e 0068 ---- 09f6:83c301       add bx, 1
+0276 0277 0003 03ff fb90 fb98 001e 0068 ---- 09f9:895c0a       mov [si+a], bx ;[0028]0276
+0276 0277 0003 03ff fb90 fb98 001e 0068 ---- 09fc:837efc00     cmp [bp-4], 0 ;[fb94]0000
+0276 0277 0003 03ff fb90 fb98 001e 0068 --Z- 0a00:7e4d         jle 0a4f
+0276 0277 0003 03ff fb90 fb98 001e 0068 --Z- 0a4f:89fa         mov dx, di
+0276 0277 0003 0068 fb90 fb98 001e 0068 --Z- 0a51:8b5c08       mov bx, [si+8] ;[0026]0276
+0276 0276 0003 0068 fb90 fb98 001e 0068 --Z- 0a54:8817         mov [bx], dl ;[0276]78
+0276 0276 0003 0068 fb90 fb98 001e 0068 --Z- 0a56:89f8         mov ax, di
+0068 0276 0003 0068 fb90 fb98 001e 0068 --Z- 0a58:30e4         xor ah, ah
+0068 0276 0003 0068 fb90 fb98 001e 0068 --Z- 0a5a:e93e07       jmp 119b
+0068 0276 0003 0068 fb90 fb98 001e 0068 --Z- 119b:5f           pop di
+0068 0276 0003 0068 fb92 fb98 001e 0000 --Z- 119c:5e           pop si
+0068 0276 0003 0068 fb94 fb98 001e 0000 --Z- 119d:89ec         mov sp, bp
+0068 0276 0003 0068 fb98 fb98 001e 0000 --Z- 119f:5d           pop bp
+0068 0276 0003 0068 fb9a ffbe 001e 0000 --Z- 11a0:c3           ret
+0068 0276 0003 0068 fb9c ffbe 001e 0000 --Z- 02e8:5b           pop bx
+0068 0068 0003 0068 fb9e ffbe 001e 0000 --Z- 02e9:5b           pop bx
+0068 001e 0003 0068 fba0 ffbe 001e 0000 --Z- 02ea:50           push ax
+0068 001e 0003 0068 fb9e ffbe 001e 0000 --Z- 02eb:5a           pop dx
+0068 001e 0003 0068 fba0 ffbe 001e 0000 --Z- 02ec:83faff       cmp dx, ff
+0068 001e 0003 0068 fba0 ffbe 001e 0000 ---C 02ef:7514         jne 0305
+0068 001e 0003 0068 fba0 ffbe 001e 0000 ---C 0305:ff46ec       inc [bp-14] ;[ffaa]0000
+0068 001e 0003 0068 fba0 ffbe 001e 0000 ---C 0308:eb59         jmp short 02b1
+0068 001e 0003 0068 fba0 ffbe 001e 0000 ---C 02b1:8b5e04       mov bx, [bp+4] ;[ffc2]0005
+0068 0005 0003 0068 fba0 ffbe 001e 0000 ---C 02b4:ff4604       inc [bp+4] ;[ffc2]0005
+0068 0005 0003 0068 fba0 ffbe 001e 0000 ---C 02b7:8a07         mov al, [bx] ;[0005]65
+0065 0005 0003 0068 fba0 ffbe 001e 0000 ---C 02b9:98           cbw
+0065 0005 0003 0068 fba0 ffbe 001e 0000 ---C 02ba:8946f8       mov [bp-8], ax ;[ffb6]0068
+0065 0005 0003 0068 fba0 ffbe 001e 0000 ---C 02bd:09c0         or ax, ax
+0065 0005 0003 0068 fba0 ffbe 001e 0000 ---- 02bf:7503         jne 02c4
+0065 0005 0003 0068 fba0 ffbe 001e 0000 ---- 02c4:837ef825     cmp [bp-8], 25 ;[ffb6]0065
+0065 0005 0003 0068 fba0 ffbe 001e 0000 ---- 02c8:7440         je 030a
+0065 0005 0003 0068 fba0 ffbe 001e 0000 ---- 02ca:8b14         mov dx, [si] ;[001e]03ff
+0065 0005 0003 03ff fba0 ffbe 001e 0000 ---- 02cc:4a           dec dx
+0065 0005 0003 03fe fba0 ffbe 001e 0000 ---- 02cd:8914         mov [si], dx ;[001e]03ff
+0065 0005 0003 03fe fba0 ffbe 001e 0000 ---- 02cf:7c10         jl 02e1
+0065 0005 0003 03fe fba0 ffbe 001e 0000 ---- 02d1:8b56f8       mov dx, [bp-8] ;[ffb6]0065
+0065 0005 0003 0065 fba0 ffbe 001e 0000 ---- 02d4:30f6         xor dh, dh
+0065 0005 0003 0065 fba0 ffbe 001e 0000 --Z- 02d6:8b5c0a       mov bx, [si+a] ;[0028]0277
+0065 0277 0003 0065 fba0 ffbe 001e 0000 --Z- 02d9:ff440a       inc [si+a] ;[0028]0277
+0065 0277 0003 0065 fba0 ffbe 001e 0000 ---- 02dc:8817         mov [bx], dl ;[0277]00
+0065 0277 0003 0065 fba0 ffbe 001e 0000 ---- 02de:52           push dx
+0065 0277 0003 0065 fb9e ffbe 001e 0000 ---- 02df:eb0a         jmp short 02eb
+0065 0277 0003 0065 fb9e ffbe 001e 0000 ---- 02eb:5a           pop dx
+0065 0277 0003 0065 fba0 ffbe 001e 0000 ---- 02ec:83faff       cmp dx, ff
+0065 0277 0003 0065 fba0 ffbe 001e 0000 ---C 02ef:7514         jne 0305
+0065 0277 0003 0065 fba0 ffbe 001e 0000 ---C 0305:ff46ec       inc [bp-14] ;[ffaa]0001
+0065 0277 0003 0065 fba0 ffbe 001e 0000 ---C 0308:eb59         jmp short 02b1
+0065 0277 0003 0065 fba0 ffbe 001e 0000 ---C 02b1:8b5e04       mov bx, [bp+4] ;[ffc2]0006
+0065 0006 0003 0065 fba0 ffbe 001e 0000 ---C 02b4:ff4604       inc [bp+4] ;[ffc2]0006
+0065 0006 0003 0065 fba0 ffbe 001e 0000 ---C 02b7:8a07         mov al, [bx] ;[0006]6c
+006c 0006 0003 0065 fba0 ffbe 001e 0000 ---C 02b9:98           cbw
+006c 0006 0003 0065 fba0 ffbe 001e 0000 ---C 02ba:8946f8       mov [bp-8], ax ;[ffb6]0065
+006c 0006 0003 0065 fba0 ffbe 001e 0000 ---C 02bd:09c0         or ax, ax
+006c 0006 0003 0065 fba0 ffbe 001e 0000 ---- 02bf:7503         jne 02c4
+006c 0006 0003 0065 fba0 ffbe 001e 0000 ---- 02c4:837ef825     cmp [bp-8], 25 ;[ffb6]006c
+006c 0006 0003 0065 fba0 ffbe 001e 0000 ---- 02c8:7440         je 030a
+006c 0006 0003 0065 fba0 ffbe 001e 0000 ---- 02ca:8b14         mov dx, [si] ;[001e]03fe
+006c 0006 0003 03fe fba0 ffbe 001e 0000 ---- 02cc:4a           dec dx
+006c 0006 0003 03fd fba0 ffbe 001e 0000 ---- 02cd:8914         mov [si], dx ;[001e]03fe
+006c 0006 0003 03fd fba0 ffbe 001e 0000 ---- 02cf:7c10         jl 02e1
+006c 0006 0003 03fd fba0 ffbe 001e 0000 ---- 02d1:8b56f8       mov dx, [bp-8] ;[ffb6]006c
+006c 0006 0003 006c fba0 ffbe 001e 0000 ---- 02d4:30f6         xor dh, dh
+006c 0006 0003 006c fba0 ffbe 001e 0000 --Z- 02d6:8b5c0a       mov bx, [si+a] ;[0028]0278
+006c 0278 0003 006c fba0 ffbe 001e 0000 --Z- 02d9:ff440a       inc [si+a] ;[0028]0278
+006c 0278 0003 006c fba0 ffbe 001e 0000 ---- 02dc:8817         mov [bx], dl ;[0278]00
+006c 0278 0003 006c fba0 ffbe 001e 0000 ---- 02de:52           push dx
+006c 0278 0003 006c fb9e ffbe 001e 0000 ---- 02df:eb0a         jmp short 02eb
+006c 0278 0003 006c fb9e ffbe 001e 0000 ---- 02eb:5a           pop dx
+006c 0278 0003 006c fba0 ffbe 001e 0000 ---- 02ec:83faff       cmp dx, ff
+006c 0278 0003 006c fba0 ffbe 001e 0000 ---C 02ef:7514         jne 0305
+006c 0278 0003 006c fba0 ffbe 001e 0000 ---C 0305:ff46ec       inc [bp-14] ;[ffaa]0002
+006c 0278 0003 006c fba0 ffbe 001e 0000 ---C 0308:eb59         jmp short 02b1
+006c 0278 0003 006c fba0 ffbe 001e 0000 ---C 02b1:8b5e04       mov bx, [bp+4] ;[ffc2]0007
+006c 0007 0003 006c fba0 ffbe 001e 0000 ---C 02b4:ff4604       inc [bp+4] ;[ffc2]0007
+006c 0007 0003 006c fba0 ffbe 001e 0000 ---C 02b7:8a07         mov al, [bx] ;[0007]6c
+006c 0007 0003 006c fba0 ffbe 001e 0000 ---C 02b9:98           cbw
+006c 0007 0003 006c fba0 ffbe 001e 0000 ---C 02ba:8946f8       mov [bp-8], ax ;[ffb6]006c
+006c 0007 0003 006c fba0 ffbe 001e 0000 ---C 02bd:09c0         or ax, ax
+006c 0007 0003 006c fba0 ffbe 001e 0000 ---- 02bf:7503         jne 02c4
+006c 0007 0003 006c fba0 ffbe 001e 0000 ---- 02c4:837ef825     cmp [bp-8], 25 ;[ffb6]006c
+006c 0007 0003 006c fba0 ffbe 001e 0000 ---- 02c8:7440         je 030a
+006c 0007 0003 006c fba0 ffbe 001e 0000 ---- 02ca:8b14         mov dx, [si] ;[001e]03fd
+006c 0007 0003 03fd fba0 ffbe 001e 0000 ---- 02cc:4a           dec dx
+006c 0007 0003 03fc fba0 ffbe 001e 0000 ---- 02cd:8914         mov [si], dx ;[001e]03fd
+006c 0007 0003 03fc fba0 ffbe 001e 0000 ---- 02cf:7c10         jl 02e1
+006c 0007 0003 03fc fba0 ffbe 001e 0000 ---- 02d1:8b56f8       mov dx, [bp-8] ;[ffb6]006c
+006c 0007 0003 006c fba0 ffbe 001e 0000 ---- 02d4:30f6         xor dh, dh
+006c 0007 0003 006c fba0 ffbe 001e 0000 --Z- 02d6:8b5c0a       mov bx, [si+a] ;[0028]0279
+006c 0279 0003 006c fba0 ffbe 001e 0000 --Z- 02d9:ff440a       inc [si+a] ;[0028]0279
+006c 0279 0003 006c fba0 ffbe 001e 0000 ---- 02dc:8817         mov [bx], dl ;[0279]00
+006c 0279 0003 006c fba0 ffbe 001e 0000 ---- 02de:52           push dx
+006c 0279 0003 006c fb9e ffbe 001e 0000 ---- 02df:eb0a         jmp short 02eb
+006c 0279 0003 006c fb9e ffbe 001e 0000 ---- 02eb:5a           pop dx
+006c 0279 0003 006c fba0 ffbe 001e 0000 ---- 02ec:83faff       cmp dx, ff
+006c 0279 0003 006c fba0 ffbe 001e 0000 ---C 02ef:7514         jne 0305
+006c 0279 0003 006c fba0 ffbe 001e 0000 ---C 0305:ff46ec       inc [bp-14] ;[ffaa]0003
+006c 0279 0003 006c fba0 ffbe 001e 0000 ---C 0308:eb59         jmp short 02b1
+006c 0279 0003 006c fba0 ffbe 001e 0000 ---C 02b1:8b5e04       mov bx, [bp+4] ;[ffc2]0008
+006c 0008 0003 006c fba0 ffbe 001e 0000 ---C 02b4:ff4604       inc [bp+4] ;[ffc2]0008
+006c 0008 0003 006c fba0 ffbe 001e 0000 ---C 02b7:8a07         mov al, [bx] ;[0008]6f
+006f 0008 0003 006c fba0 ffbe 001e 0000 ---C 02b9:98           cbw
+006f 0008 0003 006c fba0 ffbe 001e 0000 ---C 02ba:8946f8       mov [bp-8], ax ;[ffb6]006c
+006f 0008 0003 006c fba0 ffbe 001e 0000 ---C 02bd:09c0         or ax, ax
+006f 0008 0003 006c fba0 ffbe 001e 0000 ---- 02bf:7503         jne 02c4
+006f 0008 0003 006c fba0 ffbe 001e 0000 ---- 02c4:837ef825     cmp [bp-8], 25 ;[ffb6]006f
+006f 0008 0003 006c fba0 ffbe 001e 0000 ---- 02c8:7440         je 030a
+006f 0008 0003 006c fba0 ffbe 001e 0000 ---- 02ca:8b14         mov dx, [si] ;[001e]03fc
+006f 0008 0003 03fc fba0 ffbe 001e 0000 ---- 02cc:4a           dec dx
+006f 0008 0003 03fb fba0 ffbe 001e 0000 ---- 02cd:8914         mov [si], dx ;[001e]03fc
+006f 0008 0003 03fb fba0 ffbe 001e 0000 ---- 02cf:7c10         jl 02e1
+006f 0008 0003 03fb fba0 ffbe 001e 0000 ---- 02d1:8b56f8       mov dx, [bp-8] ;[ffb6]006f
+006f 0008 0003 006f fba0 ffbe 001e 0000 ---- 02d4:30f6         xor dh, dh
+006f 0008 0003 006f fba0 ffbe 001e 0000 --Z- 02d6:8b5c0a       mov bx, [si+a] ;[0028]027a
+006f 027a 0003 006f fba0 ffbe 001e 0000 --Z- 02d9:ff440a       inc [si+a] ;[0028]027a
+006f 027a 0003 006f fba0 ffbe 001e 0000 ---- 02dc:8817         mov [bx], dl ;[027a]00
+006f 027a 0003 006f fba0 ffbe 001e 0000 ---- 02de:52           push dx
+006f 027a 0003 006f fb9e ffbe 001e 0000 ---- 02df:eb0a         jmp short 02eb
+006f 027a 0003 006f fb9e ffbe 001e 0000 ---- 02eb:5a           pop dx
+006f 027a 0003 006f fba0 ffbe 001e 0000 ---- 02ec:83faff       cmp dx, ff
+006f 027a 0003 006f fba0 ffbe 001e 0000 ---C 02ef:7514         jne 0305
+006f 027a 0003 006f fba0 ffbe 001e 0000 ---C 0305:ff46ec       inc [bp-14] ;[ffaa]0004
+006f 027a 0003 006f fba0 ffbe 001e 0000 ---C 0308:eb59         jmp short 02b1
+006f 027a 0003 006f fba0 ffbe 001e 0000 ---C 02b1:8b5e04       mov bx, [bp+4] ;[ffc2]0009
+006f 0009 0003 006f fba0 ffbe 001e 0000 ---C 02b4:ff4604       inc [bp+4] ;[ffc2]0009
+006f 0009 0003 006f fba0 ffbe 001e 0000 ---C 02b7:8a07         mov al, [bx] ;[0009]0a
+000a 0009 0003 006f fba0 ffbe 001e 0000 ---C 02b9:98           cbw
+000a 0009 0003 006f fba0 ffbe 001e 0000 ---C 02ba:8946f8       mov [bp-8], ax ;[ffb6]006f
+000a 0009 0003 006f fba0 ffbe 001e 0000 ---C 02bd:09c0         or ax, ax
+000a 0009 0003 006f fba0 ffbe 001e 0000 ---- 02bf:7503         jne 02c4
+000a 0009 0003 006f fba0 ffbe 001e 0000 ---- 02c4:837ef825     cmp [bp-8], 25 ;[ffb6]000a
+000a 0009 0003 006f fba0 ffbe 001e 0000 -S-C 02c8:7440         je 030a
+000a 0009 0003 006f fba0 ffbe 001e 0000 -S-C 02ca:8b14         mov dx, [si] ;[001e]03fb
+000a 0009 0003 03fb fba0 ffbe 001e 0000 -S-C 02cc:4a           dec dx
+000a 0009 0003 03fa fba0 ffbe 001e 0000 ---C 02cd:8914         mov [si], dx ;[001e]03fb
+000a 0009 0003 03fa fba0 ffbe 001e 0000 ---C 02cf:7c10         jl 02e1
+000a 0009 0003 03fa fba0 ffbe 001e 0000 ---C 02d1:8b56f8       mov dx, [bp-8] ;[ffb6]000a
+000a 0009 0003 000a fba0 ffbe 001e 0000 ---C 02d4:30f6         xor dh, dh
+000a 0009 0003 000a fba0 ffbe 001e 0000 --Z- 02d6:8b5c0a       mov bx, [si+a] ;[0028]027b
+000a 027b 0003 000a fba0 ffbe 001e 0000 --Z- 02d9:ff440a       inc [si+a] ;[0028]027b
+000a 027b 0003 000a fba0 ffbe 001e 0000 ---- 02dc:8817         mov [bx], dl ;[027b]00
+000a 027b 0003 000a fba0 ffbe 001e 0000 ---- 02de:52           push dx
+000a 027b 0003 000a fb9e ffbe 001e 0000 ---- 02df:eb0a         jmp short 02eb
+000a 027b 0003 000a fb9e ffbe 001e 0000 ---- 02eb:5a           pop dx
+000a 027b 0003 000a fba0 ffbe 001e 0000 ---- 02ec:83faff       cmp dx, ff
+000a 027b 0003 000a fba0 ffbe 001e 0000 ---C 02ef:7514         jne 0305
+000a 027b 0003 000a fba0 ffbe 001e 0000 ---C 0305:ff46ec       inc [bp-14] ;[ffaa]0005
+000a 027b 0003 000a fba0 ffbe 001e 0000 ---C 0308:eb59         jmp short 02b1
+000a 027b 0003 000a fba0 ffbe 001e 0000 ---C 02b1:8b5e04       mov bx, [bp+4] ;[ffc2]000a
+000a 000a 0003 000a fba0 ffbe 001e 0000 ---C 02b4:ff4604       inc [bp+4] ;[ffc2]000a
+000a 000a 0003 000a fba0 ffbe 001e 0000 ---C 02b7:8a07         mov al, [bx] ;[000a]00
+0000 000a 0003 000a fba0 ffbe 001e 0000 ---C 02b9:98           cbw
+0000 000a 0003 000a fba0 ffbe 001e 0000 ---C 02ba:8946f8       mov [bp-8], ax ;[ffb6]000a
+0000 000a 0003 000a fba0 ffbe 001e 0000 ---C 02bd:09c0         or ax, ax
+0000 000a 0003 000a fba0 ffbe 001e 0000 --Z- 02bf:7503         jne 02c4
+0000 000a 0003 000a fba0 ffbe 001e 0000 --Z- 02c1:e93805       jmp 07fc
+0000 000a 0003 000a fba0 ffbe 001e 0000 --Z- 07fc:8b46ec       mov ax, [bp-14] ;[ffaa]0006
+0006 000a 0003 000a fba0 ffbe 001e 0000 --Z- 07ff:e99909       jmp 119b
+0006 000a 0003 000a fba0 ffbe 001e 0000 --Z- 119b:5f           pop di
+0006 000a 0003 000a fba2 ffbe 001e 0000 --Z- 119c:5e           pop si
+0006 000a 0003 000a fba4 ffbe 0000 0000 --Z- 119d:89ec         mov sp, bp
+0006 000a 0003 000a ffbe ffbe 0000 0000 --Z- 119f:5d           pop bp
+0006 000a 0003 000a ffc0 ffcc 0000 0000 --Z- 11a0:c3           ret
+0006 000a 0003 000a ffc2 ffcc 0000 0000 --Z- 0096:83c406       add sp, 6
+0006 000a 0003 000a ffc8 ffcc 0000 0000 -S-- 0099:e90111       jmp 119d
+0006 000a 0003 000a ffc8 ffcc 0000 0000 -S-- 119d:89ec         mov sp, bp
+0006 000a 0003 000a ffcc ffcc 0000 0000 -S-- 119f:5d           pop bp
+0006 000a 0003 000a ffce ffd2 0000 0000 -S-- 11a0:c3           ret
+0006 000a 0003 000a ffd0 ffd2 0000 0000 -S-- 0043:5b           pop bx
+0006 0004 0003 000a ffd2 ffd2 0000 0000 -S-- 0044:e95611       jmp 119d
+0006 0004 0003 000a ffd2 ffd2 0000 0000 -S-- 119d:89ec         mov sp, bp
+0006 0004 0003 000a ffd2 ffd2 0000 0000 -S-- 119f:5d           pop bp
+0006 0004 0003 000a ffd4 0000 0000 0000 -S-- 11a0:c3           ret
+0006 0004 0003 000a ffd6 0000 0000 0000 -S-- 0034:50           push ax
+0006 0004 0003 000a ffd4 0000 0000 0000 -S-- 0035:e82900       call 0061
+0006 0004 0003 000a ffd2 0000 0000 0000 -S-- 0061:55           push bp
+0006 0004 0003 000a ffd0 0000 0000 0000 -S-- 0062:89e5         mov bp, sp
+0006 0004 0003 000a ffd0 ffd0 0000 0000 -S-- 0064:e8e0ff       call 0047
+0006 0004 0003 000a ffce ffd0 0000 0000 -S-- 0047:55           push bp
+0006 0004 0003 000a ffcc ffd0 0000 0000 -S-- 0048:89e5         mov bp, sp
+0006 0004 0003 000a ffcc ffcc 0000 0000 -S-- 004a:56           push si
+0006 0004 0003 000a ffca ffcc 0000 0000 -S-- 004b:8b360c00     mov si, [000c] ;[000c]0000
+0006 0004 0003 000a ffca ffcc 0000 0000 -S-- 004f:4e           dec si
+0006 0004 0003 000a ffca ffcc ffff 0000 -S-- 0050:7c0c         jl 005e
+0006 0004 0003 000a ffca ffcc ffff 0000 -S-- 005e:e93b11       jmp 119c
+0006 0004 0003 000a ffca ffcc ffff 0000 -S-- 119c:5e           pop si
+0006 0004 0003 000a ffcc ffcc 0000 0000 -S-- 119d:89ec         mov sp, bp
+0006 0004 0003 000a ffcc ffcc 0000 0000 -S-- 119f:5d           pop bp
+0006 0004 0003 000a ffce ffd0 0000 0000 -S-- 11a0:c3           ret
+0006 0004 0003 000a ffd0 ffd0 0000 0000 -S-- 0067:833e0e0000   cmp [000e], 0 ;[000e]1037
+0006 0004 0003 000a ffd0 ffd0 0000 0000 ---- 006c:7406         je 0074
+0006 0004 0003 000a ffd0 ffd0 0000 0000 ---- 006e:8b1e0e00     mov bx, [000e] ;[000e]1037
+0006 1037 0003 000a ffd0 ffd0 0000 0000 ---- 0072:ffd3         call bx
+0006 1037 0003 000a ffd0 ffd0 0000 0000 ---- 0074:ff7604       push [bp+4] ;[ffd4]0006
+0006 1037 0003 000a ffce ffd0 0000 0000 ---- 0077:e82200       call 009c
+0006 1037 0003 000a ffcc ffd0 0000 0000 ---- 009c:e90100       jmp 00a0
+0006 1037 0003 000a ffcc ffd0 0000 0000 ---- 00a0:55           push bp
+0006 1037 0003 000a ffca ffd0 0000 0000 ---- 00a1:89e5         mov bp, sp
+0006 1037 0003 000a ffca ffca 0000 0000 ---- 00a3:83ec18       sub sp, 18
+0006 1037 0003 000a ffb2 ffca 0000 0000 -S-- 00a6:8b5604       mov dx, [bp+4] ;[ffce]0006
+0006 1037 0003 0006 ffb2 ffca 0000 0000 -S-- 00a9:8956ec       mov [bp-14], dx ;[ffb6]0000
+0006 1037 0003 0006 ffb2 ffca 0000 0000 -S-- 00ac:8d46e8       lea ax, [bp-18] ;[ffb2]0000
+ffb2 1037 0003 0006 ffb2 ffca 0000 0000 -S-- 00af:50           push ax
+ffb2 1037 0003 0006 ffb0 ffca 0000 0000 -S-- 00b0:b80100       mov ax, 0001
+0001 1037 0003 0006 ffb0 ffca 0000 0000 -S-- 00b3:50           push ax
+0001 1037 0003 0006 ffae ffca 0000 0000 -S-- 00b4:31c0         xor ax, ax
+0000 1037 0003 0006 ffae ffca 0000 0000 --Z- 00b6:50           push ax
+0000 1037 0003 0006 ffac ffca 0000 0000 --Z- 00b7:e85b0d       call 0e15
+0000 1037 0003 0006 ffaa ffca 0000 0000 --Z- 0e15:55           push bp
+0000 1037 0003 0006 ffa8 ffca 0000 0000 --Z- 0e16:89e5         mov bp, sp
+0000 1037 0003 0006 ffa8 ffa8 0000 0000 --Z- 0e18:56           push si
+0000 1037 0003 0006 ffa6 ffa8 0000 0000 --Z- 0e19:57           push di
+0000 1037 0003 0006 ffa4 ffa8 0000 0000 --Z- 0e1a:8b7608       mov si, [bp+8] ;[ffb0]ffb2
+0000 1037 0003 0006 ffa4 ffa8 ffb2 0000 --Z- 0e1d:8b5606       mov dx, [bp+6] ;[ffae]0001
+0000 1037 0003 0001 ffa4 ffa8 ffb2 0000 --Z- 0e20:895402       mov [si+2], dx ;[ffb4]0000
+0000 1037 0003 0001 ffa4 ffa8 ffb2 0000 --Z- 0e23:56           push si
+0000 1037 0003 0001 ffa2 ffa8 ffb2 0000 --Z- 0e24:ff7604       push [bp+4] ;[ffac]0000
+0000 1037 0003 0001 ffa0 ffa8 ffb2 0000 --Z- 0e27:e86b02       call 1095
+0000 1037 0003 0001 ff9e ffa8 ffb2 0000 --Z- 1095:b90300       mov cx, 0003
+0000 1037 0003 0001 ff9e ffa8 ffb2 0000 --Z- 1098:eb00         jmp short 109a
+0000 1037 0003 0001 ff9e ffa8 ffb2 0000 --Z- 109a:55           push bp
+0000 1037 0003 0001 ff9c ffa8 ffb2 0000 --Z- 109b:89e5         mov bp, sp
+0000 1037 0003 0001 ff9c ff9c ffb2 0000 --Z- 109d:8b4604       mov ax, [bp+4] ;[ffa0]0000
+0000 1037 0003 0001 ff9c ff9c ffb2 0000 --Z- 10a0:8b5e06       mov bx, [bp+6] ;[ffa2]ffb2
+0000 ffb2 0003 0001 ff9c ff9c ffb2 0000 --Z- 10a3:cd20         int 20
+<exit(6)>

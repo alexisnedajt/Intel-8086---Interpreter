@@ -57,7 +57,12 @@
 
 void Write(message* m, uint8_t* data_area);
 void Exit(message* m, uint8_t* data_area);
+void Ioctl(message* m, uint8_t* data_area);
+void Brk(message* m, uint8_t* data_area);
 
 extern func syscalls_l[NCALLS];
+
+extern uint16_t registers[8];
+extern uint8_t* data_area;
 
 #endif 
