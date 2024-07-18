@@ -1,9 +1,14 @@
 #include "main.h"
 
+//Disassembler issues with some instructions such as mov, and, cmp, test, or etc....
+//Might want to remove them, though the Interpreter works fine
+
 uint8_t* text_area = 0;
 uint8_t* data_area = 0;
 uint16_t registers[8] = {0,0,0,0,0xffdc,0,0,0};
 uint16_t current = 0;
+
+int call_size = 3;
 
 char CF = '-';
 char SF = '-';
@@ -230,6 +235,8 @@ void Set_Registers(instruct* inst, int val){
 
 void Change_flags(int val1, int val2, char op, int affected){
 	int val;
+	//printf("\nval1 = %04x",val1);
+	//printf("\nval2 = %04x",val2);
 	if(op == '+')
 		val = val1 + val2;
 	else if (op == '-')
@@ -325,7 +332,6 @@ void D_w_mod_reg_rm(int byte, int memory, struct instruct* inst){
 
 void W_mod_rm(int byte, int memory, struct instruct* inst, int size){
 	char* r = "";
-	int temp = inst->data;
 	int disp = -1;
 	int s = 1;
 	uint8_t dis8;
@@ -408,6 +414,9 @@ void W_mod_rm(int byte, int memory, struct instruct* inst, int size){
 		//inst->data = temp;
 		if(inst->data > 0xffff)
 			inst->data = inst->data >> 8;
+	}
+	if(strcmp(inst->name,"+ test") == 0){
+		inst->data = bswap_16(inst->data);
 	}
 	char* mprint = memPrint(inst->data,size,1,1,0,s);
 	if (mprint[0] != '\0'){
@@ -556,6 +565,7 @@ void Mod_rm(int byte, int memory, struct instruct* inst, int size){
 		first = val[1][inst->rm];
 	char* mprint = memPrint(inst->data,size,1,1,0,1);
 	int space = pretty(memory,byte,inst->data, memPrint(inst->data,size,0,0,0,1),disp,s,1,1);
+	call_size = (space-50)/2;
 	for(int i = 0; i<62-space; i++)
 		printf(" ");
 	printf(" %s %s", inst->name, first);
@@ -570,6 +580,7 @@ void S_w_mod_rm(int byte, int memory, struct instruct* inst, int size){
 	int disp = 0;
 	int s = 0;
 	uint8_t dis8;
+	int swap = 1;
 	int d = inst->data;
 	int ds = 0;
 	if (inst->mod == 0b01){
@@ -629,14 +640,15 @@ void S_w_mod_rm(int byte, int memory, struct instruct* inst, int size){
 		inst->rg = val[inst->w][inst->rm];
 	}
 	int neg = 0;
-	if (strcmp(inst->name,"cmp") == 0 || strcmp(inst->name,"cmp byte") == 0){
+	if (strcmp(inst->name,"+ cmp") == 0 || strcmp(inst->name,"cmp byte") == 0){
 		if ((inst->data & 0x80) == 0x80)
 			inst->data = 0xff00 + inst->data;
 		else
 			inst->data = 0x0000 + inst->data;
 		neg = 1;
+		d = bswap_16(inst->data);
 	}
-	inst->ad = memPrint(inst->data,size,1,1,neg,1);
+	inst->ad = memPrint(inst->data,size,swap,1,neg,1);
 	int space = pretty(memory,byte,a,memPrint(d,size,0,0,0,1),ds,s,1,1);
 	for(int i = 0; i<62-space; i++)
 		printf(" ");
@@ -704,6 +716,7 @@ void W_mod_reg_rm(int byte, int memory, struct instruct* inst){
 void nothing(char* inst, int byte, int memory, int data, int disp, int yes, int size){
 	char* temp = memPrint(data,size,1-yes,0,0,1);
 	int space = pretty(memory,byte,0,temp,0,0,0,1);
+	call_size = (space-50)/2;
 	for(int i = 0; i<62-space; i++)
 		printf(" ");
 	disp = disp & 0x0000ffff;
@@ -1016,7 +1029,7 @@ void add(instruct* inst){
 
 void test(instruct* inst){
 	if (inst->type == Norm){
-		printf("\nNorm");
+		Change_flags(registers[inst->rm], (inst->data),'&',1);
 	}
 	else if (inst->type == Imm1){
 		printf("\nImm1");
@@ -1028,8 +1041,11 @@ void test(instruct* inst){
 		printf("\nAdd1");
 	}
 	else if (inst->type == Add2){
-		printf("\nAdd2");
+		Add_Imm(inst);
+		Change_flags(data_area[inst->add] + (data_area[inst->add+1]<<8), (inst->data),'&',1);
 	}
+	OF = '-';
+	CF = '-';
 }
 
 void push(instruct* inst){
@@ -1079,15 +1095,17 @@ void pop(instruct* inst){
 
 void cmp(instruct* inst){
 	if (inst->type == Norm){
+		if(inst->data == 0xff)
+			inst->data = 0xffff;
 		Change_flags(registers[inst->rm], (bswap_16(inst->data)),'-',1);
 	}
 	else if (inst->type == Imm1){
-		Change_flags(data_area[inst->add] + (data_area[inst->add+1] << 8), inst->data,'-',1);
 		Add_Imm(inst);
+		Change_flags(data_area[inst->add] + (data_area[inst->add+1] << 8), inst->data,'-',1);
 	}
 	else if (inst->type == Imm2){
-		Change_flags(data_area[inst->add] + (data_area[inst->add+1] << 8), registers[inst->reg],'-',1);
 		Add_Imm(inst);
+		Change_flags(data_area[inst->add] + (data_area[inst->add+1] << 8), registers[inst->reg],'-',1);
 	}
 	else if (inst->type == Add1){
 		Reg_Imm(inst);
@@ -1095,9 +1113,10 @@ void cmp(instruct* inst){
 	}
 	else if (inst->type == Add2){
 		Reg_Imm(inst);
-		Change_flags((data_area[inst->add+1] << 8) + data_area[inst->add], (inst->data),'-',1);
+		Change_flags((data_area[inst->add+1] << 8) + data_area[inst->add], bswap_16(inst->data),'-',1);
 	}
 	else if (inst->type == RegR){
+		Add_Imm(inst);
 		Change_flags(registers[inst->rm],registers[inst->new_data],'-',1);
 	}
 }
@@ -1275,6 +1294,7 @@ char* instruct2(int index, uint8_t byte, struct instruct* inst) {
 				sub(inst);
 			}
 			else if (strcmp(inst->name,"+ cmp") == 0){
+				inst->data = inst->new_data;
 				cmp(inst);
 			}
 			else if (strcmp(inst->name,"++ add") == 0){
@@ -1564,11 +1584,10 @@ char* instruct1(int index, uint8_t byte, struct instruct* inst) {
 				}
 			}
 			if(strcmp(inst->name,"+ test") == 0){
-				Change_flags(registers[inst->rm], (inst->data),'&',1);
+				test(inst);
 			}
 			else if (strcmp(inst->name,"+ test byte") == 0){
-				Add_Imm(inst);
-				Change_flags(data_area[inst->add], (inst->data),'&',1);
+				test(inst);
 			}
 			else if (strcmp(inst->name, "+and") == 0){
 				and(inst);
@@ -1626,7 +1645,7 @@ char* instruct0(int index, uint8_t byte, struct instruct* inst) {
 			}
 			else if (strcmp(inst->name,"++call") == 0){
 				registers[4] -= 2;
-				current = current+2;
+				current = current+call_size-1;
 				data_area[registers[4]+1] = (current & 0xff00) >> 8;
 				data_area[registers[4]] = current & 0x00ff;
 				current = registers[inst->rm] - 1;
@@ -1974,6 +1993,7 @@ char* instruct0(int index, uint8_t byte, struct instruct* inst) {
 			}
 			inst->disp = ind & 0x0000ffff;
 			nothing("+ call",byte,index,data,ind,0,2);
+			//JUST KEEP IN MIND THE SIZE OF CALL, RN IT'S ALWAYS 3 BUT AT SOME POINT ITS 2 WHICH BUGS THE CODE
 			registers[4] -= 2;
 			current++;
 			data_area[registers[4]+1] = (current & 0xff00) >> 8;

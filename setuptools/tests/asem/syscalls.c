@@ -24,7 +24,7 @@ void Exit(message* m, uint8_t* data_area){
 }
 
 void Ioctl(message*m, uint8_t* data_area){
-    printf("\n<ioctl(%i, 0x%04x, 0x%04x)",m->m2_i1,m->m2_i3,m->m2_p1);
+    printf("\n<ioctl(%i, 0x%04x, 0x%04x)>",m->m2_i1,m->m2_i3,m->m2_p1);
     data_area[registers[3]+2] = 0xea;
     data_area[registers[3]+3] = 0xff;
     registers[0] = 0;
