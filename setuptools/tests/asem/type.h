@@ -9,6 +9,8 @@
 
 #define M3_STRING     14
 
+//====================================For the system calls=====================================
+
 typedef struct {int16_t m1i1, m1i2, m1i3; uint16_t m1p1, m1p2, m1p3;} mess_1;
 typedef struct {int16_t m2i1, m2i2, m2i3; int32_t m2l1, m2l2; uint32_t m2p1;}__attribute__((packed)) mess_2;
 typedef struct {int16_t m3i1, m3i2; uint16_t m3p1; uint32_t m3ca1;} mess_3;
@@ -33,43 +35,41 @@ typedef struct {
 /* The following defines provide names for useful members. */
 #define m1_i1  m_u.m_m1.m1i1
 #define m1_i2  m_u.m_m1.m1i2
-#define m1_i3  m_u.m_m1.m1i3
 #define m1_p1  m_u.m_m1.m1p1
-#define m1_p2  m_u.m_m1.m1p2
-#define m1_p3  m_u.m_m1.m1p3
 
 #define m2_i1  m_u.m_m2.m2i1
-#define m2_i2  m_u.m_m2.m2i2
 #define m2_i3  m_u.m_m2.m2i3
-#define m2_l1  m_u.m_m2.m2l1
-#define m2_l2  m_u.m_m2.m2l2
 #define m2_p1  m_u.m_m2.m2p1
 
-#define m3_i1  m_u.m_m3.m3i1
-#define m3_i2  m_u.m_m3.m3i2
-#define m3_p1  m_u.m_m3.m3p1
-#define m3_ca1 m_u.m_m3.m3ca1
-
-#define m4_l1  m_u.m_m4.m4l1
-#define m4_l2  m_u.m_m4.m4l2
-#define m4_l3  m_u.m_m4.m4l3
-#define m4_l4  m_u.m_m4.m4l4
-#define m4_l5  m_u.m_m4.m4l5
-
-#define m5_c1  m_u.m_m5.m5c1
-#define m5_c2  m_u.m_m5.m5c2
-#define m5_i1  m_u.m_m5.m5i1
-#define m5_i2  m_u.m_m5.m5i2
-#define m5_l1  m_u.m_m5.m5l1
-#define m5_l2  m_u.m_m5.m5l2
-#define m5_l3  m_u.m_m5.m5l3
-
-#define m6_i1  m_u.m_m6.m6i1
-#define m6_i2  m_u.m_m6.m6i2
-#define m6_i3  m_u.m_m6.m6i3
-#define m6_l1  m_u.m_m6.m6l1
-#define m6_f1  m_u.m_m6.m6f1
-
 typedef void (*func)(message*,uint8_t*);
+
+//====================================For the interpreter=====================================
+
+#define Norm 0
+#define Imm1 1
+#define Imm2 2
+#define Add1 3
+#define Add2 4
+#define RegR 5
+
+typedef struct instruct{
+    char* name; //name of the instruction
+
+    int d;   //==============//
+    int w;   //              //
+    int mod; //  Bytes info  //
+    int reg; //              //
+    int rm;  //==============//
+
+    int data;   	//===================//
+    int disp; 		// Next bytes values //
+    int new_data;	//===================//
+
+    char* rg; //Might make another struct to remember these and treat them separately
+
+    int add; //The address of an instruction if immediate address
+
+    int type; //take the vaues of Norm | Imm1 | Imm2 | Add1 | Add2 | RegR depending on the case
+} instruct;
 
 #endif 

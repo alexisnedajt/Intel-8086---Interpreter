@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -lm -g -fsanitize=address
-LDFLAGS = -fsanitize=address
+CFLAGS = -Wall -Wextra -lm -g 
+LDFLAGS = 
 LDLIBS =
 
 SRC = main.c syscalls.c

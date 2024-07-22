@@ -7,19 +7,30 @@
 #include "syscalls.h"
 #include "type.h"
 
+//==============
+#define AX 0b000
+#define CX 0b001
+#define DX 0b010
+#define BX 0b011
+#define SP 0b100
+#define BP 0b101
+#define SI 0b110
+#define DI 0b111
+//==============
+
 #define XOR 0b00001100
 
 #define MOV1 0b100010
 #define MOV2 0b1100011
 #define MOV3 0b1011
-#define MOV4 0b1010000 //TODO
-#define MOV5 0b1010001 //TODO
+#define MOV4 0b1010000
+#define MOV5 0b1010001
 #define MOV6 0b10001110
 #define MOV7 0b10001100
 
 #define PUSH1 0b11111111 // call2 and call4
 #define PUSH2 0b01010
-#define PUSH3 0b000 //TODO
+#define PUSH3 0b000
 
 #define POP1 0b10001111
 #define POP2 0b01011
@@ -91,33 +102,6 @@
 #define NOT 0b1111011
 #define SHL 0b110100 //and SHR/SAR/ROL/ROR/RCL/RCR
 
-#define Norm 0
-#define Imm1 1
-#define Imm2 2
-#define Add1 3
-#define Add2 4
-#define RegR 5
-
-typedef struct instruct{
-    char* name;
-
-    int d;
-    int w;
-    int mod; //Bytes info
-    int reg;
-    int rm;
-
-    int data; 
-    int disp; //Next bytes values
-    int new_data;
-
-    char* rg; //Might make another struct to remember these and treat them separately
-    char* ad; //The strings used for printing if we want to reuse them
-
-    int add; //The address of an instruction if immediate address
-    int type; //0 if reg_reg | 1 if reg_imm | 2 if add_reg | 3 if reg_add
-} instruct;
-
 #define XOR2 0b1000000 // and or2
 #define XOR3 0b0011010
 
@@ -135,7 +119,7 @@ typedef struct instruct{
 #define STI 0b11111011
 #define HLT 0b11110100
 #define WAIT1 0b10011011
-#define ESC 0b11011 //TODO
+#define ESC 0b11011 
 #define LOCK 0b11110000
 
 #define TEST1 0b1000010
