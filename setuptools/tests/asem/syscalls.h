@@ -65,4 +65,6 @@ extern func syscalls_l[NCALLS];
 extern uint16_t registers[8];
 extern uint8_t* data_area;
 
+extern int dump;
+
 #endif 
